@@ -831,7 +831,6 @@ messages: rc.cpp
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-
 #>+ 3
 kludoteca.moc: $(srcdir)/kludoteca.h
 	$(MOC) $(srcdir)/kludoteca.h -o kludoteca.moc
@@ -865,7 +864,7 @@ clean-metasources:
 	-rm -f  kludoteca.moc osd.moc.cpp pref.moc kludotecaview.moc
 
 #>+ 2
-KDE_DIST=tournamenticon.png kludotecaui.rc Makefile.in hi16-app-kludoteca.png adminicon.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png gamesicon.png kludoteca.loT clientsicon.png 
+KDE_DIST=kludotecaui.rc tournamenticon.png Makefile.in adminicon.png hi16-app-kludoteca.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png gamesicon.png kludoteca.loT clientsicon.png 
 
 #>+ 2
 docs-am:
