@@ -93,6 +93,9 @@ void KLudoteca::setupActions()
 	KStdAction::save(this, SLOT(fileSave()), actionCollection());
 	KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
 	KStdAction::print(this, SLOT(filePrint()), actionCollection());
+	
+	KStdAction::close( this, SLOT( closeCurrent() ), actionCollection() );
+	
 	KStdAction::quit(kapp, SLOT(quit()), actionCollection());
 	
 	m_toolbarAction = KStdAction::showToolbar(this, SLOT(optionsShowToolbar()), actionCollection());
@@ -225,6 +228,15 @@ void KLudoteca::filePrint()
 	
 		// and send the result to the printer
 		p.end();
+	}
+}
+
+void KLudoteca::closeCurrent()
+{
+   	 // If there's a current view, close it
+	if ( m_pCurrentWindow != 0 ) 
+	{
+		closeWindow( m_pCurrentWindow );
 	}
 }
 

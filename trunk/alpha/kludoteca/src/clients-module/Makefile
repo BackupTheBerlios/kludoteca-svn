@@ -15,16 +15,16 @@
 
 
 
-srcdir = /tmp/dcuadra/kludoteca/src/clients-module
-top_srcdir = /tmp/dcuadra/kludoteca
-VPATH = /tmp/dcuadra/kludoteca/src/clients-module
+srcdir = .
+top_srcdir = ../..
+VPATH = .
 pkgdatadir = $(datadir)/kludoteca
 pkglibdir = $(libdir)/kludoteca
 pkgincludedir = $(includedir)/kludoteca
 top_builddir = ../..
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
-INSTALL = /usr/bin/install -c -p
+INSTALL = /bin/install -c -p
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
 install_sh_SCRIPT = $(install_sh) -c
@@ -39,30 +39,30 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-linux-gnu
 host_triplet = i686-pc-linux-gnu
 target_triplet = i686-pc-linux-gnu
-ACLOCAL = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run aclocal-1.7
+ACLOCAL = ${SHELL} /home/krawek/Proyectos/kludoteca/admin/missing --run aclocal-1.7
 AMDEP_FALSE = #
 AMDEP_TRUE = 
-AMTAR = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run tar
+AMTAR = ${SHELL} /home/krawek/Proyectos/kludoteca/admin/missing --run tar
 AR = ar
-ARTSCCONFIG = /usr/bin/artsc-config
+ARTSCCONFIG = /usr/kde/3.3/bin/artsc-config
 AUTOCONF = $(SHELL) $(top_srcdir)/admin/cvs.sh configure || touch configure
 AUTODIRS = 
-AUTOHEADER = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run autoheader
-AUTOMAKE = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run automake-1.7
-AWK = mawk
+AUTOHEADER = ${SHELL} /home/krawek/Proyectos/kludoteca/admin/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/krawek/Proyectos/kludoteca/admin/missing --run automake-1.7
+AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -ansi -W -Wall -Wchar-subscripts -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -O2   -Wformat-security -Wmissing-format-attribute
 CONF_FILES =  $(top_srcdir)/./admin/configure.in.min $(top_srcdir)/configure.in.in
 CPP = gcc -E
 CPPFLAGS =  -DQT_THREAD_SUPPORT  -D_REENTRANT
-CXX = g++
-CXXCPP = g++ -E
+CXX = /home/krawek/bin/g++
+CXXCPP = /home/krawek/bin/g++ -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -Wnon-virtual-dtor -Wno-long-long -Wundef -Wall -W -Wpointer-arith -Wwrite-strings -ansi -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -Wcast-align -Wconversion -Wchar-subscripts -O2 -Wformat-security -Wmissing-format-attribute -fno-exceptions -fno-check-new -fno-common
 CYGPATH_W = echo
-DCOPIDL = /usr/bin/dcopidl
-DCOPIDL2CPP = /usr/bin/dcopidl2cpp
+DCOPIDL = /usr/kde/3.3/bin/dcopidl
+DCOPIDL2CPP = /usr/kde/3.3/bin/dcopidl2cpp
 DCOPIDLNG = 
 DCOP_DEPENDENCIES = $(DCOPIDL)
 DEFS = -DHAVE_CONFIG_H
@@ -73,20 +73,20 @@ ECHO_N = -n
 ECHO_T = 
 EGREP = grep -E
 EXEEXT = 
-F77 = 
-FFLAGS = 
+F77 = g77
+FFLAGS = -g -O2
 FRAMEWORK_COREAUDIO = 
-GMSGFMT = /usr/bin/msgfmt
+GMSGFMT = /usr/bin/gmsgfmt
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL} $(INSTALL_STRIP_FLAG)
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 KCFG_DEPENDENCIES = 
 KCONFIG_COMPILER = 
-KDECONFIG = /usr/bin/kde-config
+KDECONFIG = /usr/kde/3.3/bin/kde-config
 KDE_EXTRA_RPATH = 
-KDE_INCLUDES = -I/usr/include/kde
-KDE_LDFLAGS = -L/usr/lib
+KDE_INCLUDES = -I/usr/kde/3.3/include
+KDE_LDFLAGS = -L/usr/kde/3.3/lib
 KDE_MT_LDFLAGS = 
 KDE_MT_LIBS = -lpthread
 KDE_NO_UNDEFINED = -Wl,--no-undefined -Wl,--allow-shlib-undefined
@@ -98,7 +98,7 @@ KDE_USE_FINAL_FALSE =
 KDE_USE_FINAL_TRUE = #
 KDE_USE_NMCHECK_FALSE = 
 KDE_USE_NMCHECK_TRUE = #
-KDE_XSL_STYLESHEET = /usr/share/apps/ksgmltools2/customization/kde-chunk.xsl
+KDE_XSL_STYLESHEET = /usr/kde/3.3/share/apps/ksgmltools2/customization/kde-chunk.xsl
 LDFLAGS = 
 LIBCOMPAT = 
 LIBCRYPT = -lcrypt
@@ -138,11 +138,11 @@ LIB_XEXT = -lXext
 LIB_XRENDER = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run makeinfo
-MCOPIDL = /usr/bin/mcopidl
-MEINPROC = /usr/bin/meinproc
-MOC = /usr/share/qt3/bin/moc
-MSGFMT = /usr/bin/msgfmt
+MAKEINFO = ${SHELL} /home/krawek/Proyectos/kludoteca/admin/missing --run makeinfo
+MCOPIDL = /usr/kde/3.3/bin/mcopidl
+MEINPROC = /usr/kde/3.3/bin/meinproc
+MOC = /usr/qt/3/bin/moc
+MSGFMT = /usr/bin/gmsgfmt
 NOOPT_CFLAGS = -O0
 NOOPT_CXXFLAGS = -O0
 OBJEXT = o
@@ -155,14 +155,14 @@ PACKAGE_VERSION =
 PATH_SEPARATOR = :
 PERL = /usr/bin/perl
 QTE_NORTTI = 
-QT_INCLUDES = -I/usr/share/qt3/include
-QT_LDFLAGS = -L/usr/share/qt3/lib
+QT_INCLUDES = -I/usr/qt/3/include
+QT_LDFLAGS = -L/usr/qt/3/lib
 RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
 TOPSUBDIRS =  doc po src
-UIC = /usr/share/qt3/bin/uic -L $(kde_widgetdir) -nounload
+UIC = /usr/qt/3/bin/uic -L $(kde_widgetdir) -nounload
 UIC_TR = tr2i18n
 USER_INCLUDES = 
 USER_LDFLAGS = 
@@ -175,17 +175,17 @@ XGETTEXT = /usr/bin/xgettext
 XMLLINT = /usr/bin/xmllint
 X_EXTRA_LIBS = 
 X_INCLUDES = -I/usr/X11R6/include
-X_LDFLAGS = -L/usr/X11R6/lib
+X_LDFLAGS = -L/usr/lib
 X_PRE_LIBS = 
 X_RPATH = -R $(x_libraries)
 ac_ct_AR = ar
 ac_ct_CC = gcc
-ac_ct_CXX = g++
-ac_ct_F77 = 
+ac_ct_CXX = 
+ac_ct_F77 = g77
 ac_ct_RANLIB = ranlib
 ac_ct_STRIP = strip
-all_includes = -I/usr/include/kde -I/usr/share/qt3/include -I/usr/X11R6/include 
-all_libraries = -L/usr/X11R6/lib -L/usr/share/qt3/lib -L/usr/lib 
+all_includes = -I/usr/kde/3.3/include -I/usr/qt/3/include -I/usr/X11R6/include 
+all_libraries = -L/usr/lib -L/usr/qt/3/lib -L/usr/kde/3.3/lib 
 am__fastdepCC_FALSE = #
 am__fastdepCC_TRUE = 
 am__fastdepCXX_FALSE = #
@@ -210,18 +210,18 @@ include_ARTS_FALSE = #
 include_ARTS_TRUE = 
 includedir = ${prefix}/include
 infodir = ${prefix}/info
-install_sh = /tmp/dcuadra/kludoteca/admin/install-sh
+install_sh = /home/krawek/Proyectos/kludoteca/admin/install-sh
 kde_appsdir = ${datadir}/applnk
 kde_bindir = ${exec_prefix}/bin
 kde_confdir = ${datadir}/config
 kde_datadir = ${datadir}/apps
 kde_htmldir = ${datadir}/doc/HTML
 kde_icondir = ${datadir}/icons
-kde_includes = /usr/include/kde
+kde_includes = /usr/kde/3.3/include
 kde_kcfgdir = ${datadir}/config.kcfg
-kde_libraries = /usr/lib
-kde_libs_htmldir = /usr/share/doc/kde/HTML
-kde_libs_prefix = /usr
+kde_libraries = /usr/kde/3.3/lib
+kde_libs_htmldir = /usr/kde/3.3/share/doc/HTML
+kde_libs_prefix = /usr/kde/3.3
 kde_locale = ${datadir}/locale
 kde_mimedir = ${datadir}/mimelnk
 kde_moduledir = ${libdir}/kde3
@@ -232,17 +232,17 @@ kde_sounddir = ${datadir}/sounds
 kde_styledir = ${libdir}/kde3/plugins/styles
 kde_templatesdir = ${datadir}/templates
 kde_wallpaperdir = ${datadir}/wallpapers
-kde_widgetdir = /usr/lib/kde3/plugins/designer
+kde_widgetdir = /usr/kde/3.3/lib/kde3/plugins/designer
 kdeinitdir = $(kde_moduledir)
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localstatedir = ${prefix}/var
 mandir = ${prefix}/man
 oldincludedir = /usr/include
-prefix = /usr
+prefix = /usr/kde/3.3
 program_transform_name = s,x,x,
-qt_includes = /usr/share/qt3/include
-qt_libraries = /usr/share/qt3/lib
+qt_includes = /usr/qt/3/include
+qt_libraries = /usr/qt/3/lib
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 sysconfdir = ${prefix}/etc
@@ -252,15 +252,19 @@ target_cpu = i686
 target_os = linux-gnu
 target_vendor = pc
 x_includes = /usr/X11R6/include
-x_libraries = /usr/X11R6/lib
+x_libraries = /usr/lib
 xdg_appsdir = ${datadir}/applications/kde
 xdg_directorydir = ${datadir}/desktop-directories
 xdg_menudir = ${sysconfdir}/xdg/menus
-INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module 	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module $(all_includes)
+INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module \
+	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module $(all_includes)
+
 #>- METASOURCES = AUTO
 noinst_LIBRARIES = libclients-module.a
 noinst_HEADERS = clientswidget.h formadminclients.h
 libclients_module_a_SOURCES = clientswidget.cpp formadminclients.cpp
+kldclientsiconsdir = $(kde_datadir)/kludoteca/clients-module/icons
+kldclientsicons_DATA = default3.png
 subdir = src/clients-module
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
@@ -309,6 +313,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libclients_module_a_SOURCES)
+DATA = $(kldclientsicons_DATA)
+
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.in Makefile.am
@@ -388,6 +394,24 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+kldclientsiconsDATA_INSTALL = $(INSTALL_DATA)
+install-kldclientsiconsDATA: $(kldclientsicons_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(kldclientsiconsdir)
+	@list='$(kldclientsicons_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(kldclientsiconsDATA_INSTALL) $$d$$p $(DESTDIR)$(kldclientsiconsdir)/$$f"; \
+	  $(kldclientsiconsDATA_INSTALL) $$d$$p $(DESTDIR)$(kldclientsiconsdir)/$$f; \
+	done
+
+uninstall-kldclientsiconsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(kldclientsicons_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(kldclientsiconsdir)/$$f"; \
+	  rm -f $(DESTDIR)$(kldclientsiconsdir)/$$f; \
+	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -478,9 +502,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(DATA) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(kldclientsiconsdir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -529,7 +554,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-kldclientsiconsDATA
 
 install-exec-am:
 
@@ -557,18 +582,20 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-kldclientsiconsDATA
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES ctags distclean \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am info info-am install \
 	install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	install-exec-am install-info install-info-am \
+	install-kldclientsiconsDATA install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am \
+	uninstall-kldclientsiconsDATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
@@ -593,7 +620,7 @@ clean-metasources:
 	-rm -f  clientswidget.moc formadminclients.moc
 
 #>+ 2
-KDE_DIST=Makefile.in 
+KDE_DIST=default3.png Makefile.in libclients-module.a 
 
 #>+ 2
 docs-am:

@@ -56,6 +56,10 @@ class FormAdminClients : public FormBase
 		QFrame *m_container;
 		QHButtonGroup *m_radioButtons;
 		QRadioButton *m_male, *m_female;
+		KPushButton *m_selectFace;
+		
+		void setupButtonsBox();
+		void setupBox();
 };
 
 #endif

@@ -30,6 +30,8 @@
 #include <klineedit.h>
 
 #include <kpushbutton.h>
+#include <qobject.h>
+#include <qscrollview.h>
 
 /**
  * Clase base para crear formularios

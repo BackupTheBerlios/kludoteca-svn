@@ -22,9 +22,11 @@
 #include <klocale.h>
 
 
-FormBase::FormBase( QWidget *parent, const char *name): QVBox(parent, name), m_accept(0), m_cancel(0)
+FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, "View"), m_accept(0), m_cancel(0)
 {
-	
+	setMargin(10);
+	setFrameShape(QFrame::Box );
+        setFrameShadow(QFrame::Raised);
 	m_labelTitle = new QLabel(this);
 	m_labelExplanation = new QLabel(this);
 	m_labelExplanation->setMargin (10);
@@ -57,6 +59,8 @@ void FormBase::setTitleFont(QString font, int fontsize)
 void FormBase::setupButtons(Button button1, Button button2)
 {
 	m_buttons = new QHButtonGroup(this);
+	m_buttons->setLineWidth(0);
+	m_buttons->setMidLineWidth(0);
 	
 	switch ( button1)
 	{
@@ -133,7 +137,7 @@ QWidget *FormBase::setupLineEdit(QWidget *parent, QString text, int lineEditWidt
 
 void *FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth)
 {
-	QGridLayout *layout = new QGridLayout(parent, texts.count(), 2);
+	QGridLayout *layout = new QGridLayout(parent, texts.count(), 2, 5, 5);
 	
 	for (int i = 0; i < texts.count(); i++)
 	{

@@ -76,11 +76,6 @@ class KLudoteca : public KMdiMainFrm
 		* Default Destructor
 		*/
 		virtual ~KLudoteca();
-		
-		/**
-		 * Esta funcion muestra un mensaje utilizando el OSDWidget
-		 */
-		void showNotice(QString message);
 
 	protected:
 		/**
@@ -99,7 +94,6 @@ class KLudoteca : public KMdiMainFrm
 		* Esta funcion es llamada para leer las propiedades de una sesion.
 		*/
 		void readProperties(KConfig *);
-
 
 	private slots:
 		void fileNew();
@@ -126,6 +120,16 @@ class KLudoteca : public KMdiMainFrm
 		 * Esta funcion añade una pagina de modulo
 		 */
 		void addModulePage(KMdiChildView *view);
+		
+		/**
+		 * Esta funcion muestra un mensaje utilizando el OSDWidget
+		 */
+		void showNotice(QString message);
+		
+		/**
+		 * Cierra la vista actual
+		 */
+		void closeCurrent();
 		
 	private:
 		void setupAccel();
