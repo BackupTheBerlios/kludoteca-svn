@@ -17,11 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef FORMBASE_H
 #define FORMBASE_H
 
 #include <qvbox.h>
-#include <qhbox.h>
+#include <qhbuttongroup.h>
 #include <qlabel.h>
 #include <qstring.h>
 #include <qframe.h> 
@@ -38,10 +39,21 @@ class FormBase : public QVBox
 	Q_OBJECT
 		
 	public:
+		
+		enum Button { NoButton = 0, AcceptButton, CancelButton };
+		
 		/**
 		* Costructor por defecto.
 		 */
 		FormBase( QWidget *parent = 0, const char *name = 0);
+		
+		
+		/**
+		 * Construye la forma con un orden en los botones
+		 */
+		FormBase( Button button1 = NoButton, Button button2 =  NoButton, QWidget *parent = 0, const char *name = 0);
+		
+		
 		/**
 		 * Destructor por defecto.
 		 */
@@ -50,6 +62,11 @@ class FormBase : public QVBox
 		* Cambia el titulo del formulario.
 		 */
 		void setTitle(QString newTitle);
+		
+		/**
+		 * Cambia el tipo de letra del titulo
+		 */
+		void setTitleFont(QString font, int fontsize);
 		/**
 		 * Cambia la explicaion del formulario.
 		 */
@@ -61,30 +78,29 @@ class FormBase : public QVBox
 		/**
 		 * Crea el panel de los botones con texto por defecto.
 		 */
-		void setupButton();
+		void setupButtons(Button button1, Button button2);
+		
 		/**
 		* Cambia el texto del primer boton
 		 */
-		void setTextButtonOne(QString newText);
+		void setTextAcceptButton(QString newText);
 		/**
 		 * Cambia el texto del segundo boton
 		 */
-		void setTextButtonTwo(QString newText);
+		void setTextCancelButton(QString newText);
 		
-		/**
-		 * Cambia el texto del tercer boton
-		 */
-		void setTextButtonThree(QString newText);
 		
 	public slots:
 		virtual void accept() = 0;
-		virtual void cancle() = 0;
-		virtual void modify() = 0;
+		virtual void cancel() = 0;
 		
 	private:
-		QHBox *m_buttons;
+		QHButtonGroup *m_buttons;
 		QLabel *m_labelTitle, *m_labelExplanation;
-		KPushButton *m_accept, *m_cancel, *m_modify;
+		KPushButton *m_accept, *m_cancel;
 };
 
 #endif
+
+
+

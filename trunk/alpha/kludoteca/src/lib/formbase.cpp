@@ -25,9 +25,19 @@
 FormBase::FormBase( QWidget *parent, const char *name): QVBox(parent, name)
 {
 	
-	m_labelTitle = new QLabel(this,"title of form");
-	m_labelExplanation = new QLabel(this,"Explanation of form");
+	m_labelTitle = new QLabel(this);
+	m_labelExplanation = new QLabel(this);
 	m_labelExplanation->setMargin (10);
+	setupButtons(AcceptButton, CancelButton);
+}
+
+FormBase::FormBase( Button button1, Button button2, QWidget *parent, const char *name) : QVBox(parent, name)
+{
+	m_labelTitle = new QLabel(this);
+	m_labelExplanation = new QLabel(this);
+	m_labelExplanation->setMargin (10);
+	
+	setupButtons(button1, button2);
 }
 
 FormBase::~FormBase()
@@ -40,30 +50,69 @@ void FormBase::setTitle(QString newTitle)
 	m_labelTitle->setText(i18n("<h1><div align=\"center\">%1</dvi></h1>").arg(newTitle));
 }
 
-void FormBase::setupButton()
+void FormBase::setTitleFont(QString font, int fontsize)
 {
-	m_buttons = new QHBox(this);
-	m_accept = new KPushButton(i18n("register"), m_buttons);
-	m_cancel = new KPushButton(i18n("cancel"), m_buttons);
-	m_modify = new KPushButton(i18n("modify"), m_buttons);
+	setFont(QFont(font, fontsize));
+}
+
+void FormBase::setupButtons(Button button1, Button button2)
+{
+	m_buttons = new QHButtonGroup(this);
+	
+	switch ( button1)
+	{
+		case AcceptButton:
+		{
+			m_accept = new KPushButton(i18n("Register"), m_buttons);
+		}
+		break;
+		
+		case CancelButton:
+		{
+			m_cancel = new KPushButton(i18n("Cancel"), m_buttons);
+		}
+		break;
+		
+		case NoButton:
+		{
+		}
+		break;
+	}
+	
+	switch (button2)
+	{
+		case AcceptButton:
+		{
+			m_accept = new KPushButton(i18n("Register"), m_buttons);
+		}
+		break;
+		
+		case CancelButton:
+		{
+			m_cancel = new KPushButton(i18n("Cancel"), m_buttons);
+		}
+		break;
+		
+		case NoButton:
+		{
+		}
+		break;
+	}
+
 	connect(m_accept, SIGNAL(clicked()),this, SLOT(accept()));
 	connect(m_cancel, SIGNAL(clicked()),this, SLOT(cancel()));
-	connect(m_modify, SIGNAL(clicked()),this, SLOT(modify()));
 }
 
-void FormBase::setTextButtonOne(QString newText)
+void FormBase::setTextAcceptButton(QString newText)
 {
-	m_accept->setText(newText);
+	if (m_accept)
+		m_accept->setText(newText);
 }
 
-void FormBase::setTextButtonTwo(QString newText)
+void FormBase::setTextCancelButton(QString newText)
 {
-	m_cancel->setText(newText);
-}
-
-void FormBase::setTextButtonThree(QString newText)
-{
-	m_modify->setText(newText);
+	if(m_cancel)
+		m_cancel->setText(newText);
 }
 
 void FormBase::setExplanation(QString newExplanation)

@@ -57,7 +57,7 @@ KLudotecaView::KLudotecaView(const QString &caption, QWidget *parentWidget, cons
 	// if our factory is invalid, then we never found our component
 	// and we might as well just exit now
 	
-	m_label = new QLabel( i18n( "Bienvenido, jejeje" ), this );
+	m_label = new QLabel( i18n( "Your're welcome to the matrix" ), this );
 }
 
 KLudotecaView::~KLudotecaView()

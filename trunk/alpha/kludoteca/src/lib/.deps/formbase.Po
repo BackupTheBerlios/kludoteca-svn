@@ -119,7 +119,9 @@ formbase.o: formbase.cpp formbase.h /usr/share/qt3/include/qvbox.h \
   /usr/share/qt3/include/qbrush.h /usr/share/qt3/include/qfont.h \
   /usr/share/qt3/include/qfontmetrics.h \
   /usr/share/qt3/include/qfontinfo.h /usr/share/qt3/include/qsizepolicy.h \
-  /usr/share/qt3/include/qframe.h /usr/share/qt3/include/qlabel.h \
+  /usr/share/qt3/include/qframe.h /usr/share/qt3/include/qhbuttongroup.h \
+  /usr/share/qt3/include/qbuttongroup.h \
+  /usr/share/qt3/include/qgroupbox.h /usr/share/qt3/include/qlabel.h \
   /usr/share/qt3/include/qlayout.h /usr/include/kde/kpushbutton.h \
   /usr/share/qt3/include/qpushbutton.h /usr/share/qt3/include/qbutton.h \
   /usr/share/qt3/include/qkeysequence.h /usr/share/qt3/include/qiconset.h \
@@ -533,6 +535,12 @@ formbase.h:
 /usr/share/qt3/include/qsizepolicy.h:
 
 /usr/share/qt3/include/qframe.h:
+
+/usr/share/qt3/include/qhbuttongroup.h:
+
+/usr/share/qt3/include/qbuttongroup.h:
+
+/usr/share/qt3/include/qgroupbox.h:
 
 /usr/share/qt3/include/qlabel.h:
 

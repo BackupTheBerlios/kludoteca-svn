@@ -259,8 +259,10 @@ xdg_menudir = ${sysconfdir}/xdg/menus
 INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module 	-I$(top_srcdir)/src/tournament-module $(all_includes)
 #>- METASOURCES = AUTO
 noinst_LIBRARIES = lib.a
-noinst_HEADERS = lttoolbox.h ltlistview.h formbase.h
-lib_a_SOURCES = lttoolbox.cpp ltlistview.cpp formbase.cpp
+noinst_HEADERS = lttoolbox.h ltlistview.h formbase.h kludotecaiface.h
+#>- lib_a_SOURCES = lttoolbox.cpp ltlistview.cpp formbase.cpp kludotecaiface.skel
+#>+ 1
+lib_a_SOURCES=lttoolbox.cpp ltlistview.cpp formbase.cpp  kludotecaiface_skel.cpp
 subdir = src/lib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
@@ -276,7 +278,7 @@ am_lib_a_OBJECTS = lttoolbox.$(OBJEXT) ltlistview.$(OBJEXT) \
 #>+ 5
 lib_a_final_OBJECTS = lib_a.all_cpp.o 
 lib_a_nofinal_OBJECTS = lttoolbox.$(OBJEXT) ltlistview.$(OBJEXT) \
-	formbase.$(OBJEXT)
+	formbase.$(OBJEXT) kludotecaiface_skel.$(OBJEXT)
 lib_a_OBJECTS = $(lib_a_nofinal_OBJECTS)
 #lib_a_OBJECTS = $(lib_a_final_OBJECTS)
 
@@ -286,9 +288,9 @@ am__depfiles_maybe = depfiles
 #>- DEP_FILES = ./$(DEPDIR)/formbase.Po \
 #>- 	./$(DEPDIR)/ltlistview.Po ./$(DEPDIR)/lttoolbox.Po
 #>+ 4
-#DEP_FILES =   $(DEPDIR)/lib_a.all_cpp.P ./$(DEPDIR)/formbase.Po \
+#DEP_FILES =  $(DEPDIR)/kludotecaiface_skel.P  $(DEPDIR)/lib_a.all_cpp.P ./$(DEPDIR)/formbase.Po \
 #		./$(DEPDIR)/ltlistview.Po ./$(DEPDIR)/lttoolbox.Po
-DEP_FILES =  ./$(DEPDIR)/formbase.Po \
+DEP_FILES =  $(DEPDIR)/kludotecaiface_skel.P ./$(DEPDIR)/formbase.Po \
 		./$(DEPDIR)/ltlistview.Po ./$(DEPDIR)/lttoolbox.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -513,7 +515,7 @@ clean: kde-rpo-clean  clean-am
 #>- clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
 #>- 	mostlyclean-am
 #>+ 2
-clean-am: clean-metasources clean-bcheck clean-final  clean-generic clean-libtool clean-noinstLIBRARIES \
+clean-am: clean-metasources clean-idl clean-bcheck clean-final  clean-generic clean-libtool clean-noinstLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -575,6 +577,12 @@ uninstall-am: uninstall-info-am
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
+#>+ 5
+kludotecaiface.kidl: $(srcdir)/kludotecaiface.h $(DCOP_DEPENDENCIES)
+	$(DCOPIDL) $(srcdir)/kludotecaiface.h > kludotecaiface.kidl || ( rm -f kludotecaiface.kidl ; false )
+kludotecaiface_skel.cpp: kludotecaiface.kidl
+	$(DCOPIDL2CPP) --c++-suffix cpp --no-signals --no-stub kludotecaiface.kidl
+
 #>+ 3
 lttoolbox.moc: $(srcdir)/lttoolbox.h
 	$(MOC) $(srcdir)/lttoolbox.h -o lttoolbox.moc
@@ -601,7 +609,12 @@ clean-metasources:
 	-rm -f  lttoolbox.moc ltlistview.moc formbase.moc
 
 #>+ 2
-KDE_DIST=Makefile.in ltlistview.loT lib.a 
+KDE_DIST=Makefile.in ltlistview.loT kludotecaiface.skel 
+
+#>+ 4
+clean-idl:
+	-rm -f \
+	kludotecaiface_skel.cpp kludotecaiface_skel.h kludotecaiface.kidl 
 
 #>+ 2
 docs-am:
@@ -636,11 +649,11 @@ bcheck-am:
 
 
 #>+ 11
-lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp  lttoolbox.moc ltlistview.moc formbase.moc
+lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp kludotecaiface_skel.cpp  lttoolbox.moc ltlistview.moc formbase.moc
 	@echo 'creating lib_a.all_cpp.cpp ...'; \
 	rm -f lib_a.all_cpp.files lib_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> lib_a.all_cpp.final; \
-	for file in lttoolbox.cpp ltlistview.cpp formbase.cpp ; do \
+	for file in lttoolbox.cpp ltlistview.cpp formbase.cpp kludotecaiface_skel.cpp ; do \
 	  echo "#include \"$$file\"" >> lib_a.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> lib_a.all_cpp.final; \
 	done; \

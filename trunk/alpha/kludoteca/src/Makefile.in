@@ -263,7 +263,7 @@ bin_PROGRAMS = kludoteca
 
 # set the include path for X, qt and KDE
 INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module \
-	-I$(top_srcdir)/src/tournament-module -I$(top_srcdir)/src/lib $(all_includes)
+	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module $(all_includes)
 
 
 # the library search path. 
@@ -276,12 +276,7 @@ kludoteca_LDADD = $(top_builddir)/src/tournament-module/libtournament-module.a \
 
 
 # which sources should be compiled for kludoteca
-#>- kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp 		 pref.cpp \
-#>- 	kludotecaiface.skel osd.cpp
-#>+ 2
-kludoteca_SOURCES=main.cpp kludoteca.cpp kludotecaview.cpp 		 pref.cpp \
-	 osd.cpp kludotecaiface_skel.cpp
-
+kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp
 
 # these are the headers for your project
 noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h
@@ -316,7 +311,7 @@ am_kludoteca_OBJECTS = main.$(OBJEXT) kludoteca.$(OBJEXT) \
 #>+ 6
 kludoteca_final_OBJECTS = kludoteca.all_cpp.o 
 kludoteca_nofinal_OBJECTS = main.$(OBJEXT) kludoteca.$(OBJEXT) \
-	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT) kludotecaiface_skel.$(OBJEXT)\
+	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT)\
 osd.moc.o 
 @KDE_USE_FINAL_FALSE@kludoteca_OBJECTS = $(kludoteca_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@kludoteca_OBJECTS = $(kludoteca_final_OBJECTS)
@@ -333,10 +328,10 @@ am__depfiles_maybe = depfiles
 #>- @AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/main.Po \
 #>- @AMDEP_TRUE@	./$(DEPDIR)/osd.Po ./$(DEPDIR)/pref.Po
 #>+ 6
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/kludotecaiface_skel.P $(DEPDIR)/osd.moc.P  $(DEPDIR)/kludoteca.all_cpp.P ./$(DEPDIR)/kludoteca.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/osd.moc.P  $(DEPDIR)/kludoteca.all_cpp.P ./$(DEPDIR)/kludoteca.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/osd.Po ./$(DEPDIR)/pref.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/kludotecaiface_skel.P $(DEPDIR)/osd.moc.P ./$(DEPDIR)/kludoteca.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/osd.moc.P ./$(DEPDIR)/kludoteca.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/osd.Po ./$(DEPDIR)/pref.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -725,7 +720,7 @@ clean: kde-rpo-clean  clean-recursive
 
 #>- clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
 #>+ 1
-clean-am: clean-metasources clean-idl clean-bcheck clean-final  clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
+clean-am: clean-metasources clean-bcheck clean-final  clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -rf ./$(DEPDIR)
@@ -806,12 +801,6 @@ messages: rc.cpp
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 5
-kludotecaiface.kidl: $(srcdir)/kludotecaiface.h $(DCOP_DEPENDENCIES)
-	$(DCOPIDL) $(srcdir)/kludotecaiface.h > kludotecaiface.kidl || ( rm -f kludotecaiface.kidl ; false )
-kludotecaiface_skel.cpp: kludotecaiface.kidl
-	$(DCOPIDL2CPP) --c++-suffix cpp --no-signals --no-stub kludotecaiface.kidl
-
 #>+ 3
 kludoteca.moc: $(srcdir)/kludoteca.h
 	$(MOC) $(srcdir)/kludoteca.h -o kludoteca.moc
@@ -845,12 +834,7 @@ clean-metasources:
 	-rm -f  kludoteca.moc osd.moc.cpp pref.moc kludotecaview.moc
 
 #>+ 2
-KDE_DIST=kludotecaiface.kidl kludotecaui.rc Makefile.in hi16-app-kludoteca.png kludoteca.desktop kludotecaiface.h kludoteca.lsm hi32-app-kludoteca.png modulodejuegos.cpp kludoteca.loT 
-
-#>+ 4
-clean-idl:
-	-rm -f \
-	kludotecaiface_skel.cpp kludotecaiface_skel.h kludotecaiface.kidl 
+KDE_DIST=kludotecaui.rc Makefile.in hi16-app-kludoteca.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png kludoteca.loT 
 
 #>+ 2
 docs-am:
@@ -896,11 +880,11 @@ bcheck-am:
 
 
 #>+ 11
-kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/kludotecaiface_skel.cpp $(srcdir)/osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
+kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
 	@echo 'creating kludoteca.all_cpp.cpp ...'; \
 	rm -f kludoteca.all_cpp.files kludoteca.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> kludoteca.all_cpp.final; \
-	for file in main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp kludotecaiface_skel.cpp osd.moc.cpp ; do \
+	for file in main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp osd.moc.cpp ; do \
 	  echo "#include \"$$file\"" >> kludoteca.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> kludoteca.all_cpp.final; \
 	done; \

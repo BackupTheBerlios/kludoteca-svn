@@ -6,7 +6,7 @@ bin_PROGRAMS = kludoteca
 
 # set the include path for X, qt and KDE
 INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module \
-	-I$(top_srcdir)/src/tournament-module -I$(top_srcdir)/src/lib $(all_includes)
+	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module $(all_includes)
 
 # the library search path. 
 kludoteca_LDFLAGS = $(KDE_RPATH) $(all_libraries)
@@ -17,8 +17,7 @@ kludoteca_LDADD = $(top_builddir)/src/tournament-module/libtournament-module.a \
 	$(top_builddir)/src/lib/lib.a $(LIB_KFILE) $(LIB_KDEPRINT) -lkmdi
 
 # which sources should be compiled for kludoteca
-kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp 		 pref.cpp \
-	kludotecaiface.skel osd.cpp
+kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp
 
 # these are the headers for your project
 noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h
