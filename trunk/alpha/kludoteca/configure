@@ -31063,6 +31063,8 @@ done
 
           ac_config_files="$ac_config_files src/games-module/Makefile"
 
+          ac_config_files="$ac_config_files src/lib/Makefile"
+
           ac_config_files="$ac_config_files src/tournament-module/Makefile"
 
 cat >confcache <<\_ACEOF
@@ -31635,6 +31637,7 @@ do
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "src/admin-module/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/admin-module/Makefile" ;;
   "src/games-module/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/games-module/Makefile" ;;
+  "src/lib/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/lib/Makefile" ;;
   "src/tournament-module/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/tournament-module/Makefile" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;

@@ -20,7 +20,7 @@
 #include "tournamentwidget.h"
 #include <klocale.h>
 
-TournamentWidget::TournamentWidget(QWidget *padre) : QToolBox(padre, "Tournament")
+TournamentWidget::TournamentWidget(QWidget *padre) : LTToolBox(padre, "Tournament")
 {
 	setCaption(i18n("Tournament"));
 	setupTabs();

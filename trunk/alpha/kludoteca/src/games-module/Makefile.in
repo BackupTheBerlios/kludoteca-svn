@@ -256,7 +256,7 @@ x_libraries = @x_libraries@
 xdg_appsdir = @xdg_appsdir@
 xdg_directorydir = @xdg_directorydir@
 xdg_menudir = @xdg_menudir@
-INCLUDES = $(all_includes)
+INCLUDES = -I$(top_srcdir)/src/lib $(all_includes)
 #>- METASOURCES = AUTO
 noinst_HEADERS = gamesmodule.h gameslist.h formadmingame.h
 noinst_LIBRARIES = libgames-module.a
@@ -601,7 +601,7 @@ clean-metasources:
 	-rm -f  gamesmodule.moc gameslist.moc formadmingame.moc
 
 #>+ 2
-KDE_DIST=Makefile.in libgames-module.a 
+KDE_DIST=Makefile.in 
 
 #>+ 2
 docs-am:

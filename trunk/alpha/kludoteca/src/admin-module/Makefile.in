@@ -256,7 +256,7 @@ x_libraries = @x_libraries@
 xdg_appsdir = @xdg_appsdir@
 xdg_directorydir = @xdg_directorydir@
 xdg_menudir = @xdg_menudir@
-INCLUDES = -I$(top_srcdir)/src/games-module 	-I$(top_srcdir)/src/tournament-module $(all_includes)
+INCLUDES = -I$(top_srcdir)/src/lib $(all_includes)
 #>- METASOURCES = AUTO
 noinst_HEADERS = adminwidget.h adminusers.h admindatabase.h
 noinst_LIBRARIES = libadmin-module.a
@@ -604,7 +604,7 @@ clean-metasources:
 	-rm -f  admindatabase.moc adminusers.moc adminwidget.moc
 
 #>+ 2
-KDE_DIST=Makefile.in libadmin-module.a 
+KDE_DIST=Makefile.in 
 
 #>+ 2
 docs-am:

@@ -21,7 +21,7 @@
 #include "adminwidget.h"
 #include <klocale.h>
 
-AdminWidget::AdminWidget(QWidget *parent) : QToolBox(parent, "AdminModule")
+AdminWidget::AdminWidget(QWidget *parent) : LTToolBox(parent, "AdminModule")
 {
 	setCaption(i18n("Admin"));
 	

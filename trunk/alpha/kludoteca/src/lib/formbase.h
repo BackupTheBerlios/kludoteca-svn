@@ -17,40 +17,74 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef TOURNAMENTWIDGET_H
-#define TOURNAMENTWIDGET_H
+#ifndef FORMBASE_H
+#define FORMBASE_H
 
-#include "lttoolbox.h"
-#include "tournamentactive.h"
-#include "tournamentold.h"
+#include <qvbox.h>
+#include <qhbox.h>
+#include <qlabel.h>
+#include <qstring.h>
+#include <qframe.h> 
+#include <qlayout.h>
+
+#include <kpushbutton.h>
 
 /**
- * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
- * @short Widget con la informacion del los torneos
+ * Clase base para crear formularios
  * @author CetiSoft
 */
-class TournamentWidget : public LTToolBox
+class FormBase : public QVBox
 {
 	Q_OBJECT
+		
 	public:
 		/**
-		 * Constructor por defecto
+		* Costructor por defecto.
 		 */
-    		TournamentWidget(QWidget *parent);
+		FormBase( QWidget *parent = 0, const char *name = 0);
 		/**
-		 * Destructor por defecto
+		 * Destructor por defecto.
 		 */
-		~TournamentWidget();
+		~FormBase();
+		/**
+		* Cambia el titulo del formulario.
+		 */
+		void setTitle(QString newTitle);
+		/**
+		 * Cambia la explicaion del formulario.
+		 */
+		void setExplanation(QString newExplanation);
+		/**
+		 * Crea el formulario.
+		 */
+		virtual void setupForm() = 0;
+		/**
+		 * Crea el panel de los botones con texto por defecto.
+		 */
+		void setupButton();
+		/**
+		* Cambia el texto del primer boton
+		 */
+		void setTextButtonOne(QString newText);
+		/**
+		 * Cambia el texto del segundo boton
+		 */
+		void setTextButtonTwo(QString newText);
+		
+		/**
+		 * Cambia el texto del tercer boton
+		 */
+		void setTextButtonThree(QString newText);
+		
+	public slots:
+		virtual void accept() = 0;
+		virtual void cancle() = 0;
+		virtual void modify() = 0;
 		
 	private:
-		/**
-		 * Esta funcion sirve para crear los tabs del ToolBox
-		 */
-		void setupTabs();
-		
-	private:
-		TournamentActive *m_tournamentActive;
-		TournamentOld *m_tournamentOld;
+		QHBox *m_buttons;
+		QLabel *m_labelTitle, *m_labelExplanation;
+		KPushButton *m_accept, *m_cancel, *m_modify;
 };
 
 #endif

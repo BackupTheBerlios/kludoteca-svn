@@ -256,52 +256,40 @@ x_libraries = @x_libraries@
 xdg_appsdir = @xdg_appsdir@
 xdg_directorydir = @xdg_directorydir@
 xdg_menudir = @xdg_menudir@
-INCLUDES = -I$(top_srcdir)/src/lib $(all_includes)
+INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module 	-I$(top_srcdir)/src/tournament-module $(all_includes)
 #>- METASOURCES = AUTO
-noinst_HEADERS = tournamentwidget.h tournamentmodule.h tournamentold.h \
-	tournamentactive.h
-
-noinst_LIBRARIES = libtournament-module.a
-libtournament_module_a_SOURCES = tournamentactive.cpp tournamentmodule.cpp\
-	tournamentold.cpp tournamentwidget.cpp
-
-subdir = src/tournament-module
+noinst_LIBRARIES = lib.a
+noinst_HEADERS = lttoolbox.h ltlistview.h formbase.h
+lib_a_SOURCES = lttoolbox.cpp ltlistview.cpp formbase.cpp
+subdir = src/lib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-libtournament_module_a_AR = $(AR) cru
-libtournament_module_a_LIBADD =
-am_libtournament_module_a_OBJECTS = tournamentactive.$(OBJEXT) \
-	tournamentmodule.$(OBJEXT) tournamentold.$(OBJEXT) \
-	tournamentwidget.$(OBJEXT)
-#>- libtournament_module_a_OBJECTS = $(am_libtournament_module_a_OBJECTS)
-#>+ 6
-libtournament_module_a_final_OBJECTS = libtournament_module_a.all_cpp.o 
-libtournament_module_a_nofinal_OBJECTS = tournamentactive.$(OBJEXT) \
-	tournamentmodule.$(OBJEXT) tournamentold.$(OBJEXT) \
-	tournamentwidget.$(OBJEXT)
-@KDE_USE_FINAL_FALSE@libtournament_module_a_OBJECTS = $(libtournament_module_a_nofinal_OBJECTS)
-@KDE_USE_FINAL_TRUE@libtournament_module_a_OBJECTS = $(libtournament_module_a_final_OBJECTS)
+lib_a_AR = $(AR) cru
+lib_a_LIBADD =
+am_lib_a_OBJECTS = lttoolbox.$(OBJEXT) ltlistview.$(OBJEXT) \
+	formbase.$(OBJEXT)
+#>- lib_a_OBJECTS = $(am_lib_a_OBJECTS)
+#>+ 5
+lib_a_final_OBJECTS = lib_a.all_cpp.o 
+lib_a_nofinal_OBJECTS = lttoolbox.$(OBJEXT) ltlistview.$(OBJEXT) \
+	formbase.$(OBJEXT)
+@KDE_USE_FINAL_FALSE@lib_a_OBJECTS = $(lib_a_nofinal_OBJECTS)
+@KDE_USE_FINAL_TRUE@lib_a_OBJECTS = $(lib_a_final_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 am__depfiles_maybe = depfiles
-#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/tournamentactive.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/tournamentmodule.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/tournamentold.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/tournamentwidget.Po
-#>+ 8
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/libtournament_module_a.all_cpp.P ./$(DEPDIR)/tournamentactive.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentmodule.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentold.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentwidget.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/tournamentactive.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentmodule.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentold.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentwidget.Po
+#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/formbase.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/ltlistview.Po ./$(DEPDIR)/lttoolbox.Po
+#>+ 4
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/lib_a.all_cpp.P ./$(DEPDIR)/formbase.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/ltlistview.Po ./$(DEPDIR)/lttoolbox.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/formbase.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/ltlistview.Po ./$(DEPDIR)/lttoolbox.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -320,11 +308,11 @@ CXXLD = $(CXX)
 #>+ 2
 CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libtournament_module_a_SOURCES)
+DIST_SOURCES = $(lib_a_SOURCES)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.in Makefile.am
-SOURCES = $(libtournament_module_a_SOURCES)
+SOURCES = $(lib_a_SOURCES)
 
 #>- all: all-am
 #>+ 1
@@ -334,20 +322,20 @@ all: docs-am  all-am
 .SUFFIXES: .cpp .lo .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>- 	cd $(top_srcdir) && \
-#>- 	  $(AUTOMAKE) --gnu  src/tournament-module/Makefile
+#>- 	  $(AUTOMAKE) --gnu  src/lib/Makefile
 #>+ 3
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/tournament-module/Makefile
-	cd $(top_srcdir) && perl admin/am_edit src/tournament-module/Makefile.in
+	  $(AUTOMAKE) --gnu  src/lib/Makefile
+	cd $(top_srcdir) && perl admin/am_edit src/lib/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libtournament-module.a: $(libtournament_module_a_OBJECTS) $(libtournament_module_a_DEPENDENCIES) 
-	-rm -f libtournament-module.a
-	$(libtournament_module_a_AR) libtournament-module.a $(libtournament_module_a_OBJECTS) $(libtournament_module_a_LIBADD)
-	$(RANLIB) libtournament-module.a
+lib.a: $(lib_a_OBJECTS) $(lib_a_DEPENDENCIES) 
+	-rm -f lib.a
+	$(lib_a_AR) lib.a $(lib_a_OBJECTS) $(lib_a_LIBADD)
+	$(RANLIB) lib.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -355,10 +343,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tournamentactive.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tournamentmodule.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tournamentold.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tournamentwidget.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/formbase.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ltlistview.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lttoolbox.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
@@ -589,39 +576,32 @@ uninstall-am: uninstall-info-am
 .NOEXPORT:
 
 #>+ 3
-tournamentactive.moc: $(srcdir)/tournamentactive.h
-	$(MOC) $(srcdir)/tournamentactive.h -o tournamentactive.moc
+lttoolbox.moc: $(srcdir)/lttoolbox.h
+	$(MOC) $(srcdir)/lttoolbox.h -o lttoolbox.moc
 
 #>+ 2
-mocs: tournamentactive.moc
+mocs: lttoolbox.moc
 
 #>+ 3
-tournamentold.moc: $(srcdir)/tournamentold.h
-	$(MOC) $(srcdir)/tournamentold.h -o tournamentold.moc
+ltlistview.moc: $(srcdir)/ltlistview.h
+	$(MOC) $(srcdir)/ltlistview.h -o ltlistview.moc
 
 #>+ 2
-mocs: tournamentold.moc
+mocs: ltlistview.moc
 
 #>+ 3
-tournamentwidget.moc: $(srcdir)/tournamentwidget.h
-	$(MOC) $(srcdir)/tournamentwidget.h -o tournamentwidget.moc
+formbase.moc: $(srcdir)/formbase.h
+	$(MOC) $(srcdir)/formbase.h -o formbase.moc
 
 #>+ 2
-mocs: tournamentwidget.moc
-
-#>+ 3
-tournamentmodule.moc: $(srcdir)/tournamentmodule.h
-	$(MOC) $(srcdir)/tournamentmodule.h -o tournamentmodule.moc
-
-#>+ 2
-mocs: tournamentmodule.moc
+mocs: formbase.moc
 
 #>+ 3
 clean-metasources:
-	-rm -f  tournamentactive.moc tournamentold.moc tournamentwidget.moc tournamentmodule.moc
+	-rm -f  lttoolbox.moc ltlistview.moc formbase.moc
 
 #>+ 2
-KDE_DIST=Makefile.in 
+KDE_DIST=Makefile.in ltlistview.loT lib.a 
 
 #>+ 2
 docs-am:
@@ -629,8 +609,8 @@ docs-am:
 #>+ 6
 force-reedit:
 		cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/tournament-module/Makefile
-	cd $(top_srcdir) && perl admin/am_edit src/tournament-module/Makefile.in
+	  $(AUTOMAKE) --gnu  src/lib/Makefile
+	cd $(top_srcdir) && perl admin/am_edit src/lib/Makefile.in
 
 
 #>+ 21
@@ -656,36 +636,36 @@ bcheck-am:
 
 
 #>+ 11
-libtournament_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/tournamentactive.cpp $(srcdir)/tournamentmodule.cpp $(srcdir)/tournamentold.cpp $(srcdir)/tournamentwidget.cpp  tournamentactive.moc tournamentold.moc tournamentwidget.moc tournamentmodule.moc
-	@echo 'creating libtournament_module_a.all_cpp.cpp ...'; \
-	rm -f libtournament_module_a.all_cpp.files libtournament_module_a.all_cpp.final; \
-	echo "#define KDE_USE_FINAL 1" >> libtournament_module_a.all_cpp.final; \
-	for file in tournamentactive.cpp tournamentmodule.cpp tournamentold.cpp tournamentwidget.cpp ; do \
-	  echo "#include \"$$file\"" >> libtournament_module_a.all_cpp.files; \
-	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> libtournament_module_a.all_cpp.final; \
+lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp  lttoolbox.moc ltlistview.moc formbase.moc
+	@echo 'creating lib_a.all_cpp.cpp ...'; \
+	rm -f lib_a.all_cpp.files lib_a.all_cpp.final; \
+	echo "#define KDE_USE_FINAL 1" >> lib_a.all_cpp.final; \
+	for file in lttoolbox.cpp ltlistview.cpp formbase.cpp ; do \
+	  echo "#include \"$$file\"" >> lib_a.all_cpp.files; \
+	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> lib_a.all_cpp.final; \
 	done; \
-	cat libtournament_module_a.all_cpp.final libtournament_module_a.all_cpp.files > libtournament_module_a.all_cpp.cpp; \
-	rm -f libtournament_module_a.all_cpp.final libtournament_module_a.all_cpp.files
+	cat lib_a.all_cpp.final lib_a.all_cpp.files > lib_a.all_cpp.cpp; \
+	rm -f lib_a.all_cpp.final lib_a.all_cpp.files
 
 #>+ 3
 clean-final:
-	-rm -f libtournament_module_a.all_cpp.cpp
+	-rm -f lib_a.all_cpp.cpp
 
 #>+ 3
 final:
-	$(MAKE) libtournament_module_a_OBJECTS="$(libtournament_module_a_final_OBJECTS)" all-am
+	$(MAKE) lib_a_OBJECTS="$(lib_a_final_OBJECTS)" all-am
 
 #>+ 3
 final-install:
-	$(MAKE) libtournament_module_a_OBJECTS="$(libtournament_module_a_final_OBJECTS)" install-am
+	$(MAKE) lib_a_OBJECTS="$(lib_a_final_OBJECTS)" install-am
 
 #>+ 3
 no-final:
-	$(MAKE) libtournament_module_a_OBJECTS="$(libtournament_module_a_nofinal_OBJECTS)" all-am
+	$(MAKE) lib_a_OBJECTS="$(lib_a_nofinal_OBJECTS)" all-am
 
 #>+ 3
 no-final-install:
-	$(MAKE) libtournament_module_a_OBJECTS="$(libtournament_module_a_nofinal_OBJECTS)" install-am
+	$(MAKE) lib_a_OBJECTS="$(lib_a_nofinal_OBJECTS)" install-am
 
 #>+ 3
 cvs-clean:
@@ -695,14 +675,12 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 11
+#>+ 9
 nmcheck: 
-tournamentmodule.lo: tournamentmodule.moc 
-tournamentwidget.lo: tournamentwidget.moc 
+ltlistview.lo: ltlistview.moc 
+lttoolbox.lo: lttoolbox.moc 
 nmcheck-am: nmcheck
-tournamentactive.o: tournamentactive.moc 
-tournamentwidget.o: tournamentwidget.moc 
-tournamentold.o: tournamentold.moc 
-tournamentmodule.o: tournamentmodule.moc 
-tournamentactive.lo: tournamentactive.moc 
-tournamentold.lo: tournamentold.moc 
+lttoolbox.o: lttoolbox.moc 
+formbase.o: formbase.moc 
+ltlistview.o: ltlistview.moc 
+formbase.lo: formbase.moc 

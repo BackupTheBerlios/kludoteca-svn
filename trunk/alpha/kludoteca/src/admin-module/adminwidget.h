@@ -20,7 +20,7 @@
 #ifndef ADMINWIDGET_H
 #define ADMINWIDGET_H
 
-#include <qtoolbox.h>
+#include "lttoolbox.h"
 #include "adminusers.h"
 #include "admindatabase.h"
 
@@ -29,7 +29,7 @@
  * @short Modulo de administrador
  * @author CetiSoft
 */
-class AdminWidget : public QToolBox
+class AdminWidget : public LTToolBox
 {
 	Q_OBJECT
 

@@ -17,40 +17,60 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef TOURNAMENTWIDGET_H
-#define TOURNAMENTWIDGET_H
+#ifndef LTLISTVIEW_H
+#define LTLISTVIEW_H
 
-#include "lttoolbox.h"
-#include "tournamentactive.h"
-#include "tournamentold.h"
+#include <qvbox.h>
+#include <qhbuttongroup.h>
+#include <kpushbutton.h>
+#include <klistview.h>
+
+class LTListView;
 
 /**
- * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
- * @short Widget con la informacion del los torneos
+ * Esta clase es la base de una lista
+ * @short Clase base para listas.
  * @author CetiSoft
+ * @todo 
+ * - Agregar una forma de añadir titulo e hijos
 */
-class TournamentWidget : public LTToolBox
+class LTListView : public QVBox
 {
 	Q_OBJECT
 	public:
+		enum Button { NoButton = 0, ButtonAdd, ButtonDel, ButtonModify, ButtonQuery };
+    		
+		
 		/**
 		 * Constructor por defecto
 		 */
-    		TournamentWidget(QWidget *parent);
+		LTListView(QWidget *parent = 0, const char *name = 0);
+		
 		/**
-		 * Destructor por defecto
+		 * Constructor que recibe como argumentos los botones que se desean. (en orden)
 		 */
-		~TournamentWidget();
+		LTListView(Button button1 = NoButton, Button button2 = NoButton, Button button3 = NoButton, Button button4 = NoButton, QWidget *parent = 0, const char *name = 0);
+		~LTListView();
+		
+		/**
+		 * Esta funcion crea los botones
+		 */
+		void makeButtons(Button button1, Button button2, Button button3, Button button4);
+		
+		/**
+		 * Esta funcion crea la lista
+		 */
+		void makeList();
+		
+		/**
+		 * Obtiene el listview
+		 */
+		KListView *getListView();
 		
 	private:
-		/**
-		 * Esta funcion sirve para crear los tabs del ToolBox
-		 */
-		void setupTabs();
-		
-	private:
-		TournamentActive *m_tournamentActive;
-		TournamentOld *m_tournamentOld;
+		KListView *m_listView;
+		QHButtonGroup *m_buttons;
+
 };
 
 #endif

@@ -1,4 +1,4 @@
-INCLUDES = $(all_includes)
+INCLUDES = -I$(top_srcdir)/src/lib $(all_includes)
 METASOURCES = AUTO
 noinst_HEADERS = gamesmodule.h gameslist.h formadmingame.h
 noinst_LIBRARIES = libgames-module.a

@@ -16,11 +16,11 @@
     <absoluteprojectpath>false</absoluteprojectpath>
     <description>Herramienta para la gestion de información de una ludoteca.</description>
     <ignoreparts>
-      <part>KDevClearCase</part>
       <part>KDevcopyto</part>
       <part>KDevCTags</part>
-      <part>CvsService</part>
       <part>KDevFileGroups</part>
+      <part>KDevClearCase</part>
+      <part>CvsService</part>
       <part>KDevPerforce</part>
       <part>KDevsubversion</part>
     </ignoreparts>
@@ -153,15 +153,15 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
-      <programargs/>
-      <gdbpath/>
+      <programargs></programargs>
+      <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
     </general>
     <display>
       <staticmembers>false</staticmembers>
@@ -235,6 +235,7 @@
     </codecompletion>
     <references>
       <pcs>Qt</pcs>
+      <pcs>KDElibs</pcs>
     </references>
   </kdevcppsupport>
 </kdevelop>

@@ -17,40 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef TOURNAMENTWIDGET_H
-#define TOURNAMENTWIDGET_H
+#ifndef LTTOOLBOX_H
+#define LTTOOLBOX_H
 
-#include "lttoolbox.h"
-#include "tournamentactive.h"
-#include "tournamentold.h"
+#include <qtoolbox.h>
 
 /**
- * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
- * @short Widget con la informacion del los torneos
- * @author CetiSoft
+Esta es la clase base para construir los toolbox de los modulos
+
+@author CetiSoft
 */
-class TournamentWidget : public LTToolBox
+class LTToolBox : public QToolBox
 {
 	Q_OBJECT
+	
 	public:
-		/**
-		 * Constructor por defecto
-		 */
-    		TournamentWidget(QWidget *parent);
-		/**
-		 * Destructor por defecto
-		 */
-		~TournamentWidget();
+    		LTToolBox(QWidget *parent = 0, const char *name = 0);
+		~LTToolBox();
 		
-	private:
-		/**
-		 * Esta funcion sirve para crear los tabs del ToolBox
-		 */
-		void setupTabs();
 		
-	private:
-		TournamentActive *m_tournamentActive;
-		TournamentOld *m_tournamentOld;
+	protected:
+		/**
+		 * Esta funcion debe ser sobreescrita, en esta funcion se deben hacer los tabs del toolbox
+		 */
+		virtual void setupTabs() = 0;
 };
 
 #endif
