@@ -21,11 +21,11 @@
 #include "ltlistview.h"
 #include <klocale.h>
 
-LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name)
+LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0)
 {
 }
 
-LTListView::LTListView(Button button1, Button button2, Button button3, Button button4, QWidget *parent, const char *name) : QVBox(parent, name)
+LTListView::LTListView(Button button1, Button button2, Button button3, Button button4, QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0)
 {
 	makeList();
 	makeButtons(button1, button2, button3, button4);
@@ -39,6 +39,7 @@ LTListView::~LTListView()
 void LTListView::makeList()
 {
 	m_listView = new KListView(this);
+	connect( m_listView, SIGNAL(executed(QListViewItem* )), this, SLOT(getClickedItem(QListViewItem* )));
 }
 
 void LTListView::makeButtons(Button button1, Button button2, Button button3, Button button4)
@@ -48,29 +49,29 @@ void LTListView::makeButtons(Button button1, Button button2, Button button3, But
 	{
 		case ButtonAdd:
 		{
-			KPushButton *buttonAdd = new KPushButton(i18n("Add"), m_buttons);
-			m_buttons->insert( buttonAdd, button1);
+			m_buttonAdd = new KPushButton(i18n("Add"), m_buttons);
+			m_buttons->insert( m_buttonAdd, button1);
 		}
 		break;
 		
 		case ButtonDel:
 		{
-			KPushButton *buttonDel = new KPushButton(i18n("Delete"), m_buttons);
-			m_buttons->insert( buttonDel, button1);
+			m_buttonDel = new KPushButton(i18n("Delete"), m_buttons);
+			m_buttons->insert( m_buttonDel, button1);
 		}
 		break;
 		
 		case ButtonModify:
 		{
-			KPushButton *buttonModify = new KPushButton(i18n("Modify"), m_buttons);
-			m_buttons->insert( buttonModify, button1);
+			m_buttonModify = new KPushButton(i18n("Modify"), m_buttons);
+			m_buttons->insert( m_buttonModify, button1);
 		}
 		break;
 		
 		case ButtonQuery:
 		{
-			KPushButton *buttonQuery = new KPushButton(i18n("Query"), m_buttons);
-			m_buttons->insert( buttonQuery, button1);
+			m_buttonQuery = new KPushButton(i18n("Query"), m_buttons);
+			m_buttons->insert( m_buttonQuery, button1);
 		}
 		break;
 		
@@ -84,29 +85,29 @@ void LTListView::makeButtons(Button button1, Button button2, Button button3, But
 	{
 		case ButtonAdd:
 		{
-			KPushButton *buttonAdd = new KPushButton(i18n("Add"), m_buttons);
-			m_buttons->insert( buttonAdd, button2);
+			m_buttonAdd = new KPushButton(i18n("Add"), m_buttons);
+			m_buttons->insert( m_buttonAdd, button2);
 		}
 		break;
 		
 		case ButtonDel:
 		{
-			KPushButton *buttonDel = new KPushButton(i18n("Delete"), m_buttons);
-			m_buttons->insert( buttonDel, button2);
+			m_buttonDel = new KPushButton(i18n("Delete"), m_buttons);
+			m_buttons->insert( m_buttonDel, button2);
 		}
 		break;
 		
 		case ButtonModify:
 		{
-			KPushButton *buttonModify = new KPushButton(i18n("Modify"), m_buttons);
-			m_buttons->insert( buttonModify, button2);
+			m_buttonModify = new KPushButton(i18n("Modify"), m_buttons);
+			m_buttons->insert( m_buttonModify, button2);
 		}
 		break;
 		
 		case ButtonQuery:
 		{
-			KPushButton *buttonQuery = new KPushButton(i18n("Query"), m_buttons);
-			m_buttons->insert( buttonQuery, button2);
+			m_buttonQuery = new KPushButton(i18n("Query"), m_buttons);
+			m_buttons->insert( m_buttonQuery, button2);
 		}
 		break;
 		
@@ -120,29 +121,29 @@ void LTListView::makeButtons(Button button1, Button button2, Button button3, But
 	{
 		case ButtonAdd:
 		{
-			KPushButton *buttonAdd = new KPushButton(i18n("Add"), m_buttons);
-			m_buttons->insert( buttonAdd, button3);
+			KPushButton *m_buttonAdd = new KPushButton(i18n("Add"), m_buttons);
+			m_buttons->insert( m_buttonAdd, button3);
 		}
 		break;
 		
 		case ButtonDel:
 		{
-			KPushButton *buttonDel = new KPushButton(i18n("Delete"), m_buttons);
-			m_buttons->insert( buttonDel, button3);
+			m_buttonDel = new KPushButton(i18n("Delete"), m_buttons);
+			m_buttons->insert( m_buttonDel, button3);
 		}
 		break;
 		
 		case ButtonModify:
 		{
-			KPushButton *buttonModify = new KPushButton(i18n("Modify"), m_buttons);
-			m_buttons->insert( buttonModify, button3);
+			m_buttonModify = new KPushButton(i18n("Modify"), m_buttons);
+			m_buttons->insert( m_buttonModify, button3);
 		}
 		break;
 		
 		case ButtonQuery:
 		{
-			KPushButton *buttonQuery = new KPushButton(i18n("Query"), m_buttons);
-			m_buttons->insert( buttonQuery, button3);
+			m_buttonQuery = new KPushButton(i18n("Query"), m_buttons);
+			m_buttons->insert( m_buttonQuery, button3);
 		}
 		break;
 		
@@ -156,29 +157,29 @@ void LTListView::makeButtons(Button button1, Button button2, Button button3, But
 	{
 		case ButtonAdd:
 		{
-			KPushButton *buttonAdd = new KPushButton(i18n("Add"), m_buttons);
-			m_buttons->insert( buttonAdd, button4);
+			m_buttonAdd = new KPushButton(i18n("Add"), m_buttons);
+			m_buttons->insert( m_buttonAdd, button4);
 		}
 		break;
 		
 		case ButtonDel:
 		{
-			KPushButton *buttonDel = new KPushButton(i18n("Delete"), m_buttons);
-			m_buttons->insert( buttonDel, button4);
+			m_buttonDel = new KPushButton(i18n("Delete"), m_buttons);
+			m_buttons->insert( m_buttonDel, button4);
 		}
 		break;
 		
 		case ButtonModify:
 		{
-			KPushButton *buttonModify = new KPushButton(i18n("Modify"), m_buttons);
-			m_buttons->insert( buttonModify, button4);
+			m_buttonModify = new KPushButton(i18n("Modify"), m_buttons);
+			m_buttons->insert( m_buttonModify, button4);
 		}
 		break;
 		
 		case ButtonQuery:
 		{
-			KPushButton *buttonQuery = new KPushButton(i18n("Query"), m_buttons);
-			m_buttons->insert( buttonQuery, button4);
+			m_buttonQuery = new KPushButton(i18n("Query"), m_buttons);
+			m_buttons->insert( m_buttonQuery, button4);
 		}
 		break;
 		
@@ -187,6 +188,15 @@ void LTListView::makeButtons(Button button1, Button button2, Button button3, But
 		}
 		break;
 	}
+	
+	if ( m_buttonAdd )
+		connect(m_buttonAdd, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
+	if (m_buttonDel )
+		connect(m_buttonDel, SIGNAL(clicked()), this, SLOT(delButtonClicked()));
+	if (m_buttonModify)
+		connect(m_buttonModify, SIGNAL(clicked()), this, SLOT(modifyButtonClicked()));
+	if(m_buttonQuery)
+		connect(m_buttonQuery, SIGNAL(clicked()), this, SLOT(queryButtonClicked()));
 }
 
 KListView* LTListView::getListView()

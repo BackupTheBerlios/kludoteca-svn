@@ -23,7 +23,9 @@
 #include <kmdichildview.h>
 
 /**
-@author CetiSoft
+ * Esta clase contiene el widget principal del modulo de juegos
+ * @short Widget principal de Games-Module
+ * @author CetiSoft
 */
 class GamesModule : public KMdiChildView
 {

@@ -121,6 +121,11 @@ class KLudoteca : public KMdiMainFrm
 		void queryGame(QString &game);
 		void setFullScreen();
 		
+		/**
+		 * Esta funcion añade una pagina de modulo
+		 */
+		void addModulePage(KMdiChildView *view);
+		
 	private:
 		void setupAccel();
 		void setupActions();

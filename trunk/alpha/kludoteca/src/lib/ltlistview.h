@@ -24,6 +24,8 @@
 #include <qhbuttongroup.h>
 #include <kpushbutton.h>
 #include <klistview.h>
+#include <kmdichildview.h>
+
 
 class LTListView;
 
@@ -67,10 +69,46 @@ class LTListView : public QVBox
 		 */
 		KListView *getListView();
 		
+	public slots:
+		/**
+		 * Esta funcion nos da el item que fue clickeado
+		 */
+		virtual void getClickedItem(QListViewItem *item) = 0;
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de adicionar
+		 */
+		virtual void addButtonClicked()  = 0;
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de borrar
+		*/
+		virtual void delButtonClicked() = 0;
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de modificar
+		*/
+		virtual void modifyButtonClicked() = 0;
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
+		*/
+		virtual void queryButtonClicked() = 0;
+		
+	signals:
+		/**
+		 * Este signal envia el widget para er puesto en la ventana principal
+		 */
+		virtual void sendWidget(KMdiChildView *) = 0;
+	
 	private:
 		KListView *m_listView;
 		QHButtonGroup *m_buttons;
-
+		
+		KPushButton *m_buttonAdd;
+		KPushButton *m_buttonDel;
+		KPushButton *m_buttonModify;
+		KPushButton *m_buttonQuery;
 };
 
 #endif

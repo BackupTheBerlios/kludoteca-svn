@@ -42,6 +42,13 @@ class TournamentWidget : public LTToolBox
 		 */
 		~TournamentWidget();
 		
+		
+	signals:	
+		/**
+		 * Este signal envia el widget para er puesto en la ventana principal
+		 */
+		void sendWidget(KMdiChildView *);
+		
 	private:
 		/**
 		 * Esta funcion sirve para crear los tabs del ToolBox

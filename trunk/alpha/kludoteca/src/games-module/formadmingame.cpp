@@ -41,7 +41,7 @@ void FormAdminGame::setTitle(QString title)
 void FormAdminGame::setupForm()
 {
 	
-	m_labelTitle = new QLabel(/*i18n("<h1><div align=\"center\">%1</dvi></h1>").arg(title),*/ this,"titulo del formato");
+	m_labelTitle = new QLabel(/*i18n("<h1><div align=\"center\">%1</dvi></h1>").arg(title),*/ this,"Title");
 	//m_grid->addWidget(m_labelTitle,0,1);
 	
 	m_labelExplanation = new QLabel(i18n("<h3>fill the fields for add a new game</h3>"), this);

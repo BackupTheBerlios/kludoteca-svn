@@ -120,14 +120,21 @@ lttoolbox.o: lttoolbox.cpp lttoolbox.h /usr/share/qt3/include/qtoolbox.h \
   /usr/share/qt3/include/qfontmetrics.h \
   /usr/share/qt3/include/qfontinfo.h /usr/share/qt3/include/qsizepolicy.h \
   /usr/share/qt3/include/qiconset.h /usr/share/qt3/include/qpixmap.h \
-  lttoolbox.moc /usr/share/qt3/include/qmetaobject.h \
-  /usr/share/qt3/include/qconnection.h \
-  /usr/share/qt3/include/qapplication.h \
+  /usr/include/kde/kmdichildview.h /usr/share/qt3/include/qapplication.h \
   /usr/share/qt3/include/qdesktopwidget.h \
   /usr/share/qt3/include/qasciidict.h /usr/share/qt3/include/qgdict.h \
-  /usr/share/qt3/include/qtranslator.h \
+  /usr/share/qt3/include/qtranslator.h /usr/share/qt3/include/qdatetime.h \
+  /usr/include/kde/kmdichildfrm.h /usr/share/qt3/include/qpushbutton.h \
+  /usr/share/qt3/include/qbutton.h /usr/share/qt3/include/qkeysequence.h \
+  /usr/share/qt3/include/qlabel.h /usr/share/qt3/include/qlayout.h \
+  /usr/share/qt3/include/qdict.h /usr/include/kde/kmdichildfrmcaption.h \
+  /usr/include/kde/kmdidefines.h lttoolbox.moc \
+  /usr/share/qt3/include/qmetaobject.h \
+  /usr/share/qt3/include/qconnection.h \
   /usr/share/qt3/include/private/qucomextra_p.h \
-  /usr/share/qt3/include/private/qucom_p.h /usr/share/qt3/include/quuid.h
+  /usr/share/qt3/include/private/qucom_p.h /usr/share/qt3/include/quuid.h \
+  /usr/share/qt3/include/qsignalslotimp.h \
+  /usr/share/qt3/include/qptrvector.h /usr/share/qt3/include/qgvector.h
 
 lttoolbox.h:
 
@@ -529,11 +536,7 @@ lttoolbox.h:
 
 /usr/share/qt3/include/qpixmap.h:
 
-lttoolbox.moc:
-
-/usr/share/qt3/include/qmetaobject.h:
-
-/usr/share/qt3/include/qconnection.h:
+/usr/include/kde/kmdichildview.h:
 
 /usr/share/qt3/include/qapplication.h:
 
@@ -545,8 +548,40 @@ lttoolbox.moc:
 
 /usr/share/qt3/include/qtranslator.h:
 
+/usr/share/qt3/include/qdatetime.h:
+
+/usr/include/kde/kmdichildfrm.h:
+
+/usr/share/qt3/include/qpushbutton.h:
+
+/usr/share/qt3/include/qbutton.h:
+
+/usr/share/qt3/include/qkeysequence.h:
+
+/usr/share/qt3/include/qlabel.h:
+
+/usr/share/qt3/include/qlayout.h:
+
+/usr/share/qt3/include/qdict.h:
+
+/usr/include/kde/kmdichildfrmcaption.h:
+
+/usr/include/kde/kmdidefines.h:
+
+lttoolbox.moc:
+
+/usr/share/qt3/include/qmetaobject.h:
+
+/usr/share/qt3/include/qconnection.h:
+
 /usr/share/qt3/include/private/qucomextra_p.h:
 
 /usr/share/qt3/include/private/qucom_p.h:
 
 /usr/share/qt3/include/quuid.h:
+
+/usr/share/qt3/include/qsignalslotimp.h:
+
+/usr/share/qt3/include/qptrvector.h:
+
+/usr/share/qt3/include/qgvector.h:

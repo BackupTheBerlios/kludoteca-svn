@@ -21,11 +21,12 @@
 #include "gameslist.h"
 #include <klocale.h>
 
-GamesList::GamesList(QWidget *parent) : QVBox(parent, "Games")
+using namespace std;
+
+GamesList::GamesList(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(button1, button2, button3, button4, parent, "Games")
 {
 	setCaption(i18n("Games"));
 	setupListView();
-	setupButtons();
 }
 
 
@@ -35,55 +36,74 @@ GamesList::~GamesList()
 
 void GamesList::setupListView()
 {
-	m_gameList = new KListView(this, "ListOfGames");
-	connect ( m_gameList, SIGNAL(executed(QListViewItem* )), this, SLOT(makeQuery(QListViewItem* )));
-	m_gameList->setColumnWidthMode(0, QListView::Maximum);
-	m_gameList->setRootIsDecorated(true);
-	m_gameList->addColumn(i18n("Games"));
-	m_gameList->setAutoOpen(true);
-	
-	// FIXME: esto es un ejemplo, los siguientes datos deben llenarse desde la base de datos.
-	KListViewItem *itemBoard = new KListViewItem(m_gameList, "Board");
-	m_gameList->insertItem(itemBoard);
-	KListViewItem *itemChess = new KListViewItem(itemBoard, "Chess");
-	itemBoard->insertItem(itemChess);
-	KListViewItem *itemParkes = new KListViewItem(itemBoard, "Parkes");
-	itemBoard->insertItem(itemParkes);
-	
-	KListViewItem *itemVideo = new KListViewItem(m_gameList, "Video");
-	m_gameList->insertItem(itemVideo);
-	KListViewItem *itemTetris = new KListViewItem(itemVideo, "Tetris");
-	itemVideo->insertItem(itemTetris);
-	
-	KListViewItem *itemField = new KListViewItem(m_gameList, "Field");
-	m_gameList->insertItem(itemField);
-	KListViewItem *itemTennis = new KListViewItem(itemField, "Tennis");
-	itemField->insertItem(itemTennis);
-	
-	m_gameCategories << "Board" << "Video" << "Field" ;
-	
-	m_gameList->show();
-}
-
-void GamesList::setupButtons()
-{
-	m_buttonBox = new QHBox(this);
-	m_addGame = new KPushButton(i18n("Add"), m_buttonBox);
-	m_delGame = new KPushButton(i18n("Delete"), m_buttonBox);
-	m_queryGame = new KPushButton(i18n("Query"), m_buttonBox);
-	m_editGame = new KPushButton(i18n("Edit"), m_buttonBox);
+// 	m_gameList = new LTListView(this, "ListOfGames");
+// 	connect ( m_gameList, SIGNAL(executed(QListViewItem* )), this, SLOT(makeQuery(QListViewItem* )));
+// 	
+// 	m_gameList->setColumnWidthMode(0, QListView::Maximum);
+// 	m_gameList->setRootIsDecorated(true);
+// 	m_gameList->addColumn(i18n("Games"));
+// 	m_gameList->setAutoOpen(true);
+// 	
+// 	// FIXME: esto es un ejemplo, los siguientes datos deben llenarse desde la base de datos.
+// 	KListViewItem *itemBoard = new KListViewItem(m_gameList, "Board");
+// 	m_gameList->insertItem(itemBoard);
+// 	KListViewItem *itemChess = new KListViewItem(itemBoard, "Chess");
+// 	itemBoard->insertItem(itemChess);
+// 	KListViewItem *itemParkes = new KListViewItem(itemBoard, "Parkes");
+// 	itemBoard->insertItem(itemParkes);
+// 	
+// 	KListViewItem *itemVideo = new KListViewItem(m_gameList, "Video");
+// 	m_gameList->insertItem(itemVideo);
+// 	KListViewItem *itemTetris = new KListViewItem(itemVideo, "Tetris");
+// 	itemVideo->insertItem(itemTetris);
+// 	
+// 	KListViewItem *itemField = new KListViewItem(m_gameList, "Field");
+// 	m_gameList->insertItem(itemField);
+// 	KListViewItem *itemTennis = new KListViewItem(itemField, "Tennis");
+// 	itemField->insertItem(itemTennis);
+// 	
+// 	m_gameCategories << "Board" << "Video" << "Field" ;
+// 	
+// 	m_gameList->show();
 }
 
 void GamesList::addGame(const QString &game)
 {
 }
 
-void GamesList::makeQuery(QListViewItem *item)
+void GamesList::getClickedItem(QListViewItem *item)
 {
 	QString game = item->text(0);
 	
 	if ( m_gameCategories.find(game) == m_gameCategories.end() )
 		emit query(game);
+}
+
+void GamesList::addButtonClicked()
+{
+	cout << "Add button clicked" << std::endl;
+	KMdiChildView *view = new KMdiChildView(i18n("Add game"), this );
+	
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	FormAdminGame *formAdminGame = new FormAdminGame(i18n("Admin game"), view);
+	
+	emit sendWidget(view);
+}
+
+void GamesList::delButtonClicked()
+{
+	cout << "del button clicked" << std::endl;
+}
+
+void GamesList::modifyButtonClicked()
+{
+	cout << "modify button clicked" << std::endl;
+}
+
+void GamesList::queryButtonClicked()
+{
+	cout << "query button clicked" << std::endl;
 }
 
 #include "gameslist.moc"

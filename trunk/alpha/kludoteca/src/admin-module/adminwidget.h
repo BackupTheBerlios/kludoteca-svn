@@ -43,6 +43,13 @@ class AdminWidget : public LTToolBox
 		 */
 		~AdminWidget();
 		
+		
+	signals:
+		/**
+		 * Este signal envia el widget para er puesto en la ventana principal
+		 */
+		void sendWidget(KMdiChildView *);
+		
 	private:
 		/**
 		 * Esta funcion crea los diferentes tabs que contiene el modulo administrador

@@ -22,7 +22,7 @@
 #include <klocale.h>
 
 
-FormBase::FormBase( QWidget *parent, const char *name): QVBox(parent, name)
+FormBase::FormBase( QWidget *parent, const char *name): QVBox(parent, name), m_accept(0), m_cancel(0)
 {
 	
 	m_labelTitle = new QLabel(this);
@@ -31,7 +31,7 @@ FormBase::FormBase( QWidget *parent, const char *name): QVBox(parent, name)
 	setupButtons(AcceptButton, CancelButton);
 }
 
-FormBase::FormBase( Button button1, Button button2, QWidget *parent, const char *name) : QVBox(parent, name)
+FormBase::FormBase( Button button1, Button button2, QWidget *parent, const char *name) : QVBox(parent, name), m_accept(0), m_cancel(0)
 {
 	m_labelTitle = new QLabel(this);
 	m_labelExplanation = new QLabel(this);
@@ -99,8 +99,10 @@ void FormBase::setupButtons(Button button1, Button button2)
 		break;
 	}
 
-	connect(m_accept, SIGNAL(clicked()),this, SLOT(accept()));
-	connect(m_cancel, SIGNAL(clicked()),this, SLOT(cancel()));
+	if (m_accept)
+		connect(m_accept, SIGNAL(clicked()),this, SLOT(accept()));
+	if(m_cancel)
+		connect(m_cancel, SIGNAL(clicked()),this, SLOT(cancel()));
 }
 
 void FormBase::setTextAcceptButton(QString newText)

@@ -12,8 +12,8 @@ INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module \
 kludoteca_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 # the libraries to link against.
-kludoteca_LDADD = $(top_builddir)/src/tournament-module/libtournament-module.a \
-	$(top_builddir)/src/admin-module/libadmin-module.a $(top_builddir)/src/games-module/libgames-module.a \
+kludoteca_LDADD = $(top_builddir)/src/games-module/libgames-module.a \
+	$(top_builddir)/src/tournament-module/libtournament-module.a $(top_builddir)/src/admin-module/libadmin-module.a \
 	$(top_builddir)/src/lib/lib.a $(LIB_KFILE) $(LIB_KDEPRINT) -lkmdi
 
 # which sources should be compiled for kludoteca

@@ -22,34 +22,40 @@
 #define GAMESLIST_H
 
 #include <qvbox.h>
-#include <qhbox.h>
+#include <qhbuttongroup.h>
 #include <klistview.h>
 #include <kpushbutton.h>
+#include <qlayout.h>
+#include <kmdichildview.h>
+
+// Std lib
+#include <iostream>
+
+// Own lib!
+#include "ltlistview.h"
+#include "formadmingame.h"
+
+class LTListView;
 
 /**
  * Esta clase es un toolWindow que visualiza los juegos que hay en la ludoteca, esta provee un mecanismo para gestionar los juegos, permite añadir y eliminar los juegos, asi como consultar la información de un juego determinado.
  * @short Lista de juegos
  * @author CetiSoft
 */
-class GamesList : public QVBox
+class GamesList : public LTListView
 {
 	Q_OBJECT
 	public:
 		/**
 		 * Constructor por defecto
 		 */
-		GamesList(QWidget *parent = 0);
+		GamesList(Button button1 = NoButton, Button button2 = NoButton, Button button3 = NoButton, Button button4 = NoButton, QWidget *parent = 0);
 		
 		/**
 		 * Destructor por defecto.
 		 */
 		~GamesList();
-		
-		/**
-		 * Crea los botones
-		 */
-		void setupButtons();
-		
+
 		/**
 		 * Crea la lista
 		 */
@@ -64,7 +70,27 @@ class GamesList : public QVBox
 		/**
 		 * Este slot se encarga de emitir el signal query(QString name)
 		 */
-		void makeQuery(QListViewItem *item);
+		void getClickedItem(QListViewItem *item);
+		
+		/**
+		 * Este es la accion que se realiza cuando se pulsa el primer boton
+		 */
+		void addButtonClicked();
+		
+		/**
+		 * Este es la accion que se realiza cuando se pulsa el segundo boton
+		 */
+		void delButtonClicked();
+		
+		/**
+		 * Este es la accion que se realiza cuando se pulsa el tercer boton
+		 */
+		void modifyButtonClicked();
+		
+		/**
+		 * Este es la accion que se realiza cuando se pulsa el cuarto boton
+		 */
+		void queryButtonClicked();
 		
 	signals:
 		/**
@@ -72,13 +98,12 @@ class GamesList : public QVBox
 		 */
 		void query(QString &name);
 		
+		/**
+		 * Este signal envia el widget para er puesto en la ventana principal
+		 */
+		void sendWidget(KMdiChildView *);
+		
 	private:
-		QHBox *m_buttonBox;
-		KPushButton *m_addGame;
-		KPushButton *m_delGame;
-		KPushButton *m_queryGame;
-		KPushButton *m_editGame;
-		KListView *m_gameList;
 		QStringList m_gameCategories;
 		
 };

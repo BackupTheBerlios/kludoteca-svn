@@ -130,15 +130,21 @@ ltlistview.o: ltlistview.cpp ltlistview.h /usr/share/qt3/include/qvbox.h \
   /usr/include/kde/klistview.h /usr/share/qt3/include/qlistview.h \
   /usr/share/qt3/include/qscrollview.h \
   /usr/share/qt3/include/qscrollbar.h \
-  /usr/share/qt3/include/qrangecontrol.h /usr/include/kde/klocale.h \
-  ltlistview.moc /usr/share/qt3/include/qmetaobject.h \
-  /usr/share/qt3/include/qconnection.h \
+  /usr/share/qt3/include/qrangecontrol.h /usr/include/kde/kmdichildview.h \
   /usr/share/qt3/include/qapplication.h \
   /usr/share/qt3/include/qdesktopwidget.h \
   /usr/share/qt3/include/qasciidict.h /usr/share/qt3/include/qgdict.h \
-  /usr/share/qt3/include/qtranslator.h \
+  /usr/share/qt3/include/qtranslator.h /usr/share/qt3/include/qdatetime.h \
+  /usr/include/kde/kmdichildfrm.h /usr/share/qt3/include/qlabel.h \
+  /usr/share/qt3/include/qlayout.h /usr/share/qt3/include/qdict.h \
+  /usr/include/kde/kmdichildfrmcaption.h /usr/include/kde/kmdidefines.h \
+  /usr/include/kde/klocale.h ltlistview.moc \
+  /usr/share/qt3/include/qmetaobject.h \
+  /usr/share/qt3/include/qconnection.h \
   /usr/share/qt3/include/private/qucomextra_p.h \
-  /usr/share/qt3/include/private/qucom_p.h /usr/share/qt3/include/quuid.h
+  /usr/share/qt3/include/private/qucom_p.h /usr/share/qt3/include/quuid.h \
+  /usr/share/qt3/include/qsignalslotimp.h \
+  /usr/share/qt3/include/qptrvector.h /usr/share/qt3/include/qgvector.h
 
 ltlistview.h:
 
@@ -576,13 +582,7 @@ ltlistview.h:
 
 /usr/share/qt3/include/qrangecontrol.h:
 
-/usr/include/kde/klocale.h:
-
-ltlistview.moc:
-
-/usr/share/qt3/include/qmetaobject.h:
-
-/usr/share/qt3/include/qconnection.h:
+/usr/include/kde/kmdichildview.h:
 
 /usr/share/qt3/include/qapplication.h:
 
@@ -594,8 +594,36 @@ ltlistview.moc:
 
 /usr/share/qt3/include/qtranslator.h:
 
+/usr/share/qt3/include/qdatetime.h:
+
+/usr/include/kde/kmdichildfrm.h:
+
+/usr/share/qt3/include/qlabel.h:
+
+/usr/share/qt3/include/qlayout.h:
+
+/usr/share/qt3/include/qdict.h:
+
+/usr/include/kde/kmdichildfrmcaption.h:
+
+/usr/include/kde/kmdidefines.h:
+
+/usr/include/kde/klocale.h:
+
+ltlistview.moc:
+
+/usr/share/qt3/include/qmetaobject.h:
+
+/usr/share/qt3/include/qconnection.h:
+
 /usr/share/qt3/include/private/qucomextra_p.h:
 
 /usr/share/qt3/include/private/qucom_p.h:
 
 /usr/share/qt3/include/quuid.h:
+
+/usr/share/qt3/include/qsignalslotimp.h:
+
+/usr/share/qt3/include/qptrvector.h:
+
+/usr/share/qt3/include/qgvector.h:

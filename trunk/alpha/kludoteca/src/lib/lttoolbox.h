@@ -21,11 +21,11 @@
 #define LTTOOLBOX_H
 
 #include <qtoolbox.h>
+#include <kmdichildview.h>
 
 /**
-Esta es la clase base para construir los toolbox de los modulos
-
-@author CetiSoft
+ * Esta es la clase base para construir los toolbox de los modulos
+ * @author CetiSoft
 */
 class LTToolBox : public QToolBox
 {
@@ -35,6 +35,11 @@ class LTToolBox : public QToolBox
     		LTToolBox(QWidget *parent = 0, const char *name = 0);
 		~LTToolBox();
 		
+	signals:
+		/**
+		 * Este signal envia el widget para er puesto en la ventana principal
+		 */
+		virtual void sendWidget(KMdiChildView *) = 0;
 		
 	protected:
 		/**

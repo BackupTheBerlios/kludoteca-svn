@@ -110,6 +110,11 @@ void KLudoteca::setupActions()
 	createGUI(0);
 }
 
+void KLudoteca::addModulePage(KMdiChildView *view)
+{
+	addWindow(view);
+}
+
 void KLudoteca::setFullScreen()
 {
 	if ( ! this->isFullScreen() )
@@ -120,14 +125,20 @@ void KLudoteca::setFullScreen()
 
 void KLudoteca::setupToolWindows()
 {
+	// TODO: push the modules in the GUI depend of the user permission's 
+	
+	// Add thge admin module
 	m_adminWidget = new AdminWidget(this);
 	m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
 	
-	m_gamesList = new GamesList(this);
+	// Add the game module
+	m_gamesList = new GamesList(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+	connect(m_gamesList, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 	connect (m_gamesList, SIGNAL(query(QString &)), this, SLOT(queryGame(QString &)));
 	
 	m_toolWindows << addToolWindow( m_gamesList, KDockWidget::DockLeft, getMainDockWidget() );
 	
+	// Add tournament module
 	m_tournamentWidget = new TournamentWidget(this);
 	
 	m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
@@ -292,7 +303,6 @@ void KLudoteca::changeCaption(const QString& text)
 
 void KLudoteca::queryGame(QString &game)
 {
-//	qDebug(QString("Se desea consultar el juego: %1").arg(game));
 	// TODO: verficiar el estado del juego en la base de datos.
 	showNotice( i18n("The game %1 is avalaible" ).arg(game) );
 }

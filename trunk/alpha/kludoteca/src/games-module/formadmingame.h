@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef FORMADMINGAME_H
 #define FORMADMINGAME_H
 
@@ -34,37 +35,14 @@
 #include <kpushbutton.h>
 
 /**
-@author CetiSoft
+ * Este es el formumario para añadir juegos
+ * @short Formulario para añadir juegos
+ * @author CetiSoft
+ * @todo - Heredar de FormBase
 */
 class FormAdminGame : public QVBox
 {
 	Q_OBJECT
-	private:
-		
-		QFrame *form;
-		QHBox *buttons;
-		
-		QLabel *m_labelTitle, *m_labelExplanation, *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNPlayerGame, *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd;
-		
-		KLineEdit *m_nameGame;
-		KTextEdit *m_descriptionGame, *m_rulesGame ;
-		
-		//FIXME: la unidad de tiempo adicional se captura por un combobox?
-		
-		KComboBox *m_typeGame, *m_unitTime, *m_timeAdd;
-		KIntSpinBox *m_nPlayerGame;
-		KDoubleNumInput *m_costUnit;
-		KPushButton *m_done, *m_cancel;
-		
-		/**
-		 * Crea el formulario
-		 */
-		void setupForm();
-		
-		/**
-		 * Crea el el panel de los botones
-		 */
-		void setupButton();
 	
 	public:
 		/**
@@ -92,6 +70,33 @@ class FormAdminGame : public QVBox
 	public slots:
 		//void clearFields();
 		void done();
+		
+	private:
+		
+		QFrame *form;
+		QHBox *buttons;
+		
+		QLabel *m_labelTitle, *m_labelExplanation, *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNPlayerGame, *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd;
+		
+		KLineEdit *m_nameGame;
+		KTextEdit *m_descriptionGame, *m_rulesGame ;
+		
+		//FIXME: la unidad de tiempo adicional se captura por un combobox?
+		
+		KComboBox *m_typeGame, *m_unitTime, *m_timeAdd;
+		KIntSpinBox *m_nPlayerGame;
+		KDoubleNumInput *m_costUnit;
+		KPushButton *m_done, *m_cancel;
+		
+		/**
+		 * Crea el formulario
+		 */
+		void setupForm();
+		
+		/**
+		 * Crea el el panel de los botones
+		 */
+		void setupButton();
 };
 
 #endif

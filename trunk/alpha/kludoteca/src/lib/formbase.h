@@ -91,7 +91,13 @@ class FormBase : public QVBox
 		
 		
 	public slots:
+		/**
+		 * Esta es la accion predeterminada cuando se presiona el boton aceptar
+		 */
 		virtual void accept() = 0;
+		/**
+		 * Esta es la accion predeterminada cuando se presiona el boton cancelar
+		 */
 		virtual void cancel() = 0;
 		
 	private:
