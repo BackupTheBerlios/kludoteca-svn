@@ -120,7 +120,6 @@ FILE_PATTERNS          = *.c \
                          *.tlh \
                          *.diff \
                          *.patch \
-                         *.moc \
                          *.xpm \
                          *.dox
 RECURSIVE              = YES
@@ -152,7 +151,7 @@ IGNORE_PREFIX          =
 # configuration options related to the HTML output
 #---------------------------------------------------------------------------
 GENERATE_HTML          = YES
-HTML_OUTPUT            = html
+HTML_OUTPUT            = /tmp/html
 HTML_FILE_EXTENSION    = .html
 HTML_HEADER            = 
 HTML_FOOTER            = 

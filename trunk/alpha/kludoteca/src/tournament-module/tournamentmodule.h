@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
 #ifndef TOURNAMENTMODULE_H
 #define TOURNAMENTMODULE_H
 
@@ -31,7 +32,13 @@ class TournamentModule : public QWidget
 {
 	Q_OBJECT
 	public:
+		 /**
+		 * Constructor por defecto
+		 */
     		TournamentModule(QWidget *parent = 0);
+		/**
+		 * Destructor por defecto
+		 */
 		~TournamentModule();
 };
 

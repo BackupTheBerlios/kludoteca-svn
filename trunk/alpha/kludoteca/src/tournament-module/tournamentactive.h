@@ -17,21 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
 #ifndef TOURNAMENTACTIVE_H
 #define TOURNAMENTACTIVE_H
 
 #include <qvbox.h>
 
 /**
-En este widget tenemos los torneos activos
-
-@author CetiSoft
+ * En este widget tenemos los torneos activos
+ * @author CetiSoft
 */
 class TournamentActive : public QVBox
 {
 	Q_OBJECT
 	public:
+		/**
+		 * Constructor por defecto
+		 */
     		TournamentActive(QWidget *parent = 0);
+		/**
+		 * Destructor por defecto
+		 */
     		~TournamentActive();
 
 };

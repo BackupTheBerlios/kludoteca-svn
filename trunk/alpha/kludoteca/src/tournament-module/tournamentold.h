@@ -17,21 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
 #ifndef TOURNAMENTOLD_H
 #define TOURNAMENTOLD_H
 
 #include <qvbox.h>
 
 /**
-En esta clase tenemos los torneos pasados
-
-@author CetiSoft
+ * En esta clase tenemos los torneos pasados
+ * @author CetiSoft
 */
 class TournamentOld : public QVBox
 {
 	Q_OBJECT
 	public:
+		/**
+		 * Constructor por defecto
+		 */
     		TournamentOld(QWidget *parent = 0);
+		/**
+		 * Constructor por defecto
+		 */
     		~TournamentOld();
 
 };

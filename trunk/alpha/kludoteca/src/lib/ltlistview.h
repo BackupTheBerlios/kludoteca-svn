@@ -30,7 +30,13 @@
 class LTListView;
 
 /**
- * Esta clase es la base de una lista
+ * Esta clase es la base para crear un widget con una lista y un panel de botones para el manejo de la misma, de esta clase se deben sobreescribir varios metodos, los cuales son:
+ * 
+ * getClickedItem(): El cual recibe el item de la lista que fue clickeado.
+ * xButtonClicked(): Las acciones que se realizan cuando el boton @b x fue clickeado
+ * 
+ * y se debe crear el signal que se llame sendWidget(KMdiChildView *), la idea es conectar este signal al slot addModulePage(KMdiChildView *), y pasar el widget construido para ponerlo como vista en la ventana principal.
+ * 
  * @short Clase base para listas.
  * @author CetiSoft
  * @todo 

@@ -1,31 +1,13 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="8" >
-  <Doc0 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/games-module/formadmingame.h" >
+ <DocsAndViews NumberOfDocuments="2" >
+  <Doc0 NumberOfViews="1" URL="file:/afs/eisc.univalle.edu.co/user/pregrado/2002/dcuadra/Proyectos/kludoteca/src/lib/lttoolbox.h" >
    <View0 line="0" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/games-module/formadmingame.cpp" >
-   <View0 line="0" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:/afs/eisc.univalle.edu.co/user/pregrado/2002/dcuadra/Proyectos/kludoteca/src/lib/ltlistview.h" >
+   <View0 line="37" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/games-module/gamesmodule.h" >
-   <View0 line="10" Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/games-module/gamesmodule.cpp" >
-   <View0 line="0" Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/games-module/gameslist.h" >
-   <View0 line="83" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/games-module/gameslist.cpp" >
-   <View0 line="38" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/lib/ltlistview.h" >
-   <View0 line="77" Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/lib/ltlistview.cpp" >
-   <View0 line="198" Type="Source" />
-  </Doc7>
  </DocsAndViews>
  <pluginList>
   <kdevbookmarks>

@@ -34,7 +34,26 @@
 #include <qscrollview.h>
 
 /**
- * Clase base para crear formularios
+ * Esta clase esta diseñada para estandarizar los formularios de las aplicaciones, para realizar cualquier fomulario de la aplicacion es necesario heredar de esta clase, y sobreescribir algunos metodos:
+ * 
+ * setupForm(): Este metodo se sobreescribe con la implementación de la forma
+ * 
+ * accept(): Esta funcion se sobreescribe con las acciones que se desean hacer cuando el boton de aceptar sea presionado.
+ * 
+ * cancel(): El comportamiento de esta funcion es similar a accept(), pero las acciones se realizan cuando se presiona el boton cancelar.
+ * 
+ * Ademas, para agregar los botones se debe invocar al metodo setupButtons() con los botones que se desean, las opciones son las siguientes:
+ * - NoButton
+ * - AcceptButton
+ * - CancelButton
+ * 
+ * Por otro lado, se incluyen funciones para crear formas, como:
+ * 
+ * setupLineEdit(): Esta funcion recibe un padre, un texto y una tamaño y retorna un widget con una etiqueta y una linea de lectura (KLineEdit) con un tamaño.  
+ * 
+ * setupGridLineEdit(): Esta funcion recibe un padre y una lista de texto y un tamaño y retorna un widget con un bloque de etiquetas y su respectiva linea de lectura (KLineEdit) con el tamaño definido.
+ * 
+ * @short Clase base para crear formularios
  * @author CetiSoft
 */
 class FormBase : public QVBox

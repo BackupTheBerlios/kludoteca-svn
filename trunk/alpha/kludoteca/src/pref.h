@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #ifndef _KLUDOTECAPREF_H_
 #define _KLUDOTECAPREF_H_
 
@@ -28,10 +27,17 @@
 class KLudotecaPrefPageOne;
 class KLudotecaPrefPageTwo;
 
+/**
+ * @short Preferencias de la aplicacion
+ * @author CetiSoft
+ */
 class KLudotecaPreferences : public KDialogBase
 {
     	Q_OBJECT
 	public:
+		/**
+		 * Constructor por defecto
+		 */
     		KLudotecaPreferences();
 
 	private:
@@ -39,17 +45,31 @@ class KLudotecaPreferences : public KDialogBase
     		KLudotecaPrefPageTwo *m_pageTwo;
 };
 
+/**
+ * @short Pagina uno de configuracion
+ * @author CetiSoft
+ */
 class KLudotecaPrefPageOne : public QFrame
 {
     	Q_OBJECT
 	public:
+		/**
+		 * Constructor por defecto
+		 */
     		KLudotecaPrefPageOne(QWidget *parent = 0);
 };
 
+/**
+ * @short Pagina dos de configuracion
+ * @author CetiSoft
+ */
 class KLudotecaPrefPageTwo : public QFrame
 {
     	Q_OBJECT
 	public:
+		/**
+		 * Constructor por defecto
+		 */
    	 	KLudotecaPrefPageTwo(QWidget *parent = 0);
 };
 
