@@ -93,7 +93,12 @@ class FormBase : public QVBox
 		/**
 		 * Esta funcion toma un texto y hace un label con un line edit
 		 */
-		QWidget *setupLineEdit(QWidget *parent, QString text, int lineEditWidth);
+		QWidget *setupLineEdit(QWidget *parent, QString text, int lineEditWidth = 200);
+		
+		/**
+		 * Esta funcion crea un formulario cuadrado con etiqueta y captador de texto
+		 */
+		void *setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth = 200); 
 		
 		
 	public slots:

@@ -593,7 +593,7 @@ clean-metasources:
 	-rm -f  clientswidget.moc formadminclients.moc
 
 #>+ 2
-KDE_DIST=Makefile.in libclients-module.a 
+KDE_DIST=Makefile.in 
 
 #>+ 2
 docs-am:

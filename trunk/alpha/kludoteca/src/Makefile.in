@@ -262,9 +262,9 @@ xdg_menudir = @xdg_menudir@
 bin_PROGRAMS = kludoteca
 
 # set the include path for X, qt and KDE
-INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module \
-	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module \
-	-I$(top_srcdir)/src/clients-module $(all_includes)
+INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/clients-module \
+	-I$(top_srcdir)/src/games-module -I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module \
+	$(all_includes)
 
 
 # the library search path. 
@@ -297,7 +297,7 @@ kdelnk_DATA = kludoteca.desktop
 rcdir = $(kde_datadir)/kludoteca
 rc_DATA = kludotecaui.rc
 
-SUBDIRS = games-module admin-module tournament-module lib clients-module
+SUBDIRS = games-module admin-module tournament-module clients-module lib
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
@@ -882,7 +882,7 @@ bcheck-am:
 
 
 #>+ 11
-kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
+kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
 	@echo 'creating kludoteca.all_cpp.cpp ...'; \
 	rm -f kludoteca.all_cpp.files kludoteca.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> kludoteca.all_cpp.final; \

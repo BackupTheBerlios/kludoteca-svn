@@ -131,4 +131,19 @@ QWidget *FormBase::setupLineEdit(QWidget *parent, QString text, int lineEditWidt
 	return widget;
 }
 
+void *FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth)
+{
+	QGridLayout *layout = new QGridLayout(parent, texts.count(), 2);
+	
+	for (int i = 0; i < texts.count(); i++)
+	{
+		QLabel *labTmp = new QLabel(texts[i], parent);
+		KLineEdit *lineEditTmp = new KLineEdit(parent);
+		lineEditTmp->setMaximumWidth(lineEditWidth);
+		labTmp->setBuddy(lineEditTmp);
+		layout->addWidget(labTmp, i, 0);
+		layout->addWidget(lineEditTmp, i, 1);
+	}
+}
+
 #include "formbase.moc"
