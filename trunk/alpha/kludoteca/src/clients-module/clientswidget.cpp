@@ -48,7 +48,7 @@ void ClientsWidget::addButtonClicked()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	FormAdminClients *formAdminClients = new FormAdminClients( scroll->viewport() );
 	scroll->addChild(formAdminClients);
-	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	
 	formAdminClients->setTitle(i18n("Admin Clients"));
 	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
 	

@@ -155,6 +155,7 @@ void KLudoteca::setupToolWindows()
 	
 	// Add tournament module
 	m_tournamentWidget = new TournamentWidget(this);
+	connect(m_tournamentWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 	m_tournamentWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/tournamenticon.png" )) );
 	
 	m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );

@@ -1,4 +1,6 @@
-INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/clients-module 	-I$(top_srcdir)/src/games-module -I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module 	$(all_includes)
+INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/clients-module \
+	-I$(top_srcdir)/src/games-module -I$(top_srcdir)/src/lib -I$(top_srcdir)/src/tournament-module \
+	-I$(top_srcdir)/src/bd-module $(all_includes)
 METASOURCES = AUTO
 noinst_LIBRARIES = libbd-module.a
 noinst_HEADERS = bdconnection.h

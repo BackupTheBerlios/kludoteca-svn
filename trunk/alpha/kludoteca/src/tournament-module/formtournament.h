@@ -17,52 +17,76 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef TOURNAMENTWIDGET_H
-#define TOURNAMENTWIDGET_H
 
-#include "lttoolbox.h"
-#include "tournamentactive.h"
-#include "tournamentold.h"
+#ifndef FORMTOURNAMENT_H
+#define FORMTOURNAMENT_H
+
+#include <qvbox.h>
+#include <qhbox.h>
+#include <qlabel.h>
+#include <qstring.h>
+#include <qframe.h> 
+#include <qlayout.h>
+
+#include <klineedit.h>
+#include <ktextedit.h>
+#include <kcombobox.h>
+#include <knuminput.h>
 #include <kpushbutton.h>
-#include "formtournament.h"
+#include <knuminput.h>
+#include <kdatepicker.h>
+#include <kdatewidget.h>
+
+#include "formbase.h"
+
+class FormBase;
 
 /**
- * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
- * @short Widget con la informacion del los torneos
- * @author CetiSoft
+@author CetiSoft
 */
-class TournamentWidget : public LTToolBox
-{
+class FormTournament : public FormBase
+{	
 	Q_OBJECT
+
 	public:
-		/**
-		 * Constructor por defecto
-		 */
-    		TournamentWidget(QWidget *parent);
-		/**
-		 * Destructor por defecto
-		 */
-		~TournamentWidget();
-		
-		
-	signals:	
-		/**
-		 * Este signal envia el widget para er puesto en la ventana principal
-		 */
-		void sendWidget(KMdiChildView *);
-		
-	private:
-		/**
-		 * Esta funcion sirve para crear los tabs del ToolBox
-		 */
-		void setupTabs();
-		
+		FormTournament(QWidget *parent = 0);
+		~FormTournament();
+		void setupForm();
+		void fillField(QString nameTournament, QString nameGame, double inscription, double discount);
+	
 	public slots:
-		void addTournament();
-		
+		void accept();
+		void cancel();
+	
 	private:
-		TournamentActive *m_tournamentActive;
-		TournamentOld *m_tournamentOld;
+		
+		QFrame *form;
+		QGridLayout *m_grid;
+		KLineEdit 	*m_nameTournament, 
+				*m_nameGame,
+				*m_valueInscrip,
+				*m_discountInscrip;
+		
+		QLabel		
+			*m_nameTourLabel,
+			*m_nameGameLabel,
+			*m_valueInscripLabel,
+			*m_discountLabel,
+			*m_roundsGame,
+			*m_gamesPlayers,
+			*m_dateBegin,
+			*m_dateEnd;
+		
+		QGridLayout	*m_maingridLayout;
+		KComboBox	*m_combox;
+		
+		KIntSpinBox *m_round, *m_gamesPair;//partidas por pareja
+		KDatePicker *m_dateTournament;
+		KDateWidget *m_endDate;
+				
+		void setupButtonsBox();
+		void setupBox();	
+
 };
 
 #endif
