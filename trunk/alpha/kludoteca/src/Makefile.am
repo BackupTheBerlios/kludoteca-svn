@@ -43,6 +43,7 @@ rcdir = $(kde_datadir)/kludoteca
 rc_DATA = kludotecaui.rc
 
 
-SUBDIRS = games-module admin-module tournament-module clients-module lib
+SUBDIRS = games-module admin-module tournament-module clients-module lib \
+	bd-module
 kldiconsdir = $(kde_datadir)/kludoteca/icons
 kldicons_DATA = adminicon.png clientsicon.png gamesicon.png tournamenticon.png

@@ -601,7 +601,7 @@ clean-metasources:
 	-rm -f  gamesmodule.moc gameslist.moc formadmingame.moc
 
 #>+ 2
-KDE_DIST=Makefile.in 
+KDE_DIST=Makefile.in libgames-module.a 
 
 #>+ 2
 docs-am:

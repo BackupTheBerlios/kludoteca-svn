@@ -609,7 +609,7 @@ clean-metasources:
 	-rm -f  lttoolbox.moc ltlistview.moc formbase.moc
 
 #>+ 2
-KDE_DIST=Makefile.in ltlistview.loT kludotecaiface.skel 
+KDE_DIST=kludotecaiface.kidl Makefile.in ltlistview.loT kludotecaiface.skel lib.a 
 
 #>+ 4
 clean-idl:
@@ -649,7 +649,7 @@ bcheck-am:
 
 
 #>+ 11
-lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp kludotecaiface_skel.cpp  lttoolbox.moc ltlistview.moc formbase.moc
+lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp $(srcdir)/kludotecaiface_skel.cpp  lttoolbox.moc ltlistview.moc formbase.moc
 	@echo 'creating lib_a.all_cpp.cpp ...'; \
 	rm -f lib_a.all_cpp.files lib_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> lib_a.all_cpp.final; \

@@ -31061,6 +31061,8 @@ done
 
           ac_config_files="$ac_config_files src/admin-module/Makefile"
 
+          ac_config_files="$ac_config_files src/bd-module/Makefile"
+
           ac_config_files="$ac_config_files src/clients-module/Makefile"
 
           ac_config_files="$ac_config_files src/games-module/Makefile"
@@ -31638,6 +31640,7 @@ do
   "po/Makefile" ) CONFIG_FILES="$CONFIG_FILES po/Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "src/admin-module/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/admin-module/Makefile" ;;
+  "src/bd-module/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/bd-module/Makefile" ;;
   "src/clients-module/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/clients-module/Makefile" ;;
   "src/games-module/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/games-module/Makefile" ;;
   "src/lib/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/lib/Makefile" ;;

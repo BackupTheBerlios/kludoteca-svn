@@ -619,7 +619,7 @@ clean-metasources:
 	-rm -f  formadminusers.moc adminusers.moc admindatabase.moc adminwidget.moc
 
 #>+ 2
-KDE_DIST=Makefile.in 
+KDE_DIST=Makefile.in libadmin-module.a 
 
 #>+ 2
 docs-am:

@@ -299,7 +299,9 @@ kdelnk_DATA = kludoteca.desktop
 rcdir = $(kde_datadir)/kludoteca
 rc_DATA = kludotecaui.rc
 
-SUBDIRS = games-module admin-module tournament-module clients-module lib
+SUBDIRS = games-module admin-module tournament-module clients-module lib \
+	bd-module
+
 kldiconsdir = $(kde_datadir)/kludoteca/icons
 kldicons_DATA = adminicon.png clientsicon.png gamesicon.png tournamenticon.png
 subdir = src
@@ -864,7 +866,7 @@ clean-metasources:
 	-rm -f  kludoteca.moc osd.moc.cpp pref.moc kludotecaview.moc
 
 #>+ 2
-KDE_DIST=kludotecaui.rc tournamenticon.png Makefile.in adminicon.png hi16-app-kludoteca.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png gamesicon.png kludoteca.loT clientsicon.png 
+KDE_DIST=kludotecaui.rc tournamenticon.png Makefile.in hi16-app-kludoteca.png adminicon.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png kludoteca kludoteca.loT gamesicon.png clientsicon.png 
 
 #>+ 2
 docs-am:
@@ -910,7 +912,7 @@ bcheck-am:
 
 
 #>+ 11
-kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/ldtapp.cpp osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
+kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/ldtapp.cpp $(srcdir)/osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
 	@echo 'creating kludoteca.all_cpp.cpp ...'; \
 	rm -f kludoteca.all_cpp.files kludoteca.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> kludoteca.all_cpp.final; \
