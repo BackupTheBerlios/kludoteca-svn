@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "kludoteca.h"
-#include <kapplication.h>
+#include "ldtapp.h"
 #include <dcopclient.h>
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
@@ -52,8 +52,28 @@ int main(int argc, char **argv)
 	
 	KCmdLineArgs::init(argc, argv, &about);
 	KCmdLineArgs::addCmdLineOptions(options);
-	KApplication app;
 	
+	LDTApp app;
+	
+	QColorGroup group = QApplication::palette().active();
+	const QColor bg( 32,32,82 );
+	const QColor bgAlt( 57, 64, 98 );
+
+	group.setColor( QColorGroup::Text, Qt::white );
+	group.setColor( QColorGroup::Base, bg );
+	group.setColor( QColorGroup::Foreground, 0xd7d7ef );
+	group.setColor( QColorGroup::Background, bgAlt );
+
+	group.setColor( QColorGroup::Button, bgAlt );
+	group.setColor( QColorGroup::ButtonText, 0xd7d7ef );
+
+	group.setColor( QColorGroup::Highlight, Qt::white );
+	group.setColor( QColorGroup::HighlightedText, bg );
+	int h,s,v;
+	bgAlt.getHsv( &h, &s, &v );
+	group.setColor( QColorGroup::Midlight, QColor( h, s/3, (int)(v * 1.2),QColor::Hsv ) );
+	QPalette pal(group, group, group);
+	app.setPalette(pal);
 	// registramos el cliente dcop para hacer IPC!
 	app.dcopClient()->registerAs(app.name(), false);
 
@@ -69,6 +89,7 @@ int main(int argc, char **argv)
 		if (args->count() == 0) // Lanzamos la aplicacion sin argumentos
 		{
 			KLudoteca *widget = new KLudoteca;
+
 			widget->show();
 		}
 		else // Analizamos los argumentos

@@ -22,7 +22,7 @@
 #include <klocale.h>
 
 
-FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, "View"), m_accept(0), m_cancel(0)
+FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, name), m_accept(0), m_cancel(0)
 {
 	setMargin(10);
 	setFrameShape(QFrame::Box );
@@ -30,15 +30,6 @@ FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, "View"), 
 	m_labelTitle = new QLabel(this);
 	m_labelExplanation = new QLabel(this);
 	m_labelExplanation->setMargin (10);
-}
-
-FormBase::FormBase( Button button1, Button button2, QWidget *parent, const char *name) : QVBox(parent, name), m_accept(0), m_cancel(0)
-{
-	m_labelTitle = new QLabel(this);
-	m_labelExplanation = new QLabel(this);
-	m_labelExplanation->setMargin (10);
-	
-	setupButtons(button1, button2);
 }
 
 FormBase::~FormBase()
@@ -139,11 +130,12 @@ void *FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEd
 {
 	QGridLayout *layout = new QGridLayout(parent, texts.count(), 2, 5, 5);
 	
-	for (int i = 0; i < texts.count(); i++)
+	for (uint i = 0; i < texts.count(); i++)
 	{
 		QLabel *labTmp = new QLabel(texts[i], parent);
 		KLineEdit *lineEditTmp = new KLineEdit(parent);
 		lineEditTmp->setMaximumWidth(lineEditWidth);
+		lineEditTmp->resize( lineEditTmp->height(), lineEditWidth);
 		labTmp->setBuddy(lineEditTmp);
 		layout->addWidget(labTmp, i, 0);
 		layout->addWidget(lineEditTmp, i, 1);

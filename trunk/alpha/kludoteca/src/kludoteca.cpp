@@ -43,6 +43,7 @@
 #include <kstdaccel.h>
 #include <kaction.h>
 #include <kstdaction.h>
+#include <kstandarddirs.h>
 
 KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_view(new KLudotecaView("Welcome", this)), m_printer(0), m_childs(0)
 {
@@ -132,15 +133,19 @@ void KLudoteca::setupToolWindows()
 	
 	// Add thge admin module
 	m_adminWidget = new AdminWidget(this);
+	m_adminWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/adminicon.png" )) );
 	m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
 	
 	// Add the clients module
 	m_clientsWidget = new ClientsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+	m_clientsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/clientsicon.png" )) );
+	
 	m_toolWindows << addToolWindow(m_clientsWidget, KDockWidget::DockLeft, getMainDockWidget());
 	connect(m_clientsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 	
 	// Add the game module
 	m_gamesList = new GamesList(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+	m_gamesList->setIcon( QPixmap(  locate("data", "kludoteca/icons/gamesicon.png" )) );
 	connect(m_gamesList, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 	connect (m_gamesList, SIGNAL(query(QString &)), this, SLOT(queryGame(QString &)));
 	
@@ -148,6 +153,7 @@ void KLudoteca::setupToolWindows()
 	
 	// Add tournament module
 	m_tournamentWidget = new TournamentWidget(this);
+	m_tournamentWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/tournamenticon.png" )) );
 	
 	m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
 	
@@ -267,16 +273,7 @@ void KLudoteca::optionsConfigureKeys()
 
 void KLudoteca::optionsConfigureToolbars()
 {
-	// use the standard toolbar editor
-	#if defined(KDE_MAKE_VERSION)
-		# if KDE_VERSION >= KDE_MAKE_VERSION(3,1,0)
-			saveMainWindowSettings(KGlobal::config(), autoSaveGroup());
-		# else
-			saveMainWindowSettings(KGlobal::config());
-		# endif
-	#else
-		saveMainWindowSettings(KGlobal::config());
-	#endif
+	saveMainWindowSettings(KGlobal::config(), autoSaveGroup());
 }
 
 void KLudoteca::newToolbarConfig()

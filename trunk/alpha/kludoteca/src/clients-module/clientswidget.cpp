@@ -40,11 +40,14 @@ void ClientsWidget::getClickedItem(QListViewItem *item)
 void ClientsWidget::addButtonClicked()
 {
 	cout << "Add button clicked" << std::endl;
-	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
 	
+	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	FormAdminClients *formAdminClients = new FormAdminClients( view );
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	FormAdminClients *formAdminClients = new FormAdminClients( scroll->viewport() );
+	scroll->addChild(formAdminClients);
 	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminClients->setTitle(i18n("Admin Clients"));
 	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));

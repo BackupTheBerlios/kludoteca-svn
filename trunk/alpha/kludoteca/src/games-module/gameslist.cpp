@@ -86,7 +86,10 @@ void GamesList::addButtonClicked()
 	
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	FormAdminGame *formAdminGame = new FormAdminGame( view );
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	FormAdminGame *formAdminGame = new FormAdminGame( scroll->viewport() );
+	scroll->addChild(formAdminGame);
 	formAdminGame->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminGame->setTitle(i18n("Admin game"));
 	formAdminGame->setExplanation(i18n("fill the fields for add a new game"));

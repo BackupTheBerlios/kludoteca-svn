@@ -17,51 +17,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
- 
-#ifndef FORMADMINCLIENTS_H
-#define FORMADMINCLIENTS_H
+#include "ldtapp.h"
 
-#include <formbase.h>
-#include <qlabel.h>
-#include <qradiobutton.h>
-#include <qhbuttongroup.h>
-#include <klineedit.h>
-#include <qlayout.h>
-#include <qscrollview.h>
-
-/**
- * Este es el formulario para añadir y administrar clientes
- * @short Añadir cliente
- * @author CetiSoft
-*/
-class FormAdminClients : public FormBase
+LDTApp::LDTApp() : KApplication()
 {
-	Q_OBJECT
-	public:
-		FormAdminClients(QWidget *parent = 0);
-		~FormAdminClients();
-		void setupForm();
-		
-	public slots:
-		/**
-	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar
-		 */
-		void accept();
-		/**
-		 * Esta es la accion predeterminada cuando se presiona el boton cancelar
-		 */
-		void cancel();
-		
-	private:
-		QScrollView *m_scrollView;
-		QGridLayout *m_layout;
-		QFrame *m_container;
-		QHButtonGroup *m_radioButtons;
-		QRadioButton *m_male, *m_female;
-		KPushButton *m_selectFace;
-		
-		void setupButtonsBox();
-		void setupBox();
-};
+}
 
-#endif
+
+LDTApp::~LDTApp()
+{
+}
+
+void LDTApp::applyColors()
+{
+}

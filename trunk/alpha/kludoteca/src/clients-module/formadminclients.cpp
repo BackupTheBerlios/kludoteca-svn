@@ -32,7 +32,11 @@ FormAdminClients::~FormAdminClients()
 
 void FormAdminClients::setupForm()
 {
-	m_container = new QFrame(this);
+	m_scrollView = new QScrollView(this);
+	m_container = new QFrame(m_scrollView->viewport());
+
+	m_scrollView->addChild(m_container, m_scrollView->viewport()->x() / 2, m_scrollView->viewport()->y() / 2 );
+	m_scrollView->setResizePolicy( QScrollView::AutoOneFit);
 	m_container->setLineWidth(3);
 	m_container->setFrameShape(QFrame::Box);
 	
@@ -62,9 +66,9 @@ void FormAdminClients::setupButtonsBox()
 
 void FormAdminClients::setupBox()
 {
-	QStringList labels = QStringList() << i18n("Name") << i18n("Identification") << i18n("Phone") << i18n("Celular") << i18n("E-Mail");
+	QStringList labels = QStringList() << i18n("Name") << i18n("Last name") << i18n("Identification") << i18n("Phone") << i18n("Celular") << i18n("E-Mail");
 	QWidget *box = new QWidget(m_container);
-	this->setupGridLineEdit(box, labels);
+	this->setupGridLineEdit(box, labels, 500);
 	m_layout->addWidget(box, 0, 0);
 }
 

@@ -18,10 +18,11 @@ kludoteca_LDADD = $(top_builddir)/src/clients-module/libclients-module.a \
 	$(top_builddir)/src/admin-module/libadmin-module.a $(top_builddir)/src/lib/lib.a $(LIB_KFILE) $(LIB_KDEPRINT) -lkmdi
 
 # which sources should be compiled for kludoteca
-kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp
+kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \
+	ldtapp.cpp
 
 # these are the headers for your project
-noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h
+noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h ldtapp.h
 
 # client stuff
 
@@ -44,3 +45,4 @@ rc_DATA = kludotecaui.rc
 
 SUBDIRS = games-module admin-module tournament-module clients-module lib
 kldiconsdir = $(kde_datadir)/kludoteca/icons
+kldicons_DATA = adminicon.png clientsicon.png gamesicon.png tournamenticon.png

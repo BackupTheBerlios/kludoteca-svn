@@ -277,10 +277,12 @@ kludoteca_LDADD = $(top_builddir)/src/clients-module/libclients-module.a \
 
 
 # which sources should be compiled for kludoteca
-kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp
+kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \
+	ldtapp.cpp
+
 
 # these are the headers for your project
-noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h
+noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h ldtapp.h
 
 # client stuff
 
@@ -299,6 +301,7 @@ rc_DATA = kludotecaui.rc
 
 SUBDIRS = games-module admin-module tournament-module clients-module lib
 kldiconsdir = $(kde_datadir)/kludoteca/icons
+kldicons_DATA = adminicon.png clientsicon.png gamesicon.png tournamenticon.png
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
@@ -308,12 +311,14 @@ bin_PROGRAMS = kludoteca$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 am_kludoteca_OBJECTS = main.$(OBJEXT) kludoteca.$(OBJEXT) \
-	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT)
+	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT) \
+	ldtapp.$(OBJEXT)
 #>- kludoteca_OBJECTS = $(am_kludoteca_OBJECTS)
-#>+ 6
+#>+ 7
 kludoteca_final_OBJECTS = kludoteca.all_cpp.o 
 kludoteca_nofinal_OBJECTS = main.$(OBJEXT) kludoteca.$(OBJEXT) \
-	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT)\
+	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT) \
+	ldtapp.$(OBJEXT)\
 osd.moc.o 
 @KDE_USE_FINAL_FALSE@kludoteca_OBJECTS = $(kludoteca_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@kludoteca_OBJECTS = $(kludoteca_final_OBJECTS)
@@ -328,15 +333,18 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 am__depfiles_maybe = depfiles
 #>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/kludoteca.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/main.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/osd.Po ./$(DEPDIR)/pref.Po
-#>+ 6
+#>- @AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/ldtapp.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/osd.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/pref.Po
+#>+ 8
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/osd.moc.P  $(DEPDIR)/kludoteca.all_cpp.P ./$(DEPDIR)/kludoteca.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/main.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/osd.Po ./$(DEPDIR)/pref.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/ldtapp.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/osd.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/pref.Po
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/osd.moc.P ./$(DEPDIR)/kludoteca.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/main.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/osd.Po ./$(DEPDIR)/pref.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/kludotecaview.Po ./$(DEPDIR)/ldtapp.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/osd.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/pref.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -356,7 +364,7 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(kludoteca_SOURCES)
-DATA = $(kdelnk_DATA) $(rc_DATA)
+DATA = $(kdelnk_DATA) $(kldicons_DATA) $(rc_DATA)
 
 HEADERS = $(noinst_HEADERS)
 
@@ -433,6 +441,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kludoteca.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kludotecaview.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldtapp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pref.Po@am__quote@
@@ -496,6 +505,24 @@ uninstall-kdelnkDATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(kdelnkdir)/$$f"; \
 	  rm -f $(DESTDIR)$(kdelnkdir)/$$f; \
+	done
+kldiconsDATA_INSTALL = $(INSTALL_DATA)
+install-kldiconsDATA: $(kldicons_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(kldiconsdir)
+	@list='$(kldicons_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(kldiconsDATA_INSTALL) $$d$$p $(DESTDIR)$(kldiconsdir)/$$f"; \
+	  $(kldiconsDATA_INSTALL) $$d$$p $(DESTDIR)$(kldiconsdir)/$$f; \
+	done
+
+uninstall-kldiconsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(kldicons_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(kldiconsdir)/$$f"; \
+	  rm -f $(DESTDIR)$(kldiconsdir)/$$f; \
 	done
 rcDATA_INSTALL = $(INSTALL_DATA)
 install-rcDATA: $(rc_DATA)
@@ -691,7 +718,7 @@ check: check-recursive
 all-am: Makefile $(PROGRAMS) $(DATA) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(kdelnkdir) $(DESTDIR)$(rcdir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(kdelnkdir) $(DESTDIR)$(kldiconsdir) $(DESTDIR)$(rcdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -739,9 +766,9 @@ info: info-recursive
 
 info-am:
 
-#>- install-data-am: install-kdelnkDATA install-rcDATA
+#>- install-data-am: install-kdelnkDATA install-kldiconsDATA install-rcDATA
 #>+ 1
-install-data-am: install-kde-icons  install-kdelnkDATA install-rcDATA
+install-data-am: install-kde-icons  install-kdelnkDATA install-kldiconsDATA install-rcDATA
 
 install-exec-am: install-binPROGRAMS
 
@@ -770,10 +797,10 @@ ps: ps-recursive
 ps-am:
 
 #>- uninstall-am: uninstall-binPROGRAMS uninstall-info-am \
-#>- 	uninstall-kdelnkDATA uninstall-rcDATA
+#>- 	uninstall-kdelnkDATA uninstall-kldiconsDATA uninstall-rcDATA
 #>+ 2
 uninstall-am: uninstall-kde-icons  uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-kdelnkDATA uninstall-rcDATA
+	uninstall-kdelnkDATA uninstall-kldiconsDATA uninstall-rcDATA
 
 uninstall-info: uninstall-info-recursive
 
@@ -786,16 +813,16 @@ uninstall-info: uninstall-info-recursive
 	install-data install-data-am install-data-recursive \
 	install-exec install-exec-am install-exec-recursive \
 	install-info install-info-am install-info-recursive \
-	install-kdelnkDATA install-man install-rcDATA install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	mostlyclean-recursive pdf pdf-am pdf-recursive ps ps-am \
-	ps-recursive tags tags-recursive uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-info-recursive uninstall-kdelnkDATA uninstall-rcDATA \
-	uninstall-recursive
+	install-kdelnkDATA install-kldiconsDATA install-man \
+	install-rcDATA install-recursive install-strip installcheck \
+	installcheck-am installdirs installdirs-am \
+	installdirs-recursive maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	pdf pdf-am pdf-recursive ps ps-am ps-recursive tags \
+	tags-recursive uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-info-am uninstall-info-recursive uninstall-kdelnkDATA \
+	uninstall-kldiconsDATA uninstall-rcDATA uninstall-recursive
 
 
 messages: rc.cpp
@@ -837,7 +864,7 @@ clean-metasources:
 	-rm -f  kludoteca.moc osd.moc.cpp pref.moc kludotecaview.moc
 
 #>+ 2
-KDE_DIST=kludotecaui.rc Makefile.in hi16-app-kludoteca.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png kludoteca.loT 
+KDE_DIST=tournamenticon.png kludotecaui.rc Makefile.in adminicon.png hi16-app-kludoteca.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png kludoteca gamesicon.png kludoteca.loT clientsicon.png 
 
 #>+ 2
 docs-am:
@@ -883,11 +910,11 @@ bcheck-am:
 
 
 #>+ 11
-kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
+kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/ldtapp.cpp $(srcdir)/osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
 	@echo 'creating kludoteca.all_cpp.cpp ...'; \
 	rm -f kludoteca.all_cpp.files kludoteca.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> kludoteca.all_cpp.final; \
-	for file in main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp osd.moc.cpp ; do \
+	for file in main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp ldtapp.cpp osd.moc.cpp ; do \
 	  echo "#include \"$$file\"" >> kludoteca.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> kludoteca.all_cpp.final; \
 	done; \

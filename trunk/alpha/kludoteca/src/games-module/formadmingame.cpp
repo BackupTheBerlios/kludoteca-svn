@@ -44,6 +44,7 @@ void FormAdminGame::setupForm()
 	m_labelDescriptionGame = new QLabel(i18n("Description game"),form);
 	m_descriptionGame = new KTextEdit(form);
 	m_descriptionGame->setCheckSpellingEnabled (true);
+	
 	m_grid->addWidget(m_labelDescriptionGame, 1,0);
 	m_grid->addWidget(m_descriptionGame, 1,1);
 	
@@ -79,7 +80,7 @@ void FormAdminGame::setupForm()
 	
 	m_labelUnitTime = new QLabel(i18n("unit of time"), form);
 	m_unitTime = new KComboBox(form);
-	m_unitTime->insertItem(i18n("second"));
+	m_unitTime->insertItem(i18n("minutes"));
 	m_unitTime->insertItem(i18n("hours"));
 	
 	m_grid->addWidget(m_labelUnitTime, 5, 0);
@@ -108,7 +109,6 @@ void FormAdminGame::accept ()
 
 void FormAdminGame::cancel()
 {
-	
 }
 
 
