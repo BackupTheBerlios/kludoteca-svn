@@ -258,9 +258,9 @@ xdg_directorydir = @xdg_directorydir@
 xdg_menudir = @xdg_menudir@
 INCLUDES = $(all_includes)
 #>- METASOURCES = AUTO
-noinst_HEADERS = gamesmodule.h gameslist.h
+noinst_HEADERS = gamesmodule.h gameslist.h formadmingame.h
 noinst_LIBRARIES = libgames-module.a
-libgames_module_a_SOURCES = gameslist.cpp gamesmodule.cpp
+libgames_module_a_SOURCES = gameslist.cpp gamesmodule.cpp formadmingame.cpp
 subdir = src/games-module
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
@@ -270,24 +270,26 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libgames_module_a_AR = $(AR) cru
 libgames_module_a_LIBADD =
-am_libgames_module_a_OBJECTS = gameslist.$(OBJEXT) gamesmodule.$(OBJEXT)
+am_libgames_module_a_OBJECTS = gameslist.$(OBJEXT) gamesmodule.$(OBJEXT) \
+	formadmingame.$(OBJEXT)
 #>- libgames_module_a_OBJECTS = $(am_libgames_module_a_OBJECTS)
-#>+ 4
+#>+ 5
 libgames_module_a_final_OBJECTS = libgames_module_a.all_cpp.o 
-libgames_module_a_nofinal_OBJECTS = gameslist.$(OBJEXT) gamesmodule.$(OBJEXT)
+libgames_module_a_nofinal_OBJECTS = gameslist.$(OBJEXT) gamesmodule.$(OBJEXT) \
+	formadmingame.$(OBJEXT)
 @KDE_USE_FINAL_FALSE@libgames_module_a_OBJECTS = $(libgames_module_a_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@libgames_module_a_OBJECTS = $(libgames_module_a_final_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 am__depfiles_maybe = depfiles
-#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/gameslist.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/gamesmodule.Po
+#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/formadmingame.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/gameslist.Po ./$(DEPDIR)/gamesmodule.Po
 #>+ 4
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/libgames_module_a.all_cpp.P ./$(DEPDIR)/gameslist.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/gamesmodule.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/gameslist.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/gamesmodule.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/libgames_module_a.all_cpp.P ./$(DEPDIR)/formadmingame.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/gameslist.Po ./$(DEPDIR)/gamesmodule.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/formadmingame.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/gameslist.Po ./$(DEPDIR)/gamesmodule.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -341,6 +343,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/formadmingame.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gameslist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gamesmodule.Po@am__quote@
 
@@ -587,8 +590,15 @@ gameslist.moc: $(srcdir)/gameslist.h
 mocs: gameslist.moc
 
 #>+ 3
+formadmingame.moc: $(srcdir)/formadmingame.h
+	$(MOC) $(srcdir)/formadmingame.h -o formadmingame.moc
+
+#>+ 2
+mocs: formadmingame.moc
+
+#>+ 3
 clean-metasources:
-	-rm -f  gamesmodule.moc gameslist.moc
+	-rm -f  gamesmodule.moc gameslist.moc formadmingame.moc
 
 #>+ 2
 KDE_DIST=Makefile.in libgames-module.a 
@@ -626,11 +636,11 @@ bcheck-am:
 
 
 #>+ 11
-libgames_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/gameslist.cpp $(srcdir)/gamesmodule.cpp  gamesmodule.moc gameslist.moc
+libgames_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/gameslist.cpp $(srcdir)/gamesmodule.cpp $(srcdir)/formadmingame.cpp  gamesmodule.moc gameslist.moc formadmingame.moc
 	@echo 'creating libgames_module_a.all_cpp.cpp ...'; \
 	rm -f libgames_module_a.all_cpp.files libgames_module_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libgames_module_a.all_cpp.final; \
-	for file in gameslist.cpp gamesmodule.cpp ; do \
+	for file in gameslist.cpp gamesmodule.cpp formadmingame.cpp ; do \
 	  echo "#include \"$$file\"" >> libgames_module_a.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> libgames_module_a.all_cpp.final; \
 	done; \
@@ -665,10 +675,12 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 7
+#>+ 9
 nmcheck: 
+formadmingame.lo: formadmingame.moc 
 gameslist.lo: gameslist.moc 
 nmcheck-am: nmcheck
 gamesmodule.lo: gamesmodule.moc 
+formadmingame.o: formadmingame.moc 
 gamesmodule.o: gamesmodule.moc 
 gameslist.o: gameslist.moc 
