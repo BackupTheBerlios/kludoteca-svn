@@ -20,14 +20,66 @@
 
 #include "adminusers.h"
 #include <klocale.h>
+#include <kpushbutton.h>
+#include <qwidget.h>
 
-AdminUsers::AdminUsers(QWidget *parent) : QVBox(parent, "AdminUsers")
+
+using namespace std;
+
+AdminUsers::AdminUsers(Button button1, Button button2, Button button3, Button button4,QWidget *parent, const char *name) : LTListView(button1, button2, button3, button4, parent, name)
 {
 	setCaption(i18n("Users"));
+	
 }
 
 
 AdminUsers::~AdminUsers()
+{
+}
+
+void AdminUsers::addButtonClicked()
+{
+// 	cout << "Add button clicked" << std::endl;
+// 	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
+// 	( new QVBoxLayout( view ) )->setAutoAdd( true );
+// 
+// 	FormAdminUsers *formAdminUsers = new FormAdminUsers(QWidget *w);
+// 	formAdminUsers->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+//  	formAdminUsers->setTitle(i18n("Admin Users"));
+//  	formAdminUsers->setExplanation(i18n("Fill the fields with the client information"));
+// 	
+// 	emit sendWidget(view);
+// 	
+	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	FormAdminUsers *formAdminClients = new FormAdminUsers( scroll->viewport() );
+	scroll->addChild(formAdminClients);
+	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	formAdminClients->setTitle(i18n("Admin User"));
+	formAdminClients->setExplanation(i18n("Fill the fields with the user information"));
+	
+	emit sendWidget(view);
+	
+	
+	
+}
+
+void AdminUsers::delButtonClicked()
+{
+}
+
+void AdminUsers::getClickedItem(QListViewItem *item)
+{
+}
+
+void AdminUsers::modifyButtonClicked()
+{
+}
+
+void AdminUsers::queryButtonClicked()
 {
 }
 

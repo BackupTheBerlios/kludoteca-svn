@@ -17,37 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "formadminusers.h"
 
-#include "adminwidget.h"
-#include <klocale.h>
-
-AdminWidget::AdminWidget(QWidget *parent) : LTToolBox(parent, "AdminModule")
+FormAdminUsers::FormAdminUsers(QWidget *parent) : FormBase(parent, "FormAdminUsers")
 {
-	setCaption(i18n("Admin"));
-	
-	setupTabs();
-	
+	setupForm();
 }
 
 
-AdminWidget::~AdminWidget()
+FormAdminUsers::~FormAdminUsers()
 {
 }
 
-void AdminWidget::setupTabs()
+void FormAdminUsers::accept()
 {
-	m_adminUsers = new AdminUsers(	LTListView::ButtonAdd, 
-					LTListView::ButtonDel, 
-					LTListView::ButtonModify, 
-					LTListView::ButtonQuery, 
-					this,
-					"list view admin users");
-					
-	this->addItem(m_adminUsers, i18n("Users"));
-	
-	m_adminDatabase = new AdminDatabase(this);
-	this->addItem(m_adminDatabase, i18n("Database"));
 }
 
+void FormAdminUsers::cancel()
+{
+}
 
-#include "adminwidget.moc"
+void FormAdminUsers::setupForm()
+{
+}
+
+void FormAdminUsers::setupButtonsBox()
+{
+}
+
+void FormAdminUsers::setupBox()
+{
+}
+
+#include "formadminusers.moc"

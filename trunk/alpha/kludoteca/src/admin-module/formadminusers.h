@@ -17,37 +17,62 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef FORMADMINUSERS_H
+#define FORMADMINUSERS_H
 
-#include "adminwidget.h"
-#include <klocale.h>
+#include <formbase.h>
+#include <klineedit.h>
+#include <kcombobox.h>
+#include <qhgroupbox.h>
+#include <qlayout.h>
 
-AdminWidget::AdminWidget(QWidget *parent) : LTToolBox(parent, "AdminModule")
+/**
+@author CetiSoft
+*/
+class FormAdminUsers : public FormBase
 {
-	setCaption(i18n("Admin"));
+	Q_OBJECT
+
+	public:
+		FormAdminUsers(QWidget *parent = 0);
+		~FormAdminUsers();
+		void setupForm();
 	
-	setupTabs();
+	public slots:
+		void accept();
+		void cancel();
 	
-}
+	private:
+		
+		KLineEdit	*m_loginLineEdit, 
+				*m_passwdLineEdit,
+				*m_repasswdLineEdit,
+				*m_nameLineEdit,
+				*m_idLineEdit,
+				*m_addresLineEdit,
+				*m_phoneLineEdit,
+				*m_mailLineEdit;
+		
+		QLabel		*m_loginLabel,
+				*m_passwdLabel,
+				*m_repasswdLabel,
+				*m_nameLabel,
+				*m_idLabel,
+				*m_addresLabel,
+				*m_phoneLabel,
+				*m_mailLabel;
+		
+		QGridLayout	*m_maingridLayout
+				/**m_gridPersonal,
+				*m_grid*/;
+		KComboBox	*m_combox;
+		
+		QHGroupBox	*m_hbgPersonal,
+				*m_hbgSysInfo,
+				*m_hbgPermissions;
+				
+		void setupButtonsBox();
+		void setupBox();
+};
 
-
-AdminWidget::~AdminWidget()
-{
-}
-
-void AdminWidget::setupTabs()
-{
-	m_adminUsers = new AdminUsers(	LTListView::ButtonAdd, 
-					LTListView::ButtonDel, 
-					LTListView::ButtonModify, 
-					LTListView::ButtonQuery, 
-					this,
-					"list view admin users");
-					
-	this->addItem(m_adminUsers, i18n("Users"));
-	
-	m_adminDatabase = new AdminDatabase(this);
-	this->addItem(m_adminDatabase, i18n("Database"));
-}
-
-
-#include "adminwidget.moc"
+#endif

@@ -831,6 +831,7 @@ messages: rc.cpp
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
+
 #>+ 3
 kludoteca.moc: $(srcdir)/kludoteca.h
 	$(MOC) $(srcdir)/kludoteca.h -o kludoteca.moc
@@ -864,7 +865,7 @@ clean-metasources:
 	-rm -f  kludoteca.moc osd.moc.cpp pref.moc kludotecaview.moc
 
 #>+ 2
-KDE_DIST=tournamenticon.png kludotecaui.rc Makefile.in adminicon.png hi16-app-kludoteca.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png kludoteca gamesicon.png kludoteca.loT clientsicon.png 
+KDE_DIST=tournamenticon.png kludotecaui.rc Makefile.in hi16-app-kludoteca.png adminicon.png kludoteca.desktop kludoteca.lsm hi32-app-kludoteca.png gamesicon.png kludoteca.loT clientsicon.png 
 
 #>+ 2
 docs-am:
@@ -910,7 +911,7 @@ bcheck-am:
 
 
 #>+ 11
-kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/ldtapp.cpp $(srcdir)/osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
+kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/ldtapp.cpp osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
 	@echo 'creating kludoteca.all_cpp.cpp ...'; \
 	rm -f kludoteca.all_cpp.files kludoteca.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> kludoteca.all_cpp.final; \

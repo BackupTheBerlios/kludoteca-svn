@@ -136,6 +136,8 @@ void KLudoteca::setupToolWindows()
 	m_adminWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/adminicon.png" )) );
 	m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
 	
+	QWidget *au = m_adminWidget->currentItem();
+	connect(au, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 	// Add the clients module
 	m_clientsWidget = new ClientsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
 	m_clientsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/clientsicon.png" )) );

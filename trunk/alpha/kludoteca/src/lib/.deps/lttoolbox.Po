@@ -1,6 +1,6 @@
-lttoolbox.o: lttoolbox.cpp lttoolbox.h /usr/share/qt3/include/qtoolbox.h \
-  /usr/share/qt3/include/qframe.h /usr/share/qt3/include/qwidget.h \
-  /usr/share/qt3/include/qwindowdefs.h \
+lttoolbox.o lttoolbox.o: lttoolbox.cpp lttoolbox.h \
+  /usr/share/qt3/include/qtoolbox.h /usr/share/qt3/include/qframe.h \
+  /usr/share/qt3/include/qwidget.h /usr/share/qt3/include/qwindowdefs.h \
   /usr/share/qt3/include/qobjectdefs.h /usr/share/qt3/include/qglobal.h \
   /usr/share/qt3/include/qconfig.h /usr/share/qt3/include/qmodules.h \
   /usr/share/qt3/include/qfeatures.h /usr/share/qt3/include/qstring.h \
@@ -9,10 +9,10 @@ lttoolbox.o: lttoolbox.cpp lttoolbox.h /usr/share/qt3/include/qtoolbox.h \
   /usr/share/qt3/include/qwinexport.h /usr/include/string.h \
   /usr/include/features.h /usr/include/sys/cdefs.h \
   /usr/include/gnu/stubs.h \
-  /usr/lib/gcc-lib/i486-linux/3.3.5/include/stddef.h \
+  /usr/lib/gcc-lib/i486-linux/3.3.4/include/stddef.h \
   /usr/include/xlocale.h \
-  /usr/lib/gcc-lib/i486-linux/3.3.5/include/limits.h \
-  /usr/lib/gcc-lib/i486-linux/3.3.5/include/syslimits.h \
+  /usr/lib/gcc-lib/i486-linux/3.3.4/include/limits.h \
+  /usr/lib/gcc-lib/i486-linux/3.3.4/include/syslimits.h \
   /usr/include/limits.h /usr/include/bits/posix1_lim.h \
   /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
   /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
@@ -27,7 +27,7 @@ lttoolbox.o: lttoolbox.cpp lttoolbox.h /usr/share/qt3/include/qtoolbox.h \
   /usr/include/bits/types.h /usr/include/bits/wordsize.h \
   /usr/include/bits/typesizes.h /usr/include/libio.h \
   /usr/include/_G_config.h /usr/include/wchar.h /usr/include/bits/wchar.h \
-  /usr/include/gconv.h /usr/lib/gcc-lib/i486-linux/3.3.5/include/stdarg.h \
+  /usr/include/gconv.h /usr/lib/gcc-lib/i486-linux/3.3.4/include/stdarg.h \
   /usr/include/bits/sys_errlist.h /usr/include/bits/stdio.h \
   /usr/include/c++/3.3/i486-linux/bits/gthr.h \
   /usr/include/c++/3.3/i486-linux/bits/gthr-default.h \
@@ -176,13 +176,13 @@ lttoolbox.h:
 
 /usr/include/gnu/stubs.h:
 
-/usr/lib/gcc-lib/i486-linux/3.3.5/include/stddef.h:
+/usr/lib/gcc-lib/i486-linux/3.3.4/include/stddef.h:
 
 /usr/include/xlocale.h:
 
-/usr/lib/gcc-lib/i486-linux/3.3.5/include/limits.h:
+/usr/lib/gcc-lib/i486-linux/3.3.4/include/limits.h:
 
-/usr/lib/gcc-lib/i486-linux/3.3.5/include/syslimits.h:
+/usr/lib/gcc-lib/i486-linux/3.3.4/include/syslimits.h:
 
 /usr/include/limits.h:
 
@@ -236,7 +236,7 @@ lttoolbox.h:
 
 /usr/include/gconv.h:
 
-/usr/lib/gcc-lib/i486-linux/3.3.5/include/stdarg.h:
+/usr/lib/gcc-lib/i486-linux/3.3.4/include/stdarg.h:
 
 /usr/include/bits/sys_errlist.h:
 
