@@ -609,7 +609,7 @@ clean-metasources:
 	-rm -f  lttoolbox.moc ltlistview.moc formbase.moc
 
 #>+ 2
-KDE_DIST=Makefile.in kludotecaiface.skel 
+KDE_DIST=Makefile.in ltlistview.loT kludotecaiface.skel 
 
 #>+ 4
 clean-idl:

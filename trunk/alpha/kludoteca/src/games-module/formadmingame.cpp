@@ -22,32 +22,17 @@
 #include <klocale.h>
 
 
-FormAdminGame::FormAdminGame(QString title, QWidget *parent, const char *name): QVBox(parent, name)
+FormAdminGame::FormAdminGame( QWidget *parent, const char *name): FormBase(parent, name)
 {
-	setupForm();
-	setupButton();
-	setTitle(title);
+	this->setupForm();
 }
 
 FormAdminGame::~FormAdminGame()
 {
 }
 
-void FormAdminGame::setTitle(QString title)
-{
-	m_labelTitle->setText(i18n("<h1><div align=\"center\">%1</dvi></h1>").arg(title));
-}
-
 void FormAdminGame::setupForm()
 {
-	
-	m_labelTitle = new QLabel(/*i18n("<h1><div align=\"center\">%1</dvi></h1>").arg(title),*/ this,"Title");
-	//m_grid->addWidget(m_labelTitle,0,1);
-	
-	m_labelExplanation = new QLabel(i18n("<h3>fill the fields for add a new game</h3>"), this);
-	//m_grid->addWidget(m_labelExplanation,1,0);
-	m_labelExplanation->setMargin (10);
-	
 	form = new QFrame(this);
 	m_grid = new QGridLayout(form,7,4,10);
 	
@@ -108,15 +93,7 @@ void FormAdminGame::setupForm()
 	
 }
 
-void FormAdminGame::setupButton()
-{
-	buttons = new QHBox(this);
-	m_done = new KPushButton(i18n("register"), buttons);
-	connect(m_done, SIGNAL(clicked()),this, SLOT(done()));
-}
-
-
-void FormAdminGame::done()
+void FormAdminGame::accept ()
 {
 	//FIXME: tomar los datos de los campos validarlos y tratarlos
 	
@@ -128,6 +105,12 @@ void FormAdminGame::done()
 	m_costUnit->setValue(m_costUnit->minValue());
 	//m_labelUnitTime
 }
+
+void FormAdminGame::cancel()
+{
+	
+}
+
 
 void FormAdminGame::fillField(QString explanation, QString name, QString description, QString rules, int numPlayer, QString type, double costUnit)
 {

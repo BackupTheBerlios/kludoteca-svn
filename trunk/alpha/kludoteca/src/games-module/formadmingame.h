@@ -34,13 +34,15 @@
 #include <knuminput.h>
 #include <kpushbutton.h>
 
+#include "formbase.h"
+
 /**
  * Este es el formumario para añadir juegos
  * @short Formulario para añadir juegos
  * @author CetiSoft
  * @todo - Heredar de FormBase
 */
-class FormAdminGame : public QVBox
+class FormAdminGame : public FormBase
 {
 	Q_OBJECT
 	
@@ -48,16 +50,12 @@ class FormAdminGame : public QVBox
 		/**
 		* Costructor por defecto
 		 */
-		FormAdminGame(QString title, QWidget *parent = 0, const char *name = 0);
+		FormAdminGame(QWidget *parent = 0, const char *name = 0);
+		
 		/**
 		 * Destructor por defecto
 		 */
 		~FormAdminGame();
-		
-		/**
-		* Cambia el titulo del formulario
-		 */
-		void setTitle(QString newTitle);
 		
 		/**
 		* llena los campos del formulario
@@ -68,15 +66,14 @@ class FormAdminGame : public QVBox
 		QGridLayout *m_grid;
 		
 	public slots:
-		//void clearFields();
-		void done();
+		void accept ();
+		void cancel ();
 		
 	private:
 		
 		QFrame *form;
-		QHBox *buttons;
 		
-		QLabel *m_labelTitle, *m_labelExplanation, *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNPlayerGame, *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd;
+		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNPlayerGame, *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd;
 		
 		KLineEdit *m_nameGame;
 		KTextEdit *m_descriptionGame, *m_rulesGame ;
@@ -86,17 +83,11 @@ class FormAdminGame : public QVBox
 		KComboBox *m_typeGame, *m_unitTime, *m_timeAdd;
 		KIntSpinBox *m_nPlayerGame;
 		KDoubleNumInput *m_costUnit;
-		KPushButton *m_done, *m_cancel;
 		
 		/**
 		 * Crea el formulario
 		 */
 		void setupForm();
-		
-		/**
-		 * Crea el el panel de los botones
-		 */
-		void setupButton();
 };
 
 #endif

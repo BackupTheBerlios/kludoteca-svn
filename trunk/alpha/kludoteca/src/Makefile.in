@@ -880,7 +880,7 @@ bcheck-am:
 
 
 #>+ 11
-kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
+kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
 	@echo 'creating kludoteca.all_cpp.cpp ...'; \
 	rm -f kludoteca.all_cpp.files kludoteca.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> kludoteca.all_cpp.final; \
