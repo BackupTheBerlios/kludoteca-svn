@@ -1,0 +1,121 @@
+# translation of es.po to 
+# , 2005.
+msgid ""
+msgstr ""
+""
+"Last-Translator: \n"
+"PO-Revision-Date: 2005-03-06 11:52-0500\n"
+"Project-Id-Version: es\n"
+"Language-Team:  <en@li.org>\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9.1\n"
+"MIME-Version: 1.0\n"
+
+#: kludoteca.cpp:74
+msgid "Clientes"
+msgstr "Clientes"
+
+#: kludoteca.cpp:101
+msgid "Cus&tom Menuitem"
+msgstr "Cus&tom Menuitem"
+
+#: kludoteca.cpp:139
+msgid "."
+msgstr "."
+
+#: kludoteca.cpp:143
+msgid "Aqui agregamos diferentes modulos"
+msgstr "Aqui agregamos diferentes modulos"
+
+#: kludotecaview.cpp:60
+msgid "Bienvenido, jejeje"
+msgstr "Bienvenido, jejeje"
+
+#: main.cpp:28 main.cpp:41
+msgid "System for administer a ludotec."
+msgstr "Sistema para administrar una ludoteca"
+
+#: main.cpp:40
+msgid "KLudoteca"
+msgstr "KLudoteca"
+
+#: main.cpp:42
+msgid ""
+"CetiSoft\n"
+"(C) 2005"
+msgstr ""
+"CetiSoft\n"
+"(C) 2005"
+
+#: main.cpp:43
+msgid ""
+"IRC:\n"
+"server: irc.freenode.net / channel: #cetis\n"
+"\n"
+"Email::\n"
+"cetis@univalle.edu.co"
+msgstr ""
+"IRC:\n"
+"servidor: irc.freenode.net / canal: #cetis\n"
+"\n"
+"Coreo electrónico::\n"
+"cetis@univalle.edu.co"
+
+#: main.cpp:44
+msgid "http://www.cetisoft.org"
+msgstr "http://www.cetisoft.org"
+
+#: main.cpp:47
+msgid "Main developer"
+msgstr "Desarrollador principal"
+
+#: main.cpp:51
+msgid "Thanks for your interest in this project, ideas, help and testing."
+msgstr "Gracias por su interés en este proyecto, ideas, ayuda y pruebas."
+
+#: pref.cpp:29
+msgid "Configuration..."
+msgstr "Configuración..."
+
+#: pref.cpp:35
+msgid "Primera pagina de config"
+msgstr "Primera pagina de config"
+
+#: pref.cpp:35
+msgid "Opciones 1"
+msgstr "Opciones 1"
+
+#: pref.cpp:38
+msgid "Segunda pagina de config"
+msgstr "Segunda pagina de config"
+
+#: pref.cpp:38
+msgid "Opciones 2"
+msgstr "Opciones 2"
+
+#: pref.cpp:47 pref.cpp:55
+msgid "Agregar algo aqui"
+msgstr "Agregar algo aqui"
+
+#: rc.cpp:2
+#, no-c-format
+msgid "C&ustom"
+msgstr "C&ustom"
+
+#: _translatorinfo.cpp:1
+msgid ""
+"_: NAME OF TRANSLATORS\n"
+"Your names"
+msgstr ""
+"_: Traductores\n"
+"David Cuadrado"
+
+#: _translatorinfo.cpp:3
+msgid ""
+"_: EMAIL OF TRANSLATORS\n"
+"Your emails"
+msgstr ""
+"_: Correos\n"
+"krawek@gmail.com"
+
