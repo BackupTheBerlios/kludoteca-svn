@@ -15,9 +15,9 @@
 
 
 
-srcdir = /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/src/lib
-top_srcdir = /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca
-VPATH = /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/src/lib
+srcdir = /tmp/dcuadra/kludoteca/src/lib
+top_srcdir = /tmp/dcuadra/kludoteca
+VPATH = /tmp/dcuadra/kludoteca/src/lib
 pkgdatadir = $(datadir)/kludoteca
 pkglibdir = $(libdir)/kludoteca
 pkgincludedir = $(includedir)/kludoteca
@@ -39,16 +39,16 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-linux-gnu
 host_triplet = i686-pc-linux-gnu
 target_triplet = i686-pc-linux-gnu
-ACLOCAL = ${SHELL} /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/admin/missing --run aclocal-1.7
+ACLOCAL = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run aclocal-1.7
 AMDEP_FALSE = #
 AMDEP_TRUE = 
-AMTAR = ${SHELL} /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/admin/missing --run tar
+AMTAR = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run tar
 AR = ar
 ARTSCCONFIG = /usr/bin/artsc-config
 AUTOCONF = $(SHELL) $(top_srcdir)/admin/cvs.sh configure || touch configure
 AUTODIRS = 
-AUTOHEADER = ${SHELL} /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/admin/missing --run autoheader
-AUTOMAKE = ${SHELL} /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/admin/missing --run automake-1.7
+AUTOHEADER = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run autoheader
+AUTOMAKE = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run automake-1.7
 AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -138,7 +138,7 @@ LIB_XEXT = -lXext
 LIB_XRENDER = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/admin/missing --run makeinfo
+MAKEINFO = ${SHELL} /tmp/dcuadra/kludoteca/admin/missing --run makeinfo
 MCOPIDL = /usr/bin/mcopidl
 MEINPROC = /usr/bin/meinproc
 MOC = /usr/share/qt3/bin/moc
@@ -210,7 +210,7 @@ include_ARTS_FALSE = #
 include_ARTS_TRUE = 
 includedir = ${prefix}/include
 infodir = ${prefix}/info
-install_sh = /afs/eisc/user/pregrado/2003/jorhumcc/Proyectos/kludoteca/admin/install-sh
+install_sh = /tmp/dcuadra/kludoteca/admin/install-sh
 kde_appsdir = ${datadir}/applnk
 kde_bindir = ${exec_prefix}/bin
 kde_confdir = ${datadir}/config
@@ -239,7 +239,7 @@ libexecdir = ${exec_prefix}/libexec
 localstatedir = ${prefix}/var
 mandir = ${prefix}/man
 oldincludedir = /usr/include
-prefix = /usr/local/kde
+prefix = /usr
 program_transform_name = s,x,x,
 qt_includes = /usr/share/qt3/include
 qt_libraries = /usr/share/qt3/lib
@@ -609,7 +609,7 @@ clean-metasources:
 	-rm -f  lttoolbox.moc ltlistview.moc formbase.moc
 
 #>+ 2
-KDE_DIST=Makefile.in ltlistview.loT kludotecaiface.skel 
+KDE_DIST=kludotecaiface.kidl Makefile.in ltlistview.loT kludotecaiface.skel lib.a 
 
 #>+ 4
 clean-idl:
@@ -649,7 +649,7 @@ bcheck-am:
 
 
 #>+ 11
-lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp kludotecaiface_skel.cpp  lttoolbox.moc ltlistview.moc formbase.moc
+lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp $(srcdir)/kludotecaiface_skel.cpp  lttoolbox.moc ltlistview.moc formbase.moc
 	@echo 'creating lib_a.all_cpp.cpp ...'; \
 	rm -f lib_a.all_cpp.files lib_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> lib_a.all_cpp.final; \

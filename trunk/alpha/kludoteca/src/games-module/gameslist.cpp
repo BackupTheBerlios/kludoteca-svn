@@ -86,7 +86,8 @@ void GamesList::addButtonClicked()
 	
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	FormAdminGame *formAdminGame = new FormAdminGame( view);
+	FormAdminGame *formAdminGame = new FormAdminGame( view );
+	formAdminGame->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminGame->setTitle(i18n("Admin game"));
 	formAdminGame->setExplanation(i18n("fill the fields for add a new game"));
 	emit sendWidget(view);

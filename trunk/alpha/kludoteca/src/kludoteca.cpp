@@ -131,6 +131,10 @@ void KLudoteca::setupToolWindows()
 	m_adminWidget = new AdminWidget(this);
 	m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
 	
+	// Add the clients module
+	m_clientsWidget = new ClientsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+	m_toolWindows << addToolWindow(m_clientsWidget, KDockWidget::DockLeft, getMainDockWidget());
+	
 	// Add the game module
 	m_gamesList = new GamesList(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
 	connect(m_gamesList, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));

@@ -433,7 +433,7 @@ uninstall-am: uninstall-info-am
 .NOEXPORT:
 
 #>+ 2
-KDE_DIST=es.gmo es.po Makefile.in 
+KDE_DIST=Makefile.in es.po es.gmo 
 
 #>+ 4
 es.gmo: es.po

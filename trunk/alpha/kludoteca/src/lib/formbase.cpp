@@ -28,7 +28,6 @@ FormBase::FormBase( QWidget *parent, const char *name): QVBox(parent, name), m_a
 	m_labelTitle = new QLabel(this);
 	m_labelExplanation = new QLabel(this);
 	m_labelExplanation->setMargin (10);
-	setupButtons(AcceptButton, CancelButton);
 }
 
 FormBase::FormBase( Button button1, Button button2, QWidget *parent, const char *name) : QVBox(parent, name), m_accept(0), m_cancel(0)

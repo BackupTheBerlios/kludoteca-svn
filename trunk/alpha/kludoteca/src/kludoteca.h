@@ -48,6 +48,7 @@
 #include "osd.h"
 #include "tournamentwidget.h"
 #include "adminwidget.h"
+#include "clientswidget.h"
 
 class KPrinter;
 class KToggleAction;
@@ -145,6 +146,7 @@ class KLudoteca : public KMdiMainFrm
 		GamesList *m_gamesList;
 		TournamentWidget *m_tournamentWidget;
 		AdminWidget *m_adminWidget;
+		ClientsWidget *m_clientsWidget;
 		
 		OSDWidget *osd;
 		QValueList<KMdiToolViewAccessor*> m_toolWindows;
