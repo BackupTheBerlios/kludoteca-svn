@@ -27,6 +27,7 @@
 #include <qstring.h>
 #include <qframe.h> 
 #include <qlayout.h>
+#include <klineedit.h>
 
 #include <kpushbutton.h>
 
@@ -88,6 +89,11 @@ class FormBase : public QVBox
 		 * Cambia el texto del segundo boton
 		 */
 		void setTextCancelButton(QString newText);
+		
+		/**
+		 * Esta funcion toma un texto y hace un label con un line edit
+		 */
+		QWidget *setupLineEdit(QWidget *parent, QString text, int lineEditWidth);
 		
 		
 	public slots:

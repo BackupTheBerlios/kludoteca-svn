@@ -121,4 +121,14 @@ void FormBase::setExplanation(QString newExplanation)
 	m_labelExplanation->setText(i18n("<h3>%1</h3>").arg(newExplanation));	
 }
 
+QWidget *FormBase::setupLineEdit(QWidget *parent, QString text, int lineEditWidth)
+{
+	QWidget *widget = new QWidget(parent);
+	(new QHBoxLayout(widget ) )->setAutoAdd(true);
+	QLabel *label = new QLabel(text, widget);
+	KLineEdit *lineEdit = new KLineEdit(widget);
+	lineEdit->setMaximumWidth(lineEditWidth);
+	return widget;
+}
+
 #include "formbase.moc"

@@ -122,12 +122,16 @@ formbase.o: formbase.cpp formbase.h /usr/share/qt3/include/qvbox.h \
   /usr/share/qt3/include/qframe.h /usr/share/qt3/include/qhbuttongroup.h \
   /usr/share/qt3/include/qbuttongroup.h \
   /usr/share/qt3/include/qgroupbox.h /usr/share/qt3/include/qlabel.h \
-  /usr/share/qt3/include/qlayout.h /usr/include/kde/kpushbutton.h \
+  /usr/share/qt3/include/qlayout.h /usr/include/kde/klineedit.h \
+  /usr/share/qt3/include/qlineedit.h /usr/include/kde/kcompletion.h \
+  /usr/share/qt3/include/qguardedptr.h /usr/include/kde/kdemacros.h \
+  /usr/include/kde/kglobalsettings.h \
+  /usr/include/kde/ksortablevaluelist.h /usr/include/kde/kshortcut.h \
+  /usr/share/qt3/include/qkeysequence.h /usr/include/kde/kpushbutton.h \
   /usr/share/qt3/include/qpushbutton.h /usr/share/qt3/include/qbutton.h \
-  /usr/share/qt3/include/qkeysequence.h /usr/share/qt3/include/qiconset.h \
-  /usr/share/qt3/include/qpixmap.h /usr/include/kde/kguiitem.h \
-  /usr/include/kde/kicontheme.h /usr/include/kde/kglobal.h \
-  /usr/include/kde/kdemacros.h /usr/include/kde/kinstance.h \
+  /usr/share/qt3/include/qiconset.h /usr/share/qt3/include/qpixmap.h \
+  /usr/include/kde/kguiitem.h /usr/include/kde/kicontheme.h \
+  /usr/include/kde/kglobal.h /usr/include/kde/kinstance.h \
   /usr/include/kde/klocale.h formbase.moc \
   /usr/share/qt3/include/qmetaobject.h \
   /usr/share/qt3/include/qconnection.h \
@@ -546,13 +550,29 @@ formbase.h:
 
 /usr/share/qt3/include/qlayout.h:
 
+/usr/include/kde/klineedit.h:
+
+/usr/share/qt3/include/qlineedit.h:
+
+/usr/include/kde/kcompletion.h:
+
+/usr/share/qt3/include/qguardedptr.h:
+
+/usr/include/kde/kdemacros.h:
+
+/usr/include/kde/kglobalsettings.h:
+
+/usr/include/kde/ksortablevaluelist.h:
+
+/usr/include/kde/kshortcut.h:
+
+/usr/share/qt3/include/qkeysequence.h:
+
 /usr/include/kde/kpushbutton.h:
 
 /usr/share/qt3/include/qpushbutton.h:
 
 /usr/share/qt3/include/qbutton.h:
-
-/usr/share/qt3/include/qkeysequence.h:
 
 /usr/share/qt3/include/qiconset.h:
 
@@ -563,8 +583,6 @@ formbase.h:
 /usr/include/kde/kicontheme.h:
 
 /usr/include/kde/kglobal.h:
-
-/usr/include/kde/kdemacros.h:
 
 /usr/include/kde/kinstance.h:
 

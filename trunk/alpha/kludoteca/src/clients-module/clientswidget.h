@@ -24,6 +24,8 @@
 #include <iostream>
 #include <ltlistview.h>
 
+#include "formadminclients.h"
+
 /**
  * En esta clase es el la ventana de herramientas del modulo del cliente
  * @author CetiSoft

@@ -40,15 +40,16 @@ void ClientsWidget::getClickedItem(QListViewItem *item)
 void ClientsWidget::addButtonClicked()
 {
 	cout << "Add button clicked" << std::endl;
-// 	KMdiChildView *view = new KMdiChildView(i18n("Add game"), this );
-// 	
-// 	( new QVBoxLayout( view ) )->setAutoAdd( true );
-// 
-// 	FormAdminGame *formAdminGame = new FormAdminGame( view );
-// 	formAdminGame->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-// 	formAdminGame->setTitle(i18n("Admin game"));
-// 	formAdminGame->setExplanation(i18n("fill the fields for add a new game"));
-// 	emit sendWidget(view);
+	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
+	
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	FormAdminClients *formAdminClients = new FormAdminClients( view );
+	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	formAdminClients->setTitle(i18n("Admin Clients"));
+	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
+	
+	emit sendWidget(view);
 }
 
 void ClientsWidget::delButtonClicked()
