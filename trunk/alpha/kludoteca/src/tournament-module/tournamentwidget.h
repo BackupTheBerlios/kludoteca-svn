@@ -25,7 +25,6 @@
 #include "tournamentold.h"
 #include <kpushbutton.h>
 #include "formtournament.h"
-#include "admintournament.h"
 
 /**
  * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
@@ -64,7 +63,6 @@ class TournamentWidget : public LTToolBox
 	private:
 		TournamentActive *m_tournamentActive;
 		TournamentOld *m_tournamentOld;
-		AdminTournament *m_adminTournament;
 };
 
 #endif

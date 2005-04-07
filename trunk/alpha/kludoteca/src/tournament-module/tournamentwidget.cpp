@@ -34,9 +34,6 @@ TournamentWidget::~TournamentWidget()
 
 void TournamentWidget::setupTabs()
 {
-	m_adminTournament = new AdminTournament(this);
-	addItem(m_adminTournament, i18n("Admin"));
-	
 	KPushButton *buttonAdd = new KPushButton(i18n("Add a tournament"), this);
 	this->addItem(buttonAdd, i18n("Add"));
 	connect(buttonAdd, SIGNAL(clicked()), this, SLOT(addTournament()));
