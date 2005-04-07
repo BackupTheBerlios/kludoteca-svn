@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,7 +29,7 @@ class KLudotecaPrefPageTwo;
 
 /**
  * @short Preferencias de la aplicacion
- * @author CetiSoft
+ * @author David Cuadrado
  */
 class KLudotecaPreferences : public KDialogBase
 {
@@ -47,7 +47,7 @@ class KLudotecaPreferences : public KDialogBase
 
 /**
  * @short Pagina uno de configuracion
- * @author CetiSoft
+ * @author David Cuadrado
  */
 class KLudotecaPrefPageOne : public QFrame
 {
@@ -61,7 +61,7 @@ class KLudotecaPrefPageOne : public QFrame
 
 /**
  * @short Pagina dos de configuracion
- * @author CetiSoft
+ * @author David Cuadrado
  */
 class KLudotecaPrefPageTwo : public QFrame
 {

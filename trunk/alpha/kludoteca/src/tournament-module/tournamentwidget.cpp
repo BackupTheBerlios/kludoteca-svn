@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -34,6 +34,9 @@ TournamentWidget::~TournamentWidget()
 
 void TournamentWidget::setupTabs()
 {
+	m_adminTournament = new AdminTournament(this);
+	addItem(m_adminTournament, i18n("Admin"));
+	
 	KPushButton *buttonAdd = new KPushButton(i18n("Add a tournament"), this);
 	this->addItem(buttonAdd, i18n("Add"));
 	connect(buttonAdd, SIGNAL(clicked()), this, SLOT(addTournament()));
@@ -54,7 +57,7 @@ void TournamentWidget::addTournament()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	FormTournament *formAdminTournament = new FormTournament( scroll->viewport() );
 	scroll->addChild(formAdminTournament);
-	formAdminTournament->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+
 	formAdminTournament->setTitle(i18n("Add a tournament"));
 	formAdminTournament->setExplanation(i18n("Fill the fields with the new tournament information"));
 	

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -60,7 +60,7 @@ class KMdiToolViewAccessorPrivate;
  * Esta clase representa la ventana principal de KLudoteca. Aqui manejamos los toolbars, menus y demas interfaces.
  *
  * @short Ventana principal de KLudoteca
- * @author CetiSoft \<cetis@univalle.edu.co\>
+ * @author David Cuadrado \<krawek@gmail.com\>
  * @version 0.1
  */
 class KLudoteca : public KMdiMainFrm

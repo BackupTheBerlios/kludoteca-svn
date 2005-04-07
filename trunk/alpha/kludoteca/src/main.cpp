@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 	KAboutData about( "KLudoteca",
 			      I18N_NOOP( "KLudoteca" ), version,
 			      I18N_NOOP( "System for administer a ludotec."), KAboutData::License_GPL,
-			      I18N_NOOP( "CetiSoft\n(C) 2005" ),
+			      I18N_NOOP( "David Cuadrado\n(C) 2005" ),
 			      I18N_NOOP( "IRC:\nserver: irc.freenode.net / channel: #cetis\n\nEmail::\ncetis@univalle.edu.co" ),
 			      I18N_NOOP( "http://www.cetisoft.org" ) );
 

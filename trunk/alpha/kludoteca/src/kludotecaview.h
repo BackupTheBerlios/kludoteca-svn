@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -32,7 +32,7 @@ class QPainter;
  * Este es el widget central que la ventana principal
  * 
  * @short Vista principal
- * @author CetiSoft \<cetis@univalle.edu.co\>
+ * @author David Cuadrado \<krawek@gmail.com\>
  * @version 0.1
  */
 class KLudotecaView : public KMdiChildView, public KLudotecaIface

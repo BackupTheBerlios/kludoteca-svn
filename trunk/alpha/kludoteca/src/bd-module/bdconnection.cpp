@@ -1,5 +1,5 @@
 /********************************************************************************
- *   Copyright (C) 2004 by CetiSoft                                        	*
+ *   Copyright (C) 2004 by David Cuadrado                                        	*
  *   cetisoft@linuxmail.org                                                	*
  *                                                                         	*
  *   This program is free software; you can redistribute it and/or modify  	*

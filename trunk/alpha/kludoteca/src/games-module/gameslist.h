@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -40,7 +40,7 @@ class LTListView;
 /**
  * Esta clase es un toolWindow que visualiza los juegos que hay en la ludoteca, esta provee un mecanismo para gestionar los juegos, permite añadir y eliminar los juegos, asi como consultar la información de un juego determinado.
  * @short Lista de juegos
- * @author CetiSoft
+ * @author David Cuadrado
 */
 class GamesList : public LTListView
 {

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -39,7 +39,7 @@ class LTListView;
  * y se debe crear el signal que se llame sendWidget(KMdiChildView *), la idea es conectar este signal al slot addModulePage(KMdiChildView *), y pasar el widget construido para ponerlo como vista en la ventana principal.
  * 
  * @short Clase base para listas.
- * @author CetiSoft
+ * @author David Cuadrado
  * @todo 
  * - Agregar una forma de añadir titulo e hijos
 */

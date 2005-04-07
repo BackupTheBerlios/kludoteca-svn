@@ -259,11 +259,11 @@ xdg_menudir = @xdg_menudir@
 INCLUDES = -I$(top_srcdir)/src/lib $(all_includes)
 #>- METASOURCES = AUTO
 noinst_HEADERS = tournamentwidget.h tournamentmodule.h tournamentold.h \
-		tournamentactive.h formtournament.h
+			tournamentactive.h formtournament.h admintournament.h
 
 noinst_LIBRARIES = libtournament-module.a
 libtournament_module_a_SOURCES = tournamentactive.cpp \
-	tournamentmodule.cpp	tournamentold.cpp tournamentwidget.cpp formtournament.cpp
+		tournamentmodule.cpp	tournamentold.cpp tournamentwidget.cpp formtournament.cpp admintournament.cpp
 
 subdir = src/tournament-module
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -276,31 +276,36 @@ libtournament_module_a_AR = $(AR) cru
 libtournament_module_a_LIBADD =
 am_libtournament_module_a_OBJECTS = tournamentactive.$(OBJEXT) \
 	tournamentmodule.$(OBJEXT) tournamentold.$(OBJEXT) \
-	tournamentwidget.$(OBJEXT) formtournament.$(OBJEXT)
+	tournamentwidget.$(OBJEXT) formtournament.$(OBJEXT) \
+	admintournament.$(OBJEXT)
 #>- libtournament_module_a_OBJECTS = $(am_libtournament_module_a_OBJECTS)
-#>+ 6
+#>+ 7
 libtournament_module_a_final_OBJECTS = libtournament_module_a.all_cpp.o 
 libtournament_module_a_nofinal_OBJECTS = tournamentactive.$(OBJEXT) \
 	tournamentmodule.$(OBJEXT) tournamentold.$(OBJEXT) \
-	tournamentwidget.$(OBJEXT) formtournament.$(OBJEXT)
+	tournamentwidget.$(OBJEXT) formtournament.$(OBJEXT) \
+	admintournament.$(OBJEXT)
 @KDE_USE_FINAL_FALSE@libtournament_module_a_OBJECTS = $(libtournament_module_a_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@libtournament_module_a_OBJECTS = $(libtournament_module_a_final_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 am__depfiles_maybe = depfiles
-#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/formtournament.Po \
+#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/admintournament.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/formtournament.Po \
 #>- @AMDEP_TRUE@	./$(DEPDIR)/tournamentactive.Po \
 #>- @AMDEP_TRUE@	./$(DEPDIR)/tournamentmodule.Po \
 #>- @AMDEP_TRUE@	./$(DEPDIR)/tournamentold.Po \
 #>- @AMDEP_TRUE@	./$(DEPDIR)/tournamentwidget.Po
-#>+ 10
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/libtournament_module_a.all_cpp.P ./$(DEPDIR)/formtournament.Po \
+#>+ 12
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/libtournament_module_a.all_cpp.P ./$(DEPDIR)/admintournament.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/formtournament.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentactive.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentmodule.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentold.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentwidget.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/formtournament.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/admintournament.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/formtournament.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentactive.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentmodule.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/tournamentold.Po \
@@ -358,6 +363,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/admintournament.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/formtournament.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tournamentactive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tournamentmodule.Po@am__quote@
@@ -607,6 +613,13 @@ tournamentactive.moc: $(srcdir)/tournamentactive.h
 mocs: tournamentactive.moc
 
 #>+ 3
+admintournament.moc: $(srcdir)/admintournament.h
+	$(MOC) $(srcdir)/admintournament.h -o admintournament.moc
+
+#>+ 2
+mocs: admintournament.moc
+
+#>+ 3
 tournamentold.moc: $(srcdir)/tournamentold.h
 	$(MOC) $(srcdir)/tournamentold.h -o tournamentold.moc
 
@@ -629,7 +642,7 @@ mocs: tournamentmodule.moc
 
 #>+ 3
 clean-metasources:
-	-rm -f  formtournament.moc tournamentactive.moc tournamentold.moc tournamentwidget.moc tournamentmodule.moc
+	-rm -f  formtournament.moc tournamentactive.moc admintournament.moc tournamentold.moc tournamentwidget.moc tournamentmodule.moc
 
 #>+ 2
 KDE_DIST=libtournament-module.a Makefile.in 
@@ -667,11 +680,11 @@ bcheck-am:
 
 
 #>+ 11
-libtournament_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/tournamentactive.cpp $(srcdir)/tournamentmodule.cpp $(srcdir)/tournamentold.cpp $(srcdir)/tournamentwidget.cpp $(srcdir)/formtournament.cpp  tournamentactive.moc formtournament.moc tournamentold.moc tournamentwidget.moc tournamentmodule.moc
+libtournament_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/tournamentactive.cpp $(srcdir)/tournamentmodule.cpp $(srcdir)/tournamentold.cpp $(srcdir)/tournamentwidget.cpp $(srcdir)/formtournament.cpp $(srcdir)/admintournament.cpp  tournamentactive.moc formtournament.moc tournamentold.moc admintournament.moc tournamentwidget.moc tournamentmodule.moc
 	@echo 'creating libtournament_module_a.all_cpp.cpp ...'; \
 	rm -f libtournament_module_a.all_cpp.files libtournament_module_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libtournament_module_a.all_cpp.final; \
-	for file in tournamentactive.cpp tournamentmodule.cpp tournamentold.cpp tournamentwidget.cpp formtournament.cpp ; do \
+	for file in tournamentactive.cpp tournamentmodule.cpp tournamentold.cpp tournamentwidget.cpp formtournament.cpp admintournament.cpp ; do \
 	  echo "#include \"$$file\"" >> libtournament_module_a.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> libtournament_module_a.all_cpp.final; \
 	done; \
@@ -706,16 +719,18 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 13
-nmcheck: 
+#>+ 15
 tournamentmodule.lo: tournamentmodule.moc 
-tournamentwidget.lo: tournamentwidget.moc 
-nmcheck-am: nmcheck
+admintournament.lo: admintournament.moc 
 formtournament.lo: formtournament.moc 
-tournamentactive.o: tournamentactive.moc 
-tournamentwidget.o: tournamentwidget.moc 
-tournamentold.o: tournamentold.moc 
 tournamentmodule.o: tournamentmodule.moc 
 formtournament.o: formtournament.moc 
+admintournament.o: admintournament.moc 
+nmcheck: 
+tournamentwidget.lo: tournamentwidget.moc 
+nmcheck-am: nmcheck
+tournamentwidget.o: tournamentwidget.moc 
+tournamentactive.o: tournamentactive.moc 
+tournamentold.o: tournamentold.moc 
 tournamentactive.lo: tournamentactive.moc 
 tournamentold.lo: tournamentold.moc 

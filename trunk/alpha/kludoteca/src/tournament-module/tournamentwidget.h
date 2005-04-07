@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,11 +25,12 @@
 #include "tournamentold.h"
 #include <kpushbutton.h>
 #include "formtournament.h"
+#include "admintournament.h"
 
 /**
  * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
  * @short Widget con la informacion del los torneos
- * @author CetiSoft
+ * @author David Cuadrado
 */
 class TournamentWidget : public LTToolBox
 {
@@ -63,6 +64,7 @@ class TournamentWidget : public LTToolBox
 	private:
 		TournamentActive *m_tournamentActive;
 		TournamentOld *m_tournamentOld;
+		AdminTournament *m_adminTournament;
 };
 
 #endif

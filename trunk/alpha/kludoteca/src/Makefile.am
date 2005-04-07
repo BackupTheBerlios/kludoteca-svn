@@ -16,7 +16,7 @@ kludoteca_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 kludoteca_LDADD = $(top_builddir)/src/bd-module/libbd-module.a \
 	$(top_builddir)/src/clients-module/libclients-module.a $(top_builddir)/src/games-module/libgames-module.a \
 	$(top_builddir)/src/tournament-module/libtournament-module.a $(top_builddir)/src/admin-module/libadmin-module.a \
-	$(top_builddir)/src/lib/lib.a $(LIB_KFILE) $(LIB_KDEPRINT) -lkmdi
+	$(top_builddir)/src/lib/lib.a $(LIB_KFILE) $(LIB_KDEPRINT) -lkmdi -lkhtml
 
 # which sources should be compiled for kludoteca
 kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \
