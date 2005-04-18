@@ -1,0 +1,37 @@
+--convenciones--
+priorización de las tareas
+1        muy urgente	(nesesaria para continuar)
+2        urgente	
+3        media		
+4        baja		(vistosa)
+5        muy baja	(opcional)
+
+estado
++     terminado
++/-   iniciado
+-     sin iniciar
+
++/-3	 Terminar el formulario para administrar usuarios y mejorar los formularios de administracion de cada modulo.
+-2	 Hacer la ventana de primer dialogo que configure el idioma, y las cosas de la BD
++/-3	 Definir que va a parecer despues de que se crea la gui, una ventana tipo konqueror3.4, un html de introduccion a la aplicacion o si lo dejamos vacio tipo kdevelop3.
+-5	 Crear el splash.
+-3	 Hacer el dialogo de configuracion.
+-3	 Hacer un dialogo para configurar la empresa(nit, razon social, direccion, socios, y demas)
+-4	 hacer los dialogos para la actualizacion de los datos de un torneo
+
+
++/-1	 Definir la forma de acceder a la base de datos
++1	 hacer la BD
+-1	 definir como se van a crear los usuarios.
++/-4	 definir lo accion para la toolbar.
+-4	 hacer el sistema de apareo
+-4	 generar los reportes estadisticos y registrarlos en un xml previamente diseñado
+-4	 hacer el sistema de logs
+-3	 hacer las traducciones de la gui a español o mas idiomas
+-2	 diseñar e implementar el sistema de mantenimiento de la bd ( hacer backaps o retomar los)
+
+-1	 diseñar e implementar el modulo de prestamo de juegos
+
+
+-1       Crear la listas a partir de un xml generado a partir de una consulta a la base de datos, se debe diseñar este XML de forma estandar.
+
