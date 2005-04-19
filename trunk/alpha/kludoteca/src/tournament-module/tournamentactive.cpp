@@ -18,9 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "tournamentactive.h"
+#include <klocale.h>
 
-TournamentActive::TournamentActive(QWidget *parent) : QVBox(parent, "TournamentActive")
+TournamentActive::TournamentActive(QWidget *parent) : LTListView(QStringList() << i18n("Tournament name") << i18n("Game")<< i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::NoButton, LTListView::NoButton, parent = 0, "ActiveTournaments")
 {
+	
 }
 
 
@@ -28,5 +30,29 @@ TournamentActive::~TournamentActive()
 {
 }
 
+void TournamentActive::addButtonClicked()
+{
+}
+
+void TournamentActive::delButtonClicked()
+{
+	
+}
+
+void TournamentActive::modifyButtonClicked()
+{
+}
+
+void TournamentActive::queryButtonClicked()
+{
+}
+
+void TournamentActive::fillList()
+{
+}
+
+void TournamentActive::getClickedItem(QListViewItem *item)
+{
+}
 
 #include "tournamentactive.moc"

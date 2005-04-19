@@ -21,13 +21,14 @@
 #ifndef TOURNAMENTACTIVE_H
 #define TOURNAMENTACTIVE_H
 
+#include "ltlistview.h"
 #include <qvbox.h>
 
 /**
  * En este widget tenemos los torneos activos
  * @author David Cuadrado
 */
-class TournamentActive : public QVBox
+class TournamentActive : public LTListView
 {
 	Q_OBJECT
 	public:
@@ -39,7 +40,44 @@ class TournamentActive : public QVBox
 		 * Destructor por defecto
 		 */
     		~TournamentActive();
-
+		
+	protected:
+		/**
+	 	 * Esta funcion debe implementarse para llenar la lista.
+		 */
+		void fillList();
+	
+	signals:
+		/**
+	 	 * Este signal envia el widget para er puesto en la ventana principal
+		 */
+		void sendWidget(KMdiChildView *) ;	
+			
+	public slots:
+		/**
+		 * Esta funcion nos da el item que fue clickeado
+		 */
+		void getClickedItem(QListViewItem *item);
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de adicionar
+		 */
+		void addButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de borrar
+		 */
+		void delButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de modificar
+		 */
+		void modifyButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
+		 */
+		void queryButtonClicked();
 };
 
 #endif

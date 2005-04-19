@@ -659,6 +659,110 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>KLMainPage</name>
+    <filename>classKLMainPage.html</filename>
+    <member kind="signal">
+      <type>void</type>
+      <name>sendWidget</name>
+      <anchor>l0</anchor>
+      <arglist>(KMdiChildView *)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>KLMainPage</name>
+      <anchor>a0</anchor>
+      <arglist>(QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~KLMainPage</name>
+      <anchor>a1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>openURL</name>
+      <anchor>a2</anchor>
+      <arglist>(const KURL &amp;url)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>openFile</name>
+      <anchor>a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>saveState</name>
+      <anchor>a4</anchor>
+      <arglist>(QDataStream &amp;stream)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>restoreState</name>
+      <anchor>a5</anchor>
+      <arglist>(QDataStream &amp;stream)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addTournament</name>
+      <anchor>a6</anchor>
+      <arglist>(const QString &amp;name=QString::null)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addClient</name>
+      <anchor>a7</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="protected" virtualness="virtual">
+      <type>virtual void</type>
+      <name>urlSelected</name>
+      <anchor>b0</anchor>
+      <arglist>(const QString &amp;url, int button, int state, const QString &amp;target, KParts::URLArgs args=KParts::URLArgs())</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>KLMainPageFactory</name>
+    <filename>classKLMainPageFactory.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>KLMainPageFactory</name>
+      <anchor>a0</anchor>
+      <arglist>(QObject *parent=0, const char *name=0)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QString</type>
+      <name>mainpage</name>
+      <anchor>e0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QString</type>
+      <name>page2</name>
+      <anchor>e1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QString</type>
+      <name>page3</name>
+      <anchor>e2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QString</type>
+      <name>page4</name>
+      <anchor>e3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QString</type>
+      <name>page5</name>
+      <anchor>e4</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>KLResultSet</name>
     <filename>classKLResultSet.html</filename>
     <member kind="function">
@@ -822,6 +926,24 @@
       <name>setMessage</name>
       <anchor>a3</anchor>
       <arglist>(const QString &amp;texto)</arglist>
+    </member>
+    <member kind="function">
+      <type>KLMainPage *</type>
+      <name>mainPage</name>
+      <anchor>a4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addTournament</name>
+      <anchor>a5</anchor>
+      <arglist>(const QString &amp;texto=QString::null)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addClient</name>
+      <anchor>a6</anchor>
+      <arglist>()</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -987,6 +1109,59 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>RentsWidget</name>
+    <filename>classRentsWidget.html</filename>
+    <base>LTListView</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>getClickedItem</name>
+      <anchor>i0</anchor>
+      <arglist>(QListViewItem *item)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addButtonClicked</name>
+      <anchor>i1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>delButtonClicked</name>
+      <anchor>i2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>modifyButtonClicked</name>
+      <anchor>i3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>queryButtonClicked</name>
+      <anchor>i4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="signal" virtualness="virtual">
+      <type>virtual void</type>
+      <name>sendWidget</name>
+      <anchor>l0</anchor>
+      <arglist>(KMdiChildView *)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>RentsWidget</name>
+      <anchor>a0</anchor>
+      <arglist>(Button button1=NoButton, Button button2=NoButton, Button button3=NoButton, Button button4=NoButton, QWidget *parent=0)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>fillList</name>
+      <anchor>a2</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>TournamentActive</name>
     <filename>classTournamentActive.html</filename>
     <member kind="function">
@@ -1064,9 +1239,9 @@
     </member>
   </compound>
   <compound kind="dir">
-    <name>/home/krawek/Proyectos/kludoteca/src/admin-module/</name>
-    <path>/home/krawek/Proyectos/kludoteca/src/admin-module/</path>
-    <filename>dir_000002.html</filename>
+    <name>/tmp/kludoteca/src/admin-module/</name>
+    <path>/tmp/kludoteca/src/admin-module/</path>
+    <filename>dir_000003.html</filename>
     <file>admindatabase.cpp</file>
     <file>admindatabase.h</file>
     <file>adminusers.cpp</file>
@@ -1077,18 +1252,18 @@
     <file>formadminusers.h</file>
   </compound>
   <compound kind="dir">
-    <name>/home/krawek/Proyectos/kludoteca/src/clients-module/</name>
-    <path>/home/krawek/Proyectos/kludoteca/src/clients-module/</path>
-    <filename>dir_000004.html</filename>
+    <name>/tmp/kludoteca/src/clients-module/</name>
+    <path>/tmp/kludoteca/src/clients-module/</path>
+    <filename>dir_000005.html</filename>
     <file>clientswidget.cpp</file>
     <file>clientswidget.h</file>
     <file>formadminclients.cpp</file>
     <file>formadminclients.h</file>
   </compound>
   <compound kind="dir">
-    <name>/home/krawek/Proyectos/kludoteca/src/games-module/</name>
-    <path>/home/krawek/Proyectos/kludoteca/src/games-module/</path>
-    <filename>dir_000005.html</filename>
+    <name>/tmp/kludoteca/src/games-module/</name>
+    <path>/tmp/kludoteca/src/games-module/</path>
+    <filename>dir_000006.html</filename>
     <file>formadmingame.cpp</file>
     <file>formadmingame.h</file>
     <file>gameslist.cpp</file>
@@ -1097,16 +1272,16 @@
     <file>gamesmodule.h</file>
   </compound>
   <compound kind="dir">
-    <name>/home/krawek/Proyectos/kludoteca/</name>
-    <path>/home/krawek/Proyectos/kludoteca/</path>
-    <filename>dir_000000.html</filename>
-    <dir>/home/krawek/Proyectos/kludoteca/src/</dir>
+    <name>/tmp/kludoteca/</name>
+    <path>/tmp/kludoteca/</path>
+    <filename>dir_000001.html</filename>
+    <dir>/tmp/kludoteca/src/</dir>
     <file>config.h</file>
   </compound>
   <compound kind="dir">
-    <name>/home/krawek/Proyectos/kludoteca/src/lib/</name>
-    <path>/home/krawek/Proyectos/kludoteca/src/lib/</path>
-    <filename>dir_000003.html</filename>
+    <name>/tmp/kludoteca/src/lib/</name>
+    <path>/tmp/kludoteca/src/lib/</path>
+    <filename>dir_000004.html</filename>
     <file>bdconnection.cpp</file>
     <file>bdconnection.h</file>
     <file>formbase.cpp</file>
@@ -1125,14 +1300,22 @@
     <file>lttoolbox.h</file>
   </compound>
   <compound kind="dir">
-    <name>/home/krawek/Proyectos/kludoteca/src/</name>
-    <path>/home/krawek/Proyectos/kludoteca/src/</path>
-    <filename>dir_000001.html</filename>
-    <dir>/home/krawek/Proyectos/kludoteca/src/admin-module/</dir>
-    <dir>/home/krawek/Proyectos/kludoteca/src/clients-module/</dir>
-    <dir>/home/krawek/Proyectos/kludoteca/src/games-module/</dir>
-    <dir>/home/krawek/Proyectos/kludoteca/src/lib/</dir>
-    <dir>/home/krawek/Proyectos/kludoteca/src/tournament-module/</dir>
+    <name>/tmp/kludoteca/src/rents-module/</name>
+    <path>/tmp/kludoteca/src/rents-module/</path>
+    <filename>dir_000008.html</filename>
+    <file>rentswidget.cpp</file>
+    <file>rentswidget.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>/tmp/kludoteca/src/</name>
+    <path>/tmp/kludoteca/src/</path>
+    <filename>dir_000002.html</filename>
+    <dir>/tmp/kludoteca/src/admin-module/</dir>
+    <dir>/tmp/kludoteca/src/clients-module/</dir>
+    <dir>/tmp/kludoteca/src/games-module/</dir>
+    <dir>/tmp/kludoteca/src/lib/</dir>
+    <dir>/tmp/kludoteca/src/rents-module/</dir>
+    <dir>/tmp/kludoteca/src/tournament-module/</dir>
     <file>crashhandler.cpp</file>
     <file>crashhandler.h</file>
     <file>kludoteca.cpp</file>
@@ -1149,9 +1332,15 @@
     <file>pref.h</file>
   </compound>
   <compound kind="dir">
-    <name>/home/krawek/Proyectos/kludoteca/src/tournament-module/</name>
-    <path>/home/krawek/Proyectos/kludoteca/src/tournament-module/</path>
-    <filename>dir_000006.html</filename>
+    <name>/tmp/</name>
+    <path>/tmp/</path>
+    <filename>dir_000000.html</filename>
+    <dir>/tmp/kludoteca/</dir>
+  </compound>
+  <compound kind="dir">
+    <name>/tmp/kludoteca/src/tournament-module/</name>
+    <path>/tmp/kludoteca/src/tournament-module/</path>
+    <filename>dir_000007.html</filename>
     <file>formtournament.cpp</file>
     <file>formtournament.h</file>
     <file>tournamentactive.cpp</file>
