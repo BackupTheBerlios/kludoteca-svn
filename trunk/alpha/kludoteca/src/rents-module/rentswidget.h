@@ -20,19 +20,30 @@
 #ifndef RENTSWIDGET_H
 #define RENTSWIDGET_H
 
-#include <ltlistview.h>
+#include "ltlistview.h"
 
 /**
-Esta clase contiene el widget principal del modulo de prestamos
-
-@author CetiSoft
+ * Esta clase contiene el widget principal del modulo de prestamos
+ * @author CetiSoft
 */
 class RentsWidget : public LTListView
 {
 	Q_OBJECT
 	public:
+		/**
+		 * Constructor
+		 * @param button1 
+		 * @param button2 
+		 * @param button3 
+		 * @param button4 
+		 * @param parent 
+		 * @return 
+		 */
 		RentsWidget(Button button1 = NoButton, Button button2 = NoButton, Button button3 = NoButton, Button button4 = NoButton, QWidget *parent = 0);
     		~RentsWidget();
+		/**
+		 * Reimplementado de LTListView, sirve para llenar la lista
+		 */
 		void fillList();
 		
 	public slots:

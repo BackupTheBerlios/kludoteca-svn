@@ -37,52 +37,52 @@ class KLDatabase : public QSqlDatabase
 {
 	public:
     		/**
-    		 * 
+    		 * Constructor
     		 * @param parent 
     		 * @return 
     		 */
     		KLDatabase(QObject *parent = 0);
     		/**
-    		 * 
+    		 * Destructor
     		 * @return 
     		 */
     		~KLDatabase();
 		
 		/**
-		 * 
+		 * Sirve para hacer una consulta a la base de datos
 		 * @param consult 
 		 * @return 
 		 */
 		QSqlQuery query(const QString  &consult);
 		
 		/**
-		 * 
+		 * Coloca el nombre de la base de datos
 		 * @param dbname 
 		 */
 		void setDatabaseName ( const QString & dbname );
 		/**
-		 * 
+		 * Coloca el usuario de la base de datos
 		 * @param login 
 		 */
 		void setUserName ( const QString & login );
 		/**
-		 * 
+		 * Coloca el password de la base de datos.
 		 * @param password 
 		 */
 		void setPassword ( const QString & password );
 		/**
-		 * 
+		 * Coloca el hostname de la base de datos.
 		 * @param host 
 		 */
 		void setHostName ( const QString & host );
 		/**
-		 * 
+		 * Pone el puerto.
 		 * @param p 
 		 */
 		void setPort ( int p );
 		
 		/**
-		 * 
+		 * Configura la conexion, y la deja lista para ser utilizada. 
 		 * @param dbname 
 		 * @param login 
 		 * @param password 
@@ -91,11 +91,11 @@ class KLDatabase : public QSqlDatabase
 		void setupConnection(const QString & dbname, const QString & login, const QString & password, const QString & host );
 
 		/**
-		 * 
+		 * Funcion de alto nivel para realizar consultas
 		 * @param fields 
 		 * @param table 
 		 * @param selectparams 
-		 * @return 
+		 * @return KLResultSet el cual es un documento XML con las consultas.
 		 */
 		KLResultSet select(QStringList fields, QString table, QString selectparams = QString::null);
 };

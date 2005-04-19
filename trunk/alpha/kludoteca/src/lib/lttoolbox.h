@@ -33,14 +33,14 @@ class LTToolBox : public QToolBox
 	
 	public:
     		/**
-    		 * 
+    		 * Constructor
     		 * @param parent 
     		 * @param name 
     		 * @return 
     		 */
     		LTToolBox(QWidget *parent = 0, const char *name = 0);
 		/**
-		 * 
+		 * Destructor
 		 * @return 
 		 */
 		~LTToolBox();

@@ -59,7 +59,7 @@ class TournamentWidget : public LTToolBox
 		
 	public slots:
 		/**
-		 * 
+		 * Agrega un torneo
 		 */
 		void addTournament();
 		

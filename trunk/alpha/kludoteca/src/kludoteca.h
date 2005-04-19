@@ -87,11 +87,11 @@ class KLudoteca : public KMdiMainFrm
 
 	protected:
 		/**
-	 	* Metodos sobre escritos de Qt para hacer Drag & drop (dnd)
+	 	* Metodos sobre escritos de Qt para hacer Drag
 		*/
 		virtual void dragEnterEvent(QDragEnterEvent *event);
 		/**
-		 * 
+		 * Metodos sobre escritos de Qt para hacer drop
 		 * @param event 
 		 */
 		virtual void dropEvent(QDropEvent *event);
@@ -150,12 +150,12 @@ class KLudoteca : public KMdiMainFrm
 		void newToolbarConfig();
 		
 		/**
-		 * 
+		 * Coloca un texto en la barra de estado
 		 * @param text 
 		 */
 		void changeStatusbar(const QString& text);
 		/**
-		 * 
+		 * Coloca un titulo
 		 * @param text 
 		 */
 		void changeCaption(const QString& text);
@@ -165,7 +165,7 @@ class KLudoteca : public KMdiMainFrm
 		 */
 		void queryGame(QString &game);
 		/**
-		 * 
+		 * Pone la ventana principal en modo pantalla completa
 		 */
 		void setFullScreen();
 		
@@ -186,23 +186,23 @@ class KLudoteca : public KMdiMainFrm
 		
 	private:
 		/**
-		 * 
+		 * Crea y configura los aceleradores
 		 */
 		void setupAccel();
 		/**
-		 * 
+		 * Crea y configura las acciones
 		 */
 		void setupActions();
 		/**
-		 * 
+		 * Crea y configura los tools windows
 		 */
 		void setupToolWindows();
 		/**
-		 * 
+		 * Crea y configura el OnScreen-Display
 		 */
 		void setupOSD();
 		/**
-		 * 
+		 * Crea y configura la base de datos
 		 */
 		void setupDatabase();
 

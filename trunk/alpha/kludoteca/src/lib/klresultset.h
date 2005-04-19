@@ -53,17 +53,17 @@ class KLResultSet : public QDomDocument
 {
 	public:
     		/**
-    		 * 
+    		 * Constructor
     		 * @return 
     		 */
     		KLResultSet();
     		/**
-    		 * 
+    		 * Destructor
     		 * @return 
     		 */
     		~KLResultSet();
 		/**
-		 * 
+		 * Pone los records
 		 * @param fields 
 		 * @param results 
 		 */

@@ -71,7 +71,7 @@ class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler
 		
 	signals:
 		/**
-		 * 
+		 * Se emite cuando un record es leido
 		 * @param results 
 		 */
 		void readRecord(QStringList results);

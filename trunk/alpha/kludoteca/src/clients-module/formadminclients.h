@@ -39,18 +39,18 @@ class FormAdminClients : public FormBase
 	Q_OBJECT
 	public:
 		/**
-		 * 
+		 * Constructor
 		 * @param parent 
 		 * @return 
 		 */
 		FormAdminClients(QWidget *parent = 0);
 		/**
-		 * 
+		 * Destructor
 		 * @return 
 		 */
 		~FormAdminClients();
 		/**
-		 * 
+		 * Crea la forma
 		 */
 		void setupForm();
 		
@@ -74,11 +74,11 @@ class FormAdminClients : public FormBase
 	
 	private:
 		/**
-		 * 
+		 * Crea los botones
 		 */
 		void setupButtonsBox();
 		/**
-		 * 
+		 * Crea la caja principal
 		 */
 		void setupBox();
 };

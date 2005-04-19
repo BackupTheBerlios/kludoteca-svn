@@ -587,18 +587,18 @@ uninstall-am: uninstall-info-am
 .NOEXPORT:
 
 #>+ 3
-admindatabase.moc: $(srcdir)/admindatabase.h
-	$(MOC) $(srcdir)/admindatabase.h -o admindatabase.moc
-
-#>+ 2
-mocs: admindatabase.moc
-
-#>+ 3
 formadminusers.moc: $(srcdir)/formadminusers.h
 	$(MOC) $(srcdir)/formadminusers.h -o formadminusers.moc
 
 #>+ 2
 mocs: formadminusers.moc
+
+#>+ 3
+admindatabase.moc: $(srcdir)/admindatabase.h
+	$(MOC) $(srcdir)/admindatabase.h -o admindatabase.moc
+
+#>+ 2
+mocs: admindatabase.moc
 
 #>+ 3
 adminusers.moc: $(srcdir)/adminusers.h
@@ -616,7 +616,7 @@ mocs: adminwidget.moc
 
 #>+ 3
 clean-metasources:
-	-rm -f  admindatabase.moc formadminusers.moc adminusers.moc adminwidget.moc
+	-rm -f  formadminusers.moc admindatabase.moc adminusers.moc adminwidget.moc
 
 #>+ 2
 KDE_DIST=Makefile.in 
@@ -654,7 +654,7 @@ bcheck-am:
 
 
 #>+ 11
-libadmin_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/admindatabase.cpp $(srcdir)/adminusers.cpp $(srcdir)/adminwidget.cpp $(srcdir)/formadminusers.cpp  adminusers.moc formadminusers.moc admindatabase.moc adminwidget.moc
+libadmin_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/admindatabase.cpp $(srcdir)/adminusers.cpp $(srcdir)/adminwidget.cpp $(srcdir)/formadminusers.cpp  adminusers.moc admindatabase.moc formadminusers.moc adminwidget.moc
 	@echo 'creating libadmin_module_a.all_cpp.cpp ...'; \
 	rm -f libadmin_module_a.all_cpp.files libadmin_module_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libadmin_module_a.all_cpp.final; \
@@ -699,8 +699,8 @@ adminusers.lo: adminusers.moc
 adminusers.o: adminusers.moc 
 nmcheck-am: nmcheck
 adminwidget.lo: adminwidget.moc 
-formadminusers.o: formadminusers.moc 
 admindatabase.lo: admindatabase.moc 
+formadminusers.o: formadminusers.moc 
 formadminusers.lo: formadminusers.moc 
 admindatabase.o: admindatabase.moc 
 adminwidget.o: adminwidget.moc 

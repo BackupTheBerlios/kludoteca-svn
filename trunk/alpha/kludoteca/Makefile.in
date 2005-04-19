@@ -722,7 +722,7 @@ dist-hook:
 .NOEXPORT:
 
 #>+ 2
-KDE_DIST=stamp-h.in subdirs Makefile.in kludoteca.kdevses kludoteca.kdevelop.pcs configure.files kludoteca.kdevelop fixperms.sh Makefile.cvs Doxyfile kludoteca.tag 
+KDE_DIST=stamp-h.in subdirs Makefile.in kludoteca.kdevses kludoteca.kdevelop.pcs configure.files kludoteca.kdevelop Makefile.cvs fixperms.sh Doxyfile kludoteca.tag 
 
 #>+ 2
 docs-am:

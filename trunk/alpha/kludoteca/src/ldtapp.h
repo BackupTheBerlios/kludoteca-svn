@@ -42,7 +42,7 @@ class LDTApp : public KApplication
 		
 	private:
 		/**
-		 * 
+		 * Coloca los colores de la aplicacion
 		 */
 		void applyColors();
 

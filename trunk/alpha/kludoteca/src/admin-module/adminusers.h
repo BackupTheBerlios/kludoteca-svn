@@ -34,7 +34,7 @@ class AdminUsers : public LTListView
 	
 	public:
     		/**
-    		 * 
+    		 * Constructor por defecto
     		 * @param button1 
     		 * @param button2 
     		 * @param button3 
@@ -50,11 +50,14 @@ class AdminUsers : public LTListView
 			QWidget *parent = 0, 
 			const char *name = 0);
 		/**
-		 * 
+		 * Destructor
 		 * @return 
 		 */
 		~AdminUsers();
 		
+		/**
+		 * Llena la lista, esta funcion es reimplementada de LTListView
+		 */
 		void fillList();
 		
 	public slots:
@@ -85,7 +88,7 @@ class AdminUsers : public LTListView
 		
 	signals:
 		/**
-	 * Este signal envia el widget para ser puesto en la ventana principal
+	 	 * Este signal envia el widget para ser puesto en la ventana principal
 		 */
 		virtual void sendWidget(KMdiChildView *);
 

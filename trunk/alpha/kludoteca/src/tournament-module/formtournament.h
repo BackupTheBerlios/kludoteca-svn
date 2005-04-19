@@ -50,29 +50,22 @@ class FormTournament : public FormBase
 
 	public:
 		/**
-		 * 
+		 * Constructor por defecto
 		 * @param parent 
 		 * @return 
 		 */
 		FormTournament(QWidget *parent = 0);
 		/**
-		 * 
+		 * Destructor
 		 * @return 
 		 */
 		~FormTournament();
 		/**
-		 * 
+		 * Crea la forma
 		 */
 		void setupForm();
 		/**
-		 * 
-		 * @param nameTournament 
-		 * @param nameGame 
-		 * @param inscription 
-		 * @param discount 
-		 */
-		/**
-		 * 
+		 * Llena los campos del formulario
 		 * @param nameTournament 
 		 * @param nameGame 
 		 * @param inscription 
@@ -82,11 +75,11 @@ class FormTournament : public FormBase
 	
 	public slots:
 		/**
-		 * 
+		 * Reimplementado de LTListView, se activa cuando se presiona el boton de aceptar la accion
 		 */
 		void accept();
 		/**
-		 * 
+		 * Reimplementado de LTListview, se activa cuando se presiona el boton de cancelar la accion
 		 */
 		void cancel();
 	
@@ -118,11 +111,11 @@ class FormTournament : public FormBase
 		
 	private:		
 		/**
-		 * 
+		 * Crea el cuadro de botones
 		 */
 		void setupButtonsBox();
 		/**
-		 * 
+		 * Crea la caja
 		 */
 		void setupBox();	
 

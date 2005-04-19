@@ -67,11 +67,11 @@ class FormAdminGame : public FormBase
 		
 	public slots:
 		/**
-		 * 
+		 * Reimplementado de LTListView, se activa cuando se presiona el boton de aceptar la accion
 		 */
 		void accept ();
 		/**
-		 * 
+		 * Reimplementado de LTListview, se activa cuando se presiona el boton de cancelar la accion
 		 */
 		void cancel ();
 		

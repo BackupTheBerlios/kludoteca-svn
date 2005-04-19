@@ -32,7 +32,7 @@ class GamesModule : public KMdiChildView
 	Q_OBJECT
 	public:
 		/**
-		 * 
+		 * Constructor
 		 * @param parentWidget 
 		 * @param name 
 		 * @param f 
@@ -40,7 +40,7 @@ class GamesModule : public KMdiChildView
 		 */
 		GamesModule(QWidget *parentWidget=0L, const char *name=0L, WFlags f=0);
 		/**
-		 * 
+		 * Destructor
 		 * @return 
 		 */
 		~GamesModule();

@@ -33,13 +33,13 @@ class AdminDatabase : public QVBox
 	Q_OBJECT
 	public:
 	    	/**
-	    	 * 
+	    	 * Constructor por defecto
 	    	 * @param parent 
 	    	 * @return 
 	    	 */
 	    	AdminDatabase(QWidget *parent = 0);
     		/**
-    		 * 
+    		 * Destructor por defecto
     		 * @return 
     		 */
     		~AdminDatabase();

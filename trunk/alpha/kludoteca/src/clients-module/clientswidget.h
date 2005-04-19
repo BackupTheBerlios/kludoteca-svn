@@ -35,7 +35,7 @@ class ClientsWidget : public LTListView
 	Q_OBJECT
 	public:
 		/**
-		 * 
+		 * Constructor
 		 * @param button1 
 		 * @param button2 
 		 * @param button3 
@@ -48,7 +48,7 @@ class ClientsWidget : public LTListView
     		~ClientsWidget();
 		
 		/**
-		 * 
+		 * Llena la lista, esta funcion es reimplementada de LTListView
 		 */
 		void fillList();
 		

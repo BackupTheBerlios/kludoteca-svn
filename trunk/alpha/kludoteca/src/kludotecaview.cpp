@@ -112,9 +112,14 @@ QString KLMainPageFactory::mainpage()
 
 	KIconLoader *iconloader = KGlobal::iconLoader();
 	int iconSize = iconloader->currentSize(KIcon::Desktop);
-	QString home_icon_path = iconloader->iconPath("kfm_home", KIcon::Desktop );
-	QString storage_icon_path = iconloader->iconPath("system", KIcon::Desktop );
-	QString remote_icon_path = iconloader->iconPath("network", KIcon::Desktop );
+	
+	QString addclients_icon_path = locate("data","kludoteca/icons/clientsicon.png");
+	
+	
+	QString addtournament_icon_path = locate("data","kludoteca/icons/tournamenticon.png");
+	
+	QString rents_icon_path = locate("data","kludoteca/icons/rentsicon.png");
+	
 	QString wastebin_icon_path = iconloader->iconPath("trashcan_full", KIcon::Desktop );
 	QString applications_icon_path = iconloader->iconPath("kmenu", KIcon::Desktop );
 	QString settings_icon_path = iconloader->iconPath("kcontrol", KIcon::Desktop );
@@ -135,15 +140,15 @@ QString KLMainPageFactory::mainpage()
 			.arg( i18n( "Introduction" ) )
 			.arg( i18n( "Tips" ) )
 			.arg( i18n( "Specifications" ) )
-			.arg( home_icon_path )
+			.arg( addclients_icon_path )
 			.arg(iconSize).arg(iconSize)
 			.arg( i18n( "Add clients" ) )
 			.arg( i18n( "Click for add clients" ) )
-			.arg( storage_icon_path )
+			.arg( addtournament_icon_path )
 			.arg(iconSize).arg(iconSize)
 			.arg( i18n( "Add tournament" ) )
 			.arg( i18n( "Click for create a new tournamet" ) )
-			.arg( remote_icon_path )
+			.arg( rents_icon_path )
 			.arg(iconSize).arg(iconSize)
 			.arg( i18n( "Rents a game" ) )
 			.arg( i18n( "Click for rents a game" ) )
@@ -181,7 +186,7 @@ QString KLMainPageFactory::page2()
 
 	KIconLoader *iconloader = KGlobal::iconLoader();
 	QString back_icon_path = QApplication::reverseLayout()?iconloader->iconPath("forward", KIcon::Small ):iconloader->iconPath("back", KIcon::Small );
-	QString gohome_icon_path = iconloader->iconPath("gohome", KIcon::Small );
+	QString goaddclients_icon_path = iconloader->iconPath("gohome", KIcon::Small );
 	QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
 	res = res.arg( locate( "data", "kludoteca/data/kl_infopage.css" ) );
@@ -525,6 +530,10 @@ void KLMainPage::urlSelected( const QString &url, int button, int state, const Q
 	else if (u.protocol() == "addclient")
 	{
 		addClient();
+		return;
+	}
+	else if(u.protocol() == "rents")
+	{
 		return;
 	}
 	else if (u.protocol() == "unkown")

@@ -24,6 +24,10 @@
 class Crash
 {
 	public:
+		/**
+		 * Funcion que maneja las excepciones cuando estas se producen
+		 * @param signal 
+		 */
 		static void crashHandler( int signal );
 };
 
