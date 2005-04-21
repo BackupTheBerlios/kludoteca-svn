@@ -167,6 +167,7 @@ CREATE TABLE ldt_clients (
     address character varying(20),
     namereference character varying(15),
     phonereference character varying(15),
+    addressreference character varying(20),
     primary key(docIdent)
 );
 
@@ -185,6 +186,7 @@ CREATE TABLE ldt_tournament (
     rounds integer NOT NULL,
     price real NOT NULL,
     discount real NOT NULL,
+    state character varying(10) NOT NULL,
     primary key(codTournament),
     foreign key(gameReference) references ldt_games(serialReference)
 );
@@ -238,7 +240,7 @@ CREATE TABLE ldt_users (
     login character varying(10) NOT NULL,
     firstName character varying(10) NOT NULL,
     lastName character varying(10) NOT NULL,
-    sex character varying(8) NOT NULL,
+    sex character varying(10) NOT NULL,
     address character varying(20) NOT NULL,
     phone character varying(10) NOT NULL,
     permissions character varying(10) NOT NULL,

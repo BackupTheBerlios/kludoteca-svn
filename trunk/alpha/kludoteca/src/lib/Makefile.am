@@ -3,6 +3,6 @@ INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/games-module \
 METASOURCES = AUTO
 noinst_LIBRARIES = lib.a
 noinst_HEADERS = lttoolbox.h ltlistview.h formbase.h kludotecaiface.h \
-		bdconnection.h kldatabase.h klresultset.h klresultsetinterpreter.h
+			bdconnection.h kldatabase.h klresultset.h klresultsetinterpreter.h klquery.h
 lib_a_SOURCES = lttoolbox.cpp ltlistview.cpp formbase.cpp kludotecaiface.skel \
-		bdconnection.cpp kldatabase.cpp klresultset.cpp klresultsetinterpreter.cpp
+			bdconnection.cpp kldatabase.cpp klresultset.cpp klresultsetinterpreter.cpp klquery.cpp

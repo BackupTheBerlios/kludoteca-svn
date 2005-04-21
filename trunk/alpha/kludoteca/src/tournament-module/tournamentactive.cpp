@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                        	  	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -49,6 +49,21 @@ void TournamentActive::queryButtonClicked()
 
 void TournamentActive::fillList()
 {
+	/*
+	if ( !m_db )
+	{
+		qDebug("You're need set the database!!");
+		return;
+	}
+	
+	KLResultSet resultSet = m_db->select(QStringList() << "firstname" << "lastname", "ldt_clients");
+	
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.parse(m_xmlsource) )
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+	*/
 }
 
 void TournamentActive::getClickedItem(QListViewItem *item)

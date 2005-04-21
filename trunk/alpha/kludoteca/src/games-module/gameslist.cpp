@@ -42,7 +42,9 @@ void GamesList::fillList()
 		return;
 	}
 	
-	KLResultSet resultSet = m_db->select(QStringList() << "gamename" << "state", "ldt_games");
+	KLSelect sqlquery(QStringList() << "gamename" << "state", QStringList() << "ldt_games");
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.parse(m_xmlsource) )

@@ -26,7 +26,7 @@
 
 using namespace std;
 
-AdminUsers::AdminUsers(Button button1, Button button2, Button button3, Button button4,QWidget *parent, const char *name) : LTListView(QStringList() << i18n("First Name") << i18n("Last Name") << i18n("State"), button1, button2, button3, button4, parent, name)
+AdminUsers::AdminUsers(Button button1, Button button2, Button button3, Button button4,QWidget *parent, const char *name) : LTListView(QStringList() << i18n("First Name") << i18n("Last Name") << i18n("login"), button1, button2, button3, button4, parent, name)
 {
 	setCaption(i18n("Users"));
 	
@@ -39,6 +39,21 @@ AdminUsers::~AdminUsers()
 
 void AdminUsers::fillList()
 {
+	if ( !m_db )
+	{
+		qDebug("You're need set the database!!");
+		return;
+	}
+	
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users");
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.parse(m_xmlsource) )
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
 }
 
 void AdminUsers::addButtonClicked()

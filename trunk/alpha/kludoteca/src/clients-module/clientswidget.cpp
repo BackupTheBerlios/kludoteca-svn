@@ -21,6 +21,7 @@
 #include "clientswidget.h"
 #include <klocale.h>
 #include <iostream>
+#include "klquery.h"
 
 using namespace std;
 
@@ -36,13 +37,23 @@ ClientsWidget::~ClientsWidget()
 
 void ClientsWidget::fillList()
 {
+// 	KLSelect sql_(QStringList() << "A.nombre", QStringList() << "Empleado A");
+// 	sql_.setWhere("A.salario/30");
+// 	
+// 	KLSelect subsql_(QStringList() << "B.salario/30", QStringList() << "Empleado B");
+// 	subsql_.setWhere("A.codSuperv = B.codigo");
+// 	sql_.addSubConsult(">", subsql_ );
+	
+	
 	if ( !m_db )
 	{
 		qDebug("You're need set the database!!");
 		return;
 	}
 	
-	KLResultSet resultSet = m_db->select(QStringList() << "firstname" << "lastname", "ldt_clients");
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_clients");
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.parse(m_xmlsource) )

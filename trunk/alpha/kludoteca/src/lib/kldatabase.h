@@ -24,6 +24,8 @@
 #include <qsqlquery.h>
 #include <iostream>
 
+#include "klquery.h"
+
 #include "klresultset.h"
 
 class KLDatabase;
@@ -53,7 +55,7 @@ class KLDatabase : public QSqlDatabase
 		 * @param consult 
 		 * @return 
 		 */
-		QSqlQuery query(const QString  &consult);
+		KLResultSet execQuery(const QString  &consult, QStringList fields = QStringList());
 		
 		/**
 		 * Coloca el nombre de la base de datos
@@ -92,12 +94,20 @@ class KLDatabase : public QSqlDatabase
 
 		/**
 		 * Funcion de alto nivel para realizar consultas
+		 * @b NOTA: Esta funcion esta obsoleta, use en su lugar execQuery(KLQuery *query)
 		 * @param fields 
 		 * @param table 
 		 * @param selectparams 
 		 * @return KLResultSet el cual es un documento XML con las consultas.
 		 */
 		KLResultSet select(QStringList fields, QString table, QString selectparams = QString::null);
+		
+		/**
+		 * Funcion de alto nivel para realizar consultas
+		 * @param query 
+		 * @return 
+		 */
+		KLResultSet execQuery(KLQuery *query);
 };
 
 #endif

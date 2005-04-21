@@ -84,7 +84,7 @@ class LTListView : public QVBox
 		 */
 		void makeList(QStringList colsText);
 		
-	protected:
+//	protected:
 		/**
 		 * Esta funcion debe implementarse para llenar la lista.
 		 */

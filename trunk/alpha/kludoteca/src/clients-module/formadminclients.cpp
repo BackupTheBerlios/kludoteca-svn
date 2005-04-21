@@ -66,10 +66,15 @@ void FormAdminClients::setupButtonsBox()
 
 void FormAdminClients::setupBox()
 {
-	QStringList labels = QStringList() << i18n("Name") << i18n("Last name") << i18n("Identification") << i18n("Phone") << i18n("Celular") << i18n("E-Mail");
+	QStringList labels = QStringList() << i18n("Name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("Celular") << i18n("E-Mail");
 	QWidget *box = new QWidget(m_container);
+	QStringList labels2 = QStringList() << i18n("Parent or friend name") << i18n("Parent or friend Last name") << i18n("Parent  or friend Address") << i18n("Parent  or friend Phone");
+	QWidget *box2 = new QWidget(m_container);
+	
 	this->setupGridLineEdit(box, labels, 500);
+	this->setupGridLineEdit(box2, labels2, 200);
 	m_layout->addWidget(box, 0, 0);
+	m_layout->addWidget(box2, 0, 2);
 }
 
 void FormAdminClients::accept()

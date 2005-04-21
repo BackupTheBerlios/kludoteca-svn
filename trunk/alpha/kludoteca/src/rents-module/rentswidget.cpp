@@ -42,7 +42,12 @@ void RentsWidget::fillList()
 		return;
 	}
 	
-	KLResultSet resultSet = m_db->select(QStringList() << "gamename" << "firstname" << "lastname", "ldt_games,ldt_clients,ldt_rents", "where ldt_rents.clientdocident=ldt_clients.docident and ldt_rents.gameserialreference=ldt_games.serialreference;");
+	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_games" << "ldt_clients" << "ldt_rents");
+	sqlquery.setWhere("ldt_rents.clientdocident=ldt_clients.docident and ldt_rents.gameserialreference=ldt_games.serialreference");
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+
+	//->select(QStringList() << "gamename" << "firstname" << "lastname", "ldt_games,ldt_clients,ldt_rents", "where ldt_rents.clientdocident=ldt_clients.docident and ldt_rents.gameserialreference=ldt_games.serialreference;");
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.parse(m_xmlsource) )
