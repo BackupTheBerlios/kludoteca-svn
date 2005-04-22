@@ -90,7 +90,9 @@ class AdminUsers : public LTListView
 		/**
 	 	 * Este signal envia el widget para ser puesto en la ventana principal
 		 */
-		virtual void sendWidget(KMdiChildView *);
+		void sendWidget(KMdiChildView *);
+		
+		void message2osd(const QString &);
 
 };
 

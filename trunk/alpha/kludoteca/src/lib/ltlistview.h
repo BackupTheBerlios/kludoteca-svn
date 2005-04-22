@@ -124,6 +124,13 @@ class LTListView : public QVBox
 		void putItems(QStringList items);
 		
 	signals:
+		
+		/**
+		 * Emita esto si quiere mostrar una mensaje por medio del OSD.
+		 * @param  
+		 */
+		virtual void message2osd(const QString &) = 0;
+		
 		/**
 		 * Este signal envia el widget para er puesto en la ventana principal
 		 */

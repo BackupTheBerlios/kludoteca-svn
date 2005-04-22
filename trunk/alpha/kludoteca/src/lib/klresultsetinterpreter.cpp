@@ -36,7 +36,7 @@ bool KLResultSetInterpreter::startElement( const QString& , const QString& , con
 	if (m_root.isNull() )
 	{
 		m_root = qname;
-		std::cout << "Rooting to " << qname << std::endl;
+		//std::cout << "Rooting to " << qname << std::endl;
 	}
 	else if (qname == "record")
 	{
@@ -52,7 +52,7 @@ bool KLResultSetInterpreter::endElement(const QString& ns, const QString& localn
 	
 	if (qname == "record")
 	{
-		qDebug("Emitiendo resultados");
+		//qDebug("Emitiendo resultados");
 		emit readRecord(m_results);
 	}
 	
@@ -64,7 +64,7 @@ bool KLResultSetInterpreter::characters(const QString &ch)
 	bool conversion;
 	if ( m_root == "RESULTS" && m_read)
 	{
-		std::cout << m_qname << " " << ch << std::endl;
+		//std::cout << m_qname << " " << ch << std::endl;
 		m_results << ch;
 	}
 	

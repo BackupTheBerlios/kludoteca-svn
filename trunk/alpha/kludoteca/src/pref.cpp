@@ -23,36 +23,56 @@
 
 #include <klocale.h>
 
-#include <qlayout.h>
-#include <qlabel.h>
+// KLudotecaPreferences
 
 KLudotecaPreferences::KLudotecaPreferences() : KDialogBase(TreeList, i18n("Configuration..."), Help|Default|Ok|Apply|Cancel, Ok)
 {
 	// this is the base class for your preferences dialog.  it is now
 	// a Treelist dialog.. but there are a number of other
 	// possibilities (including Tab, Swallow, and just Plain)
-	QFrame *frame;
-	frame = addPage(i18n("Primera pagina de config"), i18n("Opciones 1"));
+	QVBox *frame;
+	frame = addVBoxPage(i18n("Database"), i18n("Configure Database"));
+	
 	m_pageOne = new KLudotecaPrefPageOne(frame);
 	
-	frame = addPage(i18n("Segunda pagina de config"), i18n("Opciones 2"));
+	frame = addVBoxPage(i18n("Apparience"), i18n("Look&feel"));
 	m_pageTwo = new KLudotecaPrefPageTwo(frame);
 }
 
+// KLudotecaPrefPageOne
 KLudotecaPrefPageOne::KLudotecaPrefPageOne(QWidget *parent) : QFrame(parent)
-{
-	QHBoxLayout *layout = new QHBoxLayout(this);
-	layout->setAutoAdd(true);
+{	
+	QGridLayout *glayout = new QGridLayout(this, 3, 3, 10);
 	
-	new QLabel(i18n("Agregar algo aqui"), this);
+	m_server = new KLineEdit(this);
+	m_user = new KLineEdit(this);
+	m_pass = new KLineEdit(this);
+	m_database = new KLineEdit(this);
+	
+	glayout->addWidget(new QLabel(i18n("Server: "), this), 0,0);
+	glayout->addWidget(m_server , 0,1);
+	
+	glayout->addWidget(new QLabel(i18n("User"),this), 1,0);
+	glayout->addWidget(m_user, 1, 1);
+	
+	glayout->addWidget(new QLabel(i18n("Password"),this), 2,0);
+	glayout->addWidget(m_pass, 2, 1);
+	
+	glayout->addWidget(new QLabel(i18n("Database"),this), 3,0);
+	glayout->addWidget(m_database, 3, 1);
 }
 
+KLudotecaPrefPageOne::~ KLudotecaPrefPageOne()
+{
+}
+
+// KLudotecaPrefPageTwo
 KLudotecaPrefPageTwo::KLudotecaPrefPageTwo(QWidget *parent) : QFrame(parent)
 {
-	QHBoxLayout *layout = new QHBoxLayout(this);
+	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setAutoAdd(true);
 	
-	new QLabel(i18n("Agregar algo aqui"), this);
+	new QLabel(i18n("Soon we have the look&feel configuration!"), this);
 }
 
 #include "pref.moc"

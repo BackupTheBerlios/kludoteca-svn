@@ -34,9 +34,26 @@ class KLQuery : public QObject
 	Q_OBJECT
 	public:
 		enum Type { Select = 0, Insert, Update, Delete };
+		/**
+		 * Construye una consulta con un tipo t, si t no es definido se asumira que sera una consulta Select
+		 * @param t 
+		 * @return 
+		 */
 		KLQuery(Type t = Select);
+		/**
+		 * Destructor
+		 * @return 
+		 */
 		~KLQuery();
+		/**
+		 * Obtiene la consulta
+		 * @return 
+		 */
 		virtual QString getQuery() const;
+		/**
+		 * Obtiene el tipo de consulta
+		 * @return 
+		 */
 		int getType();
 		
 	protected:
@@ -55,13 +72,40 @@ class KLSelect : public KLQuery
 {
 	Q_OBJECT
 	public:
+		/**
+		 * Construye una consulta select
+		 * @param fields 
+		 * @param tables 
+		 * @return 
+		 */
 		KLSelect(QStringList fields, QStringList tables);
+		/**
+		 * Destructor
+		 * @return 
+		 */
 		~KLSelect();
+		/**
+		 * Añade una subconsulta a la consulta, se debe primero colocar la clausula where por medio de setWhere, y pasar a la funcion el conector y la subconsulta.
+		 * @param connector 
+		 * @param subconsult 
+		 */
 		void addSubConsult(QString connector, const KLSelect &subconsult);
+		/**
+		 * Coloca la clausula where
+		 * @param cwhere 
+		 */
 		void setWhere(QString cwhere);
 		
+		/**
+		 * Obtiene la lista de campos afectados
+		 * @return 
+		 */
 		QStringList getFields();
 		
+		/**
+		 * Obtiene la consulta (Reimplementado de KLQuery)
+		 * @return 
+		 */
 		QString getQuery() const;
 		
 	private:
@@ -77,8 +121,32 @@ class KLUpdate : public KLQuery
 {
 	Q_OBJECT
 	public:
-		KLUpdate();
+		/**
+		 * Construye una consulta UPDATE, se debe pasar la tabla que se quiere afectar y los campos con sus respectivos valores.
+		 * @param table 
+		 * @param fields 
+		 * @param values 
+		 * @return 
+		 */
+		KLUpdate(QString table, QStringList fields, QStringList values );
+		/**
+		 * Destructor
+		 * @return 
+		 */
 		~KLUpdate();
+		/**
+		 * Obtiene la consulta (Reimplementado de KLQuery)
+		 * @return 
+		 */
+		QString getQuery() const;
+		/**
+		 * Coloca una clausula where dentro de la consulta, se debe pasar el argumento a continuacion de "where"
+		 * @param cwhere 
+		 */
+		void setWhere(QString cwhere);
+		
+	private:
+		QString m_cwhere;
 };
 
 /**
@@ -89,7 +157,17 @@ class KLInsert : public KLQuery
 {
 	Q_OBJECT
 	public:
-		KLInsert();
+		/**
+		 * Construye una consulta INSERT INTO, se debe pasar la tabla que se quiere afectar y la lista de valores para cada campo en orden.
+		 * @param table 
+		 * @param values 
+		 * @return 
+		 */
+		KLInsert(QString table, QStringList values);
+		/**
+		 * Destructor
+		 * @return 
+		 */
 		~KLInsert();
 };
 

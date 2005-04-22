@@ -37,6 +37,10 @@ KLResultSet KLDatabase::execQuery(const QString &strquery, QStringList fields)
 	std::cout << "Consulta para hacerse: " << strquery << std::endl;
 	// TODO: Verificar si esta abierta la base de datos, sino abrirla
 	KLResultSet theResultSet;
+	
+	if ( ! isOpen() )
+		open();
+	
 	QSqlQuery query = exec(strquery);
 	
 	if ( query.isActive() )
@@ -54,7 +58,8 @@ KLResultSet KLDatabase::execQuery(const QString &strquery, QStringList fields)
 	else
 	{
 		// TODO: crear una paquete XML de error!.
-		qDebug("Error!!");
+		qDebug( tr("Error while exec query " + query.executedQuery() ));
+		qDebug( lastError().text() );
 	}
 	return theResultSet;
 }
@@ -63,10 +68,8 @@ KLResultSet KLDatabase::select(QStringList fields, QString table, QString select
 {
 	QString strquery = "select ";
 	
-	if ( fields.count() == 0 )
-	{
-		qDebug(i18n("You need specify the fields"));
-	}
+	Q_ASSERT( fields.count() != 0 );
+	
 	for(uint i = 0; i < fields.count(); i++)
 	{
 		if ( i == fields.count() - 1)
@@ -88,13 +91,13 @@ KLResultSet KLDatabase::execQuery(KLQuery *query)
 			return this->execQuery(query->getQuery(), static_cast<KLSelect*>(query)->getFields());
 			break;
 		case KLQuery::Insert:
-			return KLResultSet();
+			exec(query->getQuery());
 			break;
 		case KLQuery::Update:
-			return KLResultSet();
+			exec(query->getQuery());
 			break;
 		case KLQuery::Delete:
-			return KLResultSet();
+			exec(query->getQuery());
 			break;
 	}
 

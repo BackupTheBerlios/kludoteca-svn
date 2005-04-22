@@ -51,7 +51,9 @@ class TournamentActive : public LTListView
 		/**
 	 	 * Este signal envia el widget para er puesto en la ventana principal
 		 */
-		void sendWidget(KMdiChildView *) ;	
+		void sendWidget(KMdiChildView *) ;
+		
+		void message2osd(const QString &);
 			
 	public slots:
 		/**

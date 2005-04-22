@@ -105,14 +105,11 @@ class GamesList : public LTListView
 		
 	signals:
 		/**
-		 * Este signal envia el string del item que se desea consultar
-		 */
-		void query(QString &name);
-		
-		/**
 		 * Este signal envia el widget para er puesto en la ventana principal
 		 */
 		void sendWidget(KMdiChildView *);
+		
+		void message2osd(const QString &);
 		
 	private:
 		QStringList m_gameCategories;

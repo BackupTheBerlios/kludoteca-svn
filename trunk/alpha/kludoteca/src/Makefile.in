@@ -61,13 +61,13 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_kludoteca_OBJECTS = main.$(OBJEXT) kludoteca.$(OBJEXT) \
 	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT) \
-	ldtapp.$(OBJEXT) crashhandler.$(OBJEXT)
+	ldtapp.$(OBJEXT) crashhandler.$(OBJEXT) validateuser.$(OBJEXT)
 #>- kludoteca_OBJECTS = $(am_kludoteca_OBJECTS)
 #>+ 7
 kludoteca_final_OBJECTS = kludoteca.all_cpp.o 
 kludoteca_nofinal_OBJECTS = main.$(OBJEXT) kludoteca.$(OBJEXT) \
 	kludotecaview.$(OBJEXT) pref.$(OBJEXT) osd.$(OBJEXT) \
-	ldtapp.$(OBJEXT) crashhandler.$(OBJEXT)\
+	ldtapp.$(OBJEXT) crashhandler.$(OBJEXT) validateuser.$(OBJEXT)\
 osd.moc.o 
 @KDE_USE_FINAL_FALSE@kludoteca_OBJECTS = $(kludoteca_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@kludoteca_OBJECTS = $(kludoteca_final_OBJECTS)
@@ -374,12 +374,12 @@ kludoteca_LDADD = $(top_builddir)/src/clients-module/libclients-module.a \
 
 # which sources should be compiled for kludoteca
 kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \
-		ldtapp.cpp crashhandler.cpp
+			ldtapp.cpp crashhandler.cpp validateuser.cpp
 
 
 # these are the headers for your project
 noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h ldtapp.h \
-	crashhandler.h
+		crashhandler.h validateuser.h
 
 
 # client stuff
@@ -504,6 +504,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pref.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/validateuser.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
@@ -891,6 +892,13 @@ messages: rc.cpp
 .NOEXPORT:
 
 #>+ 3
+validateuser.moc: $(srcdir)/validateuser.h
+	$(MOC) $(srcdir)/validateuser.h -o validateuser.moc
+
+#>+ 2
+mocs: validateuser.moc
+
+#>+ 3
 kludoteca.moc: $(srcdir)/kludoteca.h
 	$(MOC) $(srcdir)/kludoteca.h -o kludoteca.moc
 
@@ -920,10 +928,10 @@ mocs: kludotecaview.moc
 
 #>+ 3
 clean-metasources:
-	-rm -f  kludoteca.moc osd.moc.cpp pref.moc kludotecaview.moc
+	-rm -f  validateuser.moc kludoteca.moc osd.moc.cpp pref.moc kludotecaview.moc
 
 #>+ 2
-KDE_DIST=bar-bottom-left.png callgrind.cmd tournamenticon.png kludotecaui.rc bar-bottom-right.png box-middle-left.png box-top-left.png kludotecaview.loT kl_infopage.css hi16-app-kludoteca.png mainpage.html bar-top-right.png kludoteca.lsm hi32-app-kludoteca.png rentsicon.png bottom-left.png main.loT top-middle.png gamesicon.png kludoteca.loT README.txt klstyle.css kl_infopage_rtl.css bar-top-left.png box-bottom-right.png bar-top-middle.png box-bottom-middle.png box-centre-image.png lightning.png box-top-right.png top-left.png Makefile.in adminicon.png box-middle-right.png kludoteca.desktop bar-bottom-middle.png bottom-right.png box-bottom-left.png bar-middle-right.png page5.html klicon.png top-right-image.png page4.html page2.html bottom-middle.png Makefile.am clientsicon.png box-top-middle.png bar-middle-left.png 
+KDE_DIST=callgrind.cmd kludotecaui.rc bar-bottom-right.png box-top-left.png kludotecaview.loT kl_infopage.css hi16-app-kludoteca.png bar-top-right.png kludoteca bottom-left.png top-middle.png gamesicon.png kl_infopage_rtl.css box-bottom-right.png bar-top-middle.png top-left.png adminicon.png box-middle-right.png kludoteca.desktop bottom-right.png klicon.png page2.html box-top-middle.png bar-middle-left.png bar-bottom-left.png tournamenticon.png box-middle-left.png mainpage.html kludoteca.lsm rentsicon.png hi32-app-kludoteca.png main.loT kludoteca.loT README.txt klstyle.css bar-top-left.png box-bottom-middle.png lightning.png box-centre-image.png box-top-right.png Makefile.in bar-bottom-middle.png box-bottom-left.png bar-middle-right.png page5.html page4.html top-right-image.png bottom-middle.png clientsicon.png Makefile.am 
 
 #>+ 2
 docs-am:
@@ -978,11 +986,11 @@ bcheck-am:
 
 
 #>+ 11
-kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/ldtapp.cpp $(srcdir)/crashhandler.cpp osd.moc.cpp  kludoteca.moc pref.moc kludotecaview.moc
+kludoteca.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/main.cpp $(srcdir)/kludoteca.cpp $(srcdir)/kludotecaview.cpp $(srcdir)/pref.cpp $(srcdir)/osd.cpp $(srcdir)/ldtapp.cpp $(srcdir)/crashhandler.cpp $(srcdir)/validateuser.cpp $(srcdir)/osd.moc.cpp  kludoteca.moc validateuser.moc pref.moc kludotecaview.moc
 	@echo 'creating kludoteca.all_cpp.cpp ...'; \
 	rm -f kludoteca.all_cpp.files kludoteca.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> kludoteca.all_cpp.final; \
-	for file in main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp ldtapp.cpp crashhandler.cpp osd.moc.cpp ; do \
+	for file in main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp ldtapp.cpp crashhandler.cpp validateuser.cpp osd.moc.cpp ; do \
 	  echo "#include \"$$file\"" >> kludoteca.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> kludoteca.all_cpp.final; \
 	done; \
@@ -1017,12 +1025,14 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 9
+#>+ 11
 nmcheck: 
 kludotecaview.lo: kludotecaview.moc 
 nmcheck-am: nmcheck
 pref.lo: pref.moc 
+validateuser.o: validateuser.moc 
 kludotecaview.o: kludotecaview.moc 
 pref.o: pref.moc 
 kludoteca.o: kludoteca.moc 
 kludoteca.lo: kludoteca.moc 
+validateuser.lo: validateuser.moc 

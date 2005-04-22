@@ -30,7 +30,7 @@
 
 #include <kstandarddirs.h>
 
-static const char description[] = I18N_NOOP("System for administer a ludotec.");
+static const char description[] = I18N_NOOP("System for administer a game store.");
 
 static const char version[] = "0.1";
 
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 {
 	KAboutData about( "KLudoteca",
 			      I18N_NOOP( "KLudoteca" ), version,
-			      I18N_NOOP( "System for administer a ludotec."), KAboutData::License_GPL,
+			      I18N_NOOP( "System for administer a game store."), KAboutData::License_GPL,
 			      I18N_NOOP( "David Cuadrado\n(C) 2005" ),
 			      I18N_NOOP( "IRC:\nserver: irc.freenode.net / channel: #cetis\n\nEmail::\ncetis@univalle.edu.co" ),
 			      I18N_NOOP( "http://www.cetisoft.org" ), "krawek@gmail.com" );
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	
 	about.addCredit( "GNU Community", I18N_NOOP("Many thanks to all GNU community!!"));
 	
-// 	about.setIcon( QPixmap( locate("data", "kludoteca/icons/klicon.png" )) );
+// 	about.setProgramLogo( QPixmap( locate("data", "kludoteca/icons/klicon.png" )) );
 	
 	KCmdLineArgs::init(argc, argv, &about);
 	KCmdLineArgs::addCmdLineOptions(options);
@@ -99,6 +99,7 @@ int main(int argc, char **argv)
 		{
 			KLudoteca *widget = new KLudoteca;
 			widget->show();
+			widget->showValidateUser();
 		}
 		else // Analizamos los argumentos
 		{

@@ -45,19 +45,12 @@
 #include <kstdaction.h>
 #include <kstandarddirs.h>
 
-KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_printer(0), m_childs(0)
+KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_printer(0), m_childs(0), m_view(0), m_userValidator(0)
 {
-	m_view = new KLudotecaView("Welcome", this);
-	connect(m_view->mainPage(), SIGNAL(sendWidget(KMdiChildView* )) , this, SLOT(addModulePage(KMdiChildView* )));
-	
 	// accept dnd
 	setAcceptDrops(true);
 	
  	setIcon( QPixmap( locate("data", "kludoteca/icons/klicon.png" )) );
-	
-	// tell the KMainWindow that this is indeed the main widget
-	setCentralWidget(m_view);
-	addWindow(m_view);
 	
 	// then, setup our actions
 	setupActions();
@@ -72,8 +65,10 @@ KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_
 	
 	setupDatabase();
 	
-	setupToolWindows();
+	//setupToolWindows();
 	setupOSD();
+	
+	m_userValidator = new ValidateUser(m_database, this, "UserValidator");
 }
 
 KLudoteca::~KLudoteca()
@@ -85,7 +80,7 @@ void KLudoteca::setupDatabase()
 	// TODO: Necesitamos hacer esto configurable, debemos asegurarnos que el driver para postgres exista!!!
 	m_database = new KLDatabase(this);
 	
-	m_database->setupConnection("kludoteca", "kludoteca-admin","kludoteca", "localhost");
+	//m_database->setupConnection("kludoteca", "kludoteca-admin","kludoteca", "localhost");
 }
 
 void KLudoteca::setupOSD()
@@ -103,7 +98,7 @@ void KLudoteca::setupOSD()
 }
 
 void KLudoteca::setupActions()
-{	
+{
 	KStdAction::openNew(this, SLOT(fileNew()), actionCollection());
 	//KStdAction::open(this, SLOT(fileOpen()), actionCollection());
 	KStdAction::save(this, SLOT(fileSave()), actionCollection());
@@ -146,54 +141,88 @@ void KLudoteca::setupToolWindows()
 {
 	// TODO: push the modules in the GUI depend of the user permission's 
 	
+	// Add the main view!
+	m_view = new KLudotecaView("Welcome", this);
+	connect(m_view->mainPage(), SIGNAL(sendWidget(KMdiChildView* )) , this, SLOT(addModulePage(KMdiChildView* )));
+	// tell the KMainWindow that this is indeed the main widget
+	setCentralWidget(m_view);
+	addWindow(m_view);
+	
 	// Add thge admin module
-	m_adminWidget = new AdminWidget(this);
-	m_adminWidget->setIcon( QPixmap( locate("data", "kludoteca/icons/adminicon.png" )) );
-	m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
-	
-	LTListView *au = static_cast<LTListView*>(m_adminWidget->currentItem());
-	connect(au, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
-	au->setDatabase( m_database);
-	au->fillList();
-	
+	if ( m_userValidator->activeAdminModule() )
+	{
+		m_adminWidget = new AdminWidget(this);
+		m_adminWidget->setIcon( QPixmap( locate("data", "kludoteca/icons/adminicon.png" )) );
+		m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
+		
+		LTListView *adminuser = static_cast<LTListView*>(m_adminWidget->currentItem());
+		connect(adminuser, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		
+		connect(adminuser,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
+		
+		adminuser->setDatabase( m_database);
+		adminuser->fillList();
+	}
 	
 	// Add the clients module
-	m_clientsWidget = new ClientsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
-	m_clientsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/clientsicon.png" )) );
-	m_clientsWidget->setDatabase( m_database );
- 	m_clientsWidget->fillList();
-	
-	m_toolWindows << addToolWindow(m_clientsWidget, KDockWidget::DockLeft, getMainDockWidget());
-	connect(m_clientsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+	if ( m_userValidator->activeClientsModule())
+	{
+		m_clientsWidget = new ClientsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+		m_clientsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/clientsicon.png" )) );
+		m_clientsWidget->setDatabase( m_database );
+		m_clientsWidget->fillList();
+		
+		m_toolWindows << addToolWindow(m_clientsWidget, KDockWidget::DockLeft, getMainDockWidget());
+		connect(m_clientsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		connect(m_clientsWidget, SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
+	}
 	
 	// Add the game module
-	m_gamesList = new GamesList(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
-	m_gamesList->setIcon( QPixmap(  locate("data", "kludoteca/icons/gamesicon.png" )) );
-	m_gamesList->setDatabase(m_database);
-	m_gamesList->fillList();
-	
-	connect(m_gamesList, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
-	connect (m_gamesList, SIGNAL(query(QString &)), this, SLOT(queryGame(QString &)));
-	
-	m_toolWindows << addToolWindow( m_gamesList, KDockWidget::DockLeft, getMainDockWidget() );
-
-	// Add rents module
-	m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
-	m_rentsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
-	m_rentsWidget->setDatabase(m_database);
-	m_rentsWidget->fillList();
-	
-	connect(m_rentsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
-	
-	m_toolWindows << addToolWindow( m_rentsWidget, KDockWidget::DockLeft, getMainDockWidget() );
+	if( m_userValidator->activeGamesModule() )
+	{
+		m_gamesList = new GamesList(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+		m_gamesList->setIcon( QPixmap(  locate("data", "kludoteca/icons/gamesicon.png" )) );
+		m_gamesList->setDatabase(m_database);
+		m_gamesList->fillList();
 		
+		connect(m_gamesList, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		connect(m_gamesList, SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
+		
+		m_toolWindows << addToolWindow( m_gamesList, KDockWidget::DockLeft, getMainDockWidget() );
+	}
+	
+	// Add rents module
+	if ( m_userValidator->activeRentsModule() )
+	{
+		m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+		m_rentsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
+		m_rentsWidget->setDatabase(m_database);
+		m_rentsWidget->fillList();
+		
+		connect(m_rentsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		
+		m_toolWindows << addToolWindow( m_rentsWidget, KDockWidget::DockLeft, getMainDockWidget() );
+	}
+	
+	
 	// Add tournament module
-	m_tournamentWidget = new TournamentWidget(this);
-	connect(m_tournamentWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
-	m_tournamentWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/tournamenticon.png" )) );
-	
-	m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
-	
+	if ( m_userValidator->activeTournamentModule() )
+	{
+		m_tournamentWidget = new TournamentWidget(this);
+		connect(m_tournamentWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		
+		m_tournamentWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/tournamenticon.png" )) );
+		
+		m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
+	}
+}
+
+void KLudoteca::showValidateUser()
+{
+	if ( m_userValidator->exec() == KDialog::Accepted )
+	{
+		setupToolWindows();
+	}
 }
 
 QSqlDatabase *KLudoteca::getDatabase(const QString &bdname, bool open)
@@ -206,6 +235,10 @@ void KLudoteca::saveProperties(KConfig *config)
 	// the 'config' object points to the session managed
 	// config file.  anything you write here will be available
 	// later when this app is restored
+	if (config)
+	{
+		std::cout << "Config exists!" << std::endl;
+	}
 }
 
 void KLudoteca::readProperties(KConfig *config)
@@ -228,20 +261,8 @@ void KLudoteca::dropEvent(QDropEvent *event)
 
 void KLudoteca::fileNew()
 {
-	// this slot is called whenever the File->New menu is selected,
-	// the New shortcut is pressed (usually CTRL+N) or the New toolbar
-	// button is clicked
-	
-	   	// Add a child view
-	m_childs ++;
-	KMdiChildView *view = new KMdiChildView(
-			i18n( "." ).arg( m_childs ), this );
-	
-	( new QHBoxLayout( view ) )->setAutoAdd( true );
-	
-	new QLabel( i18n( "Aqui agregamos diferentes modulos" ).arg( m_childs ), view );
+	KLudotecaView *view = new KLudotecaView("Welcome", this, "Welcome");
 
-    	// Add to the MDI and set as current
 	addWindow( view );
 }
 
@@ -359,13 +380,7 @@ void KLudoteca::changeCaption(const QString& text)
 	setCaption(text);
 }
 
-void KLudoteca::queryGame(QString &game)
-{
-	// TODO: verficiar el estado del juego en la base de datos.
-	showNotice( i18n("The game %1 is avalaible" ).arg(game) );
-}
-
-void KLudoteca::showNotice(QString message)
+void KLudoteca::showNotice(const QString &message)
 {
 	m_osd->show(message, false, false);
 }

@@ -35,7 +35,7 @@ GamesList::~GamesList()
 }
 
 void GamesList::fillList()
-{
+{	
 	if ( !m_db )
 	{
 		qDebug("You're need set the database!!");
@@ -95,7 +95,7 @@ void GamesList::getClickedItem(QListViewItem *item)
 	QString game = item->text(0);
 	
 	if ( m_gameCategories.find(game) == m_gameCategories.end() )
-		emit query(game);
+		emit message2osd(i18n("The game ") + game + i18n(" is good!"));
 }
 
 void GamesList::addButtonClicked()

@@ -86,8 +86,8 @@ QStringList KLSelect::getFields()
 
 void KLSelect::addSubConsult(QString connector, const KLSelect &subconsult)
 {
-	std::cout << "Adding SubConsult" << std::endl;
-	std::cout << "Consulta final: " << getQuery() << " " << connector << " ( " << subconsult.getQuery() << " ) " << std::endl;
+	m_query += getQuery() + " " + connector + " ( " + subconsult.getQuery() + " ) ";
+	m_cwhere = "";
 }
 
 void KLSelect::setWhere(QString cwhere)
@@ -98,18 +98,49 @@ void KLSelect::setWhere(QString cwhere)
 
 // KLUpdate
 
-KLUpdate::KLUpdate() : KLQuery(KLQuery::Update)
+KLUpdate::KLUpdate(QString table, QStringList fields, QStringList values) : KLQuery(KLQuery::Update), m_cwhere("")
 {
+	Q_ASSERT(fields.count() == values.count());
+	
+	m_query = " UPDATE " + table + " set ";
+	for (uint i = 0; i < fields.count(); i++)
+	{
+		if ( i == values.count() - 1)
+			m_query += fields[i] + " = " + values[i];
+		else
+			m_query += fields[i] + " = " + values[i] + ",";
+	}
 }
 
 KLUpdate::~KLUpdate()
 {
 }
 
+void KLUpdate::setWhere(QString cwhere)
+{
+	m_cwhere = " where " + cwhere;
+}
+
+QString KLUpdate::getQuery() const
+{
+	return m_query + m_cwhere;
+}
+
 
 // KLDelete
-KLInsert::KLInsert() : KLQuery(KLQuery::Insert)
+KLInsert::KLInsert(QString table, QStringList values) : KLQuery(KLQuery::Insert)
 {
+	m_query = "insert into " + table + " values ( ";
+	
+	for (uint i = 0; i < values.count(); i++)
+	{
+		if ( i == values.count() - 1)
+			m_query += values[i];
+		else
+			m_query += values[i] + ",";
+	}
+	
+	m_query += " )";
 }
 
 KLInsert::~KLInsert()

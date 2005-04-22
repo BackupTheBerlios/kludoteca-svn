@@ -237,7 +237,7 @@ CREATE TABLE ldt_enterprise (
 
 CREATE TABLE ldt_users (
     docIdent character varying(10) NOT NULL,
-    login character varying(10) NOT NULL,
+    login character varying(20) NOT NULL,
     firstName character varying(10) NOT NULL,
     lastName character varying(10) NOT NULL,
     sex character varying(10) NOT NULL,
@@ -245,7 +245,6 @@ CREATE TABLE ldt_users (
     phone character varying(10) NOT NULL,
     permissions character varying(10) NOT NULL,
     primary key(docIdent)
---    foreign key(login) references pg_user(usename)
 );
 
 --

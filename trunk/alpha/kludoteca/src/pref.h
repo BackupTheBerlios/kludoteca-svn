@@ -23,6 +23,11 @@
 
 #include <kdialogbase.h>
 #include <qframe.h>
+#include <qlayout.h>
+#include <qlabel.h>
+#include <klineedit.h>
+#include <qgroupbox.h>
+#include <qvbox.h>
 
 class KLudotecaPrefPageOne;
 class KLudotecaPrefPageTwo;
@@ -57,6 +62,15 @@ class KLudotecaPrefPageOne : public QFrame
 		 * Constructor por defecto
 		 */
     		KLudotecaPrefPageOne(QWidget *parent = 0);
+		
+		/**
+		 * Destructor
+		 * @return 
+		 */
+		~KLudotecaPrefPageOne();
+		
+	private:
+		KLineEdit *m_server,*m_user,*m_pass,*m_database;
 };
 
 /**

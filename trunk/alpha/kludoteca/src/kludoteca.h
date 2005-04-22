@@ -52,6 +52,7 @@
 #include "rentswidget.h"
 
 #include "kldatabase.h"
+#include "validateuser.h"
 
 class KPrinter;
 class KToggleAction;
@@ -161,10 +162,6 @@ class KLudoteca : public KMdiMainFrm
 		void changeCaption(const QString& text);
 
 		/**
-		 * Este slot verifica si el juego existe, en caso verdadero abre un formulario para consultar la información del juego.
-		 */
-		void queryGame(QString &game);
-		/**
 		 * Pone la ventana principal en modo pantalla completa
 		 */
 		void setFullScreen();
@@ -177,12 +174,20 @@ class KLudoteca : public KMdiMainFrm
 		/**
 		 * Esta funcion muestra un mensaje utilizando el OSDWidget
 		 */
-		void showNotice(QString message);
+		void showNotice(const QString &message);
 		
 		/**
 		 * Cierra la vista actual
 		 */
 		void closeCurrent();
+	
+
+	public slots:	
+		/**
+		 * Muestra un dialogo de validacion de usuarios
+		 */
+		void showValidateUser();
+
 		
 	private:
 		/**
@@ -205,7 +210,7 @@ class KLudoteca : public KMdiMainFrm
 		 * Crea y configura la base de datos
 		 */
 		void setupDatabase();
-
+		
 	private:
 		KLudotecaView *m_view;
 				
@@ -226,6 +231,8 @@ class KLudoteca : public KMdiMainFrm
 		QValueList<KMdiToolViewAccessor*> m_toolWindows;
 		
 		KLDatabase *m_database;
+		
+		ValidateUser *m_userValidator;
 };
 
 #endif // _KLUDOTECA_H_

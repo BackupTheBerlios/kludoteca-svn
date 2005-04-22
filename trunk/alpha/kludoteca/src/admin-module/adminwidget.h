@@ -50,6 +50,8 @@ class AdminWidget : public LTToolBox
 		 */
 		void sendWidget(KMdiChildView *);
 		
+		void message2osd(const QString &);
+		
 	private:
 		/**
 		 * Esta funcion crea los diferentes tabs que contiene el modulo administrador
