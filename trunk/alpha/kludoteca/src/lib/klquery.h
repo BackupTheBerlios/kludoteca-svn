@@ -34,12 +34,16 @@ class KLQuery : public QObject
 	Q_OBJECT
 	public:
 		enum Type { Select = 0, Insert, Update, Delete };
+		
+	protected:
 		/**
 		 * Construye una consulta con un tipo t, si t no es definido se asumira que sera una consulta Select
 		 * @param t 
 		 * @return 
 		 */
 		KLQuery(Type t = Select);
+		
+	public:
 		/**
 		 * Destructor
 		 * @return 

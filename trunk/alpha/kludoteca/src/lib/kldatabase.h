@@ -37,6 +37,7 @@ class KLDatabase;
 */
 class KLDatabase : public QSqlDatabase
 {
+	Q_OBJECT
 	public:
     		/**
     		 * Constructor
@@ -102,6 +103,8 @@ class KLDatabase : public QSqlDatabase
 		 */
 		KLResultSet select(QStringList fields, QString table, QString selectparams = QString::null);
 		
+		
+	public slots:
 		/**
 		 * Funcion de alto nivel para realizar consultas
 		 * @param query 

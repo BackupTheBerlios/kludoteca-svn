@@ -50,7 +50,7 @@ class FormAdminGame : public FormBase
 		/**
 		* Costructor por defecto
 		 */
-		FormAdminGame(QWidget *parent = 0, const char *name = 0);
+		FormAdminGame(KLDatabase *db, QWidget *parent = 0, const char *name = 0);
 		
 		/**
 		 * Destructor por defecto

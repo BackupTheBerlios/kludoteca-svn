@@ -20,11 +20,11 @@ kludoteca_LDADD = $(top_builddir)/src/clients-module/libclients-module.a \
 
 # which sources should be compiled for kludoteca
 kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \
-			ldtapp.cpp crashhandler.cpp validateuser.cpp
+				ldtapp.cpp crashhandler.cpp validateuser.cpp klfirstdialog.cpp
 
 # these are the headers for your project
 noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h ldtapp.h \
-		crashhandler.h validateuser.h
+			crashhandler.h validateuser.h klfirstdialog.h
 
 # client stuff
 

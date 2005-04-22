@@ -80,7 +80,8 @@ void KLudoteca::setupDatabase()
 	// TODO: Necesitamos hacer esto configurable, debemos asegurarnos que el driver para postgres exista!!!
 	m_database = new KLDatabase(this);
 	
-	//m_database->setupConnection("kludoteca", "kludoteca-admin","kludoteca", "localhost");
+	// DeComment this for DEBUG ( you don't need setup with graphic interface)
+	//m_database->setupConnection("kludoteca", "kladmin","kludoteca", "localhost");
 }
 
 void KLudoteca::setupOSD()

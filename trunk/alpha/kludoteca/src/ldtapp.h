@@ -35,16 +35,20 @@ class LDTApp : public KApplication
 		 * Constructor por defecto
 		 */
     		LDTApp();
+		
     		/**
 		 * Destructor por defecto
 		 */
 		~LDTApp();
+		
+		void firstDialog();
 		
 	private:
 		/**
 		 * Coloca los colores de la aplicacion
 		 */
 		void applyColors();
+		
 
 };
 

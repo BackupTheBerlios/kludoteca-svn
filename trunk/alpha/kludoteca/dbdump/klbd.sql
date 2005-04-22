@@ -16,13 +16,13 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 -- GRANT ALL ON SCHEMA public TO PUBLIC;
 
 -- Cambiar esto segun el usuario
-SET SESSION AUTHORIZATION 'kludoteca-admin';
+SET SESSION AUTHORIZATION 'kladmin';
 
 SET search_path = public, pg_catalog;
 
 --
 -- TOC entry 5 (OID 221670)
--- Name: pga_graphs; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_graphs; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_graphs (
@@ -34,7 +34,7 @@ CREATE TABLE pga_graphs (
 
 --
 -- TOC entry 6 (OID 221677)
--- Name: pga_layout; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_layout; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_layout (
@@ -47,7 +47,7 @@ CREATE TABLE pga_layout (
 
 --
 -- TOC entry 7 (OID 221684)
--- Name: pga_images; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_images; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_images (
@@ -58,7 +58,7 @@ CREATE TABLE pga_images (
 
 --
 -- TOC entry 8 (OID 221691)
--- Name: pga_queries; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_queries; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_queries (
@@ -74,7 +74,7 @@ CREATE TABLE pga_queries (
 
 --
 -- TOC entry 9 (OID 221698)
--- Name: pga_reports; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_reports; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_reports (
@@ -88,7 +88,7 @@ CREATE TABLE pga_reports (
 
 --
 -- TOC entry 10 (OID 221705)
--- Name: pga_forms; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_forms; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_forms (
@@ -99,7 +99,7 @@ CREATE TABLE pga_forms (
 
 --
 -- TOC entry 11 (OID 221712)
--- Name: pga_diagrams; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_diagrams; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_diagrams (
@@ -111,7 +111,7 @@ CREATE TABLE pga_diagrams (
 
 --
 -- TOC entry 12 (OID 221719)
--- Name: pga_scripts; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: pga_scripts; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE pga_scripts (
@@ -122,7 +122,7 @@ CREATE TABLE pga_scripts (
 
 --
 -- TOC entry 13 (OID 221737)
--- Name: ldt_games; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_games; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE ldt_games (
@@ -145,15 +145,15 @@ CREATE TABLE ldt_games (
 
 --
 -- TOC entry 14 (OID 221737)
--- Name: ldt_games; Type: ACL; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_games; Type: ACL; Schema: public; Owner: kladmin
 --
 
 -- REVOKE ALL ON TABLE ldt_games FROM PUBLIC;
-SET SESSION AUTHORIZATION 'kludoteca-admin';
+SET SESSION AUTHORIZATION 'kladmin';
 
 --
 -- TOC entry 15 (OID 221746)
--- Name: ldt_clients; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_clients; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE ldt_clients (
@@ -173,7 +173,7 @@ CREATE TABLE ldt_clients (
 
 --
 -- TOC entry 16 (OID 221754)
--- Name: ldt_tournament; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_tournament; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE ldt_tournament (
@@ -194,7 +194,7 @@ CREATE TABLE ldt_tournament (
 
 --
 -- TOC entry 17 (OID 221760)
--- Name: ldt_rents; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_rents; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE ldt_rents (
@@ -209,7 +209,7 @@ CREATE TABLE ldt_rents (
 
 --
 -- TOC entry 18 (OID 221763)
--- Name: ldt_participates; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_participates; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE ldt_participates (
@@ -223,7 +223,7 @@ CREATE TABLE ldt_participates (
 
 --
 -- TOC entry 19 (OID 221769)
--- Name: ldt_users; Type: TABLE; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_users; Type: TABLE; Schema: public; Owner: kladmin
 --
 
 CREATE TABLE ldt_enterprise (
@@ -249,7 +249,7 @@ CREATE TABLE ldt_users (
 
 --
 -- Data for TOC entry 33 (OID 221670)
--- Name: pga_graphs; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_graphs; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_graphs (graphname, graphsource, graphcode) FROM stdin;
@@ -258,7 +258,7 @@ COPY pga_graphs (graphname, graphsource, graphcode) FROM stdin;
 
 --
 -- Data for TOC entry 34 (OID 221677)
--- Name: pga_layout; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_layout; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_layout (tablename, nrcols, colnames, colwidth) FROM stdin;
@@ -269,7 +269,7 @@ public.ldt_clients	6	docIdent inscriptionDate firstName lastName phone celular	1
 
 --
 -- Data for TOC entry 35 (OID 221684)
--- Name: pga_images; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_images; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_images (imagename, imagesource) FROM stdin;
@@ -278,7 +278,7 @@ COPY pga_images (imagename, imagesource) FROM stdin;
 
 --
 -- Data for TOC entry 36 (OID 221691)
--- Name: pga_queries; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_queries; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_queries (queryname, querytype, querycommand, querytables, querylinks, queryresults, querycomments) FROM stdin;
@@ -287,7 +287,7 @@ COPY pga_queries (queryname, querytype, querycommand, querytables, querylinks, q
 
 --
 -- Data for TOC entry 37 (OID 221698)
--- Name: pga_reports; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_reports; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_reports (reportname, reportsource, reportbody, reportprocs, reportoptions) FROM stdin;
@@ -296,7 +296,7 @@ COPY pga_reports (reportname, reportsource, reportbody, reportprocs, reportoptio
 
 --
 -- Data for TOC entry 38 (OID 221705)
--- Name: pga_forms; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_forms; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_forms (formname, formsource) FROM stdin;
@@ -305,7 +305,7 @@ COPY pga_forms (formname, formsource) FROM stdin;
 
 --
 -- Data for TOC entry 39 (OID 221712)
--- Name: pga_diagrams; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_diagrams; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_diagrams (diagramname, diagramtables, diagramlinks) FROM stdin;
@@ -314,7 +314,7 @@ COPY pga_diagrams (diagramname, diagramtables, diagramlinks) FROM stdin;
 
 --
 -- Data for TOC entry 40 (OID 221719)
--- Name: pga_scripts; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: pga_scripts; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY pga_scripts (scriptname, scriptsource) FROM stdin;
@@ -323,7 +323,7 @@ COPY pga_scripts (scriptname, scriptsource) FROM stdin;
 
 --
 -- Data for TOC entry 41 (OID 221737)
--- Name: ldt_games; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_games; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY ldt_games (serialReference, gameName, description, rules, minGamers, maxGamers, gameType, timeUnitAdd, timeUnit, costTM, costTMA, position) FROM stdin;
@@ -332,7 +332,7 @@ COPY ldt_games (serialReference, gameName, description, rules, minGamers, maxGam
 
 --
 -- Data for TOC entry 42 (OID 221746)
--- Name: ldt_clients; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_clients; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY ldt_clients (docIdent, inscriptionDate, firstName, lastName, phone, celular) FROM stdin;
@@ -341,7 +341,7 @@ COPY ldt_clients (docIdent, inscriptionDate, firstName, lastName, phone, celular
 
 --
 -- Data for TOC entry 43 (OID 221754)
--- Name: ldt_tournament; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_tournament; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY ldt_tournament (codTournament, gameReference, name, initDate, endDate, roundsForPair, rounds, price, discount) FROM stdin;
@@ -350,7 +350,7 @@ COPY ldt_tournament (codTournament, gameReference, name, initDate, endDate, roun
 
 --
 -- Data for TOC entry 44 (OID 221760)
--- Name: ldt_rents; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_rents; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY ldt_rents (clientDocIdent, gameSerialReference, returnHour, date) FROM stdin;
@@ -359,7 +359,7 @@ COPY ldt_rents (clientDocIdent, gameSerialReference, returnHour, date) FROM stdi
 
 --
 -- Data for TOC entry 45 (OID 221763)
--- Name: ldt_participates; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_participates; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY ldt_participates (clientDocIdent, codTournament) FROM stdin;
@@ -368,7 +368,7 @@ COPY ldt_participates (clientDocIdent, codTournament) FROM stdin;
 
 --
 -- Data for TOC entry 46 (OID 221769)
--- Name: ldt_users; Type: TABLE DATA; Schema: public; Owner: kludoteca-admin
+-- Name: ldt_users; Type: TABLE DATA; Schema: public; Owner: kladmin
 --
 
 COPY ldt_users (docIdent, firstName, lastName, sex, address, phone, permissions) FROM stdin;

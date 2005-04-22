@@ -32,6 +32,19 @@ FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, name), m_
 	m_labelExplanation->setMargin (10);
 }
 
+FormBase::FormBase(KLDatabase *db, QWidget *parent, const char *name) : QVBox(parent, name)
+{
+	setMargin(10);
+	setFrameShape(QFrame::Box );
+	setFrameShadow(QFrame::Raised);
+	m_labelTitle = new QLabel(this);
+	m_labelExplanation = new QLabel(this);
+	m_labelExplanation->setMargin (10);
+	
+	if ( db )
+		connect(this, SIGNAL(sendQuery(KLQuery* )), db, SLOT(execQuery(KLQuery* )));
+}
+
 FormBase::~FormBase()
 {
 }
@@ -126,8 +139,9 @@ QWidget *FormBase::setupLineEdit(QWidget *parent, QString text, int lineEditWidt
 	return widget;
 }
 
-void *FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth)
+HashLineEdit FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth)
 {
+	HashLineEdit lineEdits;
 	QGridLayout *layout = new QGridLayout(parent, texts.count(), 2, 5, 5);
 	
 	for (uint i = 0; i < texts.count(); i++)
@@ -139,7 +153,11 @@ void *FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEd
 		labTmp->setBuddy(lineEditTmp);
 		layout->addWidget(labTmp, i, 0);
 		layout->addWidget(lineEditTmp, i, 1);
+		
+		lineEdits.insert(texts[i], lineEditTmp);
 	}
+	
+	return lineEdits;
 }
 
 #include "formbase.moc"

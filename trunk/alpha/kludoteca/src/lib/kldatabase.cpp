@@ -140,4 +140,4 @@ void KLDatabase::setupConnection(const QString &dbname, const QString & login, c
 	setPassword(password);
 }
 
-
+#include "kldatabase.moc"

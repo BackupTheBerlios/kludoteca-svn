@@ -17,31 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "ldtapp.h"
-#include "klfirstdialog.h"
-#include <iostream>
+ 
+#ifndef KLFIRSTDIALOG_H
+#define KLFIRSTDIALOG_H
 
-LDTApp::LDTApp() : KApplication()
+#include <kwizard.h>
+
+/**
+ * Esta clase es utilizada para inicializar el sistema, se lanzara la primera vez que se ejecute la aplicación y permitira configurar todo el sistema.
+ * @author David Cuadrado
+*/
+class KLFirstDialog : public KWizard
 {
-}
+	Q_OBJECT
+	public:
+		KLFirstDialog(QWidget *parent = 0, const char *name = 0);
+		~KLFirstDialog();
 
+};
 
-LDTApp::~LDTApp()
-{
-}
-
-void LDTApp::firstDialog()
-{
-	std::cout << i18n("Running 1st Dialog!") << std::endl;
-}
-
-void LDTApp::applyColors()
-{
-	KLFirstDialog firstDialog;
-	setTopWidget(&firstDialog);
-	
-	if( firstDialog.exec() != QDialog::Rejected )
-	{
-		std::cout << "Accepted" << std::endl;
-	}
-}
+#endif

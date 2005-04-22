@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   Copyright (C) 2005 by David Cuadrado                                                           *
  *   krawek@gmail.com                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,31 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "ldtapp.h"
+ 
 #include "klfirstdialog.h"
-#include <iostream>
 
-LDTApp::LDTApp() : KApplication()
+KLFirstDialog::KLFirstDialog(QWidget *parent, const char *name)
+	: KWizard(parent, name)
 {
 }
 
 
-LDTApp::~LDTApp()
+KLFirstDialog::~KLFirstDialog()
 {
 }
 
-void LDTApp::firstDialog()
-{
-	std::cout << i18n("Running 1st Dialog!") << std::endl;
-}
 
-void LDTApp::applyColors()
-{
-	KLFirstDialog firstDialog;
-	setTopWidget(&firstDialog);
-	
-	if( firstDialog.exec() != QDialog::Rejected )
-	{
-		std::cout << "Accepted" << std::endl;
-	}
-}
+#include "klfirstdialog.moc"

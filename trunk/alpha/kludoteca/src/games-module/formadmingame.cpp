@@ -22,7 +22,7 @@
 #include <klocale.h>
 
 
-FormAdminGame::FormAdminGame( QWidget *parent, const char *name): FormBase(parent, name)
+FormAdminGame::FormAdminGame( KLDatabase *db, QWidget *parent, const char *name): FormBase(db, parent, name)
 {
 	this->setupForm();
 }
@@ -105,6 +105,8 @@ void FormAdminGame::accept ()
 	//m_typeGame
 	m_costUnit->setValue(m_costUnit->minValue());
 	//m_labelUnitTime
+	
+	//emit sendQuery(new KLSelect(QStringList() << "fields1", QStringList() << "tabla") );
 }
 
 void FormAdminGame::cancel()

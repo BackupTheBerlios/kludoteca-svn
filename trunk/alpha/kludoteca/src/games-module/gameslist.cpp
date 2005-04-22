@@ -107,7 +107,7 @@ void GamesList::addButtonClicked()
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormAdminGame *formAdminGame = new FormAdminGame( scroll->viewport() );
+	FormAdminGame *formAdminGame = new FormAdminGame( m_db, scroll->viewport() );
 	scroll->addChild(formAdminGame);
 	formAdminGame->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminGame->setTitle(i18n("Admin game"));

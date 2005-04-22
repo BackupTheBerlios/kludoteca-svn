@@ -32,6 +32,11 @@
 #include <kpushbutton.h>
 #include <qobject.h>
 #include <qscrollview.h>
+#include <qdict.h>
+
+#include "kldatabase.h"
+
+typedef QDict<KLineEdit> HashLineEdit;
 
 /**
  * Esta clase esta diseñada para estandarizar los formularios de las aplicaciones, para realizar cualquier fomulario de la aplicacion es necesario heredar de esta clase, y sobreescribir algunos metodos:
@@ -51,7 +56,7 @@
  * 
  * setupLineEdit(): Esta funcion recibe un padre, un texto y una tamaño y retorna un widget con una etiqueta y una linea de lectura (KLineEdit) con un tamaño.  
  * 
- * setupGridLineEdit(): Esta funcion recibe un padre y una lista de texto y un tamaño y retorna un widget con un bloque de etiquetas y su respectiva linea de lectura (KLineEdit) con el tamaño definido.
+ * setupGridLineEdit(): Esta funcion recibe un padre y una lista de texto y un tamaño y retorna un widget con un bloque de etiquetas y su respectiva linea de lectura (KLineEdit) con el tamaño definido y retorna una tabla hash donde las llaves son el texto de las etiquetas y guardan los KLineEdit
  * 
  * @short Clase base para crear formularios
  * @author David Cuadrado
@@ -66,8 +71,19 @@ class FormBase : public QVBox
 		/**
 		* Costructor por defecto.
 		 */
-		FormBase( QWidget *parent = 0, const char *name = 0);
+		FormBase( QWidget *parent = 0, const char *name = 0 );
 
+		
+		/**
+		 * Construye la forma con una base de datos, para comunicarse con ella se emite un objeto KLQuery con la consulta necesaria para hacerlo.
+		 * @param db 
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
+		FormBase ( KLDatabase *db, QWidget *parent = 0, const char *name = 0);
+		
+		
 		/**
 		 * Construye la forma con un orden en los botones
 		 */
@@ -118,7 +134,7 @@ class FormBase : public QVBox
 		/**
 		 * Esta funcion crea un formulario cuadrado con etiqueta y captador de texto
 		 */
-		void *setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth = 200); 
+		HashLineEdit setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth = 200); 
 		
 		
 	public slots:
@@ -130,6 +146,13 @@ class FormBase : public QVBox
 		 * Esta es la accion predeterminada cuando se presiona el boton cancelar
 		 */
 		virtual void cancel() = 0;
+		
+	signals:
+		/**
+		 * Emita esto si quiere enviar consultas a la base de datos.
+		 * @param  
+		 */
+		virtual void sendQuery(KLQuery *);
 		
 	private:
 		QHButtonGroup *m_buttons;
