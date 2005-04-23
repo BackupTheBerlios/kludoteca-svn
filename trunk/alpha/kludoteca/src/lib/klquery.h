@@ -85,6 +85,15 @@ class KLSelect : public KLQuery
 		 * @return 
 		 */
 		KLSelect(QStringList fields, QStringList tables);
+		
+		/**
+		 * Construye una consulta select que afecta a una sola tabla
+		 * @param fields 
+		 * @param table 
+		 * @return 
+		 */
+		KLSelect(QStringList fields, const QString &table);
+		
 		/**
 		 * Destructor
 		 * @return 

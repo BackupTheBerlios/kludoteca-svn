@@ -239,6 +239,11 @@ void LTListView::putItems(QStringList items)
 	m_listView->insertItem(itemp);
 }
 
+void LTListView::addItem(const QString &table, const QString &pkey)
+{
+	// TODO: Esto sera virtual puro
+}
+
 KListView* LTListView::getListView()
 {
 	return m_listView;

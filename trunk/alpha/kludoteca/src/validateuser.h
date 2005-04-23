@@ -26,6 +26,7 @@
 #include <klineedit.h>
 
 #include "kldatabase.h"
+#include "ldtapp.h"
 
 class UserPage;
 class DatabasePage;
@@ -66,12 +67,17 @@ class ValidateUser : public KDialogBase
     		~ValidateUser();
 		
 		/**
-		 * 
+		 * Este slot se activa cuando el presion de aceptar es presionado.
 		 */
 		void slotOk();
 		
 		/**
-		 * 
+		 * Escribe la configuracion
+		 */
+		void writeConfig();
+		
+		/**
+		 * Toma la cadena de permisos y la traduce a permisos para la aplicacion
 		 * @param str 
 		 */
 		void string2perms(const QString &str);

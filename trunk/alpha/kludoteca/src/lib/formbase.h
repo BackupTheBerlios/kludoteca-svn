@@ -159,6 +159,12 @@ class FormBase : public QVBox
 		 */
 		virtual void accepted();
 		
+		/**
+		 * Emita esto cuando quiera emitir la llave primaria que ha insertado, se usa para conectar con el LTListView y actualizar la lista, sin leer de nuevo todos los registros.
+		 */
+		virtual void inserted(const QString &table, const QString &pkey);
+		
+		
 	private:
 		QHButtonGroup *m_buttons;
 		QLabel *m_labelTitle, *m_labelExplanation;

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                                           *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,10 +19,13 @@
  ***************************************************************************/
  
 #include "klfirstdialog.h"
+#include <klocale.h>
 
 KLFirstDialog::KLFirstDialog(QWidget *parent, const char *name)
 	: KWizard(parent, name)
 {
+	addPage(new QLabel(i18n("Soon we have the first dialog!"), this), i18n("Configure ..."));
+	addPage(new QLabel(i18n("with many sorprises!"), this), i18n("Configure ..."));
 }
 
 

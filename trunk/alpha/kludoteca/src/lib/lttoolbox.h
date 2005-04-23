@@ -49,7 +49,7 @@ class LTToolBox : public QToolBox
 		/**
 		 * Este signal envia el widget para er puesto en la ventana principal
 		 */
-		virtual void sendWidget(KMdiChildView *) = 0;
+		virtual void sendWidget(KMdiChildView *);// = 0;
 		
 	protected:
 		/**

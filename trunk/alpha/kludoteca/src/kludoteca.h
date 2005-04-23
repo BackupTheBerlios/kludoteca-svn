@@ -26,7 +26,6 @@
 #include <config.h>
 #endif
 
-#include <kapplication.h>
 #include <kmainwindow.h>
 #include <kmdimainfrm.h>
 #include <qlabel.h>
@@ -50,6 +49,7 @@
 #include "adminwidget.h"
 #include "clientswidget.h"
 #include "rentswidget.h"
+#include "ldtapp.h"
 
 #include "kldatabase.h"
 #include "validateuser.h"

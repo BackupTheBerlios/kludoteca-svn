@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,6 +21,7 @@
 #define LDTAPP_H
 
 #include <kapplication.h>
+#include <kconfig.h>
 #include <klocale.h>
 
 /**
@@ -30,6 +31,8 @@
 
 class LDTApp : public KApplication
 {
+	Q_OBJECT
+	
 	public:
 		/**
 		 * Constructor por defecto
@@ -41,15 +44,25 @@ class LDTApp : public KApplication
 		 */
 		~LDTApp();
 		
+		/**
+		 * Muestra el dialogo de inicializacion y configuracion del sistema.
+		 */
 		void firstDialog();
+		
+		/**
+		 * Retorna el objeto de configuracion de session
+		 * @param group 
+		 * @return 
+		 */
+		KConfig *config(const QString &group = "General");
 		
 	private:
 		/**
 		 * Coloca los colores de la aplicacion
 		 */
 		void applyColors();
-		
-
 };
+
+#define klapp static_cast<LDTApp*>(kapp)
 
 #endif

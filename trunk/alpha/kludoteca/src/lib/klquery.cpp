@@ -70,6 +70,24 @@ KLSelect::KLSelect(QStringList fields, QStringList tables) : KLQuery(KLQuery::Se
 
 }
 
+KLSelect::KLSelect(QStringList fields, const QString &table) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere("")
+{
+	m_query = "select ";
+	
+	if ( fields.count() == 0 )
+	{
+		qDebug(i18n("You need specify the fields"));
+	}
+	for(uint i = 0; i < fields.count(); i++)
+	{
+		if ( i == fields.count() - 1)
+			m_query += fields[i];
+		else
+			m_query += fields[i] + ",";
+	}
+	m_query += " from " + table;
+}
+
 KLSelect::~ KLSelect()
 {
 }

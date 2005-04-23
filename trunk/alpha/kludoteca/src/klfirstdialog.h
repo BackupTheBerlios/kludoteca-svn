@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 #define KLFIRSTDIALOG_H
 
 #include <kwizard.h>
+#include <qlabel.h>
 
 /**
  * Esta clase es utilizada para inicializar el sistema, se lanzara la primera vez que se ejecute la aplicación y permitira configurar todo el sistema.
@@ -31,7 +32,17 @@ class KLFirstDialog : public KWizard
 {
 	Q_OBJECT
 	public:
+		/**
+		 * Constructor por defecto
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
 		KLFirstDialog(QWidget *parent = 0, const char *name = 0);
+		/**
+		 * Destructor
+		 * @return 
+		 */
 		~KLFirstDialog();
 
 };

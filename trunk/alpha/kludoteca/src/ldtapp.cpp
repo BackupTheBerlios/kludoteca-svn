@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,6 +23,14 @@
 
 LDTApp::LDTApp() : KApplication()
 {
+	// Leemos el archivo de configuracion, si es la primera vez que se lanza la aplicación, mostramos el dialogo de inicio, sino continuamos con la carga normal.
+	
+	if ( config()->readBoolEntry( "First Run", true ) )
+	{
+		firstDialog();
+		config()->writeEntry( "First Run", false );
+		config()->sync();
+	}
 }
 
 
@@ -33,10 +41,6 @@ LDTApp::~LDTApp()
 void LDTApp::firstDialog()
 {
 	std::cout << i18n("Running 1st Dialog!") << std::endl;
-}
-
-void LDTApp::applyColors()
-{
 	KLFirstDialog firstDialog;
 	setTopWidget(&firstDialog);
 	
@@ -45,3 +49,15 @@ void LDTApp::applyColors()
 		std::cout << "Accepted" << std::endl;
 	}
 }
+
+KConfig *LDTApp::config( const QString &group )
+{
+	kapp->config()->setGroup( group );
+	return kapp->config();
+}
+
+void LDTApp::applyColors()
+{
+}
+
+#include "ldtapp.moc"

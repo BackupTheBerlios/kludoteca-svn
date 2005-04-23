@@ -41,7 +41,7 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char **argv)
 {
-	KAboutData about( "KLudoteca",
+	KAboutData about( /*<NOCAMBIE>*/"kludoteca" /*</NOCAMBIE>*/,
 			      I18N_NOOP( "KLudoteca" ), version,
 			      I18N_NOOP( "System for administer a game store."), KAboutData::License_GPL,
 			      I18N_NOOP( "David Cuadrado\n(C) 2005" ),
@@ -57,7 +57,8 @@ int main(int argc, char **argv)
 	
 	about.addCredit( "GNU Community", I18N_NOOP("Many thanks to all GNU community!!"));
 	
-// 	about.setProgramLogo( QPixmap( locate("data", "kludoteca/icons/klicon.png" )) );
+	// FIXME: Esto produce una violacion de segmento!
+	//about.setProgramLogo( QPixmap( locate("data", "kludoteca/icons/klicon.png" )).convertToImage() );
 	
 	KCmdLineArgs::init(argc, argv, &about);
 	KCmdLineArgs::addCmdLineOptions(options);

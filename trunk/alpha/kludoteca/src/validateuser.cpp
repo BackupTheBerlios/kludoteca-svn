@@ -42,7 +42,7 @@ void ValidateUser::slotOk()
 {
 // 	std::cout << "Setup database with: " << m_databasePage->getDatabaseName() << " and " << m_databasePage->getServer() << std::endl;
 	
-	m_db->setupConnection( m_databasePage->getDatabaseName() , m_userPage->getLogin(), m_userPage->getPassword(),m_databasePage->getServer() );
+	m_db->setupConnection( m_databasePage->getDatabaseName(), m_userPage->getLogin(), m_userPage->getPassword(),m_databasePage->getServer() );
 	
 	if ( m_db->open() )
 	{
@@ -60,6 +60,7 @@ void ValidateUser::slotOk()
 			{
 				this->string2perms(perms);
 				KDialogBase::slotOk();
+				writeConfig();
 			}
 			else
 			{
@@ -74,6 +75,17 @@ void ValidateUser::slotOk()
 	else
 	{
 		KMessageBox::error(this, i18n("I can't connect to database server."));
+	}
+}
+
+void ValidateUser::writeConfig()
+{
+	klapp->config("Connection")->writeEntry("Server", m_databasePage->getServer());
+	klapp->config("Connection")->writeEntry("Database", m_databasePage->getDatabaseName());
+	klapp->config("Connection")->writeEntry("Login", m_userPage->getLogin());
+	if ( klapp->config()->readBoolEntry("Store Password", false) )
+	{
+		klapp->config("Connection")->writeEntry("Password", m_userPage->getPassword());
 	}
 }
 
@@ -119,10 +131,10 @@ UserPage::UserPage(QWidget *parent) : QFrame(parent)
 	QGridLayout *glayout = new QGridLayout(this, 3, 3, 10);
 	
 	m_user = new KLineEdit(this);
-	m_user->setText("");
+	m_user->setText(klapp->config("Connection")->readEntry("Login"));
 	m_pass = new KLineEdit(this);
-	m_pass->setText("");
 	m_pass->setEchoMode( KLineEdit::Password );
+	m_pass->setText(klapp->config("Connection")->readEntry("Password"));
 
 	glayout->addWidget(new QLabel(i18n("User"),this), 0,0);
 	glayout->addWidget(m_user, 0, 1);
@@ -153,9 +165,11 @@ DatabasePage::DatabasePage(QWidget *parent) : QFrame(parent)
 	QGridLayout *glayout = new QGridLayout(this, 3, 3, 10);
 	
 	m_server = new KLineEdit(this);
-	m_server->setText("localhost");
+	
+	m_server->setText(klapp->config("Connection")->readEntry("Server", "localhost"));
+
 	m_database = new KLineEdit(this);
-	m_database->setText("kludoteca");
+	m_database->setText(klapp->config("Connection")->readEntry("Database", "kludoteca"));
 	
 	glayout->addWidget(new QLabel(i18n("Server: "), this), 0,0);
 	glayout->addWidget(m_server , 0,1);
