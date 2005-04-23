@@ -632,7 +632,7 @@ clean-metasources:
 	-rm -f  tournamentactive.moc formtournament.moc tournamentold.moc tournamentwidget.moc tournamentmodule.moc
 
 #>+ 2
-KDE_DIST=libtournament-module.a Makefile.in 
+KDE_DIST=Makefile.in 
 
 #>+ 2
 docs-am:

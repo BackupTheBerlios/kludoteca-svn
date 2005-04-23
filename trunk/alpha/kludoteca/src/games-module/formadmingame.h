@@ -33,6 +33,7 @@
 #include <kcombobox.h>
 #include <knuminput.h>
 #include <kpushbutton.h>
+#include <qstringlist.h>
 
 #include "formbase.h"
 
@@ -62,6 +63,119 @@ class FormAdminGame : public FormBase
 		 */
 		void fillField(QString explanation, QString name, QString description, QString rules, int numPlayer, QString type, double costUnit);
 		
+		/**
+		 *  Funcion que retorna un qstring del nombre del juego
+		 * @return m_nameGame
+		 */
+		QString getGameName();
+		
+		/**
+		 * Funcion que retorna un qstring de la descripcion del juego
+		 * @return 
+		 */
+		QString getDescriptionGame();
+		
+		/**
+		 * Funcion que retorna un qstring de las reglas del juego
+		 * @return 
+		 */
+		QString getRulesGame();
+		
+		/**
+		 * Funcion que retorna un qstring del tipo del juego
+		 * @return 
+		 */
+		QString getTypeGame();
+		
+		/**
+		 *  Funcion que retorna un qstring que indica la unidad de tiempo en que se van a prestar el juego
+		 * @return 
+		 */
+		QString getTimeUnit();
+		
+		/**
+		 * Funcion que retorna un int del numero de jugadores minimo por ese juego
+		 * @return 
+		 */
+		int getMinPlayers();
+		
+		/**
+		 * Funcion que retorna un int del numero de jugadores maximo por ese juego
+		 * @return 
+		 */
+		int getMaxPlayers();
+		
+		/**
+		 * Funcion que retorna un double que indica el valor de la unidad de tiempo para ese juego
+		 * @return 
+		 */
+		double getCostUnitTime();
+		
+		/**
+		 * Funcion que retorna un double que indica el valor de la unidad de tiempo adicional para ese juego
+		 * @return 
+		 */
+		double getCostTimeAdditional();
+		
+		/**
+		 * Funcion encargada de colocarle un nombre al juego
+		 * @param name 
+		 */
+		void setGameName(const QString &name);
+		
+		/**
+		 * Funcion encargada de colocar la descripcion del juego
+		 * @param description 
+		 */
+		void setDescriptionGame(const QString &description);
+		
+		/**
+		 * Funcion encargada de colocar las reglas del juego
+		 * @param rules 
+		 */
+		void setRulesGame(const QString &rules);
+		
+		/**
+		 * Funcion encargada de colocar el tipo de juego
+		 * Se pueden añadir mas tipos de juego aqui, el orden en que esta hasta el momento es:
+		 * 0 - "Board"
+		 * 1 - "Video"
+		 * 2 - "Cards"
+		 * @param type 
+		 */
+		void setTypeGame(const QString &type, int index);
+		
+		/**
+		 *  Funcion encargada de colocar la unidad de tiempo
+		 * Se pueden añadir mas tipos de unidades de tiempo el orden hasta ahora es
+		 * "minutes" - 0
+		 * "hours" - 1)
+		 * @param unitTime 
+		 */
+		void setTimeUnit(const QString &unitTime, int  index);
+		
+		/**
+		 * Funcion encargada de colocar el numero minimo de jugadores 
+		 * @param numMinPlayers 
+		 */
+		void setMinPlayers(const int &numMinPlayers);
+		/**
+		 * Funcion encargada de colcar el numero maximo de jugadores
+		 * @param numMaxPlayers 
+		 */
+		void setMaxPlayers(const int &numMaxPlayers);
+		/**
+		 * Funcion encargada de colocar el costo por unidad de tiempo
+		 * @param costTime 
+		 */
+		void setCostUnitTime(const double &costTime);
+		/**
+		 * Funcion encargada de colocar el costo por unidad de tiempo adicional
+		 * @param costAditional 
+		 */
+		void setCostTimeAdditional(const double &costAditional);
+		
+		
 	protected:
 		QGridLayout *m_grid;
 		
@@ -79,16 +193,15 @@ class FormAdminGame : public FormBase
 		
 		QFrame *form;
 		
-		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNPlayerGame, *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd;
+		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNMinPlayerGame,*m_labelNMaxPlayerGame,  *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd;
 		
 		KLineEdit *m_nameGame;
 		KTextEdit *m_descriptionGame, *m_rulesGame ;
 		
 		//FIXME: la unidad de tiempo adicional se captura por un combobox?
 		
-		KComboBox *m_typeGame, *m_unitTime, *m_timeAdd;
-		KIntSpinBox *m_nPlayerGame;
-		KDoubleNumInput *m_costUnit;
+		KComboBox *m_typeGame, *m_unitTime;
+		KIntSpinBox *m_nMinPlayerGame, *m_nMaxPlayerGame, *m_costUnit, *m_timeAdd;
 		
 	private:
 		/**

@@ -154,6 +154,11 @@ class FormBase : public QVBox
 		 */
 		virtual void sendQuery(KLQuery *);
 		
+		/**
+		 * Emite esto cuando quiera informar que se ha aceptado
+		 */
+		virtual void accepted();
+		
 	private:
 		QHButtonGroup *m_buttons;
 		QLabel *m_labelTitle, *m_labelExplanation;

@@ -23,6 +23,8 @@
 #include <qobject.h>
 #include <qstringlist.h>
 
+#define SQLSTR(s) "'" + QString(s) + "'"
+
 class KLSelect;
 
 /**
