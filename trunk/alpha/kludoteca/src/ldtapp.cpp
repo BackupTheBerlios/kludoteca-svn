@@ -21,16 +21,14 @@
 #include "klfirstdialog.h"
 #include <iostream>
 
-LDTApp::LDTApp() : KApplication()
+LDTApp::LDTApp() : KApplication(), APPVERSION("0.2a") 
 {
 	// Leemos el archivo de configuracion, si es la primera vez que se lanza la aplicación, mostramos el dialogo de inicio, sino continuamos con la carga normal.
 	
-	if ( config()->readBoolEntry( "First Run", true ) )
-	{
-		firstDialog();
-		config()->writeEntry( "First Run", false );
-		config()->sync();
-	}
+// 	if ( config()->readBoolEntry( "First Run", true ) )
+// 	{
+// 		firstDialog();
+// 	}
 }
 
 
@@ -56,8 +54,32 @@ KConfig *LDTApp::config( const QString &group )
 	return kapp->config();
 }
 
+QString LDTApp::appversion()
+{
+	return APPVERSION;
+}
+
 void LDTApp::applyColors()
 {
+	QColorGroup group = QApplication::palette().active();
+	const QColor bg( 32,32,82 );
+	const QColor bgAlt( 57, 64, 98 );
+	
+	group.setColor( QColorGroup::Text, Qt::white );
+	group.setColor( QColorGroup::Base, bg );
+	group.setColor( QColorGroup::Foreground, 0xd7d7ef );
+	group.setColor( QColorGroup::Background, bgAlt );
+
+	group.setColor( QColorGroup::Button, bgAlt );
+	group.setColor( QColorGroup::ButtonText, 0xd7d7ef );
+
+	group.setColor( QColorGroup::Highlight, Qt::white );
+	group.setColor( QColorGroup::HighlightedText, bg );
+	int h,s,v;
+	bgAlt.getHsv( &h, &s, &v );
+	group.setColor( QColorGroup::Midlight, QColor( h, s/3, (int)(v * 1.2),QColor::Hsv ) );
+	QPalette pal(group, group, group);
+	setPalette(pal);
 }
 
 #include "ldtapp.moc"

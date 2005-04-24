@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                        	           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,80 +17,86 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
 #ifndef FORMADMINUSERS_H
 #define FORMADMINUSERS_H
 
 #include <formbase.h>
+#include <qlabel.h>
+#include <qradiobutton.h>
+#include <qhbuttongroup.h>
 #include <klineedit.h>
-#include <kcombobox.h>
-#include <qhgroupbox.h>
 #include <qlayout.h>
+#include <qscrollview.h>
 
 /**
-@author David Cuadrado
+ * Este es el formulario para añadir y administrar usuarios de la aplicacion
+ * @short Añadir usuarios
+ * @author David Cuadrado
 */
 class FormAdminUsers : public FormBase
 {
 	Q_OBJECT
-
 	public:
 		/**
 		 * Constructor
 		 * @param parent 
 		 * @return 
 		 */
-		FormAdminUsers(QWidget *parent = 0);
+		FormAdminUsers(KLDatabase *db, QWidget *parent = 0);
 		/**
 		 * Destructor
 		 * @return 
 		 */
 		~FormAdminUsers();
 		/**
-		 * Configura y crea la forma
+		 * Crea la forma
 		 */
 		void setupForm();
-	
-	public slots:
+		
+		QString getIdentification();
+		QString getLogin(); 
+		QString getPassword(); 
+		QString getFirstName(); 
+		QString getLastName(); 
+		QString getSex(); 
+		QString getAddress(); 
+		QString getPhone(); 
+		QString getEmail(); 
+		QString getPermissions();
+		
+		void setIdentification(const QString &ident);
+		void setLogin(const QString &login); 
+		void setPassword(const QString &pass); 
+		void setFirstName(const QString &fname); 
+		void setLastName(const QString &lname); 
+		void setSex(const QString &sex); 
+		void setAddress(const QString &addrs); 
+		void setPhone(const QString &phone); 
+		void setEmail(const QString &email); 
+		void setPermissions(const QString &perms);
+		
+	public slots: 
 		/**
-		 * Reimplementado de LTListView, se activa cuando se presiona el boton de aceptar la accion
+	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar
 		 */
 		void accept();
 		/**
-		 * Reimplementado de LTListview, se activa cuando se presiona el boton de cancelar la accion
+		 * Esta es la accion predeterminada cuando se presiona el boton cancelar
 		 */
 		void cancel();
+		
+	private:
+		QScrollView *m_scrollView;
+		QGridLayout *m_layout;
+		QFrame *m_container;
+		QHButtonGroup *m_radioButtons;
+		QRadioButton *m_male, *m_female;
+		HashLineEdit m_lineEdits;
 	
 	private:
-		
-		KLineEdit	*m_loginLineEdit, 
-				*m_passwdLineEdit,
-				*m_repasswdLineEdit,
-				*m_nameLineEdit,
-				*m_idLineEdit,
-				*m_addresLineEdit,
-				*m_phoneLineEdit,
-				*m_mailLineEdit;
-		
-		QLabel		*m_loginLabel,
-				*m_passwdLabel,
-				*m_repasswdLabel,
-				*m_nameLabel,
-				*m_idLabel,
-				*m_addresLabel,
-				*m_phoneLabel,
-				*m_mailLabel;
-		
-		QGridLayout	*m_maingridLayout
-				/**m_gridPersonal,
-				*m_grid*/;
-		KComboBox	*m_combox;
-		
-		QHGroupBox	*m_hbgPersonal,
-				*m_hbgSysInfo,
-				*m_hbgPermissions;
-				
 		/**
-		 * Crea la caja de botones
+		 * Crea los botones
 		 */
 		void setupButtonsBox();
 		/**

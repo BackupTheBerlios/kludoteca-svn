@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #ifndef _KLUDOTECAPREF_H_
-#define _KLUDOTECAPREF_H_
+#define _KLUDOTECAPREF_H_ 
 
 #include <kdialogbase.h>
 #include <qframe.h>
@@ -70,7 +70,7 @@ class KLudotecaPrefPageOne : public QFrame
 		~KLudotecaPrefPageOne();
 		
 	private:
-		KLineEdit *m_server,*m_user,*m_pass,*m_database;
+		KLineEdit *m_server,*m_user,*m_database;
 };
 
 /**

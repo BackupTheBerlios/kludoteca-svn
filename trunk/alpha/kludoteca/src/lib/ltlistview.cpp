@@ -18,8 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "ltlistview.h"
+#include "ltlistview.h" 
 #include <klocale.h>
+#include <kapplication.h>
 
 LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
 {
@@ -63,7 +64,15 @@ void LTListView::setDatabase(KLDatabase *db)
 void LTListView::makeList(QStringList colsText)
 {
 	m_listView = new KListView(this);
+	QColor c; c.setRgb( 57, 64, 98 );
+	m_listView->setAlternateBackground( c );
+	m_listView->setSelectionMode( QListView::Extended );
+	m_listView->setAllColumnsShowFocus( true );
 	
+#if KDE_IS_VERSION( 3, 3, 91 )
+    	m_listView->setShadeSortColumn( true );
+#endif
+
 	for (uint i = 0; i < colsText.count(); i++)
 	{
 		m_listView->addColumn( colsText[i] );
@@ -239,7 +248,7 @@ void LTListView::putItems(QStringList items)
 	m_listView->insertItem(itemp);
 }
 
-void LTListView::addItem(const QString &table, const QString &pkey)
+void LTListView::addItem(const QString &pkey)
 {
 	// TODO: Esto sera virtual puro
 }

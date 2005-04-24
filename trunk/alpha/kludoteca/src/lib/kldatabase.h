@@ -103,6 +103,33 @@ class KLDatabase : public QSqlDatabase
 		 */
 		KLResultSet select(QStringList fields, QString table, QString selectparams = QString::null);
 		
+		/**
+		 * Crea las tablas de la aplicacion
+		 */
+		bool createTables();
+		
+		/**
+		 * Elimina las tablas
+		 */
+		bool dropTables();
+		
+		/**
+		 * Determina si la ultima consulta produjo error
+		 */
+		bool isLastError();
+		
+	signals:
+		/**
+		 *  Marca el progreso de una consulta
+		 * @param p 
+		 */
+		void progress(int p);
+		
+		/**
+		 * Este slot se emite cuando se ha realizado una consulta y envia verdadero en caso de que la consulta sea exitosa y falso en cualquier otro caso
+		 */
+		void executed(bool good);
+		
 		
 	public slots:
 		/**
@@ -111,6 +138,14 @@ class KLDatabase : public QSqlDatabase
 		 * @return 
 		 */
 		KLResultSet execQuery(KLQuery *query);
+		
+		/**
+		 * Funcion de bajo nivel para realizar consultas
+		 */
+		void execRawQuery(const QString &sql);
+		
+	private:
+		bool lastIsBad; 
 };
 
 #endif

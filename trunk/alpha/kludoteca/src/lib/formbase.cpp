@@ -22,7 +22,7 @@
 #include <klocale.h>
 
 
-FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, name), m_accept(0), m_cancel(0)
+FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, name), m_accept(0), m_cancel(0), m_type(Any)
 {
 	setMargin(10);
 	setFrameShape(QFrame::Box );
@@ -32,7 +32,7 @@ FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, name), m_
 	m_labelExplanation->setMargin (10);
 }
 
-FormBase::FormBase(KLDatabase *db, QWidget *parent, const char *name) : QVBox(parent, name)
+FormBase::FormBase(KLDatabase *db, QWidget *parent, const char *name) : QVBox(parent, name), m_type(Any)
 {
 	setMargin(10);
 	setFrameShape(QFrame::Box );
@@ -42,7 +42,12 @@ FormBase::FormBase(KLDatabase *db, QWidget *parent, const char *name) : QVBox(pa
 	m_labelExplanation->setMargin (10);
 	
 	if ( db )
+	{
 		connect(this, SIGNAL(sendQuery(KLQuery* )), db, SLOT(execQuery(KLQuery* )));
+		connect(this, SIGNAL(sendRawQuery(const QString& )), db, SLOT(execRawQuery(const QString& )));
+		
+		connect(db, SIGNAL(executed(bool )), this, SLOT(wasExecuted(bool )));
+	} 
 }
 
 FormBase::~FormBase()
@@ -124,6 +129,16 @@ void FormBase::setTextCancelButton(QString newText)
 		m_cancel->setText(newText);
 }
 
+void FormBase::setType(Type t)
+{
+	m_type = t;
+}
+
+int FormBase::getType()
+{
+	return m_type;
+}
+
 void FormBase::setExplanation(QString newExplanation)
 {
 	m_labelExplanation->setText(i18n("<h3>%1</h3>").arg(newExplanation));	
@@ -158,6 +173,20 @@ HashLineEdit FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int
 	}
 	
 	return lineEdits;
+}
+
+bool FormBase::lastQueryWasGood()
+{
+	return m_lastQueryGood;
+}
+
+void FormBase::wasExecuted(bool good)
+{
+	m_lastQueryGood = good;
+	if ( !good)
+	{
+		// TODO: Guardar el error que produjo
+	}
 }
 
 #include "formbase.moc"

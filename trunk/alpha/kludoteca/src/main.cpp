@@ -29,6 +29,7 @@
 #include "bdconnection.h"
 
 #include <kstandarddirs.h>
+#include <kmessagebox.h> 
 
 static const char description[] = I18N_NOOP("System for administer a game store.");
 
@@ -57,33 +58,22 @@ int main(int argc, char **argv)
 	
 	about.addCredit( "GNU Community", I18N_NOOP("Many thanks to all GNU community!!"));
 	
-	// FIXME: Esto produce una violacion de segmento!
-	//about.setProgramLogo( QPixmap( locate("data", "kludoteca/icons/klicon.png" )).convertToImage() );
-	
 	KCmdLineArgs::init(argc, argv, &about);
 	KCmdLineArgs::addCmdLineOptions(options);
 	
 	LDTApp app;
+	app.applyColors();
 	
-	QColorGroup group = QApplication::palette().active();
-	const QColor bg( 32,32,82 );
-	const QColor bgAlt( 57, 64, 98 );
+	if ( app.config()->readBoolEntry( "First Run", true ) )
+	{
+		app.firstDialog();
+		if ( app.config()->readBoolEntry( "First Run", true ) )
+		{
+			KMessageBox::information(0, i18n("You need first configure the system"));
+			return -1;
+		}
+	}
 
-	group.setColor( QColorGroup::Text, Qt::white );
-	group.setColor( QColorGroup::Base, bg );
-	group.setColor( QColorGroup::Foreground, 0xd7d7ef );
-	group.setColor( QColorGroup::Background, bgAlt );
-
-	group.setColor( QColorGroup::Button, bgAlt );
-	group.setColor( QColorGroup::ButtonText, 0xd7d7ef );
-
-	group.setColor( QColorGroup::Highlight, Qt::white );
-	group.setColor( QColorGroup::HighlightedText, bg );
-	int h,s,v;
-	bgAlt.getHsv( &h, &s, &v );
-	group.setColor( QColorGroup::Midlight, QColor( h, s/3, (int)(v * 1.2),QColor::Hsv ) );
-	QPalette pal(group, group, group);
-	app.setPalette(pal);
 	// registramos el cliente dcop para hacer IPC!
 	app.dcopClient()->registerAs(app.name(), false);
 

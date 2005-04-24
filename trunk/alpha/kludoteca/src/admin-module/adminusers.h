@@ -21,7 +21,7 @@
 #define ADMINUSERS_H
 
 #include <iostream>
-#include <ltlistview.h>
+#include <ltlistview.h> 
 #include "formadminusers.h"
 /**
  * En esta clase manejamos lo referente a la administracion de usuarios
@@ -85,6 +85,13 @@ class AdminUsers : public LTListView
 		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
 		 */
 		void queryButtonClicked();
+		
+		/**
+		 * Adiciona un item a la lista consultando la base de datos.
+		 * @param table 
+		 * @param pkey 
+		 */
+		void addItem(const QString &pkey);
 		
 	signals:
 		/**

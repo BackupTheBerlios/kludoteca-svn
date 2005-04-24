@@ -58,32 +58,22 @@ void AdminUsers::fillList()
 
 void AdminUsers::addButtonClicked()
 {
-// 	cout << "Add button clicked" << std::endl;
-// 	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
-// 	( new QVBoxLayout( view ) )->setAutoAdd( true );
-// 
-// 	FormAdminUsers *formAdminUsers = new FormAdminUsers(QWidget *w);
-// 	formAdminUsers->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-//  	formAdminUsers->setTitle(i18n("Admin Users"));
-//  	formAdminUsers->setExplanation(i18n("Fill the fields with the client information"));
-// 	
-// 	emit sendWidget(view);
-// 	
-	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
+	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormAdminUsers *formAdminClients = new FormAdminUsers( scroll->viewport() );
+	FormAdminUsers *formAdminClients = new FormAdminUsers(m_db, scroll->viewport() );
+	formAdminClients->setType( FormBase::Add);
+	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminClients, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+	
 	scroll->addChild(formAdminClients);
 	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminClients->setTitle(i18n("Admin User"));
 	formAdminClients->setExplanation(i18n("Fill the fields with the user information"));
 	
-	emit sendWidget(view);
-	
-	
-	
+	emit sendWidget(view); 
 }
 
 void AdminUsers::delButtonClicked()
@@ -102,5 +92,18 @@ void AdminUsers::queryButtonClicked()
 {
 }
 
+void AdminUsers::addItem(const QString &pkey)
+{
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users");
+	sqlquery.setWhere("login="+SQLSTR(pkey));
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.parse(m_xmlsource) )
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+}
 
 #include "adminusers.moc"

@@ -67,6 +67,7 @@ class FormBase : public QVBox
 		
 	public:
 		enum Button { NoButton = 0, AcceptButton, CancelButton };
+		enum Type { Any = 0, Add, Edit, Query };
 		
 		/**
 		* Costructor por defecto.
@@ -98,6 +99,17 @@ class FormBase : public QVBox
 		* Cambia el titulo del formulario.
 		 */
 		void setTitle(QString newTitle);
+		
+		/**
+		 * Coloca el tipo del formulario
+		 * @param t 
+		 */
+		void setType(Type t);
+		
+		/**
+		 * Obtiene el tipo del formulario
+		 */
+		int getType();
 		
 		/**
 		 * Cambia el tipo de letra del titulo
@@ -136,6 +148,12 @@ class FormBase : public QVBox
 		 */
 		HashLineEdit setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth = 200); 
 		
+		/**
+		 * Retorna verdadero si la ultima consulta fue exitosa
+		 * @return 
+		 */
+		bool lastQueryWasGood();
+		
 		
 	public slots:
 		/**
@@ -147,6 +165,15 @@ class FormBase : public QVBox
 		 */
 		virtual void cancel() = 0;
 		
+		
+		/**
+		 * Este slot recibe verdadero en caso de que la consulta haya sido exitosa.
+		 * @param good 
+		 */
+		void wasExecuted(bool good);
+		
+		// virtual void clean() = 0;
+		
 	signals:
 		/**
 		 * Emita esto si quiere enviar consultas a la base de datos.
@@ -155,20 +182,32 @@ class FormBase : public QVBox
 		virtual void sendQuery(KLQuery *);
 		
 		/**
-		 * Emite esto cuando quiera informar que se ha aceptado
+		 * Emite una consulta a bajo nivel
 		 */
-		virtual void accepted();
+		virtual void sendRawQuery(const QString &sql);
+		
+		/**
+		 * Emita esto cuando quiera informar que se ha aceptado
+		 */
+		virtual void accepted(); 
+		
+		/**
+		 * Emita esto cuando quiera informar que ha cancelado
+		 */
+		virtual void cancelled();
 		
 		/**
 		 * Emita esto cuando quiera emitir la llave primaria que ha insertado, se usa para conectar con el LTListView y actualizar la lista, sin leer de nuevo todos los registros.
 		 */
-		virtual void inserted(const QString &table, const QString &pkey);
+		virtual void inserted(const QString &pkey);
 		
 		
 	private:
 		QHButtonGroup *m_buttons;
 		QLabel *m_labelTitle, *m_labelExplanation;
 		KPushButton *m_accept, *m_cancel;
+		Type m_type;
+		bool m_lastQueryGood;
 };
 
 #endif

@@ -20,9 +20,10 @@
 #ifndef LDTAPP_H
 #define LDTAPP_H
 
-#include <kapplication.h>
+#include <kapplication.h> 
 #include <kconfig.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 
 /**
  * Esta clase simboliza la aplicación
@@ -56,11 +57,20 @@ class LDTApp : public KApplication
 		 */
 		KConfig *config(const QString &group = "General");
 		
-	private:
+		/**
+		 * Retorna la version de la aplicacion 
+		 * @return appversion
+		 */
+		QString appversion();
+		
 		/**
 		 * Coloca los colores de la aplicacion
 		 */
 		void applyColors();
+		
+	private:
+		const QString APPNAME;
+		const QString APPVERSION;
 };
 
 #define klapp static_cast<LDTApp*>(kapp)

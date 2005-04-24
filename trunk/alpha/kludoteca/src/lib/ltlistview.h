@@ -127,7 +127,7 @@ class LTListView : public QVBox
 		 * Adiciona un item tomando la llave primaria y sacando el registro de la base de datos
 		 * @param pkey 
 		 */
-		virtual void addItem(const QString &table, const QString &pkey); // = 0;
+		virtual void addItem(const QString &pkey); // = 0;
 		
 	signals:
 		
@@ -138,7 +138,7 @@ class LTListView : public QVBox
 		virtual void message2osd(const QString &); //= 0;
 		
 		/**
-		 * Este signal envia el widget para er puesto en la ventana principal
+		 * Este signal envia el widget para ser puesto en la ventana principal
 		 */
 		virtual void sendWidget(KMdiChildView *); //= 0;
 	

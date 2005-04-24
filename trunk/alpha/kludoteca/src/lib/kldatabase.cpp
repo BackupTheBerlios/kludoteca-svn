@@ -22,7 +22,7 @@
 #include <klocale.h>
 #include <iostream>
 
-KLDatabase::KLDatabase(QObject *parent) : QSqlDatabase("QPSQL7", "KLudoteca", parent  )
+KLDatabase::KLDatabase(QObject *parent) : QSqlDatabase("QPSQL7", "KLudoteca", parent  ), lastIsBad(false)
 {
 }
 
@@ -54,13 +54,18 @@ KLResultSet KLDatabase::execQuery(const QString &strquery, QStringList fields)
 			}
 			theResultSet.setRecord(fields, results);
 		}
+		lastIsBad = false;
 	}
 	else
 	{
 		// TODO: crear una paquete XML de error!.
 		qDebug( tr("Error while exec query " + query.executedQuery() ));
 		qDebug( lastError().text() );
+		lastIsBad = true;
 	}
+	
+	emit executed(!lastIsBad);
+	
 	return theResultSet;
 }
 
@@ -91,20 +96,23 @@ KLResultSet KLDatabase::execQuery(KLQuery *query)
 			return this->execQuery(query->getQuery(), static_cast<KLSelect*>(query)->getFields());
 			break;
 		case KLQuery::Insert:
-			exec(query->getQuery());
+			execQuery(query->getQuery());
 			break;
 		case KLQuery::Update:
-			exec(query->getQuery());
+			execQuery(query->getQuery());
 			break;
 		case KLQuery::Delete:
-			exec(query->getQuery());
+			execQuery(query->getQuery());
 			break;
 	}
 
 	return KLResultSet();
 }
 
-
+void KLDatabase::execRawQuery(const QString &sql)
+{
+	exec(sql);
+}
 
 void KLDatabase::setDatabaseName(const QString &dbname)
 {
@@ -134,10 +142,173 @@ void KLDatabase::setUserName(const QString &login )
 
 void KLDatabase::setupConnection(const QString &dbname, const QString & login, const QString & password, const QString & host )
 {
+	std::cout << "Setting up the database with: " << dbname << " " << login << " " << host << std::endl;
 	setDatabaseName(dbname);
 	setHostName(host);
 	setUserName(login);
 	setPassword(password);
+}
+
+bool KLDatabase::isLastError()
+{
+	return lastIsBad;
+}
+
+bool KLDatabase::createTables()
+{
+	// Aqui debemos crear las tablas, falta quitar todos los privilegios!! y crear indices
+	QSqlQuery q;
+	bool wasgood = true;
+	int p = 1;
+	
+	q = exec("CREATE TABLE ldt_games ("
+			"serialReference character varying(8) NOT NULL,"
+			"gameName character varying(10) NOT NULL,"
+			"description text NOT NULL,"
+			"rules text NOT NULL,"
+			"minGamers smallint NOT NULL,"
+			"maxGamers smallint NOT NULL,"
+			"gameType character varying(10) NOT NULL,"
+			"timeUnitAdd character varying(10) NOT NULL,"
+			"timeUnit character varying(10) NOT NULL,"
+			"costTM real NOT NULL,"
+			"costTMA real NOT NULL,"
+			"position character varying(10) NOT NULL,"
+			"state character varying (10) NOT NULL,"
+			"primary key(serialReference));");
+	
+	if ( ! q.isActive() ) 
+	{
+		std::cout << "Fails to create ldt_games" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	q = exec("CREATE TABLE ldt_clients ("
+			"docIdent character varying(10) NOT NULL,"
+			"inscriptionDate date NOT NULL,"
+			"firstName character varying(10) NOT NULL,"
+			"lastName character varying(10) NOT NULL,"
+			"phone character varying(15),"
+			"celular character varying(15),"
+			"state character varying(10),"
+			"address character varying(20),"
+			"namereference character varying(15),"
+			"phonereference character varying(15),"
+			"addressreference character varying(20),"
+			"primary key(docIdent));");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_clients" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	q = exec("CREATE TABLE ldt_tournament ("
+			"codTournament character varying(10) NOT NULL,"
+			"gameReference character varying(8) NOT NULL,"
+			"name character varying(10) NOT NULL,"
+			"initDate date NOT NULL,"
+			"endDate date NOT NULL,"
+			"roundsForPair integer NOT NULL,"
+			"rounds integer NOT NULL,"
+			"price real NOT NULL,"
+			"discount real NOT NULL,"
+			"state character varying(10) NOT NULL,"
+			"primary key(codTournament),"
+			"foreign key(gameReference) references ldt_games(serialReference));");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_tournament" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	q = exec("CREATE TABLE ldt_enterprise ("
+			"nit character varying(10) NOT NULL,"
+			"address character varying(20) NOT NULL,"
+			"name character varying(10) NOT NULL,"
+			"phone character varying(10) NOT NULL,"
+			"city character varying(8) NOT NULL,"
+			"primary key(nit));");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_enterprise" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	emit progress(p++);
+	
+	q = exec("CREATE TABLE ldt_users ("
+			"docIdent character varying(10) NOT NULL,"
+			"login character varying(20) NOT NULL,"
+			"firstName character varying(10) NOT NULL,"
+			"lastName character varying(10) NOT NULL,"
+			"sex character varying(10),"
+			"address character varying(20),"
+			"phone character varying(10),"
+			"email character varying(20),"
+			"permissions character varying(10) NOT NULL," // Hay que revisar cuantos modulos son y ajustar esto a un numero de caracteres fijos
+			"primary key(login));");
+	
+	if ( ! q.isActive() ) 
+	{
+		std::cout << "Fails to create ldt_users" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	q = exec("CREATE TABLE ldt_participates ("
+			"clientDocIdent character varying(15),"
+			"codTournament character varying(10),"
+			"foreign key (clientDocIdent) references ldt_clients(docIdent),"
+			"foreign key (codTournament) references ldt_tournament(codTournament));");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_participates" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	q = exec("CREATE TABLE ldt_rents ("
+			"clientDocIdent character varying(10) NOT NULL,"
+			"gameSerialReference character varying(10) NOT NULL,"
+			"returnHour time without time zone NOT NULL,"
+			"date date NOT NULL,"
+			"foreign key (clientDocIdent) references ldt_clients(docIdent),"
+			"foreign key (gameSerialReference) references ldt_games(serialReference));");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_rents error is " << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	return wasgood;
+}
+
+bool KLDatabase::dropTables()
+{
+	std::cout << "Dropping tables" << std::endl;
+	exec("drop table ldt_users cascade");
+	exec("drop table ldt_enterprise cascade");
+	exec("drop table ldt_participates cascade");
+	exec("drop table ldt_rents cascade");
+	exec("drop table ldt_tournament cascade");
+	exec("drop table ldt_clients cascade");
+	exec("drop table ldt_games cascade");
+	
+	return true;
 }
 
 #include "kldatabase.moc"

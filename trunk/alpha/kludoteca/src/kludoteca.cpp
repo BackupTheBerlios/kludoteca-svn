@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "kludoteca.h"
+#include "kludoteca.h" 
 #include "pref.h"
 
 #include <qdragobject.h>
@@ -47,6 +47,7 @@
 
 KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_printer(0), m_childs(0), m_view(0), m_userValidator(0)
 {
+	std::cout << "Inicializando " << klapp->name() << std::endl;
 	// accept dnd
 	setAcceptDrops(true);
 	
@@ -157,6 +158,7 @@ void KLudoteca::setupToolWindows()
 		m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
 		
 		LTListView *adminuser = static_cast<LTListView*>(m_adminWidget->currentItem());
+		
 		connect(adminuser, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 		
 		connect(adminuser,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));

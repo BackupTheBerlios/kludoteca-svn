@@ -23,9 +23,29 @@
 
 #include <kwizard.h>
 #include <qlabel.h>
+#include <qvbox.h>
+#include <qhbox.h>
+#include <qlayout.h>
+#include <klineedit.h>
+#include <qgroupbox.h>
+#include <kpushbutton.h>
+#include <kprogress.h>
+#include <qradiobutton.h>
+#include <qhbuttongroup.h>
+
+#include "kldatabase.h"
+
+class FDWelcome;
+class FDInitDatabase;
+class FDSetupAdmin;
 
 /**
  * Esta clase es utilizada para inicializar el sistema, se lanzara la primera vez que se ejecute la aplicación y permitira configurar todo el sistema.
+ * @todo - Crear base de datos
+ * 		- Capturar informacion necesaria para configurar la empresa
+ * 		- Informacion necesaria acerca del usuario administrador
+ * 		- Una tabla para añadir juegos
+ * 		- Una tabla para añadir usuarios
  * @author David Cuadrado
 */
 class KLFirstDialog : public KWizard
@@ -44,7 +64,132 @@ class KLFirstDialog : public KWizard
 		 * @return 
 		 */
 		~KLFirstDialog();
+		
+				
+	public slots:
+		void next();
+		void finished();
+		void cancel();
+		
+	private:
+		FDWelcome *m_welcome;
+		FDInitDatabase *m_initdb;
+		FDSetupAdmin *m_setupAdmin;
 
+};
+
+/**
+ * Esta clase es utilizada para intanciar un mensaje de bienvenida a la aplicacion, ademas de una explicacion del proceso de inicialización y una muestra del logo de la aplicacion.
+ * @author David Cuadrado
+ */
+class FDWelcome : public QHBox
+{
+	public: 
+		/**
+		 * Crea un widget de bienvenida al primer dialogo
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
+		FDWelcome(QWidget *parent = 0, const char *name = 0);
+		/**
+		 * Destructor
+		 * @return 
+		 */
+		~FDWelcome();
+		
+		/**
+		 * Pone un mensaje en el widget
+		 * @param text 
+		 */
+		void setMessage(const QString &text);
+		
+	private:
+		QString m_text;
+		QLabel *m_message;
+};
+
+/**
+ * Esta clase es utilizada para inicializar la base de datos, pide la informacion necesaria para tal operacion y procede a crear la base de datos
+ * @author David Cuadrado
+ */
+class FDInitDatabase : public QVBox
+{
+	Q_OBJECT
+	public:
+		/**
+		 * Crea un objeto de configuracion de la base de datos
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
+		FDInitDatabase(QWidget *parent = 0, const char *name = 0);
+		
+		/**
+		 * Destructor
+		 * @return 
+		 */
+		~FDInitDatabase();
+		
+		/**
+		 * Retorna la conexion a la base de datos
+		 * @return 
+		 */
+		KLDatabase *getDatabaseConnection();
+		
+		bool checkAccount();
+		
+	public slots:
+		/**
+		 * Este slot se encarga de crear la base de datos!
+		 */
+		void createDatabase();
+		
+	signals:
+		void enableNext(QWidget *widget, bool e);
+		
+	private:
+		QGroupBox *m_dataBox;
+		KLineEdit *m_server, *m_dbname, *m_login, *m_passwd;
+		KPushButton *m_createButton;
+		KProgress *m_pbar;
+		KLDatabase *m_db;
+};
+
+/**
+ * Esta clase es utilizada para configurar la cuenta de administrador de la aplicacion
+ * @author David Cuadrado
+ */
+class FDSetupAdmin : public QVBox
+{
+	Q_OBJECT
+	public:
+		/**
+		 * Constructor
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
+		FDSetupAdmin(QWidget *parent = 0, const char *name = 0);
+		/**
+		 * Destructor
+		 * @return 
+		 */
+		~FDSetupAdmin();
+		
+		/**
+		 * Envia la consulta a la base de datos, si todo sale bien retorna verdadero, en caso contrario falso
+		 * @param db 
+		 * @return 
+		 */
+		bool setAdministrator(KLDatabase *db);
+		
+	private:
+		QGroupBox *m_dataBox;
+		KLineEdit *m_fname, *m_lname;
+		QRadioButton *m_malesex, *m_femalesex;
+		KLineEdit *m_address, *m_phone, *m_email, *m_docident;
+		QHButtonGroup *m_sexBox;
 };
 
 #endif

@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#ifndef _KLUDOTECA_H_
+#ifndef _KLUDOTECA_H_ 
 #define _KLUDOTECA_H_
 
 #ifdef HAVE_CONFIG_H
