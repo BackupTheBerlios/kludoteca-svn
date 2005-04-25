@@ -76,7 +76,7 @@ void ClientsWidget::addButtonClicked()
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormAdminClients *formAdminClients = new FormAdminClients( scroll->viewport() );
+	FormAdminClients *formAdminClients = new FormAdminClients( m_db, scroll->viewport() );
 	scroll->addChild(formAdminClients);
 	
 	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
@@ -85,25 +85,6 @@ void ClientsWidget::addButtonClicked()
 	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
 	
 	emit sendWidget( view );
-	
-// 	if ( m_db )
-// 		if ( m_db->isOpen() )
-// 			qDebug("La base de datos existe y esta abierta");
-// 		else
-// 			qDebug("La base de datos existe y esta cerrada");
-// 	else
-// 		qDebug("No existe");
-// 	
-// 		QSqlQuery query = m_db->exec("select login from ldt_users");
-// 		if ( query.isActive() )
-// 		{
-// 			while ( query.next() )
-// 			{
-// 				std::cout << "Consultado: " << (QString) query.value(0).toString() << " " << (QString) 	query.value(1).toString() << std::endl;
-// 			}
-// 		}
-// 		else
-// 			qDebug("No esta activa");
 }
 
 void ClientsWidget::delButtonClicked()

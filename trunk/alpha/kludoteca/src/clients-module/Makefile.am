@@ -6,3 +6,4 @@ noinst_HEADERS = clientswidget.h formadminclients.h
 libclients_module_a_SOURCES = clientswidget.cpp formadminclients.cpp
 kldclientsiconsdir = $(kde_datadir)/kludoteca/clients-module/icons
 kldclientsicons_DATA = default3.png
+kldclientspicsdir = $(kde_datadir)/kludoteca/clients-module/pics

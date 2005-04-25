@@ -103,14 +103,6 @@ class GamesList : public LTListView
 		 */
 		void queryButtonClicked();
 		
-	signals:
-		/**
-		 * Este signal envia el widget para er puesto en la ventana principal
-		 */
-		void sendWidget(KMdiChildView *);
-		
-		void message2osd(const QString &);
-		
 	private:
 		QStringList m_gameCategories;
 		

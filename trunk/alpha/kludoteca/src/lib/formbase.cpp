@@ -21,17 +21,6 @@
 #include "formbase.h"
 #include <klocale.h>
 
-
-FormBase::FormBase( QWidget *parent, const char *name) : QVBox(parent, name), m_accept(0), m_cancel(0), m_type(Any)
-{
-	setMargin(10);
-	setFrameShape(QFrame::Box );
-        setFrameShadow(QFrame::Raised);
-	m_labelTitle = new QLabel(this);
-	m_labelExplanation = new QLabel(this);
-	m_labelExplanation->setMargin (10);
-}
-
 FormBase::FormBase(KLDatabase *db, QWidget *parent, const char *name) : QVBox(parent, name), m_type(Any)
 {
 	setMargin(10);
@@ -41,13 +30,15 @@ FormBase::FormBase(KLDatabase *db, QWidget *parent, const char *name) : QVBox(pa
 	m_labelExplanation = new QLabel(this);
 	m_labelExplanation->setMargin (10);
 	
+	Q_CHECK_PTR(db);
+	
 	if ( db )
 	{
 		connect(this, SIGNAL(sendQuery(KLQuery* )), db, SLOT(execQuery(KLQuery* )));
 		connect(this, SIGNAL(sendRawQuery(const QString& )), db, SLOT(execRawQuery(const QString& )));
 		
 		connect(db, SIGNAL(executed(bool )), this, SLOT(wasExecuted(bool )));
-	} 
+	}
 }
 
 FormBase::~FormBase()
@@ -203,7 +194,7 @@ void FormBase::wasExecuted(bool good)
 	m_lastQueryGood = good;
 	if ( !good)
 	{
-		// TODO: Guardar el error que produjo
+		
 	}
 }
 

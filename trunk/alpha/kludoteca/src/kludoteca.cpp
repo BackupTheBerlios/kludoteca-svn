@@ -144,13 +144,13 @@ void KLudoteca::setupToolWindows()
 	// TODO: push the modules in the GUI depend of the user permission's 
 	
 	// Add the main view!
-	m_view = new KLudotecaView("Welcome", this);
+	m_view = new KLudotecaView("Welcome", m_database, this);
 	connect(m_view->mainPage(), SIGNAL(sendWidget(KMdiChildView* )) , this, SLOT(addModulePage(KMdiChildView* )));
 	// tell the KMainWindow that this is indeed the main widget
 	setCentralWidget(m_view);
 	addWindow(m_view);
 	
-	// Add thge admin module
+	// Add the admin module
 	if ( m_userValidator->activeAdminModule() )
 	{
 		m_adminWidget = new AdminWidget(this);
@@ -264,7 +264,7 @@ void KLudoteca::dropEvent(QDropEvent *event)
 
 void KLudoteca::fileNew()
 {
-	KLudotecaView *view = new KLudotecaView("Welcome", this, "Welcome");
+	KLudotecaView *view = new KLudotecaView("Welcome", m_database, this, "Welcome");
 
 	addWindow( view );
 }

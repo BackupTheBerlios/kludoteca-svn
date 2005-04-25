@@ -21,7 +21,7 @@
 #include "formtournament.h"
 #include <klocale.h>
 
-FormTournament::FormTournament(QWidget *parent) : FormBase(parent, "FormTournament") 
+FormTournament::FormTournament(KLDatabase *db, QWidget *parent) : FormBase(db, parent, "FormTournament")
 {
 	setupForm();
 	this->setupButtons(FormBase::AcceptButton, FormBase::CancelButton);
@@ -90,10 +90,13 @@ void FormTournament::cancel()
 {
 }
 
+void FormTournament::clean()
+{
+}
+
 
 void FormTournament::fillField(QString nameTournament, QString nameGame, double inscription, double discount)
 {
-
 }
 
 

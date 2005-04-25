@@ -20,8 +20,11 @@
 #include "formadminclients.h"
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <iostream>
 
-FormAdminClients::FormAdminClients(QWidget *parent) : FormBase(parent, "FormAdminClient")
+using namespace std;
+
+FormAdminClients::FormAdminClients(KLDatabase *db,QWidget *parent) : FormBase(db,parent, "FormAdminClient")
 {
 	setupForm();
 }
@@ -56,6 +59,7 @@ void FormAdminClients::setupButtonsBox()
 	m_radioButtons = new QHButtonGroup(vbox);
 	m_male = new QRadioButton(i18n("Male"), m_radioButtons);
 	m_female = new QRadioButton(i18n("Female"), m_radioButtons);
+	m_female->setChecked(true);
 	
 	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
 	m_selectFace = new KPushButton("", vbox );
@@ -66,22 +70,38 @@ void FormAdminClients::setupButtonsBox()
 
 void FormAdminClients::setupBox()
 {
-	QStringList labels = QStringList() << i18n("Name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("Celular") << i18n("E-Mail");
+	QStringList labels = QStringList() << i18n("Name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("Celular") << i18n("EMail");
 	QWidget *box = new QWidget(m_container);
-	QStringList labels2 = QStringList() << i18n("Parent or friend name") << i18n("Parent or friend Last name") << i18n("Parent  or friend Address") << i18n("Parent  or friend Phone");
+	QStringList labels2 = QStringList() << i18n("Friend name") << i18n("Friend last name") << i18n("Friend address") << i18n("Friend phone");
+	
 	QWidget *box2 = new QWidget(m_container);
 	
-	this->setupGridLineEdit(box, labels, 500);
-	this->setupGridLineEdit(box2, labels2, 200);
+	m_hashBox1 = this->setupGridLineEdit(box, labels, 500);
+	m_hashBox2 = this->setupGridLineEdit(box2, labels2, 200);
+	
 	m_layout->addWidget(box, 0, 0);
 	m_layout->addWidget(box2, 0, 2);
 }
 
+/*
+* Este metodo toma los valores de los klineedits a traves de dos tablas hash (m_hashBox1 y m_hashBox2)
+*/
 void FormAdminClients::accept()
 {
+
+	KLInsert sqlquery("ldt_clients", QStringList() << SQLSTR(m_hashBox1[i18n("Identification")]->text()) << SQLSTR("2005-04-26") << SQLSTR(m_hashBox1[i18n("Name")]->text()) << SQLSTR(m_hashBox1[i18n("Last name")]->text()) << SQLSTR(m_hashBox1[i18n("Phone")]->text()) << SQLSTR(m_hashBox1[i18n("Celular")]->text()) << SQLSTR(m_hashBox1[i18n("EMail")]->text()) << SQLSTR( m_radioButtons->selected()->text() ) << SQLSTR("Active") << SQLSTR(m_hashBox1[i18n("Address")]->text()) << SQLSTR(m_hashBox2[i18n("Friend name")]->text()) << SQLSTR(m_hashBox2[i18n("Friend phone")]->text()) << SQLSTR(m_hashBox2[i18n("Friend address")]->text()) );
+
+	cout << "consulta fue: " << sqlquery.getQuery() << endl;
+	
+	emit sendQuery(&sqlquery);
+	emit accepted();
 }
 
 void FormAdminClients::cancel()
+{
+}
+
+void FormAdminClients::clean()
 {
 }
 

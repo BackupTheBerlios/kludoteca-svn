@@ -55,7 +55,8 @@ class FormTournament : public FormBase
 		 * @param parent 
 		 * @return 
 		 */
-		FormTournament(QWidget *parent = 0);
+		FormTournament(KLDatabase *db, QWidget *parent = 0);
+		
 		/**
 		 * Destructor
 		 * @return 
@@ -83,6 +84,11 @@ class FormTournament : public FormBase
 		 * Reimplementado de LTListview, se activa cuando se presiona el boton de cancelar la accion
 		 */
 		void cancel();
+		
+		/**
+		 * Limpia el formulario
+		 */
+		void clean();
 	
 	private:
 		

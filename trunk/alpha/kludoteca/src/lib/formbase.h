@@ -70,12 +70,6 @@ class FormBase : public QVBox
 		enum Type { Any = 0, Add, Edit, Query };
 		
 		/**
-		* Costructor por defecto.
-		 */
-		FormBase( QWidget *parent = 0, const char *name = 0 );
-
-		
-		/**
 		 * Construye la forma con una base de datos, para comunicarse con ella se emite un objeto KLQuery con la consulta necesaria para hacerlo.
 		 * @param db 
 		 * @param parent 
@@ -178,7 +172,11 @@ class FormBase : public QVBox
 		 */
 		void wasExecuted(bool good);
 		
-		// virtual void clean() = 0;
+		
+		/**
+		 * Esta funcion se usa para limpiar el formulario
+		 */
+		virtual void clean() = 0;
 		
 	signals:
 		/**

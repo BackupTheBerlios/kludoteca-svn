@@ -7,3 +7,4 @@ libadmin_module_a_SOURCES = admindatabase.cpp adminusers.cpp adminwidget.cpp \
 
 kladmimgsdir = $(kde_datadir)/kludoteca/admin-module/pics
 kladmimgs_DATA = imgformusers.png
+kladminiconsdir = $(kde_datadir)/kludoteca/admin-module/icons

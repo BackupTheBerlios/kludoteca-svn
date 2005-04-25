@@ -92,15 +92,6 @@ class AdminUsers : public LTListView
 		 * @param pkey 
 		 */
 		void addItem(const QString &pkey);
-		
-	signals:
-		/**
-	 	 * Este signal envia el widget para ser puesto en la ventana principal
-		 */
-		void sendWidget(KMdiChildView *);
-		
-		void message2osd(const QString &);
-
 };
 
 #endif

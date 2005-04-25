@@ -205,6 +205,11 @@ class FormAdminGame : public FormBase
 		 */
 		void cancel ();
 		
+		/**
+		 * Limpia el formulario
+		 */
+		void clean();
+		
 	private:
 		
 		QFrame *form;

@@ -25,6 +25,7 @@
 #include <kmdichildview.h>
 #include <qlabel.h>
 #include <khtml_part.h>
+#include "kldatabase.h"
 
 
 #include "kludotecaiface.h"
@@ -142,11 +143,11 @@ class KLMainPage : public KHTMLPart
 		 * Abre el formulario para añadir torneos
 		 * @param name 
 		 */
-		void addTournament(const QString &name = QString::null);
+		void addTournament(const QString &name = QString::null, KLDatabase *db = 0);
 		/**
 		 * Abre el formulario para añadir clientes
 		 */
-		void addClient();
+		void addClient(KLDatabase *db = 0);
 
 	protected:
 		/**
@@ -196,7 +197,7 @@ class KLudotecaView : public KMdiChildView, public KLudotecaIface
 		/**
 		* Constructor por defecto
 		*/
-		KLudotecaView(const QString &caption, QWidget *parentWidget=0L, const char *name=0L, WFlags f=0);
+		KLudotecaView(const QString &caption, KLDatabase *db = 0, QWidget *parentWidget=0L, const char *name=0L, WFlags f=0);
 	
 		/**
 		* Destructor por defecto
@@ -230,6 +231,7 @@ class KLudotecaView : public KMdiChildView, public KLudotecaIface
 		
 	private:
 		KLMainPage *m_mainPage;
+		KLDatabase *m_db;
 };
 
 #endif // _KLUDOTECAVIEW_H_

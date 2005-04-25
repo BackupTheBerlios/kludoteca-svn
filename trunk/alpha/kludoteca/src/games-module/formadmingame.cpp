@@ -258,4 +258,8 @@ void FormAdminGame::setCostTimeAdditional(const double &costAditional)
 	m_timeAdd->setValue(costAditional);
 }
 
+void FormAdminGame::clean()
+{
+}
+
 #include "formadmingame.moc"

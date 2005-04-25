@@ -90,6 +90,11 @@ class FormAdminUsers : public FormBase
 		 */
 		void cancel();
 		
+		/**
+		 * Limpia el formulario
+		 */
+		void clean();
+		
 	private:
 		QScrollView *m_scrollView;
 		QGridLayout *m_layout;

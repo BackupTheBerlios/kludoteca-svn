@@ -28,11 +28,19 @@
 #include <klineedit.h>
 #include <qlayout.h>
 #include <qscrollview.h>
-
+#include <qdict.h>
 /**
- * Este es el formulario para añadir y administrar clientes
+ * Este es el formulario para aÃ±adir y administrar clientes
  * @short Añadir cliente
  * @author David Cuadrado
+ * @todo 
+ * - Actualizar el listview
+ * - Funciones para obtener y colocar datos
+ * - Tomar la fecha actual y meterla a la base de datos
+ * - Un ComboBox para seleccionar el estado
+ * - Setear por defecto alguna opcion del combobox y los radio buttons
+ * - Retornar el sexo del cliente para añadirlo a la base de datos
+ * 
 */
 class FormAdminClients : public FormBase
 {
@@ -43,17 +51,19 @@ class FormAdminClients : public FormBase
 		 * @param parent 
 		 * @return 
 		 */
-		FormAdminClients(QWidget *parent = 0);
+		FormAdminClients (KLDatabase *db,QWidget *parent = 0);
+		
 		/**
 		 * Destructor
 		 * @return 
 		 */
 		~FormAdminClients();
+		
 		/**
 		 * Crea la forma
 		 */
 		void setupForm();
-		
+
 	public slots:
 		/**
 	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar
@@ -64,6 +74,11 @@ class FormAdminClients : public FormBase
 		 */
 		void cancel();
 		
+		/**
+		 * Limpia el formulario
+		 */
+		void clean();
+		
 	private:
 		QScrollView *m_scrollView;
 		QGridLayout *m_layout;
@@ -71,6 +86,7 @@ class FormAdminClients : public FormBase
 		QHButtonGroup *m_radioButtons;
 		QRadioButton *m_male, *m_female;
 		KPushButton *m_selectFace;
+		HashLineEdit m_hashBox1, m_hashBox2;
 	
 	private:
 		/**

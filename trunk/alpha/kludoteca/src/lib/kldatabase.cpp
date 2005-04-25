@@ -192,6 +192,8 @@ bool KLDatabase::createTables()
 			"lastName character varying(10) NOT NULL,"
 			"phone character varying(15),"
 			"celular character varying(15),"
+			"email character varying(50),"
+			"sex character varying(10),"
 			"state character varying(10),"
 			"address character varying(20),"
 			"namereference character varying(15),"
@@ -252,7 +254,7 @@ bool KLDatabase::createTables()
 			"sex character varying(10),"
 			"address character varying(20),"
 			"phone character varying(10),"
-			"email character varying(20),"
+			"email character varying(50),"
 			"permissions character varying(10) NOT NULL," // Hay que revisar cuantos modulos son y ajustar esto a un numero de caracteres fijos
 			"primary key(login));");
 	

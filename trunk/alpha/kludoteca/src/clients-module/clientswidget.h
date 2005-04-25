@@ -77,14 +77,6 @@ class ClientsWidget : public LTListView
 		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
 		 */
 		void queryButtonClicked();
-		
-	signals:
-		/**
-	 	 * Este signal envia el widget para er puesto en la ventana principal
-		 */
-		void sendWidget(KMdiChildView *);
-		
-		void message2osd(const QString &);
 
 };
 

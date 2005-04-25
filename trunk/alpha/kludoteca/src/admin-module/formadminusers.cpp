@@ -92,6 +92,12 @@ void FormAdminUsers::setupBox()
 
 void FormAdminUsers::accept()
 {
+	if ( getLogin().length() < 3)
+	{
+		std::cout << "El login debe ser mayor de 3 caracteres" << std::endl;
+		return;
+	}
+	
 	KLInsert sqlquery("ldt_users", QStringList() << SQLSTR(this->getIdentification()) << SQLSTR(this->getLogin()) << SQLSTR(this->getFirstName()) << SQLSTR(this->getLastName()) << SQLSTR(getSex() ) << SQLSTR(this->getAddress()) << SQLSTR(this->getPhone()) << SQLSTR(this->getEmail()) << SQLSTR(this->getPermissions()));
 	
 	emit sendRawQuery("CREATE USER "+ this->getLogin() + " PASSWORD "+ SQLSTR(this->getPassword()) );
@@ -125,12 +131,18 @@ void FormAdminUsers::accept()
 		{
 			emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients,ldt_rents,ldt_participates TO "+getLogin());
 		}
+		
+		emit inserted(getLogin());
 	}
 }
 
 void FormAdminUsers::cancel() 
 {
 	emit cancelled();
+}
+
+void FormAdminUsers::clean()
+{
 }
 
 QString FormAdminUsers::getIdentification()

@@ -46,14 +46,6 @@ class TournamentActive : public LTListView
 	 	 * Esta funcion debe implementarse para llenar la lista.
 		 */
 		void fillList();
-	
-	signals:
-		/**
-	 	 * Este signal envia el widget para er puesto en la ventana principal
-		 */
-		void sendWidget(KMdiChildView *) ;
-		
-		void message2osd(const QString &);
 			
 	public slots:
 		/**

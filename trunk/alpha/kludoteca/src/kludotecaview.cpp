@@ -134,7 +134,7 @@ QString KLMainPageFactory::mainpage()
 
 	res = res.arg( i18n("KLudoteca") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n("Administer easly your ludotec") )
+			.arg( i18n("Administer easyly your ludotec") )
 			.arg( i18n("KLudoteca is an application for administer a ludotec.") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
@@ -195,9 +195,9 @@ QString KLMainPageFactory::page2()
 	else
 		res = res.arg( "..." );
 
-	res = res.arg( i18n("Administer easly your ludotec") )
+	res = res.arg( i18n("Administer easyly your ludotec") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n( "Administer easly your ludotec") )
+			.arg( i18n( "Administer easyly your ludotec") )
 			.arg( i18n( "KLudoteca is an application for administer a ludotec..") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
@@ -242,13 +242,13 @@ QString KLMainPageFactory::page4()
 
 	res = res.arg( locate( "data", "kludoteca/data/kl_infopage.css" ) );
 	if ( kapp->reverseLayout() )
-		res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+		res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kludoteca/data/kl_infopage_rtl.css" ) );
 	else
 		res = res.arg( "" );
 
-	res = res.arg( i18n("Administer easly your ludotec") )
+	res = res.arg( i18n("Administer easyly your ludotec") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n("Administer easly your ludotec") )
+			.arg( i18n("Administer easyly your ludotec") )
 			.arg( i18n("KLudoteca is an application for administer a ludotec..") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
@@ -328,13 +328,13 @@ QString KLMainPageFactory::page5()
 
 	res = res.arg( locate( "data", "kludoteca/data/kl_infopage.css" ) );
 	if ( kapp->reverseLayout() )
-		res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+		res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kludoteca/data/kl_infopage_rtl.css" ) );
 	else
 		res = res.arg( "" );
 
-	res = res.arg( i18n("Administer easly your ludotec") )
+	res = res.arg( i18n("Administer easyly your ludotec") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n("Administer easly your ludotec") )
+			.arg( i18n("Administer easyly your ludotec") )
 			.arg( i18n("KLudoteca is an application for administer a ludotec..") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
@@ -448,14 +448,14 @@ void KLMainPage::serve( const QString& html, const QString& what )
 	m_htmlDoc = html;
 }
 
-void KLMainPage::addTournament(const QString &name)
+void KLMainPage::addTournament(const QString &name, KLDatabase *db)
 {
 	KMdiChildView *view = new KMdiChildView(i18n("Add tournament") );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormTournament *formAdminTournament = new FormTournament( scroll->viewport() );
+	FormTournament *formAdminTournament = new FormTournament(db , scroll->viewport() );
 	scroll->addChild(formAdminTournament);
 
 	formAdminTournament->setTitle(i18n("Add a tournament"));
@@ -465,14 +465,14 @@ void KLMainPage::addTournament(const QString &name)
 		
 }
 
-void KLMainPage::addClient()
+void KLMainPage::addClient(KLDatabase *db)
 {
 	KMdiChildView *view = new KMdiChildView(i18n("Add client") );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormAdminClients *formAdminClients = new FormAdminClients( scroll->viewport() );
+	FormAdminClients *formAdminClients = new FormAdminClients( db, scroll->viewport() );
 	scroll->addChild(formAdminClients);
 	
 	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
@@ -550,7 +550,7 @@ void KLMainPage::urlSelected( const QString &url, int button, int state, const Q
 /*****************************
  *        KLudotecaView          *
 *****************************/
-KLudotecaView::KLudotecaView(const QString &caption, QWidget *parentWidget, const char *name, WFlags f) : KMdiChildView(caption, parentWidget, name, f), DCOPObject("KLudotecaIface")
+KLudotecaView::KLudotecaView(const QString &caption, KLDatabase *db, QWidget *parentWidget, const char *name, WFlags f) : KMdiChildView(caption, parentWidget, name, f), DCOPObject("KLudotecaIface"), m_db(db)
 {
 	QHBoxLayout *top_layout = new QHBoxLayout(this);
 	top_layout->setAutoAdd(true);
