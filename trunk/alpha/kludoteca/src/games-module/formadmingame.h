@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado, juliana Davila                                     *
+ *   krawek@gmail.com   julianad@univalle.edu.co                                     	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -40,7 +40,7 @@
 /**
  * Este es el formumario para añadir juegos
  * @short Formulario para añadir juegos
- * @author David Cuadrado
+ * @author David Cuadrado Juliana DAvila
  * @todo - Heredar de FormBase
 */
 class FormAdminGame : public FormBase
@@ -86,6 +86,12 @@ class FormAdminGame : public FormBase
 		 * @return 
 		 */
 		QString getTypeGame();
+		
+		/**
+		 *  Funcion que retorna un qstring de la referencia del juego
+		 * @return 
+		 */
+		QString getReferenceGame();
 		
 		/**
 		 *  Funcion que retorna un qstring que indica la unidad de tiempo en que se van a prestar el juego
@@ -145,6 +151,13 @@ class FormAdminGame : public FormBase
 		 */
 		void setTypeGame(const QString &type, int index);
 		
+		
+		/**
+		 * Funcion encargada de llenar el campo de la referencia o codigo del juego
+		 * @param reference 
+		 */
+		void setReferenceGame(const QString &reference);
+		
 		/**
 		 *  Funcion encargada de colocar la unidad de tiempo
 		 * Se pueden añadir mas tipos de unidades de tiempo el orden hasta ahora es
@@ -159,16 +172,19 @@ class FormAdminGame : public FormBase
 		 * @param numMinPlayers 
 		 */
 		void setMinPlayers(const int &numMinPlayers);
+		
 		/**
 		 * Funcion encargada de colcar el numero maximo de jugadores
 		 * @param numMaxPlayers 
 		 */
 		void setMaxPlayers(const int &numMaxPlayers);
+		
 		/**
 		 * Funcion encargada de colocar el costo por unidad de tiempo
 		 * @param costTime 
 		 */
 		void setCostUnitTime(const double &costTime);
+		
 		/**
 		 * Funcion encargada de colocar el costo por unidad de tiempo adicional
 		 * @param costAditional 
@@ -193,14 +209,14 @@ class FormAdminGame : public FormBase
 		
 		QFrame *form;
 		
-		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNMinPlayerGame,*m_labelNMaxPlayerGame,  *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd;
+		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNMinPlayerGame,*m_labelNMaxPlayerGame,  *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd, *m_labelReference;
 		
-		KLineEdit *m_nameGame;
+		KLineEdit *m_nameGame, *m_referenceGame;
 		KTextEdit *m_descriptionGame, *m_rulesGame ;
 		
 		//FIXME: la unidad de tiempo adicional se captura por un combobox?
 		
-		KComboBox *m_typeGame, *m_unitTime;
+		KComboBox *m_typeGame, *m_unitTime, *m_unitTimeAdd;
 		KIntSpinBox *m_nMinPlayerGame, *m_nMaxPlayerGame, *m_costUnit, *m_timeAdd;
 		
 	private:

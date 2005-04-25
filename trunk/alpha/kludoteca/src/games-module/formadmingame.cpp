@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado    juliana Davila                                   *
+ *   krawek@gmail.com      julianad@univalle.edu.co                                  	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -50,6 +50,11 @@ void FormAdminGame::setupForm()
 	m_grid->addWidget(m_labelTypeGame, 0,2);
 	m_grid->addWidget(m_typeGame, 0,3);
 	
+	m_labelReference = new QLabel(i18n("Reference of game"), form);
+	m_referenceGame = new KLineEdit(form);
+	m_grid->addWidget(m_labelReference, 0, 4);
+	m_grid->addWidget(m_referenceGame, 0 , 5);
+		
 	m_labelDescriptionGame = new QLabel(i18n("Description game"),form);
 	m_descriptionGame = new KTextEdit(form);
 	m_descriptionGame->setCheckSpellingEnabled (true);
@@ -88,6 +93,14 @@ void FormAdminGame::setupForm()
 	m_grid->addWidget(m_labelUnitTime, 3, 0);
 	m_grid->addWidget(m_unitTime, 3, 1);
 	
+	m_labelTimeAdd = new QLabel(i18n("unit of time"), form);
+	m_unitTimeAdd = new KComboBox(form);
+	m_unitTimeAdd ->insertItem(i18n("minutes"), 0);
+	m_unitTimeAdd ->insertItem(i18n("hours"), 1);
+	
+	m_grid->addWidget(m_labelTimeAdd, 4, 0);
+	m_grid->addWidget(m_unitTimeAdd, 4, 1);
+	
 	m_labelCostUnit = new QLabel(i18n("cost for time unit"), form);
 	m_costUnit = new KIntSpinBox(form);
 	m_costUnit->setRange (1000.0, 20000);
@@ -109,15 +122,16 @@ void FormAdminGame::setupForm()
 void FormAdminGame::accept ()
 {
 	//FIXME: tomar los datos de los campos validarlos y tratarlos
-	std::cout << "Nombre juego " <<getGameName()<< std::endl;
+	/*std::cout << "Nombre juego " <<getGameName()<< std::endl;
 	std::cout << "Descripcion juego " <<getDescriptionGame()<< std::endl;
 	std::cout << "Reglas juego " <<getRulesGame()<< std::endl;
 	std::cout << "tipo juego " <<getTypeGame()<< std::endl;
 	std::cout << "Unidad tiempo " <<getTimeUnit()<< std::endl;
 	std::cout << "max jugadores " <<getMaxPlayers()<< std::endl;
+	*/
 	
 	
-	KLInsert sqlquery("ldt_games", QStringList() << SQLSTR("#23f2") << SQLSTR(this->getGameName()) << SQLSTR(this->getDescriptionGame()) << SQLSTR(this->getRulesGame()) << QString::number(this->getMinPlayers()) << QString::number(this->getMaxPlayers()) << SQLSTR(this->getTypeGame()) << SQLSTR(this->getTimeUnit()) << SQLSTR(this->getTimeUnit()) << QString::number(this->getCostUnitTime()) << QString::number(this->getCostTimeAdditional()) << SQLSTR(QString("1")) << SQLSTR(QString("good")) );
+	KLInsert sqlquery("ldt_games", QStringList() << SQLSTR(this->getReferenceGame()) << SQLSTR(this->getGameName()) << SQLSTR(this->getDescriptionGame()) << SQLSTR(this->getRulesGame()) << QString::number(this->getMinPlayers()) << QString::number(this->getMaxPlayers()) << SQLSTR(this->getTypeGame()) << SQLSTR(this->getTimeUnit()) << SQLSTR(this->getTimeUnit()) << QString::number(this->getCostUnitTime()) << QString::number(this->getCostTimeAdditional()) << SQLSTR(QString("1")) << SQLSTR(QString("good")) );
 	
 	std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
 	
@@ -165,6 +179,10 @@ QString FormAdminGame::getTypeGame()
 	return m_typeGame->currentText();
 }
 
+QString FormAdminGame::getReferenceGame()
+{
+	return m_referenceGame->text();
+}
 QString FormAdminGame::getTimeUnit()
 {
 	return m_unitTime->currentText();
@@ -208,6 +226,11 @@ void FormAdminGame::setRulesGame(const QString &rules)
 void FormAdminGame::setTypeGame(const QString &type, int index)
 {
 	m_typeGame->changeItem( type,  index ) ;
+}
+
+void FormAdminGame::setReferenceGame(const QString &reference)
+{
+	m_referenceGame->setText(reference);
 }
 
 void FormAdminGame::setTimeUnit(const QString &unitTime, int index )
