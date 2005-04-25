@@ -28,6 +28,10 @@
 #include <klineedit.h>
 #include <qlayout.h>
 #include <qscrollview.h>
+#include <qvalidator.h>
+#include <qhbox.h>
+
+class QRegExp;
 
 /**
  * Este es el formulario para añadir y administrar usuarios de la aplicacion
@@ -99,6 +103,7 @@ class FormAdminUsers : public FormBase
 		 * Crea los botones
 		 */
 		void setupButtonsBox();
+		
 		/**
 		 * Crea la caja principal
 		 */

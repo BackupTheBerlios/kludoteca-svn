@@ -149,6 +149,12 @@ class FormBase : public QVBox
 		HashLineEdit setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth = 200); 
 		
 		/**
+		 * Esta funcion agrega un formulario cuadrado con etiqueta y captador de texto
+		 */
+		void addLineEdits(QWidget *parent, QStringList texts, HashLineEdit &hle, int lineEditWidth); 
+		
+		
+		/**
 		 * Retorna verdadero si la ultima consulta fue exitosa
 		 * @return 
 		 */

@@ -22,6 +22,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
+#include <qregexp.h>
 
 FormAdminUsers::FormAdminUsers(KLDatabase *db, QWidget *parent) : FormBase(db, parent, "FormAdminUsers")
 {
@@ -42,37 +43,51 @@ void FormAdminUsers::setupForm()
 	m_container->setLineWidth(3);
 	m_container->setFrameShape(QFrame::Box);
 	
-	//m_container->setMargin(10);
-	m_layout = new QGridLayout(m_container, 2, 3, 10, 5);
+	//m_container->setMargin(10); 
+	m_layout = new QGridLayout(m_container, 1, 3, 2, 2);
 	m_layout->setAlignment(Qt::AlignCenter );
-	
+
 	setupButtonsBox();
 	setupBox();
 
 	m_layout->setColStretch(2, 10);
+	
+	QLabel *img = new QLabel("", m_container);
+	img->setScaledContents ( true );
+	img->setFrameStyle( QFrame::Panel | QFrame::Raised );
+	img->setLineWidth( 2 );
+	img->setPixmap(QPixmap(locate("data", "kludoteca/admin-module/pics/imgformusers.png")));
+	
+	m_layout->addWidget(img, 0, 0);
 }
 
 void FormAdminUsers::setupButtonsBox()
 {
-	QVBox *vbox = new QVBox(m_container);
-	
-	m_radioButtons = new QHButtonGroup(vbox);
+	m_radioButtons = new QHButtonGroup(m_container);
+	m_radioButtons->setLineWidth(0);
+			
 	m_male = new QRadioButton(i18n("Male"), m_radioButtons);
 	m_female = new QRadioButton(i18n("Female"), m_radioButtons);
 	m_female->setChecked(true);
 
-	m_layout->addWidget(vbox, 0 , 1);
+	m_layout->addWidget(m_radioButtons, 0 , 2);
 }
 
 void FormAdminUsers::setupBox()
 {
-	QStringList labels = QStringList() << i18n("Login") << i18n("Password")  << i18n("First name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("EMail") << i18n("Permissions");
 	QWidget *box = new QWidget(m_container);
-
-	m_lineEdits = this->setupGridLineEdit(box, labels, 500);
-	m_lineEdits["Password"]->setEchoMode(KLineEdit::Password);
 	
-	m_layout->addWidget(box, 0, 0);
+	QStringList labels = QStringList() << i18n("Login") << i18n("Password")  << i18n("First name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("EMail") << i18n("Permissions");
+
+	m_lineEdits = this->setupGridLineEdit(box, labels, 600);
+	
+	m_lineEdits[i18n("Login")]->setValidator(new QRegExpValidator(QRegExp("[^0-9\\s]+\\c+$"), 0));
+	
+	m_lineEdits[i18n("Permissions")]->setValidator(new QRegExpValidator(QRegExp("[0-1]{0,5}"), 0));
+	
+	m_lineEdits[i18n("Password")]->setEchoMode(KLineEdit::Password);
+	
+	m_layout->addWidget(box, 0, 1);
 }
 
 void FormAdminUsers::accept()

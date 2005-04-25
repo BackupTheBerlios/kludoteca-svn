@@ -23,6 +23,7 @@
 #include <kpushbutton.h>
 #include <qwidget.h>
 
+#define DEBUG_ADMINUSERS 0
 
 using namespace std;
 
@@ -39,6 +40,9 @@ AdminUsers::~AdminUsers()
 
 void AdminUsers::fillList()
 {
+#if DEBUG_ADMINUSERS
+	qDebug("Fill List");
+#endif
 	if ( !m_db )
 	{
 		qDebug("You're need set the database!!");
@@ -58,22 +62,32 @@ void AdminUsers::fillList()
 
 void AdminUsers::addButtonClicked()
 {
+#if DEBUG_ADMINUSERS
+	qDebug("init addButtonClicked");
+#endif
 	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormAdminUsers *formAdminClients = new FormAdminUsers(m_db, scroll->viewport() );
-	formAdminClients->setType( FormBase::Add);
-	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));
-	connect(formAdminClients, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+	scroll->setMargin(10);
 	
-	scroll->addChild(formAdminClients);
-	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-	formAdminClients->setTitle(i18n("Admin User"));
-	formAdminClients->setExplanation(i18n("Fill the fields with the user information"));
+	FormAdminUsers *formAdminUsers = new FormAdminUsers(m_db, scroll->viewport() );
+
+	formAdminUsers->setType( FormBase::Add);
+	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminUsers, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+
+	scroll->addChild(formAdminUsers);
+	formAdminUsers->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	
+	formAdminUsers->setTitle(i18n("Admin User"));
+	formAdminUsers->setExplanation(i18n("Fill the fields with the user information"));
 	
 	emit sendWidget(view); 
+#if DEBUG_ADMINUSERS
+	qDebug("end addButtonClicked");
+#endif
 }
 
 void AdminUsers::delButtonClicked()

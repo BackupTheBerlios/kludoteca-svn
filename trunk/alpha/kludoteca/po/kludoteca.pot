@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-18 01:14-0500\n"
+"POT-Creation-Date: 2005-04-25 10:29-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,337 +36,481 @@ msgstr ""
 msgid "Crash Handler"
 msgstr ""
 
-#: kludoteca.cpp:236
-msgid "."
+#: klfirstdialog.cpp:32
+msgid "Welcome !"
 msgstr ""
 
-#: kludoteca.cpp:240
-msgid "Aqui agregamos diferentes modulos"
+#: klfirstdialog.cpp:35
+msgid "Setup database"
 msgstr ""
 
-#: kludoteca.cpp:363
-msgid "The game %1 is avalaible"
+#: klfirstdialog.cpp:39
+msgid "Setup admin user"
 msgstr ""
 
-#: kludotecaview.cpp:130 kludotecaview.cpp:131 kludotecaview.cpp:134
-#: kludotecaview.cpp:194 kludotecaview.cpp:197 kludotecaview.cpp:245
-#: kludotecaview.cpp:248 kludotecaview.cpp:331 kludotecaview.cpp:334
-#: main.cpp:45
+#: klfirstdialog.cpp:42
+msgid "<h3><b>Congratulations!</b></h3><br>"
+msgstr ""
+
+#: klfirstdialog.cpp:43
+msgid "You has configure the system, you can become to use it!"
+msgstr ""
+
+#: klfirstdialog.cpp:45
+msgid "All is good!"
+msgstr ""
+
+#: klfirstdialog.cpp:78
+msgid ""
+"I can't create the admin account\n"
+" The error was %1"
+msgstr ""
+
+#: klfirstdialog.cpp:100
+msgid ""
+"<p>KLudoteca is a program that lets administer a gamestore easyly and "
+"fastly, thanks to choose it!</p>"
+msgstr ""
+
+#: klfirstdialog.cpp:101
+msgid ""
+"<p>In this dialog, you can initialize the system in a easy way, you need "
+"fill some information and you can get the system work!</p>"
+msgstr ""
+
+#: klfirstdialog.cpp:102
+msgid "<p>Please press the next button and complete the fields</p>"
+msgstr ""
+
+#: klfirstdialog.cpp:103
+msgid "<br><br><em>-- KLudoteca Team</em>"
+msgstr ""
+
+#: klfirstdialog.cpp:125
+msgid ""
+"<p>In this section, you must be fill the information in the fields, for "
+"create the application database</p>"
+msgstr ""
+
+#: klfirstdialog.cpp:131
+msgid "Server"
+msgstr ""
+
+#: klfirstdialog.cpp:135 pref.cpp:35 pref.cpp:62 validateuser.cpp:32
+#: validateuser.cpp:177
+msgid "Database"
+msgstr ""
+
+#: klfirstdialog.cpp:141
+msgid "Login"
+msgstr ""
+
+#: klfirstdialog.cpp:146 validateuser.cpp:142
+msgid "Password"
+msgstr ""
+
+#: klfirstdialog.cpp:151
+msgid "Create the database!"
+msgstr ""
+
+#: klfirstdialog.cpp:173
+msgid ""
+"Your account is invalid, you need a user which can create users and databases"
+msgstr ""
+
+#: klfirstdialog.cpp:182
+msgid ""
+"I can't create %1\n"
+" The error was %2"
+msgstr ""
+
+#: klfirstdialog.cpp:193
+msgid "I can't create (all) tables"
+msgstr ""
+
+#: klfirstdialog.cpp:198
+msgid "The database was create succesfully!\n"
+msgstr ""
+
+#: klfirstdialog.cpp:199
+msgid "You can continue to next step"
+msgstr ""
+
+#: klfirstdialog.cpp:205
+msgid ""
+"I can't open the database!\n"
+"The error was %1"
+msgstr ""
+
+#: klfirstdialog.cpp:242
+msgid ""
+"<p>In this dialog, you must be fill the information in the fields, for setup "
+"your admin account.</p>"
+msgstr ""
+
+#: klfirstdialog.cpp:248
+msgid "First name"
+msgstr ""
+
+#: klfirstdialog.cpp:253
+msgid "male"
+msgstr ""
+
+#: klfirstdialog.cpp:255
+msgid "female"
+msgstr ""
+
+#: klfirstdialog.cpp:260
+msgid "Last name"
+msgstr ""
+
+#: klfirstdialog.cpp:264
+msgid "Identification"
+msgstr ""
+
+#: klfirstdialog.cpp:268
+msgid "Address"
+msgstr ""
+
+#: klfirstdialog.cpp:272
+msgid "Phone"
+msgstr ""
+
+#: klfirstdialog.cpp:278
+msgid "Email"
+msgstr ""
+
+#: kludotecaview.cpp:135 kludotecaview.cpp:136 kludotecaview.cpp:139
+#: kludotecaview.cpp:199 kludotecaview.cpp:202 kludotecaview.cpp:250
+#: kludotecaview.cpp:253 kludotecaview.cpp:336 kludotecaview.cpp:339
+#: main.cpp:46
 msgid "KLudoteca"
 msgstr ""
 
-#: kludotecaview.cpp:132 kludotecaview.cpp:193 kludotecaview.cpp:195
-#: kludotecaview.cpp:244 kludotecaview.cpp:246 kludotecaview.cpp:330
-#: kludotecaview.cpp:332
+#: kludotecaview.cpp:137 kludotecaview.cpp:198 kludotecaview.cpp:200
+#: kludotecaview.cpp:249 kludotecaview.cpp:251 kludotecaview.cpp:335
+#: kludotecaview.cpp:337
 msgid "Administer easly your ludotec"
 msgstr ""
 
-#: kludotecaview.cpp:133
+#: kludotecaview.cpp:138
 msgid "KLudoteca is an application for administer a ludotec."
 msgstr ""
 
-#: kludotecaview.cpp:135 kludotecaview.cpp:198 kludotecaview.cpp:249
-#: kludotecaview.cpp:335
+#: kludotecaview.cpp:140 kludotecaview.cpp:203 kludotecaview.cpp:254
+#: kludotecaview.cpp:340
 msgid "Introduction"
 msgstr ""
 
-#: kludotecaview.cpp:136 kludotecaview.cpp:199 kludotecaview.cpp:250
-#: kludotecaview.cpp:336
+#: kludotecaview.cpp:141 kludotecaview.cpp:204 kludotecaview.cpp:255
+#: kludotecaview.cpp:341
 msgid "Tips"
 msgstr ""
 
-#: kludotecaview.cpp:137 kludotecaview.cpp:200 kludotecaview.cpp:251
-#: kludotecaview.cpp:252 kludotecaview.cpp:337
+#: kludotecaview.cpp:142 kludotecaview.cpp:205 kludotecaview.cpp:256
+#: kludotecaview.cpp:257 kludotecaview.cpp:342
 msgid "Specifications"
 msgstr ""
 
-#: kludotecaview.cpp:140
+#: kludotecaview.cpp:145
 msgid "Add clients"
 msgstr ""
 
-#: kludotecaview.cpp:141
+#: kludotecaview.cpp:146
 msgid "Click for add clients"
 msgstr ""
 
-#: kludotecaview.cpp:144 kludotecaview.cpp:489
+#: kludotecaview.cpp:149 kludotecaview.cpp:453
 msgid "Add tournament"
 msgstr ""
 
-#: kludotecaview.cpp:145
+#: kludotecaview.cpp:150
 msgid "Click for create a new tournamet"
 msgstr ""
 
-#: kludotecaview.cpp:148
+#: kludotecaview.cpp:153
 msgid "Rents a game"
 msgstr ""
 
-#: kludotecaview.cpp:149
+#: kludotecaview.cpp:154
 msgid "Click for rents a game"
 msgstr ""
 
-#: kludotecaview.cpp:152 kludotecaview.cpp:156 kludotecaview.cpp:160
+#: kludotecaview.cpp:157 kludotecaview.cpp:161
 msgid "New functionally"
 msgstr ""
 
-#: kludotecaview.cpp:153 kludotecaview.cpp:157 kludotecaview.cpp:161
-#: kludotecaview.cpp:166 kludotecaview.cpp:342 kludotecaview.cpp:343
-#: kludotecaview.cpp:344 kludotecaview.cpp:345 kludotecaview.cpp:346
-#: kludotecaview.cpp:347 kludotecaview.cpp:348
+#: kludotecaview.cpp:158 kludotecaview.cpp:162 kludotecaview.cpp:171
+#: kludotecaview.cpp:347 kludotecaview.cpp:348 kludotecaview.cpp:349
+#: kludotecaview.cpp:350 kludotecaview.cpp:351 kludotecaview.cpp:352
+#: kludotecaview.cpp:353
 msgid "..."
 msgstr ""
 
-#: kludotecaview.cpp:164
+#: kludotecaview.cpp:165
+msgid "View Reports"
+msgstr ""
+
+#: kludotecaview.cpp:166
+msgid "Click to view reports!"
+msgstr ""
+
+#: kludotecaview.cpp:169
 msgid "Next: An Introduction to KLudoteca"
 msgstr ""
 
-#: kludotecaview.cpp:196 kludotecaview.cpp:247 kludotecaview.cpp:333
+#: kludotecaview.cpp:201 kludotecaview.cpp:252 kludotecaview.cpp:338
 msgid "KLudoteca is an application for administer a ludotec.."
 msgstr ""
 
-#: kludotecaview.cpp:201
+#: kludotecaview.cpp:206
 msgid ""
 "KLudoteca makes that administer a ludotec an easy work In this application "
 "you can add clients and manage your information in a way fast and easy."
 msgstr ""
 
-#: kludotecaview.cpp:205
+#: kludotecaview.cpp:210
 msgid ""
 "KLudoteca  is your option!You can use kludoteca for many things likeadd a <a "
 "href=\"addclient:/\">client</A> or administer tournament of games, or simply "
 "have catalogued the games."
 msgstr ""
 
-#: kludotecaview.cpp:210 kludotecaview.cpp:211
+#: kludotecaview.cpp:215 kludotecaview.cpp:216
 msgid " "
 msgstr ""
 
-#: kludotecaview.cpp:212
+#: kludotecaview.cpp:217
 msgid ""
 "For more detailed documentation on KLudoteca click <a href=\"%1\">here</a>."
 msgstr ""
 
-#: kludotecaview.cpp:214
+#: kludotecaview.cpp:219
 msgid ""
 "<em>Additional information:</em> This software is posible thanks to - GNU "
 "Community- All our friends- and me... X )"
 msgstr ""
 
-#: kludotecaview.cpp:219
+#: kludotecaview.cpp:224
 msgid "Next: Tips &amp; Tricks"
 msgstr ""
 
-#: kludotecaview.cpp:253
+#: kludotecaview.cpp:258
 msgid ""
 "KLudoteca is designed to make easy the work. The aim of this project is give "
 "to community a good and powerfull software for administer your bussiness"
 msgstr ""
 
-#: kludotecaview.cpp:255
+#: kludotecaview.cpp:260
 msgid "Technical features"
 msgstr ""
 
-#: kludotecaview.cpp:256
+#: kludotecaview.cpp:261
 msgid "Implemented"
 msgstr ""
 
-#: kludotecaview.cpp:257
+#: kludotecaview.cpp:262
 msgid "Description"
 msgstr ""
 
-#: kludotecaview.cpp:258
+#: kludotecaview.cpp:263
 msgid "XML"
 msgstr ""
 
-#: kludotecaview.cpp:259 kludotecaview.cpp:261 kludotecaview.cpp:268
-#: kludotecaview.cpp:274 kludotecaview.cpp:276
+#: kludotecaview.cpp:264 kludotecaview.cpp:266 kludotecaview.cpp:273
+#: kludotecaview.cpp:279 kludotecaview.cpp:281
 msgid "built-in"
 msgstr ""
 
-#: kludotecaview.cpp:260
+#: kludotecaview.cpp:265
 msgid "Postgresql"
 msgstr ""
 
-#: kludotecaview.cpp:262
+#: kludotecaview.cpp:267
 msgid "1"
 msgstr ""
 
-#: kludotecaview.cpp:263
+#: kludotecaview.cpp:268
 msgid "2"
 msgstr ""
 
-#: kludotecaview.cpp:264
+#: kludotecaview.cpp:269
 msgid "3"
 msgstr ""
 
-#: kludotecaview.cpp:265
+#: kludotecaview.cpp:270
 msgid "4"
 msgstr ""
 
-#: kludotecaview.cpp:266
+#: kludotecaview.cpp:271
 msgid "5"
 msgstr ""
 
-#: kludotecaview.cpp:267
+#: kludotecaview.cpp:272
 msgid "6"
 msgstr ""
 
-#: kludotecaview.cpp:269
+#: kludotecaview.cpp:274
 msgid "7"
 msgstr ""
 
-#: kludotecaview.cpp:270
+#: kludotecaview.cpp:275
 msgid "otra"
 msgstr ""
 
-#: kludotecaview.cpp:271
+#: kludotecaview.cpp:276
 msgid "falta"
 msgstr ""
 
-#: kludotecaview.cpp:272
+#: kludotecaview.cpp:277
 msgid "8"
 msgstr ""
 
-#: kludotecaview.cpp:273
+#: kludotecaview.cpp:278
 msgid "9"
 msgstr ""
 
-#: kludotecaview.cpp:275
+#: kludotecaview.cpp:280
 msgid "10"
 msgstr ""
 
-#: kludotecaview.cpp:277
+#: kludotecaview.cpp:282
 msgid "G E N E R A L"
 msgstr ""
 
-#: kludotecaview.cpp:278
+#: kludotecaview.cpp:283
 msgid "Feature"
 msgstr ""
 
-#: kludotecaview.cpp:279
+#: kludotecaview.cpp:284
 msgid "Details"
 msgstr ""
 
-#: kludotecaview.cpp:280
+#: kludotecaview.cpp:285
 msgid "Techs"
 msgstr ""
 
-#: kludotecaview.cpp:281
+#: kludotecaview.cpp:286
 msgid "Protocols"
 msgstr ""
 
-#: kludotecaview.cpp:282
+#: kludotecaview.cpp:287
 msgid "addtournament:/"
 msgstr ""
 
-#: kludotecaview.cpp:283
+#: kludotecaview.cpp:288
 msgid "addclient:/"
 msgstr ""
 
-#: kludotecaview.cpp:284
+#: kludotecaview.cpp:289
 msgid "addgame:/"
 msgstr ""
 
-#: kludotecaview.cpp:285
+#: kludotecaview.cpp:290
 msgid "11"
 msgstr ""
 
-#: kludotecaview.cpp:286
+#: kludotecaview.cpp:291
 msgid "12"
 msgstr ""
 
-#: kludotecaview.cpp:287
+#: kludotecaview.cpp:292
 msgid "13"
 msgstr ""
 
-#: kludotecaview.cpp:288
+#: kludotecaview.cpp:293
 msgid "14"
 msgstr ""
 
-#: kludotecaview.cpp:290
+#: kludotecaview.cpp:295
 msgid "<a href=\"%1\">Return to KLudoteca</a>"
 msgstr ""
 
-#: kludotecaview.cpp:338
+#: kludotecaview.cpp:343
 msgid "Tips &amp; Tricks"
 msgstr ""
 
-#: kludotecaview.cpp:339
+#: kludotecaview.cpp:344
 msgid "Write a email to krawek!!! krawek@gmail.com"
 msgstr ""
 
-#: kludotecaview.cpp:340
+#: kludotecaview.cpp:345
 msgid "Second tip"
 msgstr ""
 
-#: kludotecaview.cpp:341
+#: kludotecaview.cpp:346
 msgid "Third tip"
 msgstr ""
 
-#: kludotecaview.cpp:349
+#: kludotecaview.cpp:354
 msgid ""
 "Thanks to <a href=\"%1\">DCOP</a> you can have full control over KLudoteca "
 "using a script."
 msgstr ""
 
-#: kludotecaview.cpp:351
+#: kludotecaview.cpp:356
 msgid "<img width='16' height='16' src=\"%1\">"
 msgstr ""
 
-#: kludotecaview.cpp:352
+#: kludotecaview.cpp:357
 msgid "Next: Specifications"
 msgstr ""
 
-#: kludotecaview.cpp:368
+#: kludotecaview.cpp:373
 msgid "Installed Plugins"
 msgstr ""
 
-#: kludotecaview.cpp:369
+#: kludotecaview.cpp:374
 msgid "<td>Plugin</td><td>Description</td><td>File</td><td>Types</td>"
 msgstr ""
 
-#: kludotecaview.cpp:370
+#: kludotecaview.cpp:375
 msgid "Installed"
 msgstr ""
 
-#: kludotecaview.cpp:371
+#: kludotecaview.cpp:376
 msgid "<td>Mime Type</td><td>Description</td><td>Suffixes</td><td>Plugin</td>"
 msgstr ""
 
-#: kludotecaview.cpp:497
+#: kludotecaview.cpp:461
 msgid "Add a tournament"
 msgstr ""
 
-#: kludotecaview.cpp:498
+#: kludotecaview.cpp:462
 msgid "Fill the fields with the new tournament information"
 msgstr ""
 
-#: kludotecaview.cpp:506
+#: kludotecaview.cpp:470
 msgid "Add client"
 msgstr ""
 
-#: kludotecaview.cpp:516
+#: kludotecaview.cpp:480
 msgid "Admin Clients"
 msgstr ""
 
-#: kludotecaview.cpp:517
+#: kludotecaview.cpp:481
 msgid "Fill the fields with the client information"
 msgstr ""
 
-#: kludotecaview.cpp:525
+#: kludotecaview.cpp:541
 msgid "Cooming soon"
 msgstr ""
 
-#: main.cpp:33 main.cpp:46
-msgid "System for administer a ludotec."
+#: ldtapp.cpp:41
+msgid "Running 1st Dialog!"
 msgstr ""
 
-#: main.cpp:47
+#: main.cpp:34 main.cpp:47
+msgid "System for administer a game store."
+msgstr ""
+
+#: main.cpp:48
 msgid ""
 "David Cuadrado\n"
 "(C) 2005"
 msgstr ""
 
-#: main.cpp:48
+#: main.cpp:49
 msgid ""
 "IRC:\n"
 "server: irc.freenode.net / channel: #cetis\n"
@@ -375,20 +519,24 @@ msgid ""
 "cetis@univalle.edu.co"
 msgstr ""
 
-#: main.cpp:49
+#: main.cpp:50
 msgid "http://www.cetisoft.org"
 msgstr ""
 
-#: main.cpp:52
+#: main.cpp:53
 msgid "Main developer"
 msgstr ""
 
-#: main.cpp:56
+#: main.cpp:57
 msgid "Thanks for your interest in this project, ideas, help and testing."
 msgstr ""
 
-#: main.cpp:58
+#: main.cpp:59
 msgid "Many thanks to all GNU community!!"
+msgstr ""
+
+#: main.cpp:72
+msgid "You need first configure the system"
 msgstr ""
 
 #: osd.moc.cpp:34 osd.moc.cpp:42
@@ -400,28 +548,32 @@ msgid "Configuration..."
 msgstr ""
 
 #: pref.cpp:35
-msgid "Primera pagina de config"
+msgid "Configure Database"
 msgstr ""
 
-#: pref.cpp:35
-msgid "Opciones 1"
+#: pref.cpp:39
+msgid "Apparience"
 msgstr ""
 
-#: pref.cpp:38
-msgid "Segunda pagina de config"
+#: pref.cpp:39
+msgid "Look&feel"
 msgstr ""
 
-#: pref.cpp:38
-msgid "Opciones 2"
+#: pref.cpp:56 validateuser.cpp:174
+msgid "Server: "
 msgstr ""
 
-#: pref.cpp:47 pref.cpp:55
-msgid "Agregar algo aqui"
+#: pref.cpp:59 validateuser.cpp:29 validateuser.cpp:139
+msgid "User"
+msgstr ""
+
+#: pref.cpp:76
+msgid "Soon we have the look&feel configuration!"
 msgstr ""
 
 #: rc.cpp:3
 #, no-c-format
-msgid "C&ustom"
+msgid "A&ctions"
 msgstr ""
 
 #: _translatorinfo.cpp:1
@@ -434,4 +586,28 @@ msgstr ""
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
+msgstr ""
+
+#: validateuser.cpp:25
+msgid "Validate dialog"
+msgstr ""
+
+#: validateuser.cpp:29
+msgid "Choose your user"
+msgstr ""
+
+#: validateuser.cpp:32
+msgid "Setup your database connection"
+msgstr ""
+
+#: validateuser.cpp:67
+msgid "You need a kludoteca account! Talk with the system administer."
+msgstr ""
+
+#: validateuser.cpp:72
+msgid "Login or password incorrect"
+msgstr ""
+
+#: validateuser.cpp:77
+msgid "I can't connect to database server."
 msgstr ""
