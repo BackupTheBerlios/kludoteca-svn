@@ -581,7 +581,7 @@ clean-metasources:
 	-rm -f  rentswidget.moc
 
 #>+ 2
-KDE_DIST=librents-library.a Makefile.in 
+KDE_DIST=Makefile.in 
 
 #>+ 2
 docs-am:

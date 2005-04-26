@@ -69,10 +69,11 @@ class KLFirstDialog : public KWizard
 	public slots:
 		void next();
 		void finished();
+		void showFinish();
 		void cancel();
 		
 	private:
-		FDWelcome *m_welcome;
+		FDWelcome *m_welcome, *m_finish;
 		FDInitDatabase *m_initdb;
 		FDSetupAdmin *m_setupAdmin;
 
@@ -147,6 +148,7 @@ class FDInitDatabase : public QVBox
 		
 	signals:
 		void enableNext(QWidget *widget, bool e);
+		void gotoFinish();
 		
 	private:
 		QGroupBox *m_dataBox;

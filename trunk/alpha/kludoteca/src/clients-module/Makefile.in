@@ -621,7 +621,7 @@ clean-metasources:
 	-rm -f  clientswidget.moc formadminclients.moc
 
 #>+ 2
-KDE_DIST=Makefile.in libclients-module.a default3.png 
+KDE_DIST=Makefile.in default3.png 
 
 #>+ 2
 docs-am:

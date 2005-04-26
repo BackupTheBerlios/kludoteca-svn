@@ -34,16 +34,17 @@ KLFirstDialog::KLFirstDialog(QWidget *parent, const char *name)
 	m_initdb = new FDInitDatabase(this);
 	addPage(m_initdb, i18n("Setup database"));
 	connect(m_initdb, SIGNAL(enableNext(QWidget*, bool )), this, SLOT(setNextEnabled(QWidget*, bool )));
+	connect(m_initdb, SIGNAL(gotoFinish()), this, SLOT(showFinish()));
 	
 	m_setupAdmin = new FDSetupAdmin(this);
 	addPage(m_setupAdmin, i18n("Setup admin user"));
 	
-	FDWelcome *finish = new FDWelcome(this);
-	finish->setMessage(i18n("<h3><b>Congratulations!</b></h3><br>" +
+	m_finish = new FDWelcome(this);
+	m_finish->setMessage(i18n("<h3><b>Congratulations!</b></h3><br>" +
 			i18n("You has configure the system, you can become to use it!")
 			       ));
-	addPage(finish, i18n("All is good!"));
-	setFinishEnabled(finish, true);
+	addPage(m_finish, i18n("All is good!"));
+	setFinishEnabled(m_finish, true);
 	
 	connect( finishButton(), SIGNAL(clicked()), this, SLOT(finished()));
 	connect( cancelButton(), SIGNAL(clicked()), this, SLOT(cancel()));
@@ -91,6 +92,11 @@ void KLFirstDialog::finished()
 	klapp->config("Connection")->writeEntry("Login", m_initdb->getDatabaseConnection()->userName() );
 	
 	klapp->config()->sync();
+}
+
+void KLFirstDialog::showFinish()
+{
+	showPage(m_finish);
 }
 
 // FDWelcome
@@ -163,7 +169,7 @@ FDInitDatabase::~ FDInitDatabase()
 void FDInitDatabase::createDatabase()
 {
 	m_db->setHostName(m_server->text());
-	m_db->setDatabaseName("template1"); // TODO: No se si en realidad exista esto por defecto
+	m_db->setDatabaseName("template1");
 	m_db->setUserName(m_login->text());
 	m_db->setPassword(m_passwd->text());
 	if ( m_db->open())
@@ -179,11 +185,29 @@ void FDInitDatabase::createDatabase()
 		q = m_db->exec("CREATE DATABASE "+m_dbname->text());
 		if ( ! q.isActive())
 		{
-			KMessageBox::error(this, i18n("I can't create %1\n The error was %2").arg(m_dbname->text()).arg((m_db->lastError()).text()), i18n("Error"));
-		}
+			int opt = KMessageBox::questionYesNo(this, i18n("I can't create %1\n The error was %2\ntry remove it?").arg(m_dbname->text()).arg((m_db->lastError()).text()), i18n("Error"));
 			
+			switch( opt )
+			{
+				case KMessageBox::Yes:
+				{
+					m_db->exec("DROP DATABASE "+m_dbname->text());
+					m_db->exec("CREATE DATABASE "+m_dbname->text()); 
+					m_db->dropTables();
+				}
+				break;
+				case KMessageBox::No:
+				{
+					m_createButton->setEnabled(false);
+					m_db->setDatabaseName(m_dbname->text());
+					emit gotoFinish();
+					return;
+				}
+				break;
+			}
+		}
+		
 		m_db->setDatabaseName(m_dbname->text());
-		m_db->dropTables();
 		
 		m_pbar->setTotalSteps(7);
 		connect(m_db, SIGNAL(progress(int)), m_pbar, SLOT(setProgress(int)));
@@ -191,12 +215,12 @@ void FDInitDatabase::createDatabase()
 		if ( ! m_db->createTables() )
 		{
 			KMessageBox::error(this, i18n("I can't create (all) tables"), i18n("Error"));
-			m_db->dropTables();
+			//m_db->dropTables();
 		}
 		else
 		{
-			KMessageBox::information(this, i18n("The database was create succesfully!\n")+
-					i18n("You can continue to next step"));
+			KMessageBox::information(this, i18n("The database was create succesfully!\n")+	i18n("You can continue to next step"));
+			m_createButton->setEnabled(false);
 			emit enableNext(this, true);
 		}
 	}
@@ -288,6 +312,8 @@ bool FDSetupAdmin::setAdministrator(KLDatabase *db)
 {
 	Q_CHECK_PTR(db);
 
+	std::cout << db->databaseName() << std::endl;
+	
 	if ( ! db->isOpen() )
 	{
 		if ( ! db->open() )
