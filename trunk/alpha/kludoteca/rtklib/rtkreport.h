@@ -80,6 +80,7 @@ public:
 	{ initLocale(); }
 	~Report();
 	bool readXml( const String &filename, const String &defaultinput = String::null );
+	bool readXmlStr( const String &xmldoc, const String &defaultinput = String::null );
 	int print( Input &in, Output &out );
 	int print( Output &out );
 

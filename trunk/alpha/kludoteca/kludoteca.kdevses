@@ -1,16 +1,28 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="3" >
-  <Doc0 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/klfirstdialog.h" >
-   <View0 line="75" Type="Source" />
+ <DocsAndViews NumberOfDocuments="7" >
+  <Doc0 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/rtklib/rtkxmlreport.cpp" >
+   <View0 line="627" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/klfirstdialog.cpp" >
-   <View0 line="98" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/lib/ltlistview.cpp" >
+   <View0 line="37" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:/usr/share/doc/kde/HTML/en/kdelibs-apidocs/kdeui/html/classKMessageBox.html#e0" >
-   <View0 Type="Documentation" />
+  <Doc2 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/rtklib/rtkreport.h" >
+   <View0 line="207" Type="Source" />
   </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/src/main.cpp" >
+   <View0 line="48" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/rtklib/rtkreport.cpp" >
+   <View0 line="62" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/rtklib/rtkoutputopenoffice.cpp" >
+   <View0 line="24" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:/tmp/dcuadra/kludoteca/rtklib/rtkoutputhtml.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc6>
  </DocsAndViews>
  <pluginList>
   <kdevbookmarks>

@@ -648,7 +648,7 @@ int Report::print( Input &in, Output &out )
  */
 int Report::print( Output &out )
 {
-	if( pInput ) 
+	if( pInput )
 		return print( *pInput, out );
 	else {
 		qDebug("RTK:print:no input defined");

@@ -27,9 +27,13 @@
 #include "crashhandler.h"
 
 #include "bdconnection.h"
+#include "rtk.h"
 
 #include <kstandarddirs.h>
 #include <kmessagebox.h> 
+#include <qfile.h>
+#include <qtextstream.h>
+#include "rtkoutputopenoffice.h"
 
 static const char description[] = I18N_NOOP("System for administer a game store.");
 
@@ -42,6 +46,25 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char **argv)
 {
+// 	QFile f("ejemplo2.xml");
+// 	QString xmldoc = "";
+// 	
+// 	if ( f.open( IO_ReadOnly ) )
+// 	{
+// 		QTextStream stream( &f );
+// 		while ( !stream.atEnd() ) {
+// 			xmldoc += stream.readLine() + "\n";
+// 		}
+// 		xmldoc += "\n";
+// 	}
+// 	
+// 	
+// 	RTK::Report aReport;
+// 	if ( aReport.readXmlStr ( xmldoc) ) {
+// 		RTK::OutputHtml o( "salida.html" );
+// 		aReport.print ( o );
+// 	}
+	
 	KAboutData about( /*<NOCAMBIE>*/"kludoteca" /*</NOCAMBIE>*/,
 			      I18N_NOOP( "KLudoteca" ), version,
 			      I18N_NOOP( "System for administer a game store."), KAboutData::License_GPL,

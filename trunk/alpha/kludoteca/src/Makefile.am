@@ -5,9 +5,9 @@
 bin_PROGRAMS = kludoteca
 
 # set the include path for X, qt and KDE
-INCLUDES = -I$(top_srcdir)/src/admin-module -I$(top_srcdir)/src/clients-module \
-	-I$(top_srcdir)/src/games-module -I$(top_srcdir)/src/lib -I$(top_srcdir)/src/rents-module \
-	-I$(top_srcdir)/src/tournament-module $(all_includes)
+INCLUDES = -I$(top_srcdir)/rtklib -I$(top_srcdir)/src/admin-module \
+	-I$(top_srcdir)/src/clients-module -I$(top_srcdir)/src/games-module -I$(top_srcdir)/src/lib \
+	-I$(top_srcdir)/src/rents-module -I$(top_srcdir)/src/tournament-module $(all_includes)
 
 # the library search path. 
 kludoteca_LDFLAGS = $(KDE_RPATH) $(all_libraries)
@@ -16,7 +16,8 @@ kludoteca_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 kludoteca_LDADD = $(top_builddir)/src/clients-module/libclients-module.a \
 	$(top_builddir)/src/games-module/libgames-module.a $(top_builddir)/src/tournament-module/libtournament-module.a \
 	$(top_builddir)/src/admin-module/libadmin-module.a $(top_builddir)/src/lib/lib.a \
-	$(top_builddir)/src/rents-module/librents-library.a $(LIB_KFILE) $(LIB_KDEPRINT) $(LIB_KDECORE) -lkmdi -lkhtml
+	$(top_builddir)/src/rents-module/librents-library.a $(top_builddir)/rtklib/librtklib.a $(LIB_KFILE) $(LIB_KDEPRINT) \
+	$(LIB_KDECORE) -lkmdi -lkhtml
 
 # which sources should be compiled for kludoteca
 kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \

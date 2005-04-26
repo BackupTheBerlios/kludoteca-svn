@@ -22,6 +22,7 @@
 #include <qnamespace.h>
 #include <qxml.h>
 #include <qfileinfo.h>
+
 #include "rtkinput.h"
 #include "rtkinputcsv.h"
 #include "rtkinputsql.h"
@@ -43,6 +44,7 @@ class XmlParser: public QXmlDefaultHandler
 public:
 	XmlParser( Report *report );
 	bool read( const String &xmlfilename, const String &defaultinput );
+	bool readStr( const String &xmldoc, const String &defaultinput );
 
 private:
 	bool startDocument();
@@ -105,6 +107,24 @@ XmlParser::XmlParser( Report *report )
 	pInputField = 0;
 }
 
+bool XmlParser::readStr( const String &xmldoc, const String &defaultinput )
+{
+	bool ret;
+	
+	mDefaultInput = defaultinput;
+
+	QXmlInputSource source;
+	source.setData(xmldoc);
+	
+	QXmlSimpleReader reader;
+	reader.setContentHandler( this );
+	reader.setErrorHandler( this );
+	reader.setEntityResolver( this );
+
+	if ( !( ret = reader.parse( &source ) ) )
+		fprintf( stderr, "RTK:ReadXML:Error reading\n" );
+	return ret;
+}
 
 bool XmlParser::read( const String &xmlfilename, const String &defaultinput )
 {
@@ -871,4 +891,13 @@ bool Report::readXml( const String & xmlname, const String & defaultinput )
 	return xmlparser.read( xmlname, defaultinput );
 }
 
+bool Report::readXmlStr( const String & xmldoc, const String & defaultinput )
+{
+	setParent( 0 );
+	setInput( 0 );
+	XmlParser xmlparser( this );
+// 	QFileInfo fi(xmlname);
+// 	mCWD = fi.dirPath();
+	return xmlparser.readStr( xmldoc, defaultinput );
+}
 
