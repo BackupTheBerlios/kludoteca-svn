@@ -428,7 +428,7 @@ uninstall-am: uninstall-info-am
 .NOEXPORT:
 
 #>+ 2
-KDE_DIST=screenshot.png Makefile.in index.docbook 
+KDE_DIST=screenshot.png Makefile.in index.docbook index.cache.bz2 
 
 #>+ 24
 index.cache.bz2: $(srcdir)/index.docbook $(KDE_XSL_STYLESHEET) screenshot.png index.docbook 

@@ -21,7 +21,7 @@ VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../..
+top_builddir = ..
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = @INSTALL@
@@ -256,54 +256,107 @@ x_libraries = @x_libraries@
 xdg_appsdir = @xdg_appsdir@
 xdg_directorydir = @xdg_directorydir@
 xdg_menudir = @xdg_menudir@
-INCLUDES = -I$(top_srcdir)/src/lib $(all_includes)
+INCLUDES = $(all_includes)
 #>- METASOURCES = AUTO
-noinst_HEADERS = adminwidget.h adminusers.h admindatabase.h formadminusers.h
-noinst_LIBRARIES = libadmin-module.a
-libadmin_module_a_SOURCES = admindatabase.cpp adminusers.cpp adminwidget.cpp \
-	formadminusers.cpp
+noinst_LIBRARIES = librtklib.a
+noinst_HEADERS = rtkconfig.h rtkformatter.h rtkformula.h rtk.h rtkimage.h\
+	rtkinputcsv.h rtkinputfield.h rtkinput.h rtkinputsql.h rtkinputxml.h\
+	rtkmoney.h rtknamespace.h rtkobject.h rtkoutput.h rtkoutputhtml.h\
+	rtkoutputopenoffice.h rtkoutputqpainter.h rtkoutputtext.h rtkregconfig.h\
+	rtkreport.h rtksection.h rtkstyle.h rtkvariant.h
 
+librtklib_a_SOURCES = rtk.cpp rtkformatter.cpp rtkformula.cpp rtkimage.cpp\
+	rtkinput.cpp rtkinputcsv.cpp rtkinputfield.cpp rtkinputsql.cpp\
+	rtkinputxml.cpp rtkmoney.cpp rtknamespace.cpp rtkobject.cpp\
+	rtkoutput.cpp rtkoutputhtml.cpp rtkoutputopenoffice.cpp\
+	rtkoutputqpainter.cpp rtkoutputtext.cpp rtkregconfig.cpp rtkreport.cpp\
+	rtksection.cpp rtkstyle.cpp rtkvariant.cpp rtkxmlreport.cpp
 
-kladmimgsdir = $(kde_datadir)/kludoteca/admin-module/pics
-kladmimgs_DATA = imgformusers.png
-kladminiconsdir = $(kde_datadir)/kludoteca/admin-module/icons
-subdir = src/admin-module
+subdir = rtklib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-libadmin_module_a_AR = $(AR) cru
-libadmin_module_a_LIBADD =
-am_libadmin_module_a_OBJECTS = admindatabase.$(OBJEXT) \
-	adminusers.$(OBJEXT) adminwidget.$(OBJEXT) \
-	formadminusers.$(OBJEXT)
-#>- libadmin_module_a_OBJECTS = $(am_libadmin_module_a_OBJECTS)
-#>+ 6
-libadmin_module_a_final_OBJECTS = libadmin_module_a.all_cpp.o 
-libadmin_module_a_nofinal_OBJECTS = admindatabase.$(OBJEXT) \
-	adminusers.$(OBJEXT) adminwidget.$(OBJEXT) \
-	formadminusers.$(OBJEXT)
-@KDE_USE_FINAL_FALSE@libadmin_module_a_OBJECTS = $(libadmin_module_a_nofinal_OBJECTS)
-@KDE_USE_FINAL_TRUE@libadmin_module_a_OBJECTS = $(libadmin_module_a_final_OBJECTS)
+librtklib_a_AR = $(AR) cru
+librtklib_a_LIBADD =
+am_librtklib_a_OBJECTS = rtk.$(OBJEXT) rtkformatter.$(OBJEXT) \
+	rtkformula.$(OBJEXT) rtkimage.$(OBJEXT) rtkinput.$(OBJEXT) \
+	rtkinputcsv.$(OBJEXT) rtkinputfield.$(OBJEXT) \
+	rtkinputsql.$(OBJEXT) rtkinputxml.$(OBJEXT) rtkmoney.$(OBJEXT) \
+	rtknamespace.$(OBJEXT) rtkobject.$(OBJEXT) rtkoutput.$(OBJEXT) \
+	rtkoutputhtml.$(OBJEXT) rtkoutputopenoffice.$(OBJEXT) \
+	rtkoutputqpainter.$(OBJEXT) rtkoutputtext.$(OBJEXT) \
+	rtkregconfig.$(OBJEXT) rtkreport.$(OBJEXT) rtksection.$(OBJEXT) \
+	rtkstyle.$(OBJEXT) rtkvariant.$(OBJEXT) rtkxmlreport.$(OBJEXT)
+#>- librtklib_a_OBJECTS = $(am_librtklib_a_OBJECTS)
+#>+ 12
+librtklib_a_final_OBJECTS = librtklib_a.all_cpp.o 
+librtklib_a_nofinal_OBJECTS = rtk.$(OBJEXT) rtkformatter.$(OBJEXT) \
+	rtkformula.$(OBJEXT) rtkimage.$(OBJEXT) rtkinput.$(OBJEXT) \
+	rtkinputcsv.$(OBJEXT) rtkinputfield.$(OBJEXT) \
+	rtkinputsql.$(OBJEXT) rtkinputxml.$(OBJEXT) rtkmoney.$(OBJEXT) \
+	rtknamespace.$(OBJEXT) rtkobject.$(OBJEXT) rtkoutput.$(OBJEXT) \
+	rtkoutputhtml.$(OBJEXT) rtkoutputopenoffice.$(OBJEXT) \
+	rtkoutputqpainter.$(OBJEXT) rtkoutputtext.$(OBJEXT) \
+	rtkregconfig.$(OBJEXT) rtkreport.$(OBJEXT) rtksection.$(OBJEXT) \
+	rtkstyle.$(OBJEXT) rtkvariant.$(OBJEXT) rtkxmlreport.$(OBJEXT)
+@KDE_USE_FINAL_FALSE@librtklib_a_OBJECTS = $(librtklib_a_nofinal_OBJECTS)
+@KDE_USE_FINAL_TRUE@librtklib_a_OBJECTS = $(librtklib_a_final_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 am__depfiles_maybe = depfiles
-#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/admindatabase.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/adminusers.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/adminwidget.Po \
-#>- @AMDEP_TRUE@	./$(DEPDIR)/formadminusers.Po
-#>+ 8
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/libadmin_module_a.all_cpp.P ./$(DEPDIR)/admindatabase.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/adminusers.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/adminwidget.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/formadminusers.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/admindatabase.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/adminusers.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/adminwidget.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/formadminusers.Po
+#>- @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/rtk.Po ./$(DEPDIR)/rtkformatter.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkformula.Po ./$(DEPDIR)/rtkimage.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkinput.Po ./$(DEPDIR)/rtkinputcsv.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkinputfield.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkinputsql.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkinputxml.Po ./$(DEPDIR)/rtkmoney.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtknamespace.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkobject.Po ./$(DEPDIR)/rtkoutput.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkoutputhtml.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkoutputopenoffice.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkoutputqpainter.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkoutputtext.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkregconfig.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkreport.Po ./$(DEPDIR)/rtksection.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkstyle.Po ./$(DEPDIR)/rtkvariant.Po \
+#>- @AMDEP_TRUE@	./$(DEPDIR)/rtkxmlreport.Po
+#>+ 32
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =   $(DEPDIR)/librtklib_a.all_cpp.P ./$(DEPDIR)/rtk.Po ./$(DEPDIR)/rtkformatter.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkformula.Po ./$(DEPDIR)/rtkimage.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinput.Po ./$(DEPDIR)/rtkinputcsv.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinputfield.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinputsql.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinputxml.Po ./$(DEPDIR)/rtkmoney.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtknamespace.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkobject.Po ./$(DEPDIR)/rtkoutput.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputhtml.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputopenoffice.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputqpainter.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputtext.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkregconfig.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkreport.Po ./$(DEPDIR)/rtksection.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkstyle.Po ./$(DEPDIR)/rtkvariant.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkxmlreport.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  ./$(DEPDIR)/rtk.Po ./$(DEPDIR)/rtkformatter.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkformula.Po ./$(DEPDIR)/rtkimage.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinput.Po ./$(DEPDIR)/rtkinputcsv.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinputfield.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinputsql.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkinputxml.Po ./$(DEPDIR)/rtkmoney.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtknamespace.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkobject.Po ./$(DEPDIR)/rtkoutput.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputhtml.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputopenoffice.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputqpainter.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkoutputtext.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkregconfig.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkreport.Po ./$(DEPDIR)/rtksection.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkstyle.Po ./$(DEPDIR)/rtkvariant.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rtkxmlreport.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -322,13 +375,11 @@ CXXLD = $(CXX)
 #>+ 2
 CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libadmin_module_a_SOURCES)
-DATA = $(kladmimgs_DATA)
-
+DIST_SOURCES = $(librtklib_a_SOURCES)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.in Makefile.am
-SOURCES = $(libadmin_module_a_SOURCES)
+SOURCES = $(librtklib_a_SOURCES)
 
 #>- all: all-am
 #>+ 1
@@ -338,20 +389,20 @@ all: docs-am  all-am
 .SUFFIXES: .cpp .lo .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>- 	cd $(top_srcdir) && \
-#>- 	  $(AUTOMAKE) --gnu  src/admin-module/Makefile
+#>- 	  $(AUTOMAKE) --gnu  rtklib/Makefile
 #>+ 3
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/admin-module/Makefile
-	cd $(top_srcdir) && perl admin/am_edit src/admin-module/Makefile.in
+	  $(AUTOMAKE) --gnu  rtklib/Makefile
+	cd $(top_srcdir) && perl admin/am_edit rtklib/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libadmin-module.a: $(libadmin_module_a_OBJECTS) $(libadmin_module_a_DEPENDENCIES) 
-	-rm -f libadmin-module.a
-	$(libadmin_module_a_AR) libadmin-module.a $(libadmin_module_a_OBJECTS) $(libadmin_module_a_LIBADD)
-	$(RANLIB) libadmin-module.a
+librtklib.a: $(librtklib_a_OBJECTS) $(librtklib_a_DEPENDENCIES) 
+	-rm -f librtklib.a
+	$(librtklib_a_AR) librtklib.a $(librtklib_a_OBJECTS) $(librtklib_a_LIBADD)
+	$(RANLIB) librtklib.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -359,10 +410,29 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/admindatabase.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/adminusers.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/adminwidget.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/formadminusers.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtk.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkformatter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkformula.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkimage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkinput.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkinputcsv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkinputfield.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkinputsql.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkinputxml.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkmoney.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtknamespace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkobject.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkoutput.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkoutputhtml.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkoutputopenoffice.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkoutputqpainter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkoutputtext.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkregconfig.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkreport.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtksection.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkstyle.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkvariant.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtkxmlreport.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
@@ -406,24 +476,6 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
-kladmimgsDATA_INSTALL = $(INSTALL_DATA)
-install-kladmimgsDATA: $(kladmimgs_DATA)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(kladmimgsdir)
-	@list='$(kladmimgs_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(kladmimgsDATA_INSTALL) $$d$$p $(DESTDIR)$(kladmimgsdir)/$$f"; \
-	  $(kladmimgsDATA_INSTALL) $$d$$p $(DESTDIR)$(kladmimgsdir)/$$f; \
-	done
-
-uninstall-kladmimgsDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(kladmimgs_DATA)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(kladmimgsdir)/$$f"; \
-	  rm -f $(DESTDIR)$(kladmimgsdir)/$$f; \
-	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -482,7 +534,7 @@ distclean-tags:
 #>+ 1
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
-top_distdir = ../..
+top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -514,10 +566,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(DATA) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(kladmimgsdir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -549,7 +600,7 @@ clean: kde-rpo-clean  clean-am
 #>- clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
 #>- 	mostlyclean-am
 #>+ 2
-clean-am: clean-metasources clean-bcheck clean-final  clean-generic clean-libtool clean-noinstLIBRARIES \
+clean-am: clean-bcheck clean-final  clean-generic clean-libtool clean-noinstLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -566,7 +617,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-kladmimgsDATA
+install-data-am:
 
 install-exec-am:
 
@@ -594,59 +645,25 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am uninstall-kladmimgsDATA
+uninstall-am: uninstall-info-am
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES ctags distclean \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am info info-am install \
 	install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am \
-	install-kladmimgsDATA install-man install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-info-am \
-	uninstall-kladmimgsDATA
+	install-exec-am install-info install-info-am install-man \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool pdf \
+	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 3
-formadminusers.moc: $(srcdir)/formadminusers.h
-	$(MOC) $(srcdir)/formadminusers.h -o formadminusers.moc
-
 #>+ 2
-mocs: formadminusers.moc
-
-#>+ 3
-admindatabase.moc: $(srcdir)/admindatabase.h
-	$(MOC) $(srcdir)/admindatabase.h -o admindatabase.moc
-
-#>+ 2
-mocs: admindatabase.moc
-
-#>+ 3
-adminusers.moc: $(srcdir)/adminusers.h
-	$(MOC) $(srcdir)/adminusers.h -o adminusers.moc
-
-#>+ 2
-mocs: adminusers.moc
-
-#>+ 3
-adminwidget.moc: $(srcdir)/adminwidget.h
-	$(MOC) $(srcdir)/adminwidget.h -o adminwidget.moc
-
-#>+ 2
-mocs: adminwidget.moc
-
-#>+ 3
-clean-metasources:
-	-rm -f  formadminusers.moc admindatabase.moc adminusers.moc adminwidget.moc
-
-#>+ 2
-KDE_DIST=libadmin-module.a Makefile.in imgformusers.png 
+KDE_DIST=Makefile.in 
 
 #>+ 2
 docs-am:
@@ -654,8 +671,8 @@ docs-am:
 #>+ 6
 force-reedit:
 		cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/admin-module/Makefile
-	cd $(top_srcdir) && perl admin/am_edit src/admin-module/Makefile.in
+	  $(AUTOMAKE) --gnu  rtklib/Makefile
+	cd $(top_srcdir) && perl admin/am_edit rtklib/Makefile.in
 
 
 #>+ 21
@@ -681,36 +698,36 @@ bcheck-am:
 
 
 #>+ 11
-libadmin_module_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/admindatabase.cpp $(srcdir)/adminusers.cpp $(srcdir)/adminwidget.cpp $(srcdir)/formadminusers.cpp  adminusers.moc admindatabase.moc formadminusers.moc adminwidget.moc
-	@echo 'creating libadmin_module_a.all_cpp.cpp ...'; \
-	rm -f libadmin_module_a.all_cpp.files libadmin_module_a.all_cpp.final; \
-	echo "#define KDE_USE_FINAL 1" >> libadmin_module_a.all_cpp.final; \
-	for file in admindatabase.cpp adminusers.cpp adminwidget.cpp formadminusers.cpp ; do \
-	  echo "#include \"$$file\"" >> libadmin_module_a.all_cpp.files; \
-	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> libadmin_module_a.all_cpp.final; \
+librtklib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/rtk.cpp $(srcdir)/rtkformatter.cpp $(srcdir)/rtkformula.cpp $(srcdir)/rtkimage.cpp $(srcdir)/rtkinput.cpp $(srcdir)/rtkinputcsv.cpp $(srcdir)/rtkinputfield.cpp $(srcdir)/rtkinputsql.cpp $(srcdir)/rtkinputxml.cpp $(srcdir)/rtkmoney.cpp $(srcdir)/rtknamespace.cpp $(srcdir)/rtkobject.cpp $(srcdir)/rtkoutput.cpp $(srcdir)/rtkoutputhtml.cpp $(srcdir)/rtkoutputopenoffice.cpp $(srcdir)/rtkoutputqpainter.cpp $(srcdir)/rtkoutputtext.cpp $(srcdir)/rtkregconfig.cpp $(srcdir)/rtkreport.cpp $(srcdir)/rtksection.cpp $(srcdir)/rtkstyle.cpp $(srcdir)/rtkvariant.cpp $(srcdir)/rtkxmlreport.cpp 
+	@echo 'creating librtklib_a.all_cpp.cpp ...'; \
+	rm -f librtklib_a.all_cpp.files librtklib_a.all_cpp.final; \
+	echo "#define KDE_USE_FINAL 1" >> librtklib_a.all_cpp.final; \
+	for file in rtk.cpp rtkformatter.cpp rtkformula.cpp rtkimage.cpp rtkinput.cpp rtkinputcsv.cpp rtkinputfield.cpp rtkinputsql.cpp rtkinputxml.cpp rtkmoney.cpp rtknamespace.cpp rtkobject.cpp rtkoutput.cpp rtkoutputhtml.cpp rtkoutputopenoffice.cpp rtkoutputqpainter.cpp rtkoutputtext.cpp rtkregconfig.cpp rtkreport.cpp rtksection.cpp rtkstyle.cpp rtkvariant.cpp rtkxmlreport.cpp ; do \
+	  echo "#include \"$$file\"" >> librtklib_a.all_cpp.files; \
+	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> librtklib_a.all_cpp.final; \
 	done; \
-	cat libadmin_module_a.all_cpp.final libadmin_module_a.all_cpp.files > libadmin_module_a.all_cpp.cpp; \
-	rm -f libadmin_module_a.all_cpp.final libadmin_module_a.all_cpp.files
+	cat librtklib_a.all_cpp.final librtklib_a.all_cpp.files > librtklib_a.all_cpp.cpp; \
+	rm -f librtklib_a.all_cpp.final librtklib_a.all_cpp.files
 
 #>+ 3
 clean-final:
-	-rm -f libadmin_module_a.all_cpp.cpp
+	-rm -f librtklib_a.all_cpp.cpp
 
 #>+ 3
 final:
-	$(MAKE) libadmin_module_a_OBJECTS="$(libadmin_module_a_final_OBJECTS)" all-am
+	$(MAKE) librtklib_a_OBJECTS="$(librtklib_a_final_OBJECTS)" all-am
 
 #>+ 3
 final-install:
-	$(MAKE) libadmin_module_a_OBJECTS="$(libadmin_module_a_final_OBJECTS)" install-am
+	$(MAKE) librtklib_a_OBJECTS="$(librtklib_a_final_OBJECTS)" install-am
 
 #>+ 3
 no-final:
-	$(MAKE) libadmin_module_a_OBJECTS="$(libadmin_module_a_nofinal_OBJECTS)" all-am
+	$(MAKE) librtklib_a_OBJECTS="$(librtklib_a_nofinal_OBJECTS)" all-am
 
 #>+ 3
 no-final-install:
-	$(MAKE) libadmin_module_a_OBJECTS="$(libadmin_module_a_nofinal_OBJECTS)" install-am
+	$(MAKE) librtklib_a_OBJECTS="$(librtklib_a_nofinal_OBJECTS)" install-am
 
 #>+ 3
 cvs-clean:
@@ -720,14 +737,6 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 11
+#>+ 3
 nmcheck: 
-adminusers.lo: adminusers.moc 
-adminusers.o: adminusers.moc 
 nmcheck-am: nmcheck
-adminwidget.lo: adminwidget.moc 
-admindatabase.lo: admindatabase.moc 
-formadminusers.o: formadminusers.moc 
-formadminusers.lo: formadminusers.moc 
-admindatabase.o: admindatabase.moc 
-adminwidget.o: adminwidget.moc 
