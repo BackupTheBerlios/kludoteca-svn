@@ -63,6 +63,10 @@ class FormAdminGame : public FormBase
 		 */
 		void fillField(QString explanation, QString name, QString description, QString rules, int numPlayer, QString type, double costUnit);
 		
+		void formQuery(const QString &idGame );
+		void formDelete(const QString &idGame);
+		void formModify();
+		
 		/**
 		 *  Funcion que retorna un qstring del nombre del juego
 		 * @return m_nameGame
@@ -87,6 +91,8 @@ class FormAdminGame : public FormBase
 		 */
 		QString getTypeGame();
 		
+		QString getStateGame();
+		
 		/**
 		 *  Funcion que retorna un qstring de la referencia del juego
 		 * @return 
@@ -98,6 +104,8 @@ class FormAdminGame : public FormBase
 		 * @return 
 		 */
 		QString getTimeUnit();
+		
+		QString getTimeUnitAdd();
 		
 		/**
 		 * Funcion que retorna un int del numero de jugadores minimo por ese juego
@@ -151,6 +159,7 @@ class FormAdminGame : public FormBase
 		 */
 		void setTypeGame(const QString &type, int index);
 		
+		void setStateGame(const QString &state, int index);
 		
 		/**
 		 * Funcion encargada de llenar el campo de la referencia o codigo del juego
@@ -166,6 +175,8 @@ class FormAdminGame : public FormBase
 		 * @param unitTime 
 		 */
 		void setTimeUnit(const QString &unitTime, int  index);
+		
+		void setUnitTimeAdd(const QString &unitTimeAdd, int index );
 		
 		/**
 		 * Funcion encargada de colocar el numero minimo de jugadores 
@@ -214,14 +225,14 @@ class FormAdminGame : public FormBase
 		
 		QFrame *form;
 		
-		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNMinPlayerGame,*m_labelNMaxPlayerGame,  *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd, *m_labelReference;
+		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNMinPlayerGame,*m_labelNMaxPlayerGame,  *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd, *m_labelReference,  *m_imagen, *m_labelStateGame;
 		
 		KLineEdit *m_nameGame, *m_referenceGame;
 		KTextEdit *m_descriptionGame, *m_rulesGame ;
 		
 		//FIXME: la unidad de tiempo adicional se captura por un combobox?
 		
-		KComboBox *m_typeGame, *m_unitTime, *m_unitTimeAdd;
+		KComboBox *m_typeGame, *m_unitTime, *m_unitTimeAdd, *m_stateGame ;
 		KIntSpinBox *m_nMinPlayerGame, *m_nMaxPlayerGame, *m_costUnit, *m_timeAdd;
 		
 	private:

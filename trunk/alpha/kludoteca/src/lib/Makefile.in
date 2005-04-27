@@ -655,7 +655,7 @@ clean-metasources:
 	-rm -f  lttoolbox.moc ltlistview.moc formbase.moc klquery.moc kldatabase.moc klresultsetinterpreter.moc
 
 #>+ 2
-KDE_DIST=lib.a kludotecaiface.skel ltlistview.loT kludotecaiface.kidl Makefile.in 
+KDE_DIST=kludotecaiface.skel ltlistview.loT Makefile.in 
 
 #>+ 4
 clean-idl:
@@ -695,7 +695,7 @@ bcheck-am:
 
 
 #>+ 11
-lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp $(srcdir)/bdconnection.cpp $(srcdir)/kldatabase.cpp $(srcdir)/klresultset.cpp $(srcdir)/klresultsetinterpreter.cpp $(srcdir)/klquery.cpp $(srcdir)/kludotecaiface_skel.cpp  lttoolbox.moc ltlistview.moc klquery.moc formbase.moc kldatabase.moc klresultsetinterpreter.moc
+lib_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/lttoolbox.cpp $(srcdir)/ltlistview.cpp $(srcdir)/formbase.cpp $(srcdir)/bdconnection.cpp $(srcdir)/kldatabase.cpp $(srcdir)/klresultset.cpp $(srcdir)/klresultsetinterpreter.cpp $(srcdir)/klquery.cpp kludotecaiface_skel.cpp  lttoolbox.moc ltlistview.moc klquery.moc formbase.moc kldatabase.moc klresultsetinterpreter.moc
 	@echo 'creating lib_a.all_cpp.cpp ...'; \
 	rm -f lib_a.all_cpp.files lib_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> lib_a.all_cpp.final; \

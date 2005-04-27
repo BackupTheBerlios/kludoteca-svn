@@ -646,7 +646,7 @@ clean-metasources:
 	-rm -f  formadminusers.moc admindatabase.moc adminusers.moc adminwidget.moc
 
 #>+ 2
-KDE_DIST=libadmin-module.a Makefile.in imgformusers.png 
+KDE_DIST=Makefile.in imgformusers.png 
 
 #>+ 2
 docs-am:
