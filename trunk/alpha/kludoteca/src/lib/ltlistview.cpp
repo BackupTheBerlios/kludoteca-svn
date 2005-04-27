@@ -24,18 +24,14 @@
 
 LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
 {
-	m_rsinterpreter = new KLResultSetInterpreter();
-	m_xmlreader.setContentHandler(m_rsinterpreter);
 }
 
 LTListView::LTListView(QStringList colsText, Button button1, Button button2, Button button3, Button button4, QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
 {
  	makeList(colsText);
 	makeButtons(button1, button2, button3, button4);
-	m_rsinterpreter = new KLResultSetInterpreter();
-	m_xmlreader.setContentHandler(m_rsinterpreter);
 	
-	connect(m_rsinterpreter, SIGNAL(readRecord(QStringList )), this, SLOT(putItems(QStringList )));
+	connect(static_cast<KLResultSetInterpreter *>(m_xmlreader.contentHandler()), SIGNAL(readRecord(QStringList )), this, SLOT(putItems(QStringList )));
 	
 }
 

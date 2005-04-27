@@ -188,17 +188,17 @@ bool KLDatabase::createTables()
 	q = exec("CREATE TABLE ldt_clients ("
 			"docIdent character varying(10) NOT NULL,"
 			"inscriptionDate date NOT NULL,"
-			"firstName character varying(10) NOT NULL,"
-			"lastName character varying(10) NOT NULL,"
-			"phone character varying(15),"
-			"celular character varying(15),"
+			"firstName character varying(20) NOT NULL,"
+			"lastName character varying(20) NOT NULL,"
+			"phone character varying(10),"
+			"celular character varying(10),"
 			"email character varying(50),"
 			"sex character varying(10),"
 			"state character varying(10),"
-			"address character varying(20),"
-			"namereference character varying(15),"
-			"phonereference character varying(15),"
-			"addressreference character varying(20),"
+			"address character varying(30),"
+			"namereference character varying(30),"
+			"phonereference character varying(30),"
+			"addressreference character varying(30),"
 			"primary key(docIdent));");
 	
 	if ( ! q.isActive() )
@@ -212,7 +212,7 @@ bool KLDatabase::createTables()
 	q = exec("CREATE TABLE ldt_tournament ("
 			"codTournament character varying(10) NOT NULL,"
 			"gameReference character varying(8) NOT NULL,"
-			"name character varying(10) NOT NULL,"
+			"name character varying(20) NOT NULL,"
 			"initDate date NOT NULL,"
 			"endDate date NOT NULL,"
 			"roundsForPair integer NOT NULL,"
@@ -233,10 +233,10 @@ bool KLDatabase::createTables()
 	
 	q = exec("CREATE TABLE ldt_enterprise ("
 			"nit character varying(10) NOT NULL,"
-			"address character varying(20) NOT NULL,"
-			"name character varying(10) NOT NULL,"
+			"address character varying(30) NOT NULL,"
+			"name character varying(20) NOT NULL,"
 			"phone character varying(10) NOT NULL,"
-			"city character varying(8) NOT NULL,"
+			"city character varying(20) NOT NULL,"
 			"primary key(nit));");
 	
 	if ( ! q.isActive() )
@@ -249,10 +249,10 @@ bool KLDatabase::createTables()
 	q = exec("CREATE TABLE ldt_users ("
 			"docIdent character varying(10) NOT NULL,"
 			"login character varying(20) NOT NULL,"
-			"firstName character varying(10) NOT NULL,"
-			"lastName character varying(10) NOT NULL,"
+			"firstName character varying(20) NOT NULL,"
+			"lastName character varying(20) NOT NULL,"
 			"sex character varying(10),"
-			"address character varying(20),"
+			"address character varying(30),"
 			"phone character varying(10),"
 			"email character varying(50),"
 			"permissions character varying(10) NOT NULL," // Hay que revisar cuantos modulos son y ajustar esto a un numero de caracteres fijos

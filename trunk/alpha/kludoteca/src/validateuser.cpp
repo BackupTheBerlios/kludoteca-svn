@@ -83,10 +83,19 @@ void ValidateUser::writeConfig()
 	klapp->config("Connection")->writeEntry("Server", m_databasePage->getServer());
 	klapp->config("Connection")->writeEntry("Database", m_databasePage->getDatabaseName());
 	klapp->config("Connection")->writeEntry("Login", m_userPage->getLogin());
-	if ( klapp->config()->readBoolEntry("Store Password", false) )
+	
+	klapp->config("Connection")->writeEntry("Store Password", m_userPage->storePassword());
+	
+	if ( klapp->config("Connection")->readBoolEntry("Store Password", false) )
 	{
 		klapp->config("Connection")->writeEntry("Password", m_userPage->getPassword());
 	}
+	else
+	{
+		klapp->config("Connection")->writeEntry("Password", "");
+	}
+
+	klapp->config("Connection")->sync();
 }
 
 void ValidateUser::string2perms(const QString &str)
@@ -136,11 +145,16 @@ UserPage::UserPage(QWidget *parent) : QFrame(parent)
 	m_pass->setEchoMode( KLineEdit::Password );
 	m_pass->setText(klapp->config("Connection")->readEntry("Password"));
 
+	m_storepass = new QCheckBox(i18n("Store password"), this);
+	m_storepass->setChecked(klapp->config("Connection")->readBoolEntry("Store Password", false));
+	
 	glayout->addWidget(new QLabel(i18n("User"),this), 0,0);
 	glayout->addWidget(m_user, 0, 1);
 	
 	glayout->addWidget(new QLabel(i18n("Password"),this), 1,0);
 	glayout->addWidget(m_pass, 1, 1);
+	
+	glayout->addWidget(m_storepass, 2,1);
 }
 
 UserPage::~UserPage()
@@ -155,6 +169,11 @@ QString UserPage::getLogin()
 QString UserPage::getPassword()
 {
 	return m_pass->text();
+}
+
+bool UserPage::storePassword()
+{
+	return m_storepass->isChecked();
 }
 
 

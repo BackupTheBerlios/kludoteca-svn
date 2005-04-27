@@ -33,6 +33,8 @@ class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler
 {
 	Q_OBJECT
 	public:
+		enum Type { Total = 0, Partial };
+		
     		/**
     		 * Constructor por defecto
     		 * @return 
@@ -69,6 +71,20 @@ class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler
 		bool characters ( const QString & ch );
 		
 		
+		/**
+		 * Coloca el tipo de analisis que se quiere hacer
+		 * @param type 
+		 */
+		void setParseType(Type type);
+		
+		
+		/**
+		 * Obtiene una lista con los resultados de la consulta
+		 * @return 
+		 */
+		QStringList getResults();
+		
+		
 	signals:
 		/**
 		 * Se emite cuando un record es leido
@@ -80,6 +96,7 @@ class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler
 		QString m_root, m_qname;
 		bool m_read;
 		QStringList m_results;
+		Type m_type;
 };
 
 #endif

@@ -112,7 +112,7 @@ class KLudoteca : public KMdiMainFrm
 		/**
 		 * 
 		 */
-		void fileNew();
+		void newConnection();
 		/**
 		 * 
 		 */

@@ -26,6 +26,7 @@
 #include <kpushbutton.h>
 #include <klistview.h>
 #include <kmdichildview.h>
+#include "klxmlreader.h"
 #include "kldatabase.h"
 #include "klresultsetinterpreter.h"
 
@@ -154,7 +155,7 @@ class LTListView : public QVBox
 		KListView *m_listView;
 		KLDatabase *m_db;
 		KLResultSetInterpreter *m_rsinterpreter;
-		QXmlSimpleReader m_xmlreader;
+		KLXmlReader m_xmlreader;
 		QXmlInputSource m_xmlsource;
 		// Poner el qstring en m_xmlsource con setData, y darle m_xmlreader.parse(m_xmlsource);
 };

@@ -101,7 +101,7 @@ void KLudoteca::setupOSD()
 
 void KLudoteca::setupActions()
 {
-	KStdAction::openNew(this, SLOT(fileNew()), actionCollection());
+	KStdAction::openNew(this, SLOT(newConnection()), actionCollection());
 	//KStdAction::open(this, SLOT(fileOpen()), actionCollection());
 	KStdAction::save(this, SLOT(fileSave()), actionCollection());
 	KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
@@ -262,11 +262,12 @@ void KLudoteca::dropEvent(QDropEvent *event)
 	qDebug("Droppp!!");
 }
 
-void KLudoteca::fileNew()
+void KLudoteca::newConnection()
 {
-	KLudotecaView *view = new KLudotecaView("Welcome", m_database, this, "Welcome");
-
-	addWindow( view );
+	if ( m_userValidator /*&& ! m_view*/)
+	{
+		showValidateUser();
+	}
 }
 
 void KLudoteca::fileSave()

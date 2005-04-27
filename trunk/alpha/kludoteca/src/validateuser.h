@@ -116,6 +116,8 @@ class ValidateUser : public KDialogBase
 
 };
 
+#include <qcheckbox.h>
+
 class UserPage : public QFrame
 {
 	public:
@@ -141,9 +143,16 @@ class UserPage : public QFrame
 		 */
 		QString getPassword();
 		
+		/**
+		 * 
+		 * @return 
+		 */
+		bool storePassword();
+		
 	private:
 		KLineEdit *m_user;
 		KLineEdit *m_pass;
+		QCheckBox *m_storepass;
 };
 
 class DatabasePage : public QFrame

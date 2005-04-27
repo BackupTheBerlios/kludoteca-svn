@@ -80,7 +80,7 @@ void AdminUsers::addButtonClicked()
 
 	scroll->addChild(formAdminUsers);
 	formAdminUsers->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-	
+
 	formAdminUsers->setTitle(i18n("Admin User"));
 	formAdminUsers->setExplanation(i18n("Fill the fields with the user information"));
 	
@@ -100,6 +100,44 @@ void AdminUsers::getClickedItem(QListViewItem *item)
 
 void AdminUsers::modifyButtonClicked()
 {
+#if DEBUG_ADMINUSERS
+	qDebug("init modifyButtonClicked");
+#endif
+	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	FormAdminUsers *formAdminUsers = new FormAdminUsers(m_db, scroll->viewport() );
+	
+	//docident |  login  | firstname | lastname |  sex   | address | phone  |      email       | permissions
+
+	KLSelect sqlquery(QStringList() << "docident" << "login" << "firstname" << "lastname" << "sex" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users");
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+	m_xmlsource.setData(resultSet.toString());
+	
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+	}
+
+	formAdminUsers->setType( FormBase::Edit );
+	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
+
+	scroll->addChild(formAdminUsers);
+	formAdminUsers->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	formAdminUsers->setTextAcceptButton(i18n("Modify"));
+	formAdminUsers->setTitle(i18n("Admin User"));
+	formAdminUsers->setExplanation(i18n("Modify the fields with the user information"));
+	
+	emit sendWidget(view); 
+#if DEBUG_ADMINUSERS
+	qDebug("end addButtonClicked");
+#endif
 }
 
 void AdminUsers::queryButtonClicked()

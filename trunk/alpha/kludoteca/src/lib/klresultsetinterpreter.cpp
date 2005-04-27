@@ -21,7 +21,7 @@
 #include "klresultsetinterpreter.h"
 #include <iostream>
 
-KLResultSetInterpreter::KLResultSetInterpreter() : QXmlDefaultHandler(), m_root(QString::null), m_qname(QString::null), m_read(false)
+KLResultSetInterpreter::KLResultSetInterpreter() : QXmlDefaultHandler(), m_root(QString::null), m_qname(QString::null), m_read(false),m_type(Partial)
 {
 }
 
@@ -40,7 +40,8 @@ bool KLResultSetInterpreter::startElement( const QString& , const QString& , con
 	}
 	else if (qname == "record")
 	{
-		m_results.clear();
+		if ( m_type == Partial )
+			m_results.clear();
 		m_read = false;
 	}
 	return true;
@@ -53,7 +54,8 @@ bool KLResultSetInterpreter::endElement(const QString& ns, const QString& localn
 	if (qname == "record")
 	{
 		//qDebug("Emitiendo resultados");
-		emit readRecord(m_results);
+		if ( m_type == Partial )
+			emit readRecord(m_results);
 	}
 	
 	return true;
@@ -69,6 +71,16 @@ bool KLResultSetInterpreter::characters(const QString &ch)
 	}
 	
 	return true;
+}
+
+void KLResultSetInterpreter::setParseType(Type type)
+{
+	m_type = type;
+}
+
+QStringList KLResultSetInterpreter::getResults()
+{
+	return m_results;
 }
 
 #include "klresultsetinterpreter.moc"
