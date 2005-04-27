@@ -21,6 +21,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <iostream>
+#include <qdatetime.h>
 
 using namespace std;
 
@@ -66,6 +67,15 @@ void FormAdminClients::setupButtonsBox()
 	m_selectFace->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png" )) );
 	m_selectFace->resize(64, 64);
 	m_layout->addWidget(vbox, 0 , 1);
+/*********************************************************************************/
+	m_combo = new KComboBox(true,m_container, "m_combo");
+	m_combo->insertItem(i18n("Active"), -1);
+	m_combo->insertItem(i18n("Inactive"), -2);
+	m_combo->insertItem(i18n("Banned"), -3);
+	
+	m_comp = m_combo->completionObject();
+	connect(m_combo,SIGNAL(returnPressed(const QString&)),m_comp,SLOT(addItem(const QString&)));
+	m_layout->addWidget(m_combo,1,1);
 }
 
 void FormAdminClients::setupBox()
@@ -83,26 +93,119 @@ void FormAdminClients::setupBox()
 	m_layout->addWidget(box2, 0, 2);
 }
 
+QString FormAdminClients::getClientId()
+{
+	return m_hashBox1[i18n("Identification")]->text();
+}
+
+QString FormAdminClients::getClientName()
+{
+	return m_hashBox1[i18n("Name")]->text();
+}
+
+QString FormAdminClients::getInscriptionDate()
+{
+	return QString( QDate::currentDate().toString(Qt::ISODate) );
+}
+
+QString FormAdminClients::getClientLastName()
+{
+	return m_hashBox1[i18n("Last name")]->text();
+}
+
+QString FormAdminClients::getClientSex()
+{
+	return m_radioButtons->selected()->text();
+}
+
+QString FormAdminClients::getClientPhone()
+{
+	return m_hashBox1[i18n("Phone")]->text();
+}
+
+QString FormAdminClients::getClientCellular()
+{
+	return m_hashBox1[i18n("Celular")]->text();
+}
+
+QString FormAdminClients::getClientState()
+{
+	/*hacer el combobox*/
+	return i18n( m_combo->currentText() );
+}
+
+QString FormAdminClients::getClientEmail()
+{
+	return m_hashBox1[i18n("EMail")]->text();
+}
+
+QString FormAdminClients::getClientAddress()
+{
+	return m_hashBox1[i18n("Address")]->text();
+}
+
+QString FormAdminClients::getClientFriendName()
+{
+	return m_hashBox2[i18n("Friend name")]->text();
+}
+
+
+QString FormAdminClients::getClientFriendPhone()
+{
+	return m_hashBox2[i18n("Friend phone")]->text();
+}
+
+QString FormAdminClients::getClientFriendAddress()
+{
+	return m_hashBox2[i18n("Friend address")]->text();
+}
+
 /*
 * Este metodo toma los valores de los klineedits a traves de dos tablas hash (m_hashBox1 y m_hashBox2)
 */
 void FormAdminClients::accept()
 {
 
-	KLInsert sqlquery("ldt_clients", QStringList() << SQLSTR(m_hashBox1[i18n("Identification")]->text()) << SQLSTR("2005-04-26") << SQLSTR(m_hashBox1[i18n("Name")]->text()) << SQLSTR(m_hashBox1[i18n("Last name")]->text()) << SQLSTR(m_hashBox1[i18n("Phone")]->text()) << SQLSTR(m_hashBox1[i18n("Celular")]->text()) << SQLSTR(m_hashBox1[i18n("EMail")]->text()) << SQLSTR( m_radioButtons->selected()->text() ) << SQLSTR("Active") << SQLSTR(m_hashBox1[i18n("Address")]->text()) << SQLSTR(m_hashBox2[i18n("Friend name")]->text()) << SQLSTR(m_hashBox2[i18n("Friend phone")]->text()) << SQLSTR(m_hashBox2[i18n("Friend address")]->text()) );
+	KLInsert sqlquery("ldt_clients", QStringList() 
+			<< SQLSTR( this->getClientId() ) 
+			<< SQLSTR( this->getInscriptionDate() )
+			<< SQLSTR( this->getClientName() )
+			<< SQLSTR( this->getClientLastName() )
+			<< SQLSTR( this->getClientPhone() )
+			<< SQLSTR( this->getClientCellular() )
+			<< SQLSTR( this->getClientEmail() )
+			<< SQLSTR( this->getClientSex() )
+			<< SQLSTR( this->getClientState() )
+			<< SQLSTR( this->getClientAddress() )
+			<< SQLSTR( this->getClientFriendName() )
+			<< SQLSTR( this->getClientFriendPhone() )
+			<< SQLSTR( this->getClientFriendAddress() ) );
 
 	cout << "consulta fue: " << sqlquery.getQuery() << endl;
 	
 	emit sendQuery(&sqlquery);
-	emit accepted();
+	
+	if ( this->lastQueryWasGood() )
+	{
+		emit accepted();
+		emit inserted(this->getClientId());
+		clean();
+	}
 }
 
 void FormAdminClients::cancel()
 {
+	emit cancelled();
 }
 
 void FormAdminClients::clean()
 {
+	QDictIterator<KLineEdit> it1( m_hashBox1 );
+	QDictIterator<KLineEdit> it2( m_hashBox2 );
+	for( ; it1.current(); ++it1)
+		it1.current()->setText("");
+	for(;it2.current();++it2)
+		it2.current()->setText("");
 }
 
 #include "formadminclients.moc"

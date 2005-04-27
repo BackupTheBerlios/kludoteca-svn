@@ -140,7 +140,7 @@ class FormBase : public QVBox
 		/**
 		 * Esta funcion crea un formulario cuadrado con etiqueta y captador de texto
 		 */
-		HashLineEdit setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth = 200); 
+		HashLineEdit setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth = 200, QStringList names = QStringList()); 
 		
 		/**
 		 * Esta funcion agrega un formulario cuadrado con etiqueta y captador de texto
@@ -204,7 +204,6 @@ class FormBase : public QVBox
 		 * Emita esto cuando quiera emitir la llave primaria que ha insertado, se usa para conectar con el LTListView y actualizar la lista, sin leer de nuevo todos los registros.
 		 */
 		virtual void inserted(const QString &pkey);
-		
 		
 	private:
 		QHButtonGroup *m_buttons;

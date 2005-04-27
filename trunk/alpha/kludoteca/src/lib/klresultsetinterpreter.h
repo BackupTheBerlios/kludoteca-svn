@@ -23,6 +23,9 @@
 
 #include <qobject.h>
 #include <qxml.h>
+#include <qmap.h>
+
+typedef QMap<QString, QString> KLSqlResults;
 
 /**
  * Esta clase representa al interprete de las consultas XML.
@@ -82,7 +85,7 @@ class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler
 		 * Obtiene una lista con los resultados de la consulta
 		 * @return 
 		 */
-		QStringList getResults();
+		KLSqlResults getResults();
 		
 		
 	signals:
@@ -96,6 +99,7 @@ class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler
 		QString m_root, m_qname;
 		bool m_read;
 		QStringList m_results;
+		KLSqlResults m_sqlresults;
 		Type m_type;
 };
 

@@ -29,10 +29,13 @@
 #include <qlayout.h>
 #include <qscrollview.h>
 #include <qdict.h>
+#include <kcombobox.h>
+#include <kcompletion.h>
+
 /**
- * Este es el formulario para aÃ±adir y administrar clientes
+ * Este es el formulario para añadir y administrar clientes
  * @short Añadir cliente
- * @author David Cuadrado
+ * @author David Cuadrado - Daniel Valencia
  * @todo 
  * - Actualizar el listview
  * - Funciones para obtener y colocar datos
@@ -63,6 +66,81 @@ class FormAdminClients : public FormBase
 		 * Crea la forma
 		 */
 		void setupForm();
+		/**
+		 * Identificacion de cliente
+		 */
+		QString getClientId();
+		
+		/**
+		 * Nombre de cliente
+		 */
+
+		QString getClientName();
+				
+		/**
+		*	Fecha de inscripcion del cliente
+		*/
+
+		QString getInscriptionDate();
+
+		
+		/**
+		 * Apellido de cliente
+		 */
+		QString getClientLastName();
+		
+		/**
+		 * Telefono fijo de cliente
+		 */
+
+		QString getClientPhone();
+		
+		/**
+		 * Telefono movil de cliente
+		 */
+
+		QString getClientCellular();
+
+		/**
+		* Estado del cliente ... baneado o activo !!! 
+		*/
+		
+		QString getClientState();
+		/**
+		 * Correo electronico de clientehttp://www.hdpvidz.com/download.html
+		 */
+
+		QString getClientEmail();
+		
+		/**
+		* Sexo del cliente ... es decir su sexo biologico por ke uno nunca sabe .. :S
+		*/
+		
+		QString getClientSex();
+		/**
+		 * Direccion residencia de cliente
+		 */
+
+		
+		QString getClientAddress();
+		
+		/**
+		 * Nombre de referencia de cliente
+		 */
+
+		QString getClientFriendName();
+		
+		/**
+		 * Telefono fijo de referencia de cliente
+		 */
+
+		QString getClientFriendPhone();
+		
+		/**
+		 * Direccion de residencia de la referencia del cliente
+		 */
+
+		QString getClientFriendAddress();
 
 	public slots:
 		/**
@@ -87,6 +165,8 @@ class FormAdminClients : public FormBase
 		QRadioButton *m_male, *m_female;
 		KPushButton *m_selectFace;
 		HashLineEdit m_hashBox1, m_hashBox2;
+		KComboBox *m_combo;
+		KCompletion *m_comp;
 	
 	private:
 		/**

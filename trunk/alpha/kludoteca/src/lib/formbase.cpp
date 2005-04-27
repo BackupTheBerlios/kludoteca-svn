@@ -145,15 +145,17 @@ QWidget *FormBase::setupLineEdit(QWidget *parent, QString text, int lineEditWidt
 	return widget;
 }
 
-HashLineEdit FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth)
+HashLineEdit FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth, QStringList names)
 {
+	Q_ASSERT(names.count() != texts.count());
+	
 	HashLineEdit lineEdits;
 	QGridLayout *layout = new QGridLayout(parent, texts.count(), 2, 5, 5);
 	
 	for (uint i = 0; i < texts.count(); i++)
 	{
 		QLabel *labTmp = new QLabel(texts[i], parent);
-		KLineEdit *lineEditTmp = new KLineEdit(parent);
+		KLineEdit *lineEditTmp = new KLineEdit(parent, names[i]);
 		lineEditTmp->setMaximumWidth(lineEditWidth);
 		lineEditTmp->resize( lineEditTmp->height(), lineEditWidth);
 		labTmp->setBuddy(lineEditTmp);

@@ -37,4 +37,9 @@ bool KLXmlReader::analizeXml(const QXmlInputSource * input, KLResultSetInterpret
 	return QXmlSimpleReader::parse(input);
 }
 
+KLSqlResults KLXmlReader::results()
+{
+	return m_interpreter->getResults();
+}
+
 #include "klxmlreader.moc"

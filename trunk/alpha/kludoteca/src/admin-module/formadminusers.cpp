@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -78,8 +78,10 @@ void FormAdminUsers::setupBox()
 	QWidget *box = new QWidget(m_container);
 	
 	QStringList labels = QStringList() << i18n("Login") << i18n("Password")  << i18n("First name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("EMail") << i18n("Permissions");
+	
+	QStringList dbfields = QStringList() << "login" << "password"  << "firstname" << "lastname" << "docident" << "address" << "phone" << "email" << "permissions";
 
-	m_lineEdits = this->setupGridLineEdit(box, labels, 600);
+	m_lineEdits = this->setupGridLineEdit(box, labels, 600, dbfields);
 	
 	m_lineEdits[i18n("Login")]->setValidator(new QRegExpValidator(QRegExp("[^0-9\\s]+\\c+$"), 0));
 	
@@ -98,51 +100,86 @@ void FormAdminUsers::accept()
 		return;
 	}
 	
-	KLInsert sqlquery("ldt_users", QStringList() << SQLSTR(this->getIdentification()) << SQLSTR(this->getLogin()) << SQLSTR(this->getFirstName()) << SQLSTR(this->getLastName()) << SQLSTR(getSex() ) << SQLSTR(this->getAddress()) << SQLSTR(this->getPhone()) << SQLSTR(this->getEmail()) << SQLSTR(this->getPermissions()));
-	
-	emit sendRawQuery("CREATE USER "+ this->getLogin() + " PASSWORD "+ SQLSTR(this->getPassword()) );
-	
-	emit sendQuery(&sqlquery);
-	if ( ! this->lastQueryWasGood() )
+	switch( getType() )
 	{
-		emit sendRawQuery("DROP USER " + this->getLogin());
-	}
-	else
-	{
-		// Damos permisos necesarios
-		QString perms = this->getPermissions();
-		if (perms.at(0).digitValue() )
+		case FormBase::Add:
 		{
-			emit sendRawQuery("GRANT ALL  ON ldt_users,ldt_enterprise TO "+getLogin());
+			KLInsert sqlquery("ldt_users", QStringList() << SQLSTR(this->getIdentification()) << SQLSTR(this->getLogin()) << SQLSTR(this->getFirstName()) << SQLSTR(this->getLastName()) << SQLSTR(getSex() ) << SQLSTR(this->getAddress()) << SQLSTR(this->getPhone()) << SQLSTR(this->getEmail()) << SQLSTR(this->getPermissions()));
+			
+			emit sendRawQuery("CREATE USER "+ this->getLogin() + " PASSWORD "+ SQLSTR(this->getPassword()) );
+			
+			emit sendQuery(&sqlquery);
+			if ( ! this->lastQueryWasGood() )
+			{
+				emit sendRawQuery("DROP USER " + this->getLogin());
+			}
+			else
+			{
+				// Damos permisos necesarios
+				QString perms = this->getPermissions();
+				if (perms.at(0).digitValue() )
+				{
+					emit sendRawQuery("GRANT ALL  ON ldt_users,ldt_enterprise TO "+getLogin());
+				}
+				if (perms.at(1).digitValue())
+				{
+					emit sendRawQuery("GRANT ALL  ON ldt_clients TO "+getLogin());
+				}
+				if(perms.at(2).digitValue())
+				{
+					emit sendRawQuery("GRANT ALL  ON ldt_games TO "+getLogin());
+				}
+				if (perms.at(3).digitValue())
+				{
+					emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients TO "+getLogin());
+				}
+				if(perms.at(4).digitValue())
+				{
+					emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients,ldt_rents,ldt_participates TO "+getLogin());
+				}
+				
+				emit inserted(getLogin());
+				clean();
+			}
 		}
-		if (perms.at(1).digitValue())
+		break;
+		case FormBase::Edit:
 		{
-			emit sendRawQuery("GRANT ALL  ON ldt_clients TO "+getLogin());
+			QStringList fields, values;
+			
+			QDictIterator<KLineEdit> it( m_lineEdits );
+			for( ; it.current(); ++it)
+			{
+				if ( it.current()->isModified() )
+				{
+					fields << it.current()->name();
+					values << SQLSTR(it.current()->text());
+				}
+			}
+			KLUpdate sqlup("ldt_users", fields, values);
+			sqlup.setWhere("login="+SQLSTR(getLogin()));
+			
+			emit sendQuery(&sqlup);
+			
+			if ( this->lastQueryWasGood() )
+			{
+				emit inserted(getLogin());
+			}
 		}
-		if(perms.at(2).digitValue())
-		{
-			emit sendRawQuery("GRANT ALL  ON ldt_games TO "+getLogin());
-		}
-		if (perms.at(3).digitValue())
-		{
-			emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients TO "+getLogin());
-		}
-		if(perms.at(4).digitValue())
-		{
-			emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients,ldt_rents,ldt_participates TO "+getLogin());
-		}
-		
-		emit inserted(getLogin());
+		break;
 	}
 }
 
-void FormAdminUsers::cancel() 
+void FormAdminUsers::cancel()
 {
 	emit cancelled();
 }
 
 void FormAdminUsers::clean()
 {
+	QDictIterator<KLineEdit> it( m_lineEdits );
+	for( ; it.current(); ++it)
+		it.current()->setText("");
 }
 
 QString FormAdminUsers::getIdentification()
@@ -200,7 +237,7 @@ QString FormAdminUsers::getPermissions()
 		prms = "00000";
 	return prms;
 }
-
+		
 void FormAdminUsers::setIdentification(const QString &ident)
 {
 	m_lineEdits[i18n("Identification")]->setText(ident);
@@ -243,7 +280,7 @@ void FormAdminUsers::setPhone(const QString &phone)
 
 void FormAdminUsers::setEmail(const QString &email)
 {
-	m_lineEdits[i18n("Email")]->setText(email);
+	m_lineEdits[i18n("EMail")]->setText(email);
 }
 
 void FormAdminUsers::setPermissions(const QString &perms)

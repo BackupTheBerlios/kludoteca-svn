@@ -207,7 +207,10 @@ void FDInitDatabase::createDatabase()
 			}
 		}
 		
+		m_db->close();
+		
 		m_db->setDatabaseName(m_dbname->text());
+		m_db->open();
 		
 		m_pbar->setTotalSteps(7);
 		connect(m_db, SIGNAL(progress(int)), m_pbar, SLOT(setProgress(int)));

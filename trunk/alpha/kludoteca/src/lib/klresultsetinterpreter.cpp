@@ -68,6 +68,8 @@ bool KLResultSetInterpreter::characters(const QString &ch)
 	{
 		//std::cout << m_qname << " " << ch << std::endl;
 		m_results << ch;
+		std::cout << "Añadiendo: " << m_qname << std::endl;
+		m_sqlresults.insert(m_qname, ch);
 	}
 	
 	return true;
@@ -78,9 +80,9 @@ void KLResultSetInterpreter::setParseType(Type type)
 	m_type = type;
 }
 
-QStringList KLResultSetInterpreter::getResults()
+KLSqlResults KLResultSetInterpreter::getResults()
 {
-	return m_results;
+	return m_sqlresults;
 }
 
 #include "klresultsetinterpreter.moc"

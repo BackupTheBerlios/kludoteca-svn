@@ -28,7 +28,7 @@
 
 /**
  * En esta clase es el la ventana de herramientas del modulo del cliente
- * @author David Cuadrado
+ * @author David Cuadrado - Daniel Valencia
 */
 class ClientsWidget : public LTListView
 {
@@ -77,6 +77,13 @@ class ClientsWidget : public LTListView
 		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
 		 */
 		void queryButtonClicked();
+		
+		/**
+		 * Adiciona un item a la lista consultando la base de datos.
+		 * @param table 
+		 * @param pkey 
+		 */
+		void addItem(const QString &pkey);
 
 };
 

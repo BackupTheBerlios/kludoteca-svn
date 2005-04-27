@@ -37,14 +37,6 @@ ClientsWidget::~ClientsWidget()
 
 void ClientsWidget::fillList()
 {
-// 	KLSelect sql_(QStringList() << "A.nombre", QStringList() << "Empleado A");
-// 	sql_.setWhere("A.salario/30");
-// 	
-// 	KLSelect subsql_(QStringList() << "B.salario/30", QStringList() << "Empleado B");
-// 	subsql_.setWhere("A.codSuperv = B.codigo");
-// 	sql_.addSubConsult(">", subsql_ );
-	
-	
 	if ( !m_db )
 	{
 		qDebug("You're need set the database!!");
@@ -80,7 +72,8 @@ void ClientsWidget::addButtonClicked()
 	scroll->addChild(formAdminClients);
 	
 	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
-	
+	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminClients, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 	formAdminClients->setTitle(i18n("Admin Clients"));
 	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
 	
@@ -102,5 +95,18 @@ void ClientsWidget::queryButtonClicked()
 	cout << "query button clicked" << std::endl;
 }
 
+void ClientsWidget::addItem(const QString &pkey)
+{
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_clients");
+	sqlquery.setWhere("docident="+SQLSTR(pkey));
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.parse(m_xmlsource) )
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+}
 
 #include "clientswidget.moc"

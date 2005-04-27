@@ -111,10 +111,10 @@ void AdminUsers::modifyButtonClicked()
 	scroll->setMargin(10);
 	
 	FormAdminUsers *formAdminUsers = new FormAdminUsers(m_db, scroll->viewport() );
-	
-	//docident |  login  | firstname | lastname |  sex   | address | phone  |      email       | permissions
 
 	KLSelect sqlquery(QStringList() << "docident" << "login" << "firstname" << "lastname" << "sex" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users");
+	
+	sqlquery.setWhere("login="+SQLSTR(m_listView->currentItem()->text(2))); // Login in the listview
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
@@ -123,14 +123,30 @@ void AdminUsers::modifyButtonClicked()
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
 	{
 		std::cerr << "No se puede analizar" << std::endl;
+		return;
 	}
+	
+	KLSqlResults results = m_xmlreader.results();
+	
+	std::cout << results["login"] << std::endl;
 
+	formAdminUsers->setAddress( results["address"] );
+	formAdminUsers->setEmail(results["email"]);
+	formAdminUsers->setFirstName( results["firstname"]);
+	formAdminUsers->setIdentification( results["docident"]);
+	formAdminUsers->setLastName( results["lastname"]);
+	formAdminUsers->setLogin( results["login"]);
+	formAdminUsers->setPermissions( results["permissions"]);
+	formAdminUsers->setPhone( results["phone"]);
+	
 	formAdminUsers->setType( FormBase::Edit );
 	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminUsers, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
 
 	scroll->addChild(formAdminUsers);
 	formAdminUsers->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminUsers->setTextAcceptButton(i18n("Modify"));
+	formAdminUsers->setTextCancelButton(i18n("Close"));
 	formAdminUsers->setTitle(i18n("Admin User"));
 	formAdminUsers->setExplanation(i18n("Modify the fields with the user information"));
 	
@@ -150,12 +166,18 @@ void AdminUsers::addItem(const QString &pkey)
 	sqlquery.setWhere("login="+SQLSTR(pkey));
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
-	
+
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.parse(m_xmlsource) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}
+}
+
+void AdminUsers::updateItem(const QString &pkey)
+{
+	delete m_listView->currentItem();
+	addItem(pkey);
 }
 
 #include "adminusers.moc"

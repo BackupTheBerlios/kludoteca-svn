@@ -35,6 +35,7 @@ class KLXmlReader : public QObject, public QXmlSimpleReader
 		KLXmlReader();
 		~KLXmlReader();
 		bool analizeXml(const QXmlInputSource * input,  KLResultSetInterpreter::Type t);
+		KLSqlResults results();
 		
 	private:
 		KLResultSetInterpreter *m_interpreter;

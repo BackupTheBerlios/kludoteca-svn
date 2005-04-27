@@ -92,6 +92,13 @@ class AdminUsers : public LTListView
 		 * @param pkey 
 		 */
 		void addItem(const QString &pkey);
+		
+		
+		/**
+		 * Actualiza un item de la lista basandose en la llave recibida
+		 * @param  
+		 */
+		void updateItem(const QString &pkey);
 };
 
 #endif

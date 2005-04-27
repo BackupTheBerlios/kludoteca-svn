@@ -127,7 +127,8 @@ int main(int argc, char **argv)
 		args->clear();
 	}
 	
-	KCrash::setCrashHandler( Crash::crashHandler );
+	// TODO: Decomment to release
+	//KCrash::setCrashHandler( Crash::crashHandler );
 	
 	return app.exec();
 }
