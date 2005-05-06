@@ -178,10 +178,10 @@ void FormAdminGame::formDelete(const QString &idGame)
 {
 }
 
-void FormAdminGame::formModify(QString &idGame)
+void FormAdminGame::formModify()//QString &idGame)
 {
-	QString quering = "";
-	
+	//QString quering = "";
+	/*
 	KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "description" << "rules" << "mingamers" << "maxgamers" << "gametype"<<"timeunitadd"<< "timeunit" << "costtm" << "costtma"<<"position" <<"state" , QString("ldt_users"));
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
@@ -208,7 +208,7 @@ void FormAdminGame::formModify(QString &idGame)
 	setMinPlayers(results["mingamers"] );
 	setMaxPlayers(results["maxgamers"] );
 	setCostUnitTime(results["costtm"] );
-	setCostTimeAdditional(results["costtma"] );
+	setCostTimeAdditional(results["costtma"] );*/
 
 }
 
