@@ -65,7 +65,7 @@ class FormAdminGame : public FormBase
 		
 		void formQuery(const QString &idGame );
 		void formDelete(const QString &idGame);
-		void formModify();
+		void formModify(const QString &idGame);
 		
 		/**
 		 *  Funcion que retorna un qstring del nombre del juego

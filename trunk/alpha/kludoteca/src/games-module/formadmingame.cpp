@@ -40,6 +40,7 @@ void FormAdminGame::setupForm()
 	
 	m_labelNameGame = new QLabel(i18n("Game name"),form);
 	m_nameGame = new KLineEdit(form);
+	m_nameGame->setMaxLength(10);
 	m_grid->addWidget(m_labelNameGame, 0,0);
 	m_grid->addWidget(m_nameGame, 0,1);
 	
@@ -57,14 +58,15 @@ void FormAdminGame::setupForm()
 	
 	m_labelStateGame = new QLabel(i18n("State of game"), form);
 	m_stateGame = new KComboBox(form);
-	m_stateGame->insertItem(i18n("Active"),0);
-	m_stateGame->insertItem(i18n("Inactive"), 1);
+	m_stateGame->insertItem(i18n("Free"),0);
+	m_stateGame->insertItem(i18n("Busy"), 1);
 	m_stateGame->insertItem(i18n("Fixing"), 2);
 	m_grid->addWidget(m_labelStateGame, 2,2);
 	m_grid->addWidget(m_stateGame, 2,3);
 	
 	m_labelReference = new QLabel(i18n("Reference of game"), form);
 	m_referenceGame = new KLineEdit(form);
+	m_referenceGame->setMaxLength(8);
 	m_grid->addWidget(m_labelReference, 1, 0);
 	m_grid->addWidget(m_referenceGame, 1 , 1);
 		
@@ -144,7 +146,20 @@ void FormAdminGame::accept ()
 	*/
 
 		
-	KLInsert sqlquery("ldt_games", QStringList() << SQLSTR(this->getReferenceGame()) << SQLSTR(this->getGameName()) << SQLSTR(this->getDescriptionGame()) << SQLSTR(this->getRulesGame()) << QString::number(this->getMinPlayers()) << QString::number(this->getMaxPlayers()) << SQLSTR(this->getTypeGame()) << SQLSTR(this->getTimeUnit()) << SQLSTR(this->getTimeUnit()) << QString::number(this->getCostUnitTime()) << QString::number(this->getCostTimeAdditional()) << SQLSTR(QString("1")) << SQLSTR( this->getStateGame()));
+	KLInsert sqlquery("ldt_games", QStringList() 
+			<< SQLSTR(this->getReferenceGame()) 
+					<< SQLSTR(this->getGameName()) 
+					<< SQLSTR(this->getDescriptionGame()) 
+					<< SQLSTR(this->getRulesGame()) 
+					<< QString::number(this->getMinPlayers()) 
+					<< QString::number(this->getMaxPlayers()) 
+					<< SQLSTR(this->getTypeGame()) 
+					<< SQLSTR(this->getTimeUnit()) 
+					<< SQLSTR(this->getTimeUnit()) 
+					<< QString::number(this->getCostUnitTime()) 
+					<< QString::number(this->getCostTimeAdditional()) 
+					<< SQLSTR(QString("1")) 
+					<< SQLSTR( this->getStateGame()));
 	
 	std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
 	
@@ -157,15 +172,44 @@ void FormAdminGame::accept ()
 
 void FormAdminGame::formQuery(const QString &idGame)
 {
-	//KLResultSet *result
 }
 
 void FormAdminGame::formDelete(const QString &idGame)
 {
 }
 
-void FormAdminGame::formModify()
+void FormAdminGame::formModify(QString &idGame)
 {
+	QString quering = "";
+	
+	KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "description" << "rules" << "mingamers" << "maxgamers" << "gametype"<<"timeunitadd"<< "timeunit" << "costtm" << "costtma"<<"position" <<"state" , QString("ldt_users"));
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+	m_xmlsource.setData(resultSet.toString());
+	
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total ))
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+	
+	KLSqlResults results = m_xmlreader.results();
+	
+	quering += i18n("Game  name: ") + results["gamename"]  + "\n";
+	
+	setGameName(results["gamename"]  );
+	setDescriptionGame(results["description"]  );
+	setRulesGame(results["rules"]  );
+//	setStateGame(const QString &state, int index);
+//	setTypeGame(const QString &type, int index);
+	setReferenceGame(serialreference);
+//	setTimeUnit(const QString &unitTime, int index );
+//	setUnitTimeAdd(const QString &unitTimeAdd, int index );
+	setMinPlayers(results["mingamers"] );
+	setMaxPlayers(results["maxgamers"] );
+	setCostUnitTime(results["costtm"] );
+	setCostTimeAdditional(results["costtma"] );
+
 }
 
 

@@ -103,6 +103,10 @@ class GamesList : public LTListView
 		 */
 		void queryButtonClicked();
 		
+		/*void updateItem(const QString &pkey);
+				
+		void addItem(const QString &pkey);*/
+		
 	private:
 		QStringList m_gameCategories;
 		
