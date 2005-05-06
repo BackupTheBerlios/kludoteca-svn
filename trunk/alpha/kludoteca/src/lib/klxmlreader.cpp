@@ -17,7 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "klxmlreader.h"
+#include <klocale.h>
 
 KLXmlReader::KLXmlReader() : QXmlSimpleReader(), m_interpreter(0)
 {
@@ -34,7 +36,7 @@ bool KLXmlReader::analizeXml(const QXmlInputSource * input, KLResultSetInterpret
 {
 	m_interpreter->setParseType(t);
 
-	return QXmlSimpleReader::parse(input);
+	return QXmlSimpleReader::parse(input, true);
 }
 
 KLSqlResults KLXmlReader::results()
@@ -42,4 +44,14 @@ KLSqlResults KLXmlReader::results()
 	return m_interpreter->getResults();
 }
 
-#include "klxmlreader.moc"
+bool KLXmlReader::parse(const QXmlInputSource * input, bool incremental)
+{
+	Q_ASSERT(i18n("Please don't use this function!!, use analizeXml instead"));
+	return false;
+}
+
+bool KLXmlReader::parse ( const QXmlInputSource * input )
+{
+	Q_ASSERT(i18n("Please don't use this function!!, use analizeXml instead"));
+	return false;
+}

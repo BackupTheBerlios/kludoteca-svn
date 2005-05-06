@@ -25,11 +25,14 @@
 #include <qlabel.h>
 #include <qradiobutton.h>
 #include <qhbuttongroup.h>
+#include <qvbuttongroup.h>
+#include <qvgroupbox.h>
 #include <klineedit.h>
 #include <qlayout.h>
 #include <qscrollview.h>
 #include <qvalidator.h>
 #include <qhbox.h>
+#include <qcheckbox.h>
 
 class QRegExp;
 
@@ -95,13 +98,21 @@ class FormAdminUsers : public FormBase
 		 */
 		void clean();
 		
+	signals:
+		void message2osd(const QString &msg);
+		
 	private:
+		QVBox *m_secondCol;
+		
 		QScrollView *m_scrollView;
 		QGridLayout *m_layout;
 		QFrame *m_container;
-		QHButtonGroup *m_radioButtons;
+		QVButtonGroup *m_radioButtons;
 		QRadioButton *m_male, *m_female;
 		HashLineEdit m_lineEdits;
+		
+		QVButtonGroup *m_permsBox;
+		QCheckBox  *m_adminp, *m_gamesp, *m_clientsp, *m_rentsp, *m_tournamentsp;
 	
 	private:
 		/**
@@ -113,6 +124,11 @@ class FormAdminUsers : public FormBase
 		 * Crea la caja principal
 		 */
 		void setupBox();
+		
+		/**
+		 * Crea la caja de permisos
+		 */
+		void setupPermissionsBox();
 };
 
 #endif

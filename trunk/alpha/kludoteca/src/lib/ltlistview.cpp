@@ -21,6 +21,8 @@
 #include "ltlistview.h" 
 #include <klocale.h>
 #include <kapplication.h>
+#include <klineedit.h>
+#include <ktoolbarbutton.h>
 
 LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
 {
@@ -28,6 +30,20 @@ LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name),
 
 LTListView::LTListView(QStringList colsText, Button button1, Button button2, Button button3, Button button4, QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
 {
+	m_timer = new QTimer(this);
+	
+	KToolBar *searchToolBar = new KToolBar( this );
+	
+	KToolBarButton *button = new KToolBarButton( "locationbar_erase", 0, searchToolBar );
+	m_searchEdit = new KLineEdit(i18n( "Filter here..." ), searchToolBar );
+	searchToolBar->setStretchableWidget( m_searchEdit );
+	m_searchEdit->setFrame( QFrame::Sunken );
+	
+	connect( m_searchEdit, SIGNAL( textChanged( const QString& ) ), SLOT( slotSetFilterTimeout() ) );
+	connect( m_searchEdit, SIGNAL( returnPressed() ), SLOT( slotSetFilter() ) );
+	connect( button, SIGNAL( clicked() ), m_searchEdit, SLOT( clear() ) );
+	connect( m_timer, SIGNAL( timeout() ), SLOT( slotSetFilter() ) );
+	
  	makeList(colsText);
 	makeButtons(button1, button2, button3, button4);
 	
@@ -253,5 +269,30 @@ KListView* LTListView::getListView()
 {
 	return m_listView;
 }
+
+void LTListView::slotSetFilterTimeout()
+{
+	m_timer->start( 280, true );
+}
+
+void LTListView::slotSetFilter()
+{
+	m_timer->stop();
+	m_listView->clear();
+	
+	slotFilter( m_searchEdit->text() );
+	
+	m_listView->repaint();
+}
+
+void LTListView::slotFilter(const QString &filter)
+{
+	std::cout << "LTListView filter: " << filter << std::endl;
+	if ( filter.isEmpty() )
+	{
+		fillList();
+	}
+}
+
 
 #include "ltlistview.moc"

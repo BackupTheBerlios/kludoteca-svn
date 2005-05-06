@@ -23,7 +23,6 @@
 
 
 class QStringList;
-class MetaBundle;
 
 class OSDWidget : public QWidget
 {

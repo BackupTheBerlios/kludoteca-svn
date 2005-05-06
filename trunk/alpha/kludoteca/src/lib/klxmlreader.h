@@ -28,15 +28,17 @@
  * @author David Cuadrado
 */
 
-class KLXmlReader : public QObject, public QXmlSimpleReader
+class KLXmlReader : public QXmlSimpleReader
 {
-	Q_OBJECT
 	public:
 		KLXmlReader();
 		~KLXmlReader();
 		bool analizeXml(const QXmlInputSource * input,  KLResultSetInterpreter::Type t);
 		KLSqlResults results();
 		
+		bool parse(const QXmlInputSource * input, bool incremental);
+		bool parse (const QXmlInputSource *input);
+
 	private:
 		KLResultSetInterpreter *m_interpreter;
 };

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 #include <klocale.h>
 #include <kpushbutton.h>
 #include <qwidget.h>
+#include <kmessagebox.h>
 
 #define DEBUG_ADMINUSERS 0
 
@@ -54,7 +55,7 @@ void AdminUsers::fillList()
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.parse(m_xmlsource) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}
@@ -73,6 +74,7 @@ void AdminUsers::addButtonClicked()
 	scroll->setMargin(10);
 	
 	FormAdminUsers *formAdminUsers = new FormAdminUsers(m_db, scroll->viewport() );
+	connect(formAdminUsers, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 
 	formAdminUsers->setType( FormBase::Add);
 	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
@@ -92,10 +94,25 @@ void AdminUsers::addButtonClicked()
 
 void AdminUsers::delButtonClicked()
 {
+	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
+	
+	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the user ")+itemp->text(2)+ " ?");
+	
+	if (opt == KMessageBox::Yes )
+	{
+		m_db->execRawQuery("delete from ldt_users where login="+ SQLSTR(itemp->text(2)));
+		
+		m_db->execRawQuery("drop user "+itemp->text(2));
+		
+		delete itemp;
+		
+		emit message2osd(i18n("The user has been deleted!!"));
+	}
 }
 
 void AdminUsers::getClickedItem(QListViewItem *item)
 {
+	modifyButtonClicked();
 }
 
 void AdminUsers::modifyButtonClicked()
@@ -111,6 +128,8 @@ void AdminUsers::modifyButtonClicked()
 	scroll->setMargin(10);
 	
 	FormAdminUsers *formAdminUsers = new FormAdminUsers(m_db, scroll->viewport() );
+	
+	connect(formAdminUsers, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 
 	KLSelect sqlquery(QStringList() << "docident" << "login" << "firstname" << "lastname" << "sex" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users");
 	
@@ -138,6 +157,8 @@ void AdminUsers::modifyButtonClicked()
 	formAdminUsers->setLogin( results["login"]);
 	formAdminUsers->setPermissions( results["permissions"]);
 	formAdminUsers->setPhone( results["phone"]);
+	std::cout << "here" << std::endl;
+	formAdminUsers->setSex( results["sex"]);
 	
 	formAdminUsers->setType( FormBase::Edit );
 	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
@@ -158,6 +179,32 @@ void AdminUsers::modifyButtonClicked()
 
 void AdminUsers::queryButtonClicked()
 {
+	QString quering = "";
+	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
+	
+	quering += i18n("== query to user ") + itemp->text(2) + " == \n";
+	
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "docident" << "address" << "phone" << "email" << "permissions", QString("ldt_users"));
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+	m_xmlsource.setData(resultSet.toString());
+	
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total ))
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+	
+	KLSqlResults results = m_xmlreader.results();
+	
+	quering += i18n("Real name: ") + results["firstname"] + " " + results["lastname"] + "\n";
+	quering += i18n("Identification: ") + results["docident"] + "\n";
+	quering += i18n("Address: ") + results["address"] + "\n";
+	quering += i18n("Phone: ") + results["phone"] + "\n";
+	quering += i18n("Email: ") + results["email"] + "\n";
+	quering += i18n("Permissions:") + results["permissions"] + "\n\n";
+	
+	emit message2osd(quering);
 }
 
 void AdminUsers::addItem(const QString &pkey)
@@ -179,5 +226,15 @@ void AdminUsers::updateItem(const QString &pkey)
 	delete m_listView->currentItem();
 	addItem(pkey);
 }
+
+// void AdminUsers::slotFilter(const QString &filter)
+// {
+// 	std::cout << "Filtrando filter" << filter << std::endl;
+// 	
+// 	if ( filter.isEmpty() )
+// 	{
+// 		fillList();
+// 	}
+// }
 
 #include "adminusers.moc"

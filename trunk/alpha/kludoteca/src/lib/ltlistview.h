@@ -26,11 +26,14 @@
 #include <kpushbutton.h>
 #include <klistview.h>
 #include <kmdichildview.h>
+#include <ktoolbar.h>
+#include <qtimer.h>
+
 #include "klxmlreader.h"
 #include "kldatabase.h"
 #include "klresultsetinterpreter.h"
 
-
+class KListView;
 class LTListView;
 
 /**
@@ -130,6 +133,11 @@ class LTListView : public QVBox
 		 */
 		virtual void addItem(const QString &pkey); // = 0;
 		
+		void slotSetFilterTimeout();
+		void slotSetFilter();
+		
+		virtual void slotFilter(const QString &filter); // TODO
+		
 	signals:
 		
 		/**
@@ -150,6 +158,9 @@ class LTListView : public QVBox
 		KPushButton *m_buttonDel;
 		KPushButton *m_buttonModify;
 		KPushButton *m_buttonQuery;
+		
+		KLineEdit *m_searchEdit;
+		QTimer *m_timer;
 		
 	protected:
 		KListView *m_listView;

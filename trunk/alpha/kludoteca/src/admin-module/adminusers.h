@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
 #ifndef ADMINUSERS_H
 #define ADMINUSERS_H
 
@@ -92,6 +93,9 @@ class AdminUsers : public LTListView
 		 * @param pkey 
 		 */
 		void addItem(const QString &pkey);
+		
+		
+// 		void slotFilter(const QString &filter);
 		
 		
 		/**

@@ -386,6 +386,9 @@ void KLudoteca::changeCaption(const QString& text)
 
 void KLudoteca::showNotice(const QString &message)
 {
+	// necesito calcular el largo del mensaje para poner un tiempo prudente para leerlo...
+	
+	m_osd->setDuration( message.length() * 70 );
 	m_osd->show(message, false, false);
 }
 

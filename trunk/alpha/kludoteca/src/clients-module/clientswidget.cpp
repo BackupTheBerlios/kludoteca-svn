@@ -48,7 +48,7 @@ void ClientsWidget::fillList()
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.parse(m_xmlsource) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}
@@ -103,7 +103,7 @@ void ClientsWidget::addItem(const QString &pkey)
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.parse(m_xmlsource) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}

@@ -50,7 +50,7 @@ void RentsWidget::fillList()
 	//->select(QStringList() << "gamename" << "firstname" << "lastname", "ldt_games,ldt_clients,ldt_rents", "where ldt_rents.clientdocident=ldt_clients.docident and ldt_rents.gameserialreference=ldt_games.serialreference;");
 	
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.parse(m_xmlsource) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}

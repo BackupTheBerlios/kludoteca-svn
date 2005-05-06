@@ -17,6 +17,8 @@ the Free Software Foundation; either version 2 of the License, or
 #include <qapplication.h>
 #include <qbitmap.h>
 #include <qpainter.h>
+#include <kpixmapeffect.h>
+#include <kpixmap.h>
 
 #include <X11/Xlib.h>
 
@@ -360,7 +362,7 @@ QPixmap OSDWidget::createGradient( QSize size )
 {
 	QColor gradient = paletteBackgroundColor();
 
-    //QImage image = KImageEffect::gradient( size , gradient, gradient.light(), KImageEffect::PipeCrossGradient, 3 );
+    	//QImage image = KImageEffect::gradient( size , gradient, gradient.light(), KImageEffect::PipeCrossGradient, 3 );
 
    	return QPixmap( 0 );
 }
