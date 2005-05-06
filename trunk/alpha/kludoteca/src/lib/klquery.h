@@ -123,6 +123,8 @@ class KLSelect : public KLQuery
 		 */
 		QString getQuery() const;
 		
+		void addFilter( const QString& filter, QStringList fields = QStringList() );
+		
 	private:
 		QStringList m_fields;
 		QString m_cwhere;

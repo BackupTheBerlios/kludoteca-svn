@@ -95,7 +95,7 @@ class AdminUsers : public LTListView
 		void addItem(const QString &pkey);
 		
 		
-// 		void slotFilter(const QString &filter);
+		void slotFilter(const QString &filter);
 		
 		
 		/**
@@ -103,6 +103,9 @@ class AdminUsers : public LTListView
 		 * @param  
 		 */
 		void updateItem(const QString &pkey);
+		
+	private:
+		KLSelect *m_sqlquery;
 };
 
 #endif

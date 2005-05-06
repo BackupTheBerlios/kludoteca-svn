@@ -46,12 +46,12 @@ KLSqlResults KLXmlReader::results()
 
 bool KLXmlReader::parse(const QXmlInputSource * input, bool incremental)
 {
-	Q_ASSERT(i18n("Please don't use this function!!, use analizeXml instead"));
-	return false;
+#warning "Please don't use this function!!, use analizeXml instead"
+	return QXmlSimpleReader::parse(input, incremental);
 }
 
 bool KLXmlReader::parse ( const QXmlInputSource * input )
 {
-	Q_ASSERT(i18n("Please don't use this function!!, use analizeXml instead"));
-	return false;
+#warning "Please don't use this function!!, use analizeXml instead"
+	return QXmlSimpleReader::parse(input);
 }

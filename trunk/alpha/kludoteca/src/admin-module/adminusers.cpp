@@ -50,9 +50,9 @@ void AdminUsers::fillList()
 		return;
 	}
 	
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users");
+	m_sqlquery = new KLSelect(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users");
 	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = m_db->execQuery(m_sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -227,14 +227,25 @@ void AdminUsers::updateItem(const QString &pkey)
 	addItem(pkey);
 }
 
-// void AdminUsers::slotFilter(const QString &filter)
-// {
-// 	std::cout << "Filtrando filter" << filter << std::endl;
-// 	
-// 	if ( filter.isEmpty() )
-// 	{
-// 		fillList();
-// 	}
-// }
+void AdminUsers::slotFilter(const QString &filter)
+{
+	std::cout << "Filtrando filter " << filter << std::endl;
+	
+	if ( filter.isEmpty() )
+	{
+		fillList();
+	}
+	else
+	{
+		m_sqlquery->addFilter(filter);
+		KLResultSet resultSet = m_db->execQuery(m_sqlquery);
+	
+		m_xmlsource.setData(resultSet.toString());
+		if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+		{
+			std::cout << "No se pudo analizar!!!" << std::endl;
+		}
+	}
+}
 
 #include "adminusers.moc"

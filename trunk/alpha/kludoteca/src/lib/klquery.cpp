@@ -110,7 +110,37 @@ void KLSelect::addSubConsult(QString connector, const KLSelect &subconsult)
 
 void KLSelect::setWhere(QString cwhere)
 {
-	m_cwhere += " where " + cwhere;
+	m_cwhere = " where " + cwhere;
+}
+
+void KLSelect::addFilter( const QString& filter, QStringList fields )
+{
+	if ( !filter.isEmpty() )
+	{		
+		setWhere(" 'f' ");
+		
+		QStringList filters = QStringList::split( " ", filter );
+		
+		
+		for ( uint f = 0; f < filters.count(); f++)
+		{
+			std::cout << "FILTRO : " << filters[f] << std::endl;
+			if ( fields.count() > 0)
+			{
+				for (uint i = 0; i < fields.count(); i++)
+				{
+					m_cwhere += " OR " + fields[i]  + " ~* "+ SQLSTR(filters[f]);
+				}
+			}
+			else
+			{
+				for (uint i = 0; i < m_fields.count(); i++)
+				{
+					m_cwhere += " OR " + m_fields[i]  + " ~* "+ SQLSTR(filters[f]);
+				}
+			}
+		}
+	}
 }
 
 
