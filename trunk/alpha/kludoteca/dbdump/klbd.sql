@@ -5,383 +5,195 @@
 SET client_encoding = 'SQL_ASCII';
 SET check_function_bodies = false;
 
-SET SESSION AUTHORIZATION 'postgres';
-
---
--- TOC entry 4 (OID 2200)
--- Name: public; Type: ACL; Schema: -; Owner: postgres
---
-
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
--- GRANT ALL ON SCHEMA public TO PUBLIC;
 
--- Cambiar esto segun el usuario
 SET SESSION AUTHORIZATION 'kladmin';
 
-SET search_path = public, pg_catalog;
+-- Esquema relacional -- 
 
---
--- TOC entry 5 (OID 221670)
--- Name: pga_graphs; Type: TABLE; Schema: public; Owner: kladmin
---
+-- ldt_games(serialReference, gameName, description, rules, minGamers, maxGamers, gameType, timeUnitAdd, timeUnit, costTM, costTMA, position, state )
+-- PKEY: serialReference
 
-CREATE TABLE pga_graphs (
-    graphname character varying(64) NOT NULL,
-    graphsource text,
-    graphcode text
-);
+-- ldt_persons ( docIdent, firstName, lastName, phone, celullar, email, address);
+-- PKEY: docIdent
 
+-- ldt_clients (docIdent, incriptionDate, state, idReferencePerson )
+-- PKEY: docIdent
+-- FKEY: docIdent references ldt_persons(docIdent)
+-- FKEY: idReferencePerson references ldt_persons(docIdent)
 
---
--- TOC entry 6 (OID 221677)
--- Name: pga_layout; Type: TABLE; Schema: public; Owner: kladmin
---
+-- ldt_users (docIdent, login, permissions )
+-- PKEY: login
+-- FKEY: docIdent references ldt_persons(docIdent)
 
-CREATE TABLE pga_layout (
-    tablename character varying(64) NOT NULL,
-    nrcols smallint,
-    colnames text,
-    colwidth text
-);
+-- ldt_tournament (codTournament, gameReference, name, initDate, endDate, roundsForPair, rounds, price, discount, state)
+-- PKEY: codTournament
+-- FKEY: gameReference references ldt_games(serialReference)
 
+-- ldt_participates (clientDocIdent, codTournament, nround)
+-- PKEY: clientDocIdent, codTournament
+-- FKEY: clientDocIdent references ldt_clients(docIdent)
+-- FKEY: codTournament references ldt_tournament(codTournament)
 
---
--- TOC entry 7 (OID 221684)
--- Name: pga_images; Type: TABLE; Schema: public; Owner: kladmin
---
+-- ldt_rounds (codTournament, nround)
+-- PKEY: nRound, codTournament
+-- FKEY: codTournament references ldt_tournament(codTournament)
 
-CREATE TABLE pga_images (
-    imagename character varying(64) NOT NULL,
-    imagesource text
-);
+-- ldt_match (number, nRound, codTournament, opponent1, resultOpp1, opponent2, resultOpp2)
+-- PKEY: number
+-- FKEY: nRound,codTournament references ldt_rounds(nRound, codTournament)
+-- FKEY: opponent1,codTournament references ldt_participates(clientDocIdent, codTournament)
+-- FKEY: opponent2,codTournament references ldt_participates(clientDocIdent, codTournament)
 
+-- 
+-- ldt_enterprise(nit, address, name, phone, city)
+-- PKEY: nit
 
---
--- TOC entry 8 (OID 221691)
--- Name: pga_queries; Type: TABLE; Schema: public; Owner: kladmin
---
+-- Definicion y creacion de tablas --
 
-CREATE TABLE pga_queries (
-    queryname character varying(64) NOT NULL,
-    querytype character(1),
-    querycommand text,
-    querytables text,
-    querylinks text,
-    queryresults text,
-    querycomments text
-);
-
-
---
--- TOC entry 9 (OID 221698)
--- Name: pga_reports; Type: TABLE; Schema: public; Owner: kladmin
---
-
-CREATE TABLE pga_reports (
-    reportname character varying(64) NOT NULL,
-    reportsource text,
-    reportbody text,
-    reportprocs text,
-    reportoptions text
-);
-
-
---
--- TOC entry 10 (OID 221705)
--- Name: pga_forms; Type: TABLE; Schema: public; Owner: kladmin
---
-
-CREATE TABLE pga_forms (
-    formname character varying(64) NOT NULL,
-    formsource text
-);
-
-
---
--- TOC entry 11 (OID 221712)
--- Name: pga_diagrams; Type: TABLE; Schema: public; Owner: kladmin
---
-
-CREATE TABLE pga_diagrams (
-    diagramname character varying(64) NOT NULL,
-    diagramtables text,
-    diagramlinks text
-);
-
-
---
--- TOC entry 12 (OID 221719)
--- Name: pga_scripts; Type: TABLE; Schema: public; Owner: kladmin
---
-
-CREATE TABLE pga_scripts (
-    scriptname character varying(64) NOT NULL,
-    scriptsource text
-);
-
-
---
--- TOC entry 13 (OID 221737)
--- Name: ldt_games; Type: TABLE; Schema: public; Owner: kladmin
---
-
+drop table ldt_games cascade;
 CREATE TABLE ldt_games (
-    serialReference character varying(8) NOT NULL,
-    gameName character varying(10) NOT NULL,
-    description text NOT NULL,
-    rules text NOT NULL,
-    minGamers smallint NOT NULL,
-    maxGamers smallint NOT NULL,
-    gameType character varying(10) NOT NULL,
-    timeUnitAdd character varying(10) NOT NULL,
-    timeUnit character varying(10) NOT NULL,
-    costTM real NOT NULL,
-    costTMA real NOT NULL,
-    position character varying(10) NOT NULL,
-    state character varying (10) NOT NULL,
-    primary key(serialReference)
+	serialReference character varying(8) primary key,
+	gameName character varying(50) unique NOT NULL,
+	description text NOT NULL,
+	rules text NOT NULL,
+	minGamers int NOT NULL,
+	maxGamers int NOT NULL,
+	gameType character varying(10) NOT NULL,
+	timeUnitAdd character varying(10) NOT NULL,
+	timeUnit character varying(10) NOT NULL,
+	costTM real NOT NULL,
+	costTMA real NOT NULL,
+	position character varying(10) NOT NULL,
+	state character varying(10),
+	available boolean DEFAULT 't' NOT NULL
 );
 
+insert into ldt_games values ( 'g1', 'Juego 1', 'La descripcion', 'Las reglas!', 2, 2, 'board', 'minutes', 'minutes', 1000, 1000, 'uno', 'good' ,'t' );
+insert into ldt_games values ( 'g2', 'Juego 2', 'La descripcion', 'Las reglas!', 2, 2, 'board', 'minutes', 'minutes', 1000, 1000, 'uno', 'good','t' );
 
---
--- TOC entry 14 (OID 221737)
--- Name: ldt_games; Type: ACL; Schema: public; Owner: kladmin
---
+drop table ldt_persons cascade;
+CREATE TABLE ldt_persons (
+	docIdent character varying(10)  primary key,
+	firstName character varying(50) NOT NULL,
+	lastName character varying(50) NOT NULL,
+	phone character varying(15),
+	celullar character varying(15),
+	email character varying(60),
+	address character varying(40),
+	genre character varying (10)
+);
 
--- REVOKE ALL ON TABLE ldt_games FROM PUBLIC;
-SET SESSION AUTHORIZATION 'kladmin';
+insert into ldt_persons values ( '0', 'nameadmin', 'lastadmin0', '000','000', 'krawek@gmail.com', 'busquela', 'male' );
+insert into ldt_persons values ( '1', 'namecliente', 'lastcliente', '111','111', 'cliente@gmail.com', 'busquela', 'male' );
+insert into ldt_persons values ( '2', 'nameuser', 'lastname', '222','222', 'user@gmail.com', 'busquela', 'male' );
+insert into ldt_persons values ( '3', 'opponentadmin', 'lastopponent', '333','333', 'opponent@gmail.com', 'busquela', 'male' );
+insert into ldt_persons values ( '4', 'namefamiliar', 'lastfamiliar', '444','444', 'krawek@gmail.com', 'busquela', 'male' );
 
---
--- TOC entry 15 (OID 221746)
--- Name: ldt_clients; Type: TABLE; Schema: public; Owner: kladmin
---
-
+drop table ldt_clients cascade;
 CREATE TABLE ldt_clients (
-    docIdent character varying(10) NOT NULL,
-    inscriptionDate date NOT NULL,
-    firstName character varying(10) NOT NULL,
-    lastName character varying(10) NOT NULL,
-    phone character varying(15),
-    celular character varying(15),
-    state character varying(10),
-    address character varying(20),
-    namereference character varying(15),
-    phonereference character varying(15),
-    addressreference character varying(20),
-    primary key(docIdent)
+	docIdent character varying(10) references ldt_persons(docIdent)  on delete cascade on update cascade,
+	inscriptionDate date NOT NULL,
+	state character varying(10),
+	idReferencePerson character varying(10) references ldt_persons(docIdent),
+	primary key(docIdent)
 );
 
---
--- TOC entry 16 (OID 221754)
--- Name: ldt_tournament; Type: TABLE; Schema: public; Owner: kladmin
---
+-- Vista para facilitar el trabajo de indexado y busqueda
+create view ldt_clients_view as SELECT firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent in (select ldt_clients.docident from ldt_persons );
 
-CREATE TABLE ldt_tournament (
-    codTournament character varying(10) NOT NULL,
-    gameReference character varying(8) NOT NULL,
-    name character varying(10) NOT NULL,
-    initDate date NOT NULL,
-    endDate date NOT NULL,
-    roundsForPair integer NOT NULL,
-    rounds integer NOT NULL,
-    price real NOT NULL,
-    discount real NOT NULL,
-    state character varying(10) NOT NULL,
-    primary key(codTournament),
-    foreign key(gameReference) references ldt_games(serialReference)
-);
+insert into ldt_clients values ( '1', '01-jan-05', 'activo', '4' );
+insert into ldt_clients values ( '3', '01-jan-05', 'activo', '4' );
 
-
---
--- TOC entry 17 (OID 221760)
--- Name: ldt_rents; Type: TABLE; Schema: public; Owner: kladmin
---
-
-CREATE TABLE ldt_rents (
-    clientDocIdent character varying(10) NOT NULL,
-    gameSerialReference character varying(10) NOT NULL,
-    returnHour time without time zone NOT NULL,
-    date date NOT NULL,
-    foreign key (clientDocIdent) references ldt_clients(docIdent),
-    foreign key (gameSerialReference) references ldt_games(serialReference)
-);
-
-
---
--- TOC entry 18 (OID 221763)
--- Name: ldt_participates; Type: TABLE; Schema: public; Owner: kladmin
---
-
-CREATE TABLE ldt_participates (
-    clientDocIdent character varying(15),
-    codTournament character varying(10),
-    foreign key (clientDocIdent) references ldt_clients(docIdent),
-    foreign key (codTournament) references ldt_tournament(codTournament)
-
-);
-
-
---
--- TOC entry 19 (OID 221769)
--- Name: ldt_users; Type: TABLE; Schema: public; Owner: kladmin
---
-
-CREATE TABLE ldt_enterprise (
-    nit character varying(10) NOT NULL,
-    address character varying(20) NOT NULL,
-    name character varying(10) NOT NULL,
-    phone character varying(10) NOT NULL,
-    city character varying(8) NOT NULL,
-    primary key(nit)
-);
-
+drop table ldt_users cascade;
 CREATE TABLE ldt_users (
-    docIdent character varying(10) NOT NULL,
-    login character varying(20) NOT NULL,
-    firstName character varying(10) NOT NULL,
-    lastName character varying(10) NOT NULL,
-    sex character varying(10) NOT NULL,
-    address character varying(20) NOT NULL,
-    phone character varying(10) NOT NULL,
-    permissions character varying(10) NOT NULL,
-    primary key(docIdent)
+	docIdent character varying(10) references ldt_persons(docIdent) on delete cascade on update cascade,
+	login character varying(20) primary key,
+	permissions character varying(10) NOT NULL
 );
 
---
--- Data for TOC entry 33 (OID 221670)
--- Name: pga_graphs; Type: TABLE DATA; Schema: public; Owner: kladmin
---
+-- Vista para facilitar el trabajo de indexado y busqueda
+create view ldt_users_view as SELECT firstname,lastname,login from ldt_users,ldt_persons where ldt_persons.docident in (select ldt_users.docident from ldt_persons );
 
-COPY pga_graphs (graphname, graphsource, graphcode) FROM stdin;
-\.
+insert into ldt_users values ( '0', 'kladmin', '11111');
+insert into ldt_users values ( '2', 'usuario', '11100');
 
+drop table ldt_tournament cascade;
+CREATE TABLE ldt_tournament (
+	name character varying(50) primary key,
+	gameReference character varying(8) references ldt_games(serialReference),
+	initDate date NOT NULL,
+	endDate date NOT NULL,
+	roundsForPair integer NOT NULL,
+	rounds integer NOT NULL,
+	price real NOT NULL,
+	discount real,
+	active boolean DEFAULT 't'
+);
 
---
--- Data for TOC entry 34 (OID 221677)
--- Name: pga_layout; Type: TABLE DATA; Schema: public; Owner: kladmin
---
+-- Vista para facilitar el filtrado
+create view ldt_tournament_view as select name,gamename,initdate from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games );
 
-COPY pga_layout (tablename, nrcols, colnames, colwidth) FROM stdin;
-public.ldt_tournament	9	codTournament game name initDate endDate roundsForPair rounds price discount	150 150 150 150 150 150 150 150 150
-public.ldt_clients	6	docIdent inscriptionDate firstName lastName phone celular	150 150 150 150 150 150
-\.
+insert into ldt_tournament values ( 'XVI Torneo de linares', 'g1', '01-jan-05', '02-jan-05', 4, 4, 1000, 10, 't' );
+insert into ldt_tournament values ( 'XVII Torneo de linares', 'g2', '01-jan-05', '02-jan-05', 4, 4, 1000, 10, 't' );
+insert into ldt_tournament values ( 'XVIII Torneo de linares', 'g1', '01-jan-05', '02-jan-05', 4, 4, 1000, 10, 't' );
 
+drop table ldt_rents;
+CREATE TABLE ldt_rents (
+	clientDocIdent character varying(10) NOT NULL,
+	gameSerialReference character varying(10) NOT NULL,
+	returnHour time without time zone NOT NULL,
+	date date NOT NULL,
+	foreign key (clientDocIdent) references ldt_clients(docIdent) on delete cascade on update cascade,
+	foreign key (gameSerialReference) references ldt_games(serialReference) on delete cascade on update cascade
+);
 
---
--- Data for TOC entry 35 (OID 221684)
--- Name: pga_images; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY pga_images (imagename, imagesource) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 36 (OID 221691)
--- Name: pga_queries; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY pga_queries (queryname, querytype, querycommand, querytables, querylinks, queryresults, querycomments) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 37 (OID 221698)
--- Name: pga_reports; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY pga_reports (reportname, reportsource, reportbody, reportprocs, reportoptions) FROM stdin;
-\.
+insert into ldt_rents values ( '1', 'g1', '12:00:00', '01-jan-05');
+insert into ldt_rents values ( '3', 'g2', '12:00:00', '01-jan-05');
 
 
---
--- Data for TOC entry 38 (OID 221705)
--- Name: pga_forms; Type: TABLE DATA; Schema: public; Owner: kladmin
---
+drop table ldt_participates cascade;
+CREATE TABLE ldt_participates (
+	clientDocIdent character varying(15) references ldt_clients(docIdent) on delete cascade on update cascade,
+	codTournament character varying(10) references ldt_tournament(name) on delete cascade on update cascade,
+	rank integer,
+	primary key(clientDocIdent, codTournament)
+);
 
-COPY pga_forms (formname, formsource) FROM stdin;
-\.
+drop table ldt_rounds cascade;
+CREATE TABLE ldt_rounds (
+	nRound integer NOT NULL,
+	codTournament character varying(10) references ldt_tournament(name) on delete cascade on update cascade,
+	
+	primary key(nRound, codTournament)
+);
 
+drop table ldt_match;
+CREATE TABLE ldt_match (
+	number integer primary key,
+	nRound integer,
+	codTournament character varying(10),
+	opponent1 character varying(10),
+	resultOpp1 integer NOT NULL,
+	opponent2 character varying(10),
+	resultOpp2 integer NOT NULL,
+	foreign key (nRound, codTournament) references ldt_rounds(nRound, codTournament) on delete cascade on update cascade,
+	foreign key (opponent1,codTournament) references ldt_participates(clientDocIdent, codTournament) on delete cascade on update cascade,
+	foreign key (opponent2,codTournament) references ldt_participates(clientDocIdent, codTournament) on delete cascade on update cascade
+);
+	
 
---
--- Data for TOC entry 39 (OID 221712)
--- Name: pga_diagrams; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY pga_diagrams (diagramname, diagramtables, diagramlinks) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 40 (OID 221719)
--- Name: pga_scripts; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY pga_scripts (scriptname, scriptsource) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 41 (OID 221737)
--- Name: ldt_games; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY ldt_games (serialReference, gameName, description, rules, minGamers, maxGamers, gameType, timeUnitAdd, timeUnit, costTM, costTMA, position) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 42 (OID 221746)
--- Name: ldt_clients; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY ldt_clients (docIdent, inscriptionDate, firstName, lastName, phone, celular) FROM stdin;
-\.
+drop table ldt_enterprise;
+CREATE TABLE ldt_enterprise (
+	nit character varying(10) NOT NULL,
+	address character varying(40) NOT NULL,
+	name character varying(50) NOT NULL,
+	phone character varying(10) NOT NULL,
+	city character varying(15) NOT NULL,
+	primary key(nit)
+);
 
 
---
--- Data for TOC entry 43 (OID 221754)
--- Name: ldt_tournament; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY ldt_tournament (codTournament, gameReference, name, initDate, endDate, roundsForPair, rounds, price, discount) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 44 (OID 221760)
--- Name: ldt_rents; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY ldt_rents (clientDocIdent, gameSerialReference, returnHour, date) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 45 (OID 221763)
--- Name: ldt_participates; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY ldt_participates (clientDocIdent, codTournament) FROM stdin;
-\.
-
-
---
--- Data for TOC entry 46 (OID 221769)
--- Name: ldt_users; Type: TABLE DATA; Schema: public; Owner: kladmin
---
-
-COPY ldt_users (docIdent, firstName, lastName, sex, address, phone, permissions) FROM stdin;
-\.
-
-SET SESSION AUTHORIZATION 'postgres';
-
---
--- TOC entry 3 (OID 2200)
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
---
-
-COMMENT ON SCHEMA public IS 'Standard public schema';
 
 
 

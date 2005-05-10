@@ -63,7 +63,7 @@ class ValidateUser : public KDialogBase
     		 * @param name 
     		 * @return 
     		 */
-    		ValidateUser(KLDatabase *db, QWidget *parent = 0, const char *name = 0);
+    		ValidateUser(/*KLDatabase *db,*/ QWidget *parent = 0, const char *name = 0);
     		~ValidateUser();
 		
 		/**
@@ -76,44 +76,10 @@ class ValidateUser : public KDialogBase
 		 */
 		void writeConfig();
 		
-		/**
-		 * Toma la cadena de permisos y la traduce a permisos para la aplicacion
-		 * @param str 
-		 */
-		void string2perms(const QString &str);
-		
-		/**
-		 * 
-		 * @return 
-		 */
-		bool activeAdminModule();
-		/**
-		 * 
-		 * @return 
-		 */
-		bool activeRentsModule();
-		/**
-		 * 
-		 * @return 
-		 */
-		bool activeTournamentModule();
-		/**
-		 * 
-		 * @return 
-		 */
-		bool activeClientsModule();
-		/**
-		 * 
-		 * @return 
-		 */
-		bool activeGamesModule();
-		
 	private:
 		UserPage *m_userPage;
 		DatabasePage *m_databasePage;
-		KLDatabase *m_db;
-		bool m_activeAdminModule, m_activeRentsModule, m_activeTournamentModule, m_activeClientsModule, m_activeGamesModule;
-
+// 		KLDatabase *m_db;
 };
 
 #include <qcheckbox.h>

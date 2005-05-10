@@ -169,6 +169,7 @@ class LTListView : public QVBox
 		KLXmlReader m_xmlreader;
 		QXmlInputSource m_xmlsource;
 		// Poner el qstring en m_xmlsource con setData, y darle m_xmlreader.parse(m_xmlsource);
+		QString m_filterText;
 };
 
 #endif

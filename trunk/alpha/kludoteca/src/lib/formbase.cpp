@@ -21,6 +21,21 @@
 #include "formbase.h"
 #include <klocale.h>
 
+FormBase::FormBase(Type t, QWidget *parent, const char *name) : QVBox(parent, name), m_type(t)
+{
+	setMargin(10);
+	setFrameShape(QFrame::Box );
+	setFrameShadow(QFrame::Raised);
+	m_labelTitle = new QLabel(this);
+	m_labelExplanation = new QLabel(this);
+	m_labelExplanation->setMargin (10);
+	
+	connect(this, SIGNAL(sendQuery(KLQuery* )), KLDM, SLOT(execQuery(KLQuery* )));
+	connect(this, SIGNAL(sendRawQuery(const QString& )), KLDM, SLOT(execRawQuery(const QString& )));
+	
+	connect(KLDM, SIGNAL(executed(bool )), this, SLOT(wasExecuted(bool )));
+}
+
 FormBase::FormBase(KLDatabase *db, QWidget *parent, const char *name) : QVBox(parent, name), m_type(Any)
 {
 	setMargin(10);
@@ -147,7 +162,7 @@ QWidget *FormBase::setupLineEdit(QWidget *parent, QString text, int lineEditWidt
 
 HashLineEdit FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int lineEditWidth, QStringList names)
 {
-	Q_ASSERT(names.count() != texts.count());
+	Q_ASSERT(names.count() == texts.count());
 	
 	HashLineEdit lineEdits;
 	QGridLayout *layout = new QGridLayout(parent, texts.count(), 2, 5, 5);
@@ -162,27 +177,29 @@ HashLineEdit FormBase::setupGridLineEdit(QWidget *parent, QStringList texts, int
 		layout->addWidget(labTmp, i, 0);
 		layout->addWidget(lineEditTmp, i, 1);
 		
-		lineEdits.insert(texts[i], lineEditTmp);
+		lineEdits.insert(names[i], lineEditTmp);
 	}
 	
 	return lineEdits;
 }
 
-void FormBase::addLineEdits(QWidget *parent, QStringList texts, HashLineEdit &hle, int lineEditWidth)
+void FormBase::addLineEdits(QWidget *parent, QStringList texts, HashLineEdit &hle, int lineEditWidth, QStringList names)
 {
 	QGridLayout *layout = static_cast<QGridLayout *>(parent->layout());
 	
 	for (uint i = 0; i < texts.count(); i++)
 	{
 		QLabel *labTmp = new QLabel(texts[i], parent);
-		KLineEdit *lineEditTmp = new KLineEdit(parent);
+		KLineEdit *lineEditTmp = new KLineEdit(parent, names[i]);
 		lineEditTmp->setMaximumWidth(lineEditWidth);
 		lineEditTmp->resize( lineEditTmp->height(), lineEditWidth);
 		labTmp->setBuddy(lineEditTmp);
-		layout->addWidget(labTmp, i, 0);
-		layout->addWidget(lineEditTmp, i, 1);
+
+		int row = i + layout->numRows();
+		layout->addWidget(labTmp, row, 0);
+		layout->addWidget(lineEditTmp, row, 1);
 		
-		hle.insert(texts[i], lineEditTmp);
+		hle.insert(names[i], lineEditTmp);
 	}
 }
 

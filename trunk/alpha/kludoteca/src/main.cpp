@@ -26,14 +26,16 @@
 #include <klocale.h>
 #include "crashhandler.h"
 
-#include "bdconnection.h"
 #include "rtk.h"
 
-#include <kstandarddirs.h>
 #include <kmessagebox.h> 
 #include <qfile.h>
+#include <qpixmap.h>
+#include <qsplashscreen.h>
 #include <qtextstream.h>
 #include "rtkoutputopenoffice.h"
+
+#include "klpermission.h"
 
 static const char description[] = I18N_NOOP("System for administer a game store.");
 
@@ -45,7 +47,7 @@ static KCmdLineOptions options[] =
 };
 
 int main(int argc, char **argv)
-{
+{	
 // 	QFile f("ejemplo2.xml");
 // 	QString xmldoc = "";
 // 	
@@ -79,12 +81,17 @@ int main(int argc, char **argv)
 	
 	about.addCredit( "Jorge Cuadrado", I18N_NOOP( "Thanks for your interest in this project, ideas, help and testing." ), "kuadrosxx@gmail.com" );
 	
+	about.addCredit( "Lila-theme Team", I18N_NOOP( "Thanks for your artwork!"));
+	about.addCredit( "Amarok Team", I18N_NOOP("The best media player on the world ;)"));
+	about.addCredit( "Konqueror", I18N_NOOP("Your about page rules!"));
+	
 	about.addCredit( "GNU Community", I18N_NOOP("Many thanks to all GNU community!!"));
 	
 	KCmdLineArgs::init(argc, argv, &about);
 	KCmdLineArgs::addCmdLineOptions(options);
 	
 	LDTApp app;
+	
 	app.applyColors();
 	
 	if ( app.config()->readBoolEntry( "First Run", true ) )
@@ -96,6 +103,13 @@ int main(int argc, char **argv)
 			return -1;
 		}
 	}
+	
+	QString splashPath = ::locate("data", "kludoteca/pics/klsplash-0.3.png" );;
+	
+	QSplashScreen *splash = new QSplashScreen(QPixmap(splashPath));
+	splash->show();
+	
+	splash->message(i18n("Initializing application") );
 
 	// registramos el cliente dcop para hacer IPC!
 	app.dcopClient()->registerAs(app.name(), false);
@@ -104,15 +118,24 @@ int main(int argc, char **argv)
 	if (app.isRestored())
 	{
 		// Restauramos la ultima sesion abierta.
+		splash->message(i18n("Restoring application") );
 		RESTORE(KLudoteca);
 	}
 	else
 	{
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+		
 		if (args->count() == 0) // Lanzamos la aplicacion sin argumentos
 		{
 			KLudoteca *widget = new KLudoteca;
 			widget->show();
+			
+			sleep(1); // FIXME: Remove this stupid line!!
+			splash->message(i18n("Application is running and up!") );
+			
+			splash->finish(widget);
+			delete splash;
+			
 			widget->showValidateUser();
 		}
 		else // Analizamos los argumentos
@@ -122,10 +145,14 @@ int main(int argc, char **argv)
 			{
 				KLudoteca *widget = new KLudoteca;
 				widget->show();
+				splash->message(i18n("Application is running and up!") );
+				splash->finish(widget);
+				delete splash;
 			}
 		}
 		args->clear();
 	}
+
 	
 	// TODO: Decomment to release
 	//KCrash::setCrashHandler( Crash::crashHandler );

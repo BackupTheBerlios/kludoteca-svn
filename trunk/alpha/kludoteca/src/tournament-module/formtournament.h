@@ -44,6 +44,10 @@ class FormBase;
 /**
  * Esta clase representa el formulario de torneos
  * @author Juliana Davila - David Cuadrado
+ * @TODO
+ * - Verificar que la fecha de inicio sea al menos la actual
+ * - Verificar que la fecha de fin sea obligatoriamente mayour que la de inicio
+ * - Verificar que el juego elegido este disponible
 */
 class FormTournament : public FormBase
 {	
@@ -55,7 +59,7 @@ class FormTournament : public FormBase
 		 * @param parent 
 		 * @return 
 		 */
-		FormTournament(KLDatabase *db, QWidget *parent = 0);
+		FormTournament(Type t, QWidget *parent = 0);
 		
 		/**
 		 * Destructor
@@ -66,14 +70,23 @@ class FormTournament : public FormBase
 		 * Crea la forma
 		 */
 		void setupForm();
-		/**
-		 * Llena los campos del formulario
-		 * @param nameTournament 
-		 * @param nameGame 
-		 * @param inscription 
-		 * @param discount 
-		 */
-		void fillField(QString nameTournament, QString nameGame, double inscription, double discount);
+		
+		void setTournamentName(const QString &name);
+		void setRounds(const QString &rounds);
+		void setRounds4pair(const QString &rounds);
+		void setPrice(const QString &price);
+		void setDiscount(const QString &discount);
+		void setInitDate(const QDate &date);
+		void setEndDate(const QDate &date);
+		
+		QString getTournamentName();
+		QString getRounds();
+		QString getRounds4pair();
+		QString getPrice();
+		QString getDiscount();
+		QString getInitDate();
+		QString getEndDate();
+		
 	
 	public slots:
 		/**
@@ -89,42 +102,45 @@ class FormTournament : public FormBase
 		 * Limpia el formulario
 		 */
 		void clean();
+		
+	private slots:
+		void initDateChanged(QDate date);
 	
 	private:
-		
 		QFrame *form;
 		QGridLayout *m_grid;
-		KLineEdit 	*m_nameTournament, 
-				*m_nameGame,
-				*m_valueInscrip,
-				*m_discountInscrip;
-		
-		QLabel		
-			*m_nameTourLabel,
-			*m_nameGameLabel,
-			*m_valueInscripLabel,
-			*m_discountLabel,
-			*m_roundsGame,
-			*m_gamesPlayers,
-			*m_dateBegin,
-			*m_dateEnd;
 		
 		QGridLayout	*m_maingridLayout;
-		KComboBox	*m_combox;
+		KComboBox	*m_combox, *m_nameGame;
 		
 		KIntSpinBox *m_round, *m_gamesPair;//partidas por pareja
 		KDatePicker *m_dateTournament;
 		KDateWidget *m_endDate;
+		
+		HashLineEdit m_lineEdits;
 		
 	private:		
 		/**
 		 * Crea el cuadro de botones
 		 */
 		void setupButtonsBox();
+		
 		/**
 		 * Crea la caja
 		 */
-		void setupBox();	
+		void setupBox();
+		
+		/**
+		 * Busca en la base de datos los nombres de los juegos disponibles
+		 */
+		void setupGames();
+		
+		
+		/**
+		 * Retorna el codigo del juego dependiendo de su nombre
+		 * @return 
+		 */
+		QString gameName2code(const QString &gamename);
 
 };
 

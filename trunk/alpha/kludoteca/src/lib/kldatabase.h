@@ -45,11 +45,14 @@ class KLDatabase : public QSqlDatabase
     		 * @return 
     		 */
     		KLDatabase(QObject *parent = 0);
+		
     		/**
     		 * Destructor
     		 * @return 
     		 */
     		~KLDatabase();
+		
+		static KLDatabase *instance();
 		
 		/**
 		 * Sirve para hacer una consulta a la base de datos
@@ -147,5 +150,7 @@ class KLDatabase : public QSqlDatabase
 	private:
 		bool lastIsBad; 
 };
+
+#define KLDM KLDatabase::instance()
 
 #endif

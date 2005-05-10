@@ -230,8 +230,6 @@ class KLudoteca : public KMdiMainFrm
 		OSDWidget *m_osd;
 		QValueList<KMdiToolViewAccessor*> m_toolWindows;
 		
-		KLDatabase *m_database;
-		
 		ValidateUser *m_userValidator;
 };
 

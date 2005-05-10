@@ -50,7 +50,7 @@ void AdminUsers::fillList()
 		return;
 	}
 	
-	m_sqlquery = new KLSelect(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users");
+	m_sqlquery = new KLSelect(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users_view");
 	
 	KLResultSet resultSet = m_db->execQuery(m_sqlquery);
 	
@@ -73,7 +73,7 @@ void AdminUsers::addButtonClicked()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
-	FormAdminUsers *formAdminUsers = new FormAdminUsers(m_db, scroll->viewport() );
+	FormAdminUsers *formAdminUsers = new FormAdminUsers(FormBase::Add, scroll->viewport() );
 	connect(formAdminUsers, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 
 	formAdminUsers->setType( FormBase::Add);
@@ -127,13 +127,13 @@ void AdminUsers::modifyButtonClicked()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
-	FormAdminUsers *formAdminUsers = new FormAdminUsers(m_db, scroll->viewport() );
+	FormAdminUsers *formAdminUsers = new FormAdminUsers(FormBase::Edit, scroll->viewport() );
 	
 	connect(formAdminUsers, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 
-	KLSelect sqlquery(QStringList() << "docident" << "login" << "firstname" << "lastname" << "sex" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users");
+	KLSelect sqlquery(QStringList() << "ldt_users.docident" << "login" << "firstname" << "lastname" << "genre" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users" << "ldt_persons" );
 	
-	sqlquery.setWhere("login="+SQLSTR(m_listView->currentItem()->text(2))); // Login in the listview
+	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2))); // Login in the listview
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
@@ -152,13 +152,12 @@ void AdminUsers::modifyButtonClicked()
 	formAdminUsers->setAddress( results["address"] );
 	formAdminUsers->setEmail(results["email"]);
 	formAdminUsers->setFirstName( results["firstname"]);
-	formAdminUsers->setIdentification( results["docident"]);
+	formAdminUsers->setIdentification( results["ldt_users.docident"]);
 	formAdminUsers->setLastName( results["lastname"]);
 	formAdminUsers->setLogin( results["login"]);
 	formAdminUsers->setPermissions( results["permissions"]);
 	formAdminUsers->setPhone( results["phone"]);
-	std::cout << "here" << std::endl;
-	formAdminUsers->setSex( results["sex"]);
+	formAdminUsers->setGenre( results["genre"]);
 	
 	formAdminUsers->setType( FormBase::Edit );
 	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
@@ -171,7 +170,7 @@ void AdminUsers::modifyButtonClicked()
 	formAdminUsers->setTitle(i18n("Admin User"));
 	formAdminUsers->setExplanation(i18n("Modify the fields with the user information"));
 	
-	emit sendWidget(view); 
+	emit sendWidget(view);
 #if DEBUG_ADMINUSERS
 	qDebug("end addButtonClicked");
 #endif
@@ -183,8 +182,9 @@ void AdminUsers::queryButtonClicked()
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
 	
 	quering += i18n("== query to user ") + itemp->text(2) + " == \n";
-	
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "docident" << "address" << "phone" << "email" << "permissions", QString("ldt_users"));
+	// select firstname,lastname,docident,address,phone,email,permissions from ldt_users,ldt_persons where ldt_persons.docIdent=ldt_users.docIdent and login='usuario'
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "ldt_users.docident" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users" << "ldt_persons" );
+	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2)));
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
@@ -198,7 +198,7 @@ void AdminUsers::queryButtonClicked()
 	KLSqlResults results = m_xmlreader.results();
 	
 	quering += i18n("Real name: ") + results["firstname"] + " " + results["lastname"] + "\n";
-	quering += i18n("Identification: ") + results["docident"] + "\n";
+	quering += i18n("Identification: ") + results["ldt_users.docident"] + "\n";
 	quering += i18n("Address: ") + results["address"] + "\n";
 	quering += i18n("Phone: ") + results["phone"] + "\n";
 	quering += i18n("Email: ") + results["email"] + "\n";
@@ -209,9 +209,11 @@ void AdminUsers::queryButtonClicked()
 
 void AdminUsers::addItem(const QString &pkey)
 {
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users");
-	sqlquery.setWhere("login="+SQLSTR(pkey));
+	std::cout << "Adicionando item con pkey: " << pkey << std::endl;
 	
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users_view");
+	sqlquery.setWhere("login="+SQLSTR(pkey) );
+
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 
 	m_xmlsource.setData(resultSet.toString());
@@ -237,8 +239,11 @@ void AdminUsers::slotFilter(const QString &filter)
 	}
 	else
 	{
-		m_sqlquery->addFilter(filter);
-		KLResultSet resultSet = m_db->execQuery(m_sqlquery);
+		KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users_view");
+
+		sqlquery.addFilter(filter);
+		
+		KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
 		m_xmlsource.setData(resultSet.toString());
 		if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )

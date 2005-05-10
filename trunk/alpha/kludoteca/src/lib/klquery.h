@@ -109,7 +109,9 @@ class KLSelect : public KLQuery
 		 * Coloca la clausula where
 		 * @param cwhere 
 		 */
-		void setWhere(QString cwhere);
+		void setWhere(const QString &cwhere);
+		
+		void setCondition(const QString &condition);
 		
 		/**
 		 * Obtiene la lista de campos afectados
@@ -128,6 +130,8 @@ class KLSelect : public KLQuery
 	private:
 		QStringList m_fields;
 		QString m_cwhere;
+		QString m_subquery;
+		QString m_filter;
 };
 
 /**

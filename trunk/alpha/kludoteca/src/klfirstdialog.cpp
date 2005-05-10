@@ -324,7 +324,17 @@ bool FDSetupAdmin::setAdministrator(KLDatabase *db)
 		}
 	}
 	
-	db->execQuery(new KLInsert("ldt_users", QStringList() << SQLSTR(m_docident->text()) << SQLSTR(db->userName()) << SQLSTR(m_fname->text()) << SQLSTR(m_lname->text()) << SQLSTR( (static_cast<QRadioButton*>(m_sexBox->selected()))->text()) << SQLSTR(m_address->text()) << SQLSTR(m_phone->text()) << SQLSTR(m_email->text()) << SQLSTR("11111")));
+	db->execQuery(new KLInsert( "ldt_persons", 
+		      QStringList() << SQLSTR(m_docident->text()) 
+				      << SQLSTR(m_fname->text()) 
+				      << SQLSTR(m_lname->text()) 
+				      << SQLSTR(m_phone->text()) 
+				      << SQLSTR(m_phone->text()) 
+				      << SQLSTR(m_email->text())  
+				      << SQLSTR(m_address->text()) 
+				      << SQLSTR( (static_cast<QRadioButton*>(m_sexBox->selected()))->text()))); 
+	
+	db->execQuery(new KLInsert("ldt_users", QStringList()  << SQLSTR(m_docident->text()) << SQLSTR(db->userName()) << SQLSTR("11111")));
 
 	if ( db->isLastError())
 	{

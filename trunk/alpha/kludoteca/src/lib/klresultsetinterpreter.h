@@ -82,10 +82,17 @@ class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler
 		
 		
 		/**
-		 * Obtiene una lista con los resultados de la consulta
+		 * Obtiene una tabla hash con los resultados de la consulta
 		 * @return 
 		 */
 		KLSqlResults getResults();
+		
+		
+		/**
+		 * Obtiene una lista de resultados de la consulta
+		 * @return 
+		 */
+		QStringList getResultList();
 		
 		
 	signals:

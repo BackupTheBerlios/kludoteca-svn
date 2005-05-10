@@ -80,6 +80,15 @@ class FormBase : public QVBox
 		
 		
 		/**
+		 * Constructor por defecto
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
+		FormBase ( Type t, QWidget *parent = 0, const char *name = 0);
+		
+		
+		/**
 		 * Construye la forma con un orden en los botones
 		 */
 		FormBase( Button button1 = NoButton, Button button2 =  NoButton, QWidget *parent = 0, const char *name = 0);
@@ -145,7 +154,7 @@ class FormBase : public QVBox
 		/**
 		 * Esta funcion agrega un formulario cuadrado con etiqueta y captador de texto
 		 */
-		void addLineEdits(QWidget *parent, QStringList texts, HashLineEdit &hle, int lineEditWidth); 
+		void addLineEdits(QWidget *parent, QStringList texts, HashLineEdit &hle, int lineEditWidth, QStringList names = QStringList()); 
 		
 		
 		/**

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David CUadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,31 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef KLXMLREADER_H
-#define KLXMLREADER_H
+#ifndef KLPERMISSION_H
+#define KLPERMISSION_H
 
-#include "klresultsetinterpreter.h"
-#include <qxml.h>
+#include <qstring.h>
+
+class KLPermission;
 
 /**
- * Lector XML
+ * Esta clase mantiene una instancia de los permisos
  * @author David Cuadrado
 */
-
-class KLXmlReader : public QXmlSimpleReader
+class KLPermission
 {
 	public:
-		KLXmlReader();
-		~KLXmlReader();
-		bool analizeXml(const QXmlInputSource * input,  KLResultSetInterpreter::Type t);
-		KLSqlResults results();
-		QStringList getResultsList();
+		KLPermission();
+		~KLPermission();
+		void string2perms(const QString &str);
 		
-		bool parse(const QXmlInputSource * input, bool incremental);
-		bool parse (const QXmlInputSource *input);
-
+		static KLPermission* instance();
+		
+		bool activeAdminModule();
+		bool activeClientsModule();
+		bool activeGamesModule();
+		bool activeTournamentModule();
+		bool activeRentsModule();
+		
 	private:
-		KLResultSetInterpreter *m_interpreter;
+		QString strperms;
+		bool m_activeAdminModule;
+		bool m_activeClientsModule;
+		bool m_activeGamesModule;
+		bool m_activeRentsModule;
+		bool m_activeTournamentModule;
 };
+
+#define klperm KLPermission::instance()
 
 #endif

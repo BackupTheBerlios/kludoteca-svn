@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-25 10:29-0500\n"
-"PO-Revision-Date: 2005-04-25 10:42-0500\n"
+"POT-Creation-Date: 2005-05-09 19:43-0500\n"
+"PO-Revision-Date: 2005-05-09 20:07-0500\n"
 "Last-Translator: krawek <krawek@gmail.com>\n"
 "Language-Team: Español <krawek@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -26,13 +26,14 @@ msgid ""
 "Many thanks.\n"
 "\n"
 msgstr ""
-"KLudoteca has crashed! We're terribly sorry about this :(\n"
+"KLudoteca ha fallado! Estamos terriblemente apenas por esto :(\n"
 "\n"
-"But, all is not lost! You could potentially help us fix the crash. KLudoteca "
-"has attached a backtrace that describes the crash, so just click send, or if "
-"you have time, write a brief description of how the crash happened first.\n"
+"Perp, no todo esta perdido! Puedes ayudarnos a arreglar este error. "
+"KLudoteca ha añadido un backtrace que describe el error, solo debes clickear "
+"en enviar, o si tienes tiempo, escribe una corta descripcion de como ocurrio "
+"esto.\n"
 "\n"
-"Many thanks.\n"
+"Muchas gracias.\n"
 "\n"
 
 #: crashhandler.cpp:220
@@ -51,23 +52,23 @@ msgstr "Bienvenido!"
 msgid "Setup database"
 msgstr "Configurar base de datos"
 
-#: klfirstdialog.cpp:39
+#: klfirstdialog.cpp:40
 msgid "Setup admin user"
 msgstr "Configurar usuario administrador"
 
-#: klfirstdialog.cpp:42
+#: klfirstdialog.cpp:43
 msgid "<h3><b>Congratulations!</b></h3><br>"
 msgstr "<h3><b>Felicitaciones!</b></h3><br>"
 
-#: klfirstdialog.cpp:43
+#: klfirstdialog.cpp:44
 msgid "You has configure the system, you can become to use it!"
 msgstr "Haz configurado exitosamente el sistema, puedes empezar a usarlo!"
 
-#: klfirstdialog.cpp:45
+#: klfirstdialog.cpp:46
 msgid "All is good!"
 msgstr "Todo esta bien!"
 
-#: klfirstdialog.cpp:78
+#: klfirstdialog.cpp:79
 msgid ""
 "I can't create the admin account\n"
 " The error was %1"
@@ -75,78 +76,88 @@ msgstr ""
 "No puedo crear una cuenta de administrador\n"
 "El error fue %1"
 
-#: klfirstdialog.cpp:100
+#: klfirstdialog.cpp:106
 msgid ""
 "<p>KLudoteca is a program that lets administer a gamestore easyly and "
 "fastly, thanks to choose it!</p>"
-msgstr "<p>KLudoteca es un programa que le permite administrar facil y rapidamente una ludoteca, gracias por escogerlo!</p>"
+msgstr ""
+"<p>KLudoteca es un programa que le permite administrar facil y rapidamente "
+"una ludoteca, gracias por escogerlo!</p>"
 
-#: klfirstdialog.cpp:101
+#: klfirstdialog.cpp:107
 msgid ""
 "<p>In this dialog, you can initialize the system in a easy way, you need "
 "fill some information and you can get the system work!</p>"
-msgstr "<p>En este dialogo puedes inicializar el sistema facilmente, solo necesitas llenar alguna informacion y tendras el sistema trabajando!</p>"
+msgstr ""
+"<p>En este dialogo puedes inicializar el sistema facilmente, solo necesitas "
+"llenar alguna informacion y tendras el sistema trabajando!</p>"
 
-#: klfirstdialog.cpp:102
+#: klfirstdialog.cpp:108
 msgid "<p>Please press the next button and complete the fields</p>"
 msgstr "<p>Por favor presione el boton siguiente y complete los campos</p>"
 
-#: klfirstdialog.cpp:103
+#: klfirstdialog.cpp:109
 msgid "<br><br><em>-- KLudoteca Team</em>"
 msgstr ""
 
-#: klfirstdialog.cpp:125
+#: klfirstdialog.cpp:131
 msgid ""
 "<p>In this section, you must be fill the information in the fields, for "
 "create the application database</p>"
-msgstr "<p>En esta seccion, debes llenar la informacion en los campos, para crear la base de datos de la aplicacion</p>"
+msgstr ""
+"<p>En esta seccion, debes llenar la informacion en los campos, para crear la "
+"base de datos de la aplicacion</p>"
 
-#: klfirstdialog.cpp:131
+#: klfirstdialog.cpp:137
 msgid "Server"
 msgstr "Servidor "
 
-#: klfirstdialog.cpp:135 pref.cpp:35 pref.cpp:62 validateuser.cpp:32
-#: validateuser.cpp:177
+#: klfirstdialog.cpp:141 pref.cpp:35 pref.cpp:62 validateuser.cpp:33
+#: validateuser.cpp:165 admin-module/adminwidget.cpp:47
 msgid "Database"
 msgstr "Base de datos"
 
-#: klfirstdialog.cpp:141
+#: klfirstdialog.cpp:147 admin-module/formadminusers.cpp:87
 msgid "Login"
 msgstr "Usuario"
 
-#: klfirstdialog.cpp:146 validateuser.cpp:142
+#: klfirstdialog.cpp:152 validateuser.cpp:123
+#: admin-module/formadminusers.cpp:87
 msgid "Password"
 msgstr "Contraseña"
 
-#: klfirstdialog.cpp:151
+#: klfirstdialog.cpp:157
 msgid "Create the database!"
 msgstr "Crea la base de datos!"
 
-#: klfirstdialog.cpp:173
+#: klfirstdialog.cpp:179
 msgid "Your account is invalid, you need a user which can create users and databases"
-msgstr "Su cuenta es invalida, necesitas un usuario que pueda crear usuarios y bases de datos"
+msgstr ""
+"Su cuenta es invalida, necesitas un usuario que pueda crear usuarios y bases "
+"de datos"
 
-#: klfirstdialog.cpp:182
+#: klfirstdialog.cpp:188
 msgid ""
 "I can't create %1\n"
-" The error was %2"
+" The error was %2\n"
+"try remove it?"
 msgstr ""
 "No puedo crear %1\n"
-"El error fue %2"
+"El error fue %2 quiere tratar de removerla?"
 
-#: klfirstdialog.cpp:193
+#: klfirstdialog.cpp:220
 msgid "I can't create (all) tables"
 msgstr "No puedo crear (todas) las tablas"
 
-#: klfirstdialog.cpp:198
+#: klfirstdialog.cpp:225
 msgid "The database was create succesfully!\n"
 msgstr "La base de datos fue creada exitosamente!\n"
 
-#: klfirstdialog.cpp:199
+#: klfirstdialog.cpp:225
 msgid "You can continue to next step"
 msgstr "Puedes continuar al siguiente paso"
 
-#: klfirstdialog.cpp:205
+#: klfirstdialog.cpp:232
 msgid ""
 "I can't open the database!\n"
 "The error was %1"
@@ -154,314 +165,318 @@ msgstr ""
 "No puedo abrir la base de datos!\n"
 "El error fue %1"
 
-#: klfirstdialog.cpp:242
+#: klfirstdialog.cpp:269
 msgid ""
 "<p>In this dialog, you must be fill the information in the fields, for setup "
 "your admin account.</p>"
-msgstr "<p>En este dialogo debes llenar la informacion in los campos, para configurar su cuenta de administrador.</p>"
+msgstr ""
+"<p>En este dialogo debes llenar la informacion in los campos, para "
+"configurar su cuenta de administrador.</p>"
 
-#: klfirstdialog.cpp:248
+#: klfirstdialog.cpp:275 admin-module/formadminusers.cpp:92
 msgid "First name"
 msgstr "Nombre"
 
-#: klfirstdialog.cpp:253
+#: klfirstdialog.cpp:280
 msgid "male"
 msgstr "hombre"
 
-#: klfirstdialog.cpp:255
+#: klfirstdialog.cpp:282
 msgid "female"
 msgstr "mujer"
 
-#: klfirstdialog.cpp:260
+#: klfirstdialog.cpp:287 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:83
+#: clients-module/formadminclients.cpp:113
 msgid "Last name"
 msgstr "Apellido"
 
-#: klfirstdialog.cpp:264
-#, fuzzy
+#: klfirstdialog.cpp:291 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:83
+#: clients-module/formadminclients.cpp:98
 msgid "Identification"
-msgstr "Especificaciones"
+msgstr "Identificacion"
 
-#: klfirstdialog.cpp:268
+#: klfirstdialog.cpp:295 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:83
+#: clients-module/formadminclients.cpp:144
 msgid "Address"
 msgstr "Direccion"
 
-#: klfirstdialog.cpp:272
+#: klfirstdialog.cpp:299 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:83
+#: clients-module/formadminclients.cpp:123
 msgid "Phone"
 msgstr "Telefono"
 
-#: klfirstdialog.cpp:278
-#, fuzzy
+#: klfirstdialog.cpp:305
 msgid "Email"
-msgstr "Enviar correo"
+msgstr "Correo"
 
-#: kludotecaview.cpp:135 kludotecaview.cpp:136 kludotecaview.cpp:139
-#: kludotecaview.cpp:199 kludotecaview.cpp:202 kludotecaview.cpp:250
-#: kludotecaview.cpp:253 kludotecaview.cpp:336 kludotecaview.cpp:339
-#: main.cpp:46
+#: kludotecaview.cpp:136 kludotecaview.cpp:137 kludotecaview.cpp:140
+#: kludotecaview.cpp:200 kludotecaview.cpp:203 kludotecaview.cpp:251
+#: kludotecaview.cpp:254 kludotecaview.cpp:337 kludotecaview.cpp:340
+#: main.cpp:71
 msgid "KLudoteca"
 msgstr "KLudoteca"
 
-#: kludotecaview.cpp:137 kludotecaview.cpp:198 kludotecaview.cpp:200
-#: kludotecaview.cpp:249 kludotecaview.cpp:251 kludotecaview.cpp:335
-#: kludotecaview.cpp:337
-#, fuzzy
-msgid "Administer easly your ludotec"
-msgstr "Sistema para administrar una ludoteca"
+#: kludotecaview.cpp:138 kludotecaview.cpp:199 kludotecaview.cpp:201
+#: kludotecaview.cpp:250 kludotecaview.cpp:252 kludotecaview.cpp:336
+#: kludotecaview.cpp:338
+msgid "Administer easyly your game store"
+msgstr "Administre facilmente su ludoteca"
 
-#: kludotecaview.cpp:138
-#, fuzzy
-msgid "KLudoteca is an application for administer a ludotec."
+#: kludotecaview.cpp:139
+msgid "KLudoteca is an application for administer a game store."
 msgstr "Sistema para administrar una ludoteca"
-
-#: kludotecaview.cpp:140 kludotecaview.cpp:203 kludotecaview.cpp:254
-#: kludotecaview.cpp:340
-msgid "Introduction"
-msgstr "Introduccion"
 
 #: kludotecaview.cpp:141 kludotecaview.cpp:204 kludotecaview.cpp:255
 #: kludotecaview.cpp:341
+msgid "Introduction"
+msgstr "Introduccion"
+
+#: kludotecaview.cpp:142 kludotecaview.cpp:205 kludotecaview.cpp:256
+#: kludotecaview.cpp:342
 msgid "Tips"
 msgstr "Trucos"
 
-#: kludotecaview.cpp:142 kludotecaview.cpp:205 kludotecaview.cpp:256
-#: kludotecaview.cpp:257 kludotecaview.cpp:342
+#: kludotecaview.cpp:143 kludotecaview.cpp:206 kludotecaview.cpp:257
+#: kludotecaview.cpp:258 kludotecaview.cpp:343
 msgid "Specifications"
 msgstr "Especificaciones"
 
-#: kludotecaview.cpp:145
+#: kludotecaview.cpp:146
 msgid "Add clients"
 msgstr "Agregar clientes"
 
-#: kludotecaview.cpp:146
+#: kludotecaview.cpp:147
 msgid "Click for add clients"
 msgstr "Click para agregar clientes"
 
-#: kludotecaview.cpp:149 kludotecaview.cpp:453
+#: kludotecaview.cpp:150 kludotecaview.cpp:456
 msgid "Add tournament"
 msgstr "Agregar torneo"
 
-#: kludotecaview.cpp:150
+#: kludotecaview.cpp:151
 msgid "Click for create a new tournamet"
 msgstr "Click para agregar un nuevo torneo"
 
-#: kludotecaview.cpp:153
+#: kludotecaview.cpp:154
+msgid "Add a game"
+msgstr "Agregar un torneo"
+
+#: kludotecaview.cpp:155
+msgid "Click for add a game"
+msgstr "Click para alquilar un juego"
+
+#: kludotecaview.cpp:158
 msgid "Rents a game"
 msgstr "Alquilar un juego"
 
-#: kludotecaview.cpp:154
+#: kludotecaview.cpp:159
 msgid "Click for rents a game"
 msgstr "Click para alquilar un juego"
 
-#: kludotecaview.cpp:157 kludotecaview.cpp:161
+#: kludotecaview.cpp:162
 msgid "New functionally"
 msgstr "Nueva funcionabilidad"
 
-#: kludotecaview.cpp:158 kludotecaview.cpp:162 kludotecaview.cpp:171
-#: kludotecaview.cpp:347 kludotecaview.cpp:348 kludotecaview.cpp:349
-#: kludotecaview.cpp:350 kludotecaview.cpp:351 kludotecaview.cpp:352
-#: kludotecaview.cpp:353
+#: kludotecaview.cpp:163 kludotecaview.cpp:172 kludotecaview.cpp:348
+#: kludotecaview.cpp:349 kludotecaview.cpp:350 kludotecaview.cpp:351
+#: kludotecaview.cpp:352 kludotecaview.cpp:353 kludotecaview.cpp:354
 msgid "..."
 msgstr "..."
 
-#: kludotecaview.cpp:165
+#: kludotecaview.cpp:166
 msgid "View Reports"
 msgstr "Ver reportes"
 
-#: kludotecaview.cpp:166
+#: kludotecaview.cpp:167
 msgid "Click to view reports!"
 msgstr "Click para ver reportes!"
 
-#: kludotecaview.cpp:169
+#: kludotecaview.cpp:170
 msgid "Next: An Introduction to KLudoteca"
 msgstr "Siguiente: Una introduccion a KLudoteca"
 
-#: kludotecaview.cpp:201 kludotecaview.cpp:252 kludotecaview.cpp:338
-#, fuzzy
-msgid "KLudoteca is an application for administer a ludotec.."
+#: kludotecaview.cpp:202 kludotecaview.cpp:253 kludotecaview.cpp:339
+msgid "KLudoteca is an application for administer a game store.."
 msgstr "Sistema para administrar una ludoteca"
 
-#: kludotecaview.cpp:206
+#: kludotecaview.cpp:207
 msgid ""
-"KLudoteca makes that administer a ludotec an easy work In this application "
-"you can add clients and manage your information in a way fast and easy."
+"KLudoteca makes that administer a game store an easy work In this "
+"application you can add clients and manage your information in a way fast "
+"and easy."
 msgstr "KLudoteca hace facil la administracion de su ludoteca"
 
-#: kludotecaview.cpp:210
+#: kludotecaview.cpp:211
 msgid ""
 "KLudoteca  is your option!You can use kludoteca for many things likeadd a <a "
 "href=\"addclient:/\">client</A> or administer tournament of games, or simply "
 "have catalogued the games."
 msgstr ""
 "Kludoteca es su opcion! puedes usar kludoteca para muchas cosas como agregar "
-"<a href=\"addclient:/\">clientes/A> o administrar torneos o juegos o "
+"<a href=\"addclient:/\">clientes</A> o administrar torneos o juegos o "
 "simplemente tener catalogados sus juegos."
 
-#: kludotecaview.cpp:215 kludotecaview.cpp:216
+#: kludotecaview.cpp:216 kludotecaview.cpp:217
 msgid " "
 msgstr "."
 
-#: kludotecaview.cpp:217
+#: kludotecaview.cpp:218
 msgid "For more detailed documentation on KLudoteca click <a href=\"%1\">here</a>."
 msgstr "Para informacion detallada click <a href=\"%1\">aqui</a>."
 
-#: kludotecaview.cpp:219
+#: kludotecaview.cpp:220
 msgid ""
 "<em>Additional information:</em> This software is posible thanks to - GNU "
 "Community- All our friends- and me... X )"
 msgstr "<em>Informacion adicional:</em> Este software es posible gracias a mi"
 
-#: kludotecaview.cpp:224
+#: kludotecaview.cpp:225
 msgid "Next: Tips &amp; Tricks"
 msgstr "Siguiente: Trucos"
 
-#: kludotecaview.cpp:258
+#: kludotecaview.cpp:259
 msgid ""
 "KLudoteca is designed to make easy the work. The aim of this project is give "
 "to community a good and powerfull software for administer your bussiness"
-msgstr "KLudoteca esta diseñado para hacer facil el trabajo. El animo de este proyecto es dar a la comunidad un buen y poderoso softwara para administrar su negocio"
+msgstr ""
+"KLudoteca esta diseñado para hacer facil el trabajo. El animo de este "
+"proyecto es dar a la comunidad un buen y poderoso softwara para administrar "
+"su negocio"
 
-#: kludotecaview.cpp:260
+#: kludotecaview.cpp:261
 msgid "Technical features"
 msgstr "Caracteristicas tecnicas"
 
-#: kludotecaview.cpp:261
+#: kludotecaview.cpp:262
 msgid "Implemented"
 msgstr "Implementado"
 
-#: kludotecaview.cpp:262
+#: kludotecaview.cpp:263
 msgid "Description"
 msgstr "Descripcion"
 
-#: kludotecaview.cpp:263
+#: kludotecaview.cpp:264
 msgid "XML"
 msgstr "XML"
 
-#: kludotecaview.cpp:264 kludotecaview.cpp:266 kludotecaview.cpp:273
-#: kludotecaview.cpp:279 kludotecaview.cpp:281
+#: kludotecaview.cpp:265 kludotecaview.cpp:267 kludotecaview.cpp:274
+#: kludotecaview.cpp:280 kludotecaview.cpp:282
 msgid "built-in"
 msgstr "construido"
 
-#: kludotecaview.cpp:265
+#: kludotecaview.cpp:266
 msgid "Postgresql"
 msgstr "PGS"
 
-#: kludotecaview.cpp:267
+#: kludotecaview.cpp:268
 msgid "1"
 msgstr "1"
 
-#: kludotecaview.cpp:268
+#: kludotecaview.cpp:269
 msgid "2"
 msgstr "2"
 
-#: kludotecaview.cpp:269
+#: kludotecaview.cpp:270
 msgid "3"
 msgstr "3"
 
-#: kludotecaview.cpp:270
+#: kludotecaview.cpp:271
 msgid "4"
 msgstr "4"
 
-#: kludotecaview.cpp:271
+#: kludotecaview.cpp:272
 msgid "5"
 msgstr "5"
 
-#: kludotecaview.cpp:272
+#: kludotecaview.cpp:273
 msgid "6"
 msgstr "6"
 
-#: kludotecaview.cpp:274
+#: kludotecaview.cpp:275
 msgid "7"
 msgstr "7"
 
-#: kludotecaview.cpp:275
+#: kludotecaview.cpp:276
 msgid "otra"
 msgstr "otar"
 
-#: kludotecaview.cpp:276
+#: kludotecaview.cpp:277
 msgid "falta"
 msgstr "fal"
 
-#: kludotecaview.cpp:277
+#: kludotecaview.cpp:278
 msgid "8"
 msgstr "8"
 
-#: kludotecaview.cpp:278
+#: kludotecaview.cpp:279
 msgid "9"
 msgstr "9"
 
-#: kludotecaview.cpp:280
+#: kludotecaview.cpp:281
 msgid "10"
 msgstr "0"
 
-#: kludotecaview.cpp:282
+#: kludotecaview.cpp:283
 msgid "G E N E R A L"
 msgstr "G E N E R A L"
 
-#: kludotecaview.cpp:283
+#: kludotecaview.cpp:284
 msgid "Feature"
 msgstr "Caracteristica"
 
-#: kludotecaview.cpp:284
+#: kludotecaview.cpp:285
 msgid "Details"
 msgstr "Detalles"
 
-#: kludotecaview.cpp:285
+#: kludotecaview.cpp:286
 msgid "Techs"
 msgstr "Tecnologias"
 
-#: kludotecaview.cpp:286
+#: kludotecaview.cpp:287
 msgid "Protocols"
 msgstr "Protocolos"
 
-#: kludotecaview.cpp:287
-msgid "addtournament:/"
-msgstr ""
-
-#: kludotecaview.cpp:288
-msgid "addclient:/"
-msgstr ""
-
-#: kludotecaview.cpp:289
-msgid "addgame:/"
-msgstr ""
-
-#: kludotecaview.cpp:290
+#: kludotecaview.cpp:291
 msgid "11"
 msgstr "11"
 
-#: kludotecaview.cpp:291
+#: kludotecaview.cpp:292
 msgid "12"
 msgstr "12"
 
-#: kludotecaview.cpp:292
+#: kludotecaview.cpp:293
 msgid "13"
 msgstr "13"
 
-#: kludotecaview.cpp:293
+#: kludotecaview.cpp:294
 msgid "14"
 msgstr "14"
 
-#: kludotecaview.cpp:295
+#: kludotecaview.cpp:296
 msgid "<a href=\"%1\">Return to KLudoteca</a>"
 msgstr "<a href=\"%1\">Vuelva a KLudoteca</a>"
 
-#: kludotecaview.cpp:343
+#: kludotecaview.cpp:344
 msgid "Tips &amp; Tricks"
 msgstr "Trucos"
 
-#: kludotecaview.cpp:344
+#: kludotecaview.cpp:345
 msgid "Write a email to krawek!!! krawek@gmail.com"
 msgstr "Escriba un email a krawek!!! krawek@gmail.com"
 
-#: kludotecaview.cpp:345
+#: kludotecaview.cpp:346
 msgid "Second tip"
 msgstr "Segundo tip"
 
-#: kludotecaview.cpp:346
+#: kludotecaview.cpp:347
 msgid "Third tip"
 msgstr "Tercer tip"
 
-#: kludotecaview.cpp:354
+#: kludotecaview.cpp:355
 msgid ""
 "Thanks to <a href=\"%1\">DCOP</a> you can have full control over KLudoteca "
 "using a script."
@@ -469,52 +484,59 @@ msgstr ""
 "Gracias a <a href=\"%1\">DCOP</a> usted puede tener un control total sobre "
 "kludoteca usando scripts!"
 
-#: kludotecaview.cpp:356
+#: kludotecaview.cpp:357
 msgid "<img width='16' height='16' src=\"%1\">"
 msgstr "<img width='16' height='16' src=\"%1\">"
 
-#: kludotecaview.cpp:357
+#: kludotecaview.cpp:358
 msgid "Next: Specifications"
 msgstr "Siguiente: Especificaciones"
 
-#: kludotecaview.cpp:373
+#: kludotecaview.cpp:374
 msgid "Installed Plugins"
 msgstr "Pluegins instalados"
 
-#: kludotecaview.cpp:374
+#: kludotecaview.cpp:375
 msgid "<td>Plugin</td><td>Description</td><td>File</td><td>Types</td>"
 msgstr "<td>Plugin</td><td>Description</td><td>File</td><td>Types</td>"
 
-#: kludotecaview.cpp:375
+#: kludotecaview.cpp:376
 msgid "Installed"
 msgstr "Instalado"
 
-#: kludotecaview.cpp:376
+#: kludotecaview.cpp:377
 msgid "<td>Mime Type</td><td>Description</td><td>Suffixes</td><td>Plugin</td>"
 msgstr "<td>Mime Type</td><td>Description</td><td>Suffixes</td><td>Plugin</td>"
 
-#: kludotecaview.cpp:461
+#: kludotecaview.cpp:464 tournament-module/tournamentactive.cpp:56
 msgid "Add a tournament"
 msgstr "Agregar un torneo"
 
-#: kludotecaview.cpp:462
+#: kludotecaview.cpp:465
 msgid "Fill the fields with the new tournament information"
 msgstr "Llene los campos con la informacion para un nuevo torneo"
 
 #: kludotecaview.cpp:470
+msgid "You doesn't have permissions to add tournaments, sorry!"
+msgstr "No tienes permisos para adicionar torneos, lo siento!"
+
+#: kludotecaview.cpp:478 clients-module/clientswidget.cpp:66
 msgid "Add client"
 msgstr "Agregar cliente"
 
-#: kludotecaview.cpp:480
-#, fuzzy
+#: kludotecaview.cpp:488 clients-module/clientswidget.cpp:77
 msgid "Admin Clients"
-msgstr "Clientes"
+msgstr "Gestionar clientes"
 
-#: kludotecaview.cpp:481
+#: kludotecaview.cpp:489 clients-module/clientswidget.cpp:78
 msgid "Fill the fields with the client information"
 msgstr "Llene los campos con la informacion del cliente"
 
-#: kludotecaview.cpp:541
+#: kludotecaview.cpp:494
+msgid "You doesn't have permissions to add clients, sorry!"
+msgstr "No tienes permisos para adicionar clienteslo siento!"
+
+#: kludotecaview.cpp:552
 msgid "Cooming soon"
 msgstr "Proximamente"
 
@@ -522,12 +544,11 @@ msgstr "Proximamente"
 msgid "Running 1st Dialog!"
 msgstr "Corriendo 1er dialogo!"
 
-#: main.cpp:34 main.cpp:47
-#, fuzzy
+#: main.cpp:40 main.cpp:72
 msgid "System for administer a game store."
 msgstr "Sistema para administrar una ludoteca"
 
-#: main.cpp:48
+#: main.cpp:73
 msgid ""
 "David Cuadrado\n"
 "(C) 2005"
@@ -535,7 +556,7 @@ msgstr ""
 "David Cuadrado\n"
 "(C) 2005"
 
-#: main.cpp:49
+#: main.cpp:74
 msgid ""
 "IRC:\n"
 "server: irc.freenode.net / channel: #cetis\n"
@@ -549,25 +570,49 @@ msgstr ""
 "Coreo electrónico::\n"
 "cetis@univalle.edu.co"
 
-#: main.cpp:50
+#: main.cpp:75
 msgid "http://www.cetisoft.org"
 msgstr "http://www.cetisoft.org"
 
-#: main.cpp:53
+#: main.cpp:78
 msgid "Main developer"
 msgstr "Desarrollador principal"
 
-#: main.cpp:57
+#: main.cpp:82
 msgid "Thanks for your interest in this project, ideas, help and testing."
 msgstr "Gracias por su interés en este proyecto, ideas, ayuda y pruebas."
 
-#: main.cpp:59
+#: main.cpp:84
+msgid "Thanks for your artwork!"
+msgstr "Gracias por sus iconos!"
+
+#: main.cpp:85
+msgid "The best media player on the world ;)"
+msgstr "El mejor reproductor de media en el mundo ;)"
+
+#: main.cpp:86
+msgid "Your about page rules!"
+msgstr "Viva su pagina de presentacion!"
+
+#: main.cpp:88
 msgid "Many thanks to all GNU community!!"
 msgstr "Muchas gracias a toda la comunidad GNU!"
 
-#: main.cpp:72
+#: main.cpp:102
 msgid "You need first configure the system"
 msgstr "Primero necesitas configurar el sistema"
+
+#: main.cpp:112
+msgid "Initializing application"
+msgstr "Inicializando aplicacion"
+
+#: main.cpp:121
+msgid "Restoring application"
+msgstr "Restaurando aplicacion"
+
+#: main.cpp:134 main.cpp:148
+msgid "Application is running and up!"
+msgstr "Aplicacion corriendo"
 
 #: osd.moc.cpp:34 osd.moc.cpp:42
 msgid "OSDWidget"
@@ -583,23 +628,23 @@ msgstr "Configurar base de datos"
 
 #: pref.cpp:39
 msgid "Apparience"
-msgstr ""
+msgstr "Apariencia"
 
 #: pref.cpp:39
 msgid "Look&feel"
-msgstr ""
+msgstr "Look&feel"
 
-#: pref.cpp:56 validateuser.cpp:174
+#: pref.cpp:56 validateuser.cpp:162
 msgid "Server: "
 msgstr "Servidor:"
 
-#: pref.cpp:59 validateuser.cpp:29 validateuser.cpp:139
+#: pref.cpp:59 validateuser.cpp:30 validateuser.cpp:120
 msgid "User"
 msgstr "Usuario"
 
 #: pref.cpp:76
 msgid "Soon we have the look&feel configuration!"
-msgstr ""
+msgstr "Pronto tendremos la configuracion de apariencia!"
 
 #: rc.cpp:3
 #, no-c-format
@@ -622,27 +667,468 @@ msgstr ""
 "Correos\n"
 "krawek@gmail.com"
 
-#: validateuser.cpp:25
+#: validateuser.cpp:26
 msgid "Validate dialog"
 msgstr "Dialogo de validacion"
 
-#: validateuser.cpp:29
+#: validateuser.cpp:30
 msgid "Choose your user"
 msgstr "Escoja su usuario"
 
-#: validateuser.cpp:32
+#: validateuser.cpp:33
 msgid "Setup your database connection"
 msgstr "Configurar la conexion a la base de datos"
 
-#: validateuser.cpp:67
+#: validateuser.cpp:71
 msgid "You need a kludoteca account! Talk with the system administer."
-msgstr "Necesitas una cuenta en kludoteca! Habla con el administrador del sistema para obtenerla"
+msgstr ""
+"Necesitas una cuenta en kludoteca! Habla con el administrador del sistema "
+"para obtenerla"
 
-#: validateuser.cpp:72
+#: validateuser.cpp:76
 msgid "Login or password incorrect"
 msgstr "Usuario o contraseña incorrecta"
 
-#: validateuser.cpp:77
+#: validateuser.cpp:81
 msgid "I can't connect to database server."
 msgstr "No puedo conectarme al servidor de bases de datos"
+
+#: validateuser.cpp:117
+msgid "Store password"
+msgstr "Guardar contraseña"
+
+#: admin-module/admindatabase.cpp:25
+msgid "Dump Name"
+msgstr "Nombre del volcado"
+
+#: admin-module/admindatabase.cpp:25
+msgid "Database Name"
+msgstr "Base de datos"
+
+#: admin-module/admindatabase.cpp:25 tournament-module/tournamentactive.cpp:26
+#: tournament-module/tournamentold.cpp:26
+msgid "Date"
+msgstr "Fecha"
+
+#: admin-module/admindatabase.cpp:61
+msgid "Admin Database"
+msgstr "Gestionar base de datos"
+
+#: admin-module/adminusers.cpp:31 clients-module/clientswidget.cpp:28
+#: rents-module/rentswidget.cpp:28
+msgid "First Name"
+msgstr "Nombre"
+
+#: admin-module/adminusers.cpp:31 clients-module/clientswidget.cpp:28
+#: rents-module/rentswidget.cpp:28
+msgid "Last Name"
+msgstr "Apellido"
+
+#: admin-module/adminusers.cpp:31
+msgid "login"
+msgstr "Usuario"
+
+#: admin-module/adminusers.cpp:33 admin-module/adminwidget.cpp:44
+msgid "Users"
+msgstr "Usuarios"
+
+#: admin-module/adminusers.cpp:69 tournament-module/tournamentactive.cpp:40
+#: tournament-module/tournamentold.cpp:41
+msgid "Add user"
+msgstr "Agregar usuario"
+
+#: admin-module/adminusers.cpp:86 admin-module/adminusers.cpp:170
+msgid "Admin User"
+msgstr "Gestionar usuario"
+
+#: admin-module/adminusers.cpp:87 tournament-module/tournamentactive.cpp:57
+msgid "Fill the fields with the user information"
+msgstr "Llene los campos con la informacion del usuario"
+
+#: admin-module/adminusers.cpp:99
+msgid "Are you sure to delete the user "
+msgstr "Esta seguro que querer borrar el usuario?"
+
+#: admin-module/adminusers.cpp:109
+msgid "The user has been deleted!!"
+msgstr "El usuario ha sido borrado!!"
+
+#: admin-module/adminusers.cpp:123
+msgid "Modify user"
+msgstr "Modificar usuario"
+
+#: admin-module/adminusers.cpp:171
+msgid "Modify the fields with the user information"
+msgstr "Modifique los campos con la informacion del usuario"
+
+#: admin-module/adminusers.cpp:184
+msgid "== query to user "
+msgstr "== Consulta al usuario "
+
+#: admin-module/adminusers.cpp:200
+msgid "Real name: "
+msgstr "Nombre real:"
+
+#: admin-module/adminusers.cpp:201
+msgid "Identification: "
+msgstr "Identificacion"
+
+#: admin-module/adminusers.cpp:202
+msgid "Address: "
+msgstr "Direccion:"
+
+#: admin-module/adminusers.cpp:203
+msgid "Phone: "
+msgstr "Telefono:"
+
+#: admin-module/adminusers.cpp:204
+msgid "Email: "
+msgstr "Correo:"
+
+#: admin-module/adminusers.cpp:205
+msgid "Permissions:"
+msgstr "Permisos:"
+
+#: admin-module/adminwidget.cpp:26
+msgid "Admin"
+msgstr "Administrador"
+
+#: admin-module/formadminusers.cpp:75 clients-module/formadminclients.cpp:61
+msgid "Male"
+msgstr "hombre"
+
+#: admin-module/formadminusers.cpp:77 clients-module/formadminclients.cpp:62
+msgid "Female"
+msgstr "mujer "
+
+#: admin-module/formadminusers.cpp:92 clients-module/formadminclients.cpp:83
+#: clients-module/formadminclients.cpp:139
+msgid "EMail"
+msgstr "Correo"
+
+#: admin-module/formadminusers.cpp:125
+msgid "Admin module"
+msgstr "Modulo de administracion"
+
+#: admin-module/formadminusers.cpp:127
+msgid "Clients module"
+msgstr "Modulo de clientes"
+
+#: admin-module/formadminusers.cpp:129
+msgid "Games module"
+msgstr "Modulo de juegos"
+
+#: admin-module/formadminusers.cpp:131
+msgid "Rents module"
+msgstr "Modulo de alquiler"
+
+#: admin-module/formadminusers.cpp:133
+msgid "Tournament module"
+msgstr "Modulos de torneos"
+
+#: admin-module/formadminusers.cpp:201
+msgid "The user "
+msgstr "El usuario"
+
+#: admin-module/formadminusers.cpp:201
+msgid " has been added"
+msgstr "ha sido añadido"
+
+#: admin-module/formadminusers.cpp:243
+msgid "The changes to "
+msgstr "Los cambios a"
+
+#: admin-module/formadminusers.cpp:243
+msgid " was taken"
+msgstr "fueron hechos"
+
+#: clients-module/clientswidget.cpp:28 games-module/gameslist.cpp:29
+msgid "State"
+msgstr "Estado"
+
+#: clients-module/clientswidget.cpp:30
+msgid "Clients"
+msgstr "Clientes"
+
+#: clients-module/formadminclients.cpp:72
+#: tournament-module/tournamentwidget.cpp:38
+msgid "Active"
+msgstr "Activo"
+
+#: clients-module/formadminclients.cpp:73
+msgid "Inactive"
+msgstr "Inactivo"
+
+#: clients-module/formadminclients.cpp:74
+msgid "Banned"
+msgstr "Censurado"
+
+#: clients-module/formadminclients.cpp:83
+#: clients-module/formadminclients.cpp:103 games-module/gameslist.cpp:29
+msgid "Name"
+msgstr "Nombre"
+
+#: clients-module/formadminclients.cpp:83
+#: clients-module/formadminclients.cpp:128
+msgid "Celular"
+msgstr "Celular"
+
+#: clients-module/formadminclients.cpp:85
+#: clients-module/formadminclients.cpp:149
+msgid "Friend name"
+msgstr "Nombre de amigo"
+
+#: clients-module/formadminclients.cpp:85
+msgid "Friend last name"
+msgstr "Apellido de amigo"
+
+#: clients-module/formadminclients.cpp:85
+#: clients-module/formadminclients.cpp:160
+msgid "Friend address"
+msgstr "Direccion de amigo"
+
+#: clients-module/formadminclients.cpp:85
+#: clients-module/formadminclients.cpp:155
+msgid "Friend phone"
+msgstr "Telefono de conocido"
+
+#: games-module/formadmingame.cpp:41
+msgid "Game name"
+msgstr "Nombre del juego"
+
+#: games-module/formadmingame.cpp:51
+msgid "Type game"
+msgstr "Tipo de juego"
+
+#: games-module/formadmingame.cpp:53
+msgid "Board"
+msgstr "Tablero"
+
+#: games-module/formadmingame.cpp:54
+msgid "Video"
+msgstr "Video"
+
+#: games-module/formadmingame.cpp:55
+msgid "Cards"
+msgstr "Cartas"
+
+#: games-module/formadmingame.cpp:59
+msgid "State of game"
+msgstr "Estado del juego"
+
+#: games-module/formadmingame.cpp:61
+msgid "Free"
+msgstr "Libre"
+
+#: games-module/formadmingame.cpp:62
+msgid "Busy"
+msgstr "Ocupado"
+
+#: games-module/formadmingame.cpp:63
+msgid "Fixing"
+msgstr "Arreglando"
+
+#: games-module/formadmingame.cpp:67
+msgid "Reference of game"
+msgstr "Referencia del juego"
+
+#: games-module/formadmingame.cpp:73
+msgid "Description game"
+msgstr "Descripcion del juego"
+
+#: games-module/formadmingame.cpp:80
+msgid "rules"
+msgstr "Reglas"
+
+#: games-module/formadmingame.cpp:86
+msgid "Minimus number of player"
+msgstr "Minimo de jugadores"
+
+#: games-module/formadmingame.cpp:95
+msgid "Maximus number of player"
+msgstr "Maximo de jugadores"
+
+#: games-module/formadmingame.cpp:103
+msgid "unit of time"
+msgstr "Unidad de tiempo"
+
+#: games-module/formadmingame.cpp:105 games-module/formadmingame.cpp:113
+msgid "minutes"
+msgstr "Minutos"
+
+#: games-module/formadmingame.cpp:106 games-module/formadmingame.cpp:114
+msgid "hours"
+msgstr "Horas"
+
+#: games-module/formadmingame.cpp:111
+msgid "unit of time additional"
+msgstr "Unidad de tiempo adicional"
+
+#: games-module/formadmingame.cpp:119
+msgid "cost for time unit"
+msgstr "Costo por unidad de tiempo"
+
+#: games-module/formadmingame.cpp:128
+msgid "Cost aditional time unit"
+msgstr "Costo por unidad de tiempo adicional"
+
+#: games-module/gameslist.cpp:29
+msgid "Code"
+msgstr "Codigo"
+
+#: games-module/gameslist.cpp:31
+msgid "Games"
+msgstr "Juegos"
+
+#: games-module/gameslist.cpp:103
+msgid "The game "
+msgstr "El juego "
+
+#: games-module/gameslist.cpp:103
+msgid " is good!"
+msgstr "esta bueno!"
+
+#: games-module/gameslist.cpp:112
+msgid "Add game"
+msgstr "Agregar juego"
+
+#: games-module/gameslist.cpp:121
+msgid "Admin game"
+msgstr "Gestionar juegos"
+
+#: games-module/gameslist.cpp:122
+msgid "fill the fields for add a new game"
+msgstr "Llene los campos con un nuevo juego"
+
+#: games-module/gameslist.cpp:134
+msgid "Are you sure to delete the game "
+msgstr "Esta seguro de querer borrar el juego"
+
+#: games-module/gameslist.cpp:144
+msgid "The game has been deleted!!"
+msgstr "El juego ha sido borrado"
+
+#: games-module/gameslist.cpp:160
+msgid "== query  game "
+msgstr "== Consulta al juego "
+
+#: games-module/gameslist.cpp:175
+msgid "Game  name: "
+msgstr "Nombre juego:"
+
+#: games-module/gameslist.cpp:176
+msgid "Code game: "
+msgstr "Codigo: "
+
+#: games-module/gameslist.cpp:177
+msgid "Description: "
+msgstr "Descripcion:"
+
+#: games-module/gameslist.cpp:178
+msgid "Rules: "
+msgstr "Reglas:"
+
+#: games-module/gameslist.cpp:179
+msgid "Mininus of gamers: "
+msgstr "Minimo de jugadores"
+
+#: games-module/gameslist.cpp:180
+msgid "Maximus of gamers:"
+msgstr "Maximo de jugadores"
+
+#: games-module/gameslist.cpp:181
+msgid "Cost unit time: "
+msgstr "Costo por unidad de tiempo:"
+
+#: games-module/gameslist.cpp:182
+msgid "State of gamers:"
+msgstr "Estado de jugadores:"
+
+#: lib/formbase.cpp:66
+msgid "<h1><div align=\"center\">%1</dvi></h1>"
+msgstr ""
+
+#: lib/formbase.cpp:84 lib/formbase.cpp:104
+msgid "Register"
+msgstr "Registrar"
+
+#: lib/formbase.cpp:150
+msgid "<h3>%1</h3>"
+msgstr ""
+
+#: lib/klquery.cpp:53 lib/klquery.cpp:79
+msgid "You need specify the fields"
+msgstr "Necesita especificar los campos"
+
+#: lib/ltlistview.cpp:31
+msgid "Filter here..."
+msgstr "Filtre aqui..."
+
+#: lib/ltlistview.cpp:126 lib/ltlistview.cpp:162 lib/ltlistview.cpp:198
+#: lib/ltlistview.cpp:234
+msgid "Query"
+msgstr "Consulta"
+
+#: rents-module/rentswidget.cpp:28 tournament-module/tournamentactive.cpp:26
+#: tournament-module/tournamentold.cpp:26
+msgid "Game"
+msgstr "Juego"
+
+#: rents-module/rentswidget.cpp:33
+msgid "Rents"
+msgstr "Alquiler"
+
+#: rents-module/rentswidget.cpp:92
+msgid "Add rent"
+msgstr "Alquile un juego"
+
+#: tournament-module/formtournament.cpp:43
+msgid "Name of tournament"
+msgstr "Nombre del torneo"
+
+#: tournament-module/formtournament.cpp:50
+msgid "Date of begin of the tournament"
+msgstr "Fecha de inicio del torneo"
+
+#: tournament-module/formtournament.cpp:59
+msgid "Date end of the tournament"
+msgstr "Fecha de finalizacion del torneo"
+
+#: tournament-module/formtournament.cpp:66
+msgid "Rounds for players"
+msgstr "Rondas por jugadores"
+
+#: tournament-module/formtournament.cpp:71
+msgid "Games for pairs"
+msgstr "Juegos por pareja"
+
+#: tournament-module/formtournament.cpp:77
+msgid "Value for inscription"
+msgstr "Valor de la inscripcion"
+
+#: tournament-module/formtournament.cpp:83
+msgid "Discount in the inscription"
+msgstr "Descuento en la inscripcion"
+
+#: tournament-module/formtournament.cpp:100
+msgid "Name of game"
+msgstr "Nombre del juego"
+
+#: tournament-module/tournamentactive.cpp:26
+#: tournament-module/tournamentold.cpp:26
+msgid "Tournament name"
+msgstr "Nombre del torneo"
+
+#: tournament-module/tournamentactive.cpp:28
+#: tournament-module/tournamentwidget.cpp:26
+msgid "Tournament"
+msgstr "Torneo"
+
+#: tournament-module/tournamentold.cpp:28
+msgid "Tournament Old"
+msgstr "Torneos antiguos"
+
+#: tournament-module/tournamentwidget.cpp:41
+msgid "Old"
+msgstr "Antiguos"
 

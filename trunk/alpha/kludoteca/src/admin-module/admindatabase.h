@@ -21,14 +21,14 @@
 #ifndef ADMINDATABASE_H
 #define ADMINDATABASE_H
 
-#include <qvbox.h>
+#include "ltlistview.h"
 
 /**
 Esta clase nos sirve para administrar la base de datos
 
 @author David Cuadrado
 */
-class AdminDatabase : public QVBox
+class AdminDatabase : public LTListView
 {
 	Q_OBJECT
 	public:
@@ -43,6 +43,59 @@ class AdminDatabase : public QVBox
     		 * @return 
     		 */
     		~AdminDatabase();
+		
+		
+		/**
+		 * Llena la lista, esta funcion es reimplementada de LTListView
+		 */
+		void fillList();
+		
+	public slots:
+		/**
+	 	 * Esta funcion nos da el item que fue clickeado
+		 */
+		void getClickedItem(QListViewItem *item);
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de adicionar
+		 */
+		void addButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de borrar
+		 */
+		void delButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de modificar
+		 */
+		void modifyButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
+		 */
+		void queryButtonClicked();
+		
+		/**
+		 * Adiciona un item a la lista consultando la base de datos.
+		 * @param table 
+		 * @param pkey 
+		 */
+		void addItem(const QString &pkey);
+		
+		
+		void slotFilter(const QString &filter);
+		
+		
+		/**
+		 * Actualiza un item de la lista basandose en la llave recibida
+		 * @param  
+		 */
+		void updateItem(const QString &pkey);
+		
+	private:
+		KLSelect *m_sqlquery;
+		
 };
 
 #endif

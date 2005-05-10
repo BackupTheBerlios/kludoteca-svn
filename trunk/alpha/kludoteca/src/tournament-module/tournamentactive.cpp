@@ -17,14 +17,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#define DEBUG_TOURNAMENT 1
+ 
 #include "tournamentactive.h"
 #include <klocale.h>
 
-TournamentActive::TournamentActive(QWidget *parent) : LTListView(QStringList() << i18n("Tournament name") << i18n("Game")<< i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::NoButton, LTListView::NoButton, parent = 0, "ActiveTournaments")
+TournamentActive::TournamentActive(QWidget *parent) : LTListView(QStringList() << i18n("Tournament name") << i18n("Game") << i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::ButtonModify, LTListView::ButtonDel, parent = 0, "ActiveTournaments")
 {
-	
+	setCaption(i18n("Tournament"));	
 }
-
 
 TournamentActive::~TournamentActive()
 {
@@ -32,11 +34,36 @@ TournamentActive::~TournamentActive()
 
 void TournamentActive::addButtonClicked()
 {
+#if DEBUG_TOURNAMENT
+	qDebug("TournamentActive: init addButtonClicked");
+#endif
+	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	FormTournament* formTournament = new FormTournament(FormBase::Add, scroll->viewport() );
+	connect(formTournament, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+
+	formTournament->setType( FormBase::Add);
+	connect(formTournament, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formTournament, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+
+	scroll->addChild(formTournament);
+
+	formTournament->setTitle(i18n("Add a tournament"));
+	formTournament->setExplanation(i18n("Fill the fields with the user information"));
+	
+	emit sendWidget(view); 
+#if DEBUG_TOURNAMENT
+	qDebug("TournamentActive: end addButtonClicked");
+#endif
 }
 
 void TournamentActive::delButtonClicked()
 {
-	
 }
 
 void TournamentActive::modifyButtonClicked()
@@ -49,25 +76,61 @@ void TournamentActive::queryButtonClicked()
 
 void TournamentActive::fillList()
 {
-	/*
-	if ( !m_db )
-	{
-		qDebug("You're need set the database!!");
-		return;
-	}
+	// SELECT name,gamename,initdate from ldt_tournament,ldt_games where ldt_games.serialreference in (select gamereference from ldt_games);
+	KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
 	
-	KLResultSet resultSet = m_db->select(QStringList() << "firstname" << "lastname", "ldt_clients");
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.parse(m_xmlsource) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}
-	*/
 }
 
 void TournamentActive::getClickedItem(QListViewItem *item)
 {
+}
+
+void TournamentActive::addItem(const QString &pkey)
+{
+	std::cout << "Adicionando item con pkey: " << pkey << std::endl;
+	
+	KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
+	
+	sqlquery.setWhere("name="+SQLSTR(pkey));
+
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+}
+
+void TournamentActive::slotFilter(const QString &filter)
+{
+	std::cout << "Filtrando filter " << filter << std::endl;
+	
+	if ( filter.isEmpty() )
+	{
+		fillList();
+	}
+	else
+	{
+		KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
+
+		sqlquery.addFilter(filter);
+		
+		KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+		m_xmlsource.setData(resultSet.toString());
+		if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+		{
+			std::cout << "No se pudo analizar!!!" << std::endl;
+		}
+	}
 }
 
 #include "tournamentactive.moc"

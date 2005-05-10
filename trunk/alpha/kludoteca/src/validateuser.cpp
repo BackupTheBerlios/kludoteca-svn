@@ -21,8 +21,9 @@
 #include <klocale.h>
 #include <qlabel.h>
 #include <kmessagebox.h>
+#include "klpermission.h"
 
-ValidateUser::ValidateUser(KLDatabase *db, QWidget *parent, const char *name) : KDialogBase(Tabbed, QWidget::WStyle_DialogBorder,  parent, name, true, i18n("Validate dialog"), Ok | Cancel), m_db(db), m_activeAdminModule(false), m_activeRentsModule(false), m_activeTournamentModule(false), m_activeClientsModule(false), m_activeGamesModule(false)
+ValidateUser::ValidateUser(/*KLDatabase *db, */QWidget *parent, const char *name) : KDialogBase(Tabbed, QWidget::WStyle_DialogBorder,  parent, name, true, i18n("Validate dialog"), Ok | Cancel) //, m_db(db)
 {
 	QVBox *vbox;
 	 
@@ -42,13 +43,16 @@ void ValidateUser::slotOk()
 {
 // 	std::cout << "Setup database with: " << m_databasePage->getDatabaseName() << " and " << m_databasePage->getServer() << std::endl;
 	
-	m_db->setupConnection( m_databasePage->getDatabaseName(), m_userPage->getLogin(), m_userPage->getPassword(),m_databasePage->getServer() );
+	if ( KLDM->isOpen() )
+		KLDM->close();
 	
-	if ( m_db->open() )
+	KLDM->setupConnection( m_databasePage->getDatabaseName(), m_userPage->getLogin(), m_userPage->getPassword(),m_databasePage->getServer() );
+	
+	if ( KLDM->open() )
 	{
 		// El servidor pg existe y se pueden realizar conexiones!
 		
-		QSqlQuery q = m_db->exec("select permissions from ldt_users where login='"+m_userPage->getLogin()+"'" );
+		QSqlQuery q = KLDM->exec("select permissions from ldt_users where login='"+m_userPage->getLogin()+"'" );
 		
 		if ( q.isActive() )
 		{
@@ -58,7 +62,7 @@ void ValidateUser::slotOk()
 			
 			if (perms.length() > 0 )
 			{
-				this->string2perms(perms);
+				klperm->string2perms(perms);
 				KDialogBase::slotOk();
 				writeConfig();
 			}
@@ -96,41 +100,6 @@ void ValidateUser::writeConfig()
 	}
 
 	klapp->config("Connection")->sync();
-}
-
-void ValidateUser::string2perms(const QString &str)
-{
-	m_activeAdminModule = str.at(0).digitValue();
-	m_activeClientsModule = str.at(1).digitValue();
-	m_activeGamesModule = str.at(2).digitValue();
-	m_activeRentsModule = str.at(3).digitValue();
-	m_activeTournamentModule = str.at(4).digitValue();
-	
-}
-
-bool ValidateUser::activeAdminModule()
-{
-	return m_activeAdminModule;
-}
-
-bool ValidateUser::activeClientsModule()
-{
-	return m_activeClientsModule;
-}
-
-bool ValidateUser::activeGamesModule()
-{
-	return m_activeGamesModule;
-}
-
-bool ValidateUser::activeRentsModule()
-{
-	return m_activeRentsModule;
-}
-
-bool ValidateUser::activeTournamentModule()
-{
-	return m_activeTournamentModule;
 }
 
 // User Page

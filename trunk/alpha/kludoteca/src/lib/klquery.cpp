@@ -44,7 +44,7 @@ int KLQuery::getType()
 
 
 // KLSelect
-KLSelect::KLSelect(QStringList fields, QStringList tables) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere("")
+KLSelect::KLSelect(QStringList fields, QStringList tables) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
 {
 	m_query = "select ";
 	
@@ -70,7 +70,7 @@ KLSelect::KLSelect(QStringList fields, QStringList tables) : KLQuery(KLQuery::Se
 
 }
 
-KLSelect::KLSelect(QStringList fields, const QString &table) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere("")
+KLSelect::KLSelect(QStringList fields, const QString &table) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
 {
 	m_query = "select ";
 	
@@ -94,7 +94,7 @@ KLSelect::~ KLSelect()
 
 QString KLSelect::getQuery() const
 {
-	return m_query + m_cwhere;
+	return m_query + m_cwhere + m_subquery + m_filter;
 }
 
 QStringList KLSelect::getFields()
@@ -104,20 +104,27 @@ QStringList KLSelect::getFields()
 
 void KLSelect::addSubConsult(QString connector, const KLSelect &subconsult)
 {
-	m_query += getQuery() + " " + connector + " ( " + subconsult.getQuery() + " ) ";
-	m_cwhere = "";
+	m_subquery += " " + connector + " ( " + subconsult.getQuery() + " ) ";
 }
 
-void KLSelect::setWhere(QString cwhere)
+void KLSelect::setWhere(const QString &cwhere)
 {
 	m_cwhere = " where " + cwhere;
 }
 
+void KLSelect::setCondition(const QString &condition)
+{
+	m_subquery += " " + condition + " ";
+}
+
 void KLSelect::addFilter( const QString& filter, QStringList fields )
 {
+	std::cout << "FILTER: " << filter << std::endl;
 	if ( !filter.isEmpty() )
-	{		
-		setWhere(" 'f' ");
+	{
+		if ( m_cwhere.isEmpty() )
+			m_cwhere = " where 't'";
+		m_filter = " and 'f' ";
 		
 		QStringList filters = QStringList::split( " ", filter );
 		
@@ -129,14 +136,14 @@ void KLSelect::addFilter( const QString& filter, QStringList fields )
 			{
 				for (uint i = 0; i < fields.count(); i++)
 				{
-					m_cwhere += " OR " + fields[i]  + " ~* "+ SQLSTR(filters[f]);
+					m_filter += " OR " + fields[i]  + " ~* "+ SQLSTR(filters[f]);
 				}
 			}
 			else
 			{
 				for (uint i = 0; i < m_fields.count(); i++)
 				{
-					m_cwhere += " OR " + m_fields[i]  + " ~* "+ SQLSTR(filters[f]);
+					m_filter += " OR " + m_fields[i]  + " ~* "+ SQLSTR(filters[f]);
 				}
 			}
 		}

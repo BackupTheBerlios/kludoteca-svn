@@ -24,6 +24,8 @@
 #include "ltlistview.h"
 #include <qvbox.h>
 
+#include "formtournament.h"
+
 /**
  * En este widget tenemos los torneos activos
  * @author David Cuadrado
@@ -40,6 +42,10 @@ class TournamentActive : public LTListView
 		 * Destructor por defecto
 		 */
     		~TournamentActive();
+		
+		void addItem(const QString &pkey);
+		
+		void slotFilter(const QString &filter);
 		
 	protected:
 		/**

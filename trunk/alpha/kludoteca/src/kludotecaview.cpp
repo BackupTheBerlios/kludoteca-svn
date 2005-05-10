@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                        		   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -52,6 +52,7 @@
 #include "formadminclients.h"
 #include "formadmingame.h"
 #include "formtournament.h"
+#include "klpermission.h"
 
 QString *KLMainPageFactory::s_mainpage_html = 0;
 QString *KLMainPageFactory::s_page2_html = 0;
@@ -120,7 +121,7 @@ QString KLMainPageFactory::mainpage()
 	
 	QString rents_icon_path = locate("data","kludoteca/icons/rentsicon.png");
 	
-	QString wastebin_icon_path = iconloader->iconPath("trashcan_full", KIcon::Desktop );
+	QString games_icon_path = locate("data","kludoteca/icons/gamesicon.png");
 	QString applications_icon_path = iconloader->iconPath("kmenu", KIcon::Desktop );
 	QString settings_icon_path = iconloader->iconPath("kcontrol", KIcon::Desktop );
 	QString home_folder = QDir::homeDirPath();
@@ -134,8 +135,8 @@ QString KLMainPageFactory::mainpage()
 
 	res = res.arg( i18n("KLudoteca") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n("Administer easyly your ludotec") )
-			.arg( i18n("KLudoteca is an application for administer a ludotec.") )
+			.arg( i18n("Administer easyly your game store") )
+			.arg( i18n("KLudoteca is an application for administer a game store.") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
 			.arg( i18n( "Tips" ) )
@@ -148,14 +149,14 @@ QString KLMainPageFactory::mainpage()
 			.arg(iconSize).arg(iconSize)
 			.arg( i18n( "Add tournament" ) )
 			.arg( i18n( "Click for create a new tournamet" ) )
-			.arg( rents_icon_path )
+			.arg( games_icon_path )
+			.arg(iconSize).arg(iconSize)
+			.arg( i18n( "Add a game" ) )
+			.arg( i18n( "Click for add a game" ) )
+			.arg( rents_icon_path)
 			.arg(iconSize).arg(iconSize)
 			.arg( i18n( "Rents a game" ) )
 			.arg( i18n( "Click for rents a game" ) )
-			.arg( wastebin_icon_path )
-			.arg(iconSize).arg(iconSize)
-			.arg( i18n( "New functionally" ) )
-			.arg( i18n( "..." ) )
 			.arg( applications_icon_path )
 			.arg(iconSize).arg(iconSize)
 			.arg( i18n( "New functionally" ) )
@@ -195,15 +196,15 @@ QString KLMainPageFactory::page2()
 	else
 		res = res.arg( "..." );
 
-	res = res.arg( i18n("Administer easyly your ludotec") )
+	res = res.arg( i18n("Administer easyly your game store") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n( "Administer easyly your ludotec") )
-			.arg( i18n( "KLudoteca is an application for administer a ludotec..") )
+			.arg( i18n( "Administer easyly your game store") )
+			.arg( i18n( "KLudoteca is an application for administer a game store..") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
 			.arg( i18n( "Tips" ) )
 			.arg( i18n( "Specifications" ) )
-			.arg( i18n( "KLudoteca makes that administer a ludotec an easy work "
+			.arg( i18n( "KLudoteca makes that administer a game store an easy work "
 			"In this application you can add clients and manage your information "
 			"in a way fast and easy."
 				  ) )
@@ -246,10 +247,10 @@ QString KLMainPageFactory::page4()
 	else
 		res = res.arg( "" );
 
-	res = res.arg( i18n("Administer easyly your ludotec") )
+	res = res.arg( i18n("Administer easyly your game store") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n("Administer easyly your ludotec") )
-			.arg( i18n("KLudoteca is an application for administer a ludotec..") )
+			.arg( i18n("Administer easyly your game store") )
+			.arg( i18n("KLudoteca is an application for administer a game store..") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
 			.arg( i18n( "Tips" ) )
@@ -284,9 +285,9 @@ QString KLMainPageFactory::page4()
 			.arg( i18n("Details") )
 			.arg( i18n("Techs") )
 			.arg( i18n("Protocols") )
-			.arg( i18n("addtournament:/") )
-			.arg( i18n("addclient:/") )
-			.arg( i18n("addgame:/") )
+			.arg( "addtournament:/" )
+			.arg( "addclient:/" )
+			.arg( "addgame:/" )
 			.arg( i18n("11") )
 			.arg( i18n("12"))
 			.arg( i18n("13"))
@@ -332,10 +333,10 @@ QString KLMainPageFactory::page5()
 	else
 		res = res.arg( "" );
 
-	res = res.arg( i18n("Administer easyly your ludotec") )
+	res = res.arg( i18n("Administer easyly your game store") )
 			.arg( i18n( "KLudoteca" ) )
-			.arg( i18n("Administer easyly your ludotec") )
-			.arg( i18n("KLudoteca is an application for administer a ludotec..") )
+			.arg( i18n("Administer easyly your game store") )
+			.arg( i18n("KLudoteca is an application for administer a game store..") )
 			.arg( i18n( "KLudoteca" ) )
 			.arg( i18n( "Introduction" ) )
 			.arg( i18n( "Tips" ) )
@@ -448,39 +449,49 @@ void KLMainPage::serve( const QString& html, const QString& what )
 	m_htmlDoc = html;
 }
 
-void KLMainPage::addTournament(const QString &name, KLDatabase *db)
+void KLMainPage::addTournament(const QString &name)
 {
-	KMdiChildView *view = new KMdiChildView(i18n("Add tournament") );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
-	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormTournament *formAdminTournament = new FormTournament(db , scroll->viewport() );
-	scroll->addChild(formAdminTournament);
-
-	formAdminTournament->setTitle(i18n("Add a tournament"));
-	formAdminTournament->setExplanation(i18n("Fill the fields with the new tournament information"));
+	if ( klperm->activeTournamentModule() )
+	{
+		KMdiChildView *view = new KMdiChildView(i18n("Add tournament") );
+		( new QVBoxLayout( view ) )->setAutoAdd( true );
 	
-	emit sendWidget(view);
+		QScrollView *scroll = new QScrollView(view);
+		scroll->setResizePolicy(QScrollView::AutoOneFit);
+		FormTournament *formAdminTournament = new FormTournament(FormBase::Add , scroll->viewport() );
+		scroll->addChild(formAdminTournament);
+	
+		formAdminTournament->setTitle(i18n("Add a tournament"));
+		formAdminTournament->setExplanation(i18n("Fill the fields with the new tournament information"));
+		
+		emit sendWidget(view);
+	}
+	else
+		KMessageBox::error(0, i18n("You doesn't have permissions to add tournaments, sorry!"));
 		
 }
 
-void KLMainPage::addClient(KLDatabase *db)
+void KLMainPage::addClient()
 {
-	KMdiChildView *view = new KMdiChildView(i18n("Add client") );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
-	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormAdminClients *formAdminClients = new FormAdminClients( db, scroll->viewport() );
-	scroll->addChild(formAdminClients);
+	if ( klperm->activeClientsModule() )
+	{
+		KMdiChildView *view = new KMdiChildView(i18n("Add client") );
+		( new QVBoxLayout( view ) )->setAutoAdd( true );
 	
-	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
-	
-	formAdminClients->setTitle(i18n("Admin Clients"));
-	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
-	
-	emit sendWidget( view );
+		QScrollView *scroll = new QScrollView(view);
+		scroll->setResizePolicy(QScrollView::AutoOneFit);
+		FormAdminClients *formAdminClients = new FormAdminClients( KLDM, scroll->viewport() );
+		scroll->addChild(formAdminClients);
+		
+		formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
+		
+		formAdminClients->setTitle(i18n("Admin Clients"));
+		formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
+		
+		emit sendWidget( view );
+	}
+	else
+		KMessageBox::error(0, i18n("You doesn't have permissions to add clients, sorry!"));
 }
 
 #include <iostream>
@@ -548,9 +559,10 @@ void KLMainPage::urlSelected( const QString &url, int button, int state, const Q
 }
 
 /*****************************
- *        KLudotecaView          *
+ *        KLudotecaView      *
 *****************************/
-KLudotecaView::KLudotecaView(const QString &caption, KLDatabase *db, QWidget *parentWidget, const char *name, WFlags f) : KMdiChildView(caption, parentWidget, name, f), DCOPObject("KLudotecaIface"), m_db(db)
+
+KLudotecaView::KLudotecaView(const QString &caption, QWidget *parentWidget, const char *name, WFlags f) : KMdiChildView(caption, parentWidget, name, f), DCOPObject("KLudotecaIface")
 {
 	QHBoxLayout *top_layout = new QHBoxLayout(this);
 	top_layout->setAutoAdd(true);

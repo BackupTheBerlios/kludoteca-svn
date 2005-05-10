@@ -64,7 +64,7 @@ bool KLResultSetInterpreter::endElement(const QString& ns, const QString& localn
 bool KLResultSetInterpreter::characters(const QString &ch)
 {
 	bool conversion;
-	if ( m_root == "RESULTS" && m_read)
+	if ( m_root == "RESULTS" && m_read && m_qname != m_root)
 	{
 		//std::cout << m_qname << " " << ch << std::endl;
 		m_results << ch;
@@ -83,6 +83,11 @@ void KLResultSetInterpreter::setParseType(Type type)
 KLSqlResults KLResultSetInterpreter::getResults()
 {
 	return m_sqlresults;
+}
+
+QStringList KLResultSetInterpreter::getResultList()
+{
+	return m_results;
 }
 
 #include "klresultsetinterpreter.moc"

@@ -1,1 +1,2 @@
+SUBDIRS = $(AUTODIRS) $(srcdir)
 POFILES = AUTO

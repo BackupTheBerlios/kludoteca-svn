@@ -31,6 +31,16 @@ KLDatabase::~KLDatabase()
 {
 }
 
+KLDatabase *KLDatabase::instance()
+{
+	static KLDatabase *skdb = new KLDatabase;
+	
+// 	if ( !skdb->isOpen() )
+// 		skdb->open();
+	
+	return skdb;
+}
+
 // TODO: devolveremos un documento XML con la consulta, para hacer consultas a bajo nivel utilizar exec(consulta).
 KLResultSet KLDatabase::execQuery(const QString &strquery, QStringList fields)
 {
@@ -156,26 +166,29 @@ bool KLDatabase::isLastError()
 
 bool KLDatabase::createTables()
 {
-	// Aqui debemos crear las tablas, falta quitar todos los privilegios!! y crear indices
+	// TODO: Aqui debemos crear las tablas, falta quitar todos los privilegios!! y crear indices
 	QSqlQuery q;
 	bool wasgood = true;
 	int p = 1;
 	
+	
+	// JUEGOS
 	q = exec("CREATE TABLE ldt_games ("
-			"serialReference character varying(8) NOT NULL,"
-			"gameName character varying(10) NOT NULL,"
-			"description text NOT NULL,"
-			"rules text NOT NULL,"
-			"minGamers smallint NOT NULL,"
-			"maxGamers smallint NOT NULL,"
-			"gameType character varying(10) NOT NULL,"
-			"timeUnitAdd character varying(10) NOT NULL,"
-			"timeUnit character varying(10) NOT NULL,"
-			"costTM real NOT NULL,"
-			"costTMA real NOT NULL,"
-			"position character varying(10) NOT NULL,"
-			"state character varying (10) NOT NULL,"
-			"primary key(serialReference));");
+		"serialReference character varying(8) primary key,"
+		"gameName character varying(50) NOT NULL,"
+		"description text NOT NULL,"
+		"rules text NOT NULL,"
+		"minGamers int NOT NULL,"
+		"maxGamers int NOT NULL,"
+		"gameType character varying(10) NOT NULL,"
+		"timeUnitAdd character varying(10) NOT NULL,"
+		"timeUnit character varying(10) NOT NULL,"
+		"costTM real NOT NULL,"
+		"costTMA real NOT NULL,"
+		"position character varying(10) NOT NULL,"
+		"state character varying (10) NOT NULL,"
+		"available boolean DEFAULT 't' NOT NULL"
+		");");
 	
 	if ( ! q.isActive() ) 
 	{
@@ -185,21 +198,35 @@ bool KLDatabase::createTables()
 	
 	emit progress(p++);
 	
+	
+	// PERSONAS
+	q = exec("CREATE TABLE ldt_persons ("
+		"docIdent character varying(10)  primary key,"
+		"firstName character varying(50) NOT NULL,"
+		"lastName character varying(50) NOT NULL,"
+		"phone character varying(15),"
+		"celullar character varying(15),"
+		"email character varying(60),"
+		"address character varying(40),"
+		"genre character varying (10)"
+		");");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_persons" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	// CLIENTES 
 	q = exec("CREATE TABLE ldt_clients ("
-			"docIdent character varying(10) NOT NULL,"
+			"docIdent character varying(10) references ldt_persons(docIdent)  on delete cascade on update cascade,"
 			"inscriptionDate date NOT NULL,"
-			"firstName character varying(20) NOT NULL,"
-			"lastName character varying(20) NOT NULL,"
-			"phone character varying(10),"
-			"celular character varying(10),"
-			"email character varying(50),"
-			"sex character varying(10),"
 			"state character varying(10),"
-			"address character varying(30),"
-			"namereference character varying(30),"
-			"phonereference character varying(30),"
-			"addressreference character varying(30),"
-			"primary key(docIdent));");
+			"idReferencePerson character varying(10) references ldt_persons(docIdent),"
+			"primary key(docIdent)"
+			");");
 	
 	if ( ! q.isActive() )
 	{
@@ -209,54 +236,13 @@ bool KLDatabase::createTables()
 	
 	emit progress(p++);
 	
-	q = exec("CREATE TABLE ldt_tournament ("
-			"codTournament character varying(10) NOT NULL,"
-			"gameReference character varying(8) NOT NULL,"
-			"name character varying(20) NOT NULL,"
-			"initDate date NOT NULL,"
-			"endDate date NOT NULL,"
-			"roundsForPair integer NOT NULL,"
-			"rounds integer NOT NULL,"
-			"price real NOT NULL,"
-			"discount real NOT NULL,"
-			"state character varying(10) NOT NULL,"
-			"primary key(codTournament),"
-			"foreign key(gameReference) references ldt_games(serialReference));");
-	
-	if ( ! q.isActive() )
-	{
-		std::cout << "Fails to create ldt_tournament" << lastError().text() << std::endl;
-		wasgood = false;
-	}
-	
-	emit progress(p++);
-	
-	q = exec("CREATE TABLE ldt_enterprise ("
-			"nit character varying(10) NOT NULL,"
-			"address character varying(30) NOT NULL,"
-			"name character varying(20) NOT NULL,"
-			"phone character varying(10) NOT NULL,"
-			"city character varying(20) NOT NULL,"
-			"primary key(nit));");
-	
-	if ( ! q.isActive() )
-	{
-		std::cout << "Fails to create ldt_enterprise" << lastError().text() << std::endl;
-		wasgood = false;
-	}
-	emit progress(p++);
+	// USUARIOS 
 	
 	q = exec("CREATE TABLE ldt_users ("
-			"docIdent character varying(10) NOT NULL,"
-			"login character varying(20) NOT NULL,"
-			"firstName character varying(20) NOT NULL,"
-			"lastName character varying(20) NOT NULL,"
-			"sex character varying(10),"
-			"address character varying(30),"
-			"phone character varying(10),"
-			"email character varying(50),"
-			"permissions character varying(10) NOT NULL," // Hay que revisar cuantos modulos son y ajustar esto a un numero de caracteres fijos
-			"primary key(login));");
+			"docIdent character varying(10) references ldt_persons(docIdent) on delete cascade on update cascade,"
+			"login character varying(20) primary key,"
+			"permissions character varying(10) NOT NULL"
+			");");
 	
 	if ( ! q.isActive() ) 
 	{
@@ -266,11 +252,35 @@ bool KLDatabase::createTables()
 	
 	emit progress(p++);
 	
+	// TORNEO
+	q = exec("CREATE TABLE ldt_tournament ("
+			"name character varying(50) PRIMARY KEY,"
+			"gameReference character varying(8) references ldt_games(serialReference) on delete cascade on update cascade,"
+			"initDate date NOT NULL,"
+			"endDate date NOT NULL,"
+			"roundsForPair integer NOT NULL,"
+			"rounds integer NOT NULL,"
+			"price real NOT NULL,"
+			"discount real,"
+			"active boolean DEFAULT 't' NOT NULL"
+			");");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_tournament" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	
+	emit progress(p++);
+	
+	// PARTICIPA
+	
 	q = exec("CREATE TABLE ldt_participates ("
-			"clientDocIdent character varying(15),"
-			"codTournament character varying(10),"
-			"foreign key (clientDocIdent) references ldt_clients(docIdent),"
-			"foreign key (codTournament) references ldt_tournament(codTournament));");
+			"clientDocIdent character varying(15) references ldt_clients(docIdent) on delete cascade on update cascade,"
+			"codTournament character varying(10) references ldt_tournament(name) on delete cascade on update cascade,"
+			"rank integer,"
+			"primary key(clientDocIdent, codTournament)"
+			");");
 	
 	if ( ! q.isActive() )
 	{
@@ -280,13 +290,15 @@ bool KLDatabase::createTables()
 	
 	emit progress(p++);
 	
+	// ALQUILA
 	q = exec("CREATE TABLE ldt_rents ("
 			"clientDocIdent character varying(10) NOT NULL,"
 			"gameSerialReference character varying(10) NOT NULL,"
 			"returnHour time without time zone NOT NULL,"
 			"date date NOT NULL,"
-			"foreign key (clientDocIdent) references ldt_clients(docIdent),"
-			"foreign key (gameSerialReference) references ldt_games(serialReference));");
+			"foreign key (clientDocIdent) references ldt_clients(docIdent) on delete cascade on update cascade,"
+			"foreign key (gameSerialReference) references ldt_games(serialReference) on delete cascade on update cascade"
+			");");
 	
 	if ( ! q.isActive() )
 	{
@@ -296,6 +308,67 @@ bool KLDatabase::createTables()
 	
 	emit progress(p++);
 	
+	// RONDAS
+	q = exec("CREATE TABLE ldt_rounds ("
+			"nRound integer NOT NULL,"
+			"codTournament character varying(10) references ldt_tournament(name) on delete cascade on update cascade,"
+	
+			"primary key(nRound, codTournament)"
+			");");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_rounds" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	emit progress(p++);
+	
+	// PARTIDA
+	q = exec("CREATE TABLE ldt_match ("
+			"number integer primary key,"
+			"nRound integer,"
+			"codTournament character varying(10),"
+			"opponent1 character varying(10),"
+			"resultOpp1 integer NOT NULL,"
+			"opponent2 character varying(10),"
+			"resultOpp2 integer NOT NULL,"
+			"foreign key (nRound, codTournament) references ldt_rounds(nRound, codTournament) on delete cascade on update cascade,"
+			"foreign key (opponent1,codTournament) references ldt_participates(clientDocIdent, codTournament) on delete cascade on update cascade,"
+			"foreign key (opponent2,codTournament) references ldt_participates(clientDocIdent, codTournament) on delete cascade on update cascade"
+			");");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_match" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	emit progress(p++);
+	
+	
+	// EMPRESA
+	q = exec("CREATE TABLE ldt_enterprise ("
+			"nit character varying(10) NOT NULL,"
+			"address character varying(40) NOT NULL,"
+			"name character varying(50) NOT NULL,"
+			"phone character varying(10) NOT NULL,"
+			"city character varying(15) NOT NULL,"
+			"primary key(nit)"
+			");");
+	
+	if ( ! q.isActive() )
+	{
+		std::cout << "Fails to create ldt_enterprise" << lastError().text() << std::endl;
+		wasgood = false;
+	}
+	emit progress(p++);
+	
+	// Por ultimo creamos las vistas
+	if ( wasgood )
+	{
+		exec("create view ldt_users_view as SELECT firstname,lastname,login from ldt_users,ldt_persons where ldt_persons.docident in (select ldt_users.docident from ldt_persons )");
+		exec("create view ldt_tournament_view as select name,gamename,initdate from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games )");
+		exec("create view ldt_clients_view as SELECT firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent in (select ldt_clients.docident from ldt_persons );");
+	}
 	return wasgood;
 }
 
@@ -303,12 +376,15 @@ bool KLDatabase::dropTables()
 {
 	std::cout << "Dropping tables" << std::endl;
 	exec("drop table ldt_users cascade");
-	exec("drop table ldt_enterprise cascade");
 	exec("drop table ldt_participates cascade");
 	exec("drop table ldt_rents cascade");
 	exec("drop table ldt_tournament cascade");
 	exec("drop table ldt_clients cascade");
 	exec("drop table ldt_games cascade");
+	exec("drop table ldt_rounds cascade");
+	exec("drop table ldt_match cascade");
+	exec("drop table ldt_enterprise cascade");
+	exec("drop table ldt_persons cascade");
 	
 	return true;
 }

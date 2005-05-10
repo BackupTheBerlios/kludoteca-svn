@@ -28,14 +28,14 @@ LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name),
 {
 }
 
-LTListView::LTListView(QStringList colsText, Button button1, Button button2, Button button3, Button button4, QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
+LTListView::LTListView(QStringList colsText, Button button1, Button button2, Button button3, Button button4, QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0), m_filterText(i18n("Filter here..." ))
 {
 	m_timer = new QTimer(this);
 	
 	KToolBar *searchToolBar = new KToolBar( this );
 	
 	KToolBarButton *button = new KToolBarButton( "locationbar_erase", 0, searchToolBar );
-	m_searchEdit = new KLineEdit(i18n( "Filter here..." ), searchToolBar );
+	m_searchEdit = new KLineEdit(m_filterText, searchToolBar );
 	searchToolBar->setStretchableWidget( m_searchEdit );
 	m_searchEdit->setFrame( QFrame::Sunken );
 	
@@ -58,6 +58,8 @@ LTListView::~LTListView()
 
 void LTListView::setDatabase(KLDatabase *db)
 {
+#warning "Por favor no use esta funcion, use KLDM en su lugar"
+	qDebug("Por favor no use esta funcion, use KLDM en su lugar");
 	if ( db )
 	{
 		m_db = db;
@@ -263,6 +265,7 @@ void LTListView::putItems(QStringList items)
 void LTListView::addItem(const QString &pkey)
 {
 	// TODO: Esto sera virtual puro
+	qDebug("Por favor reimplemente la funcion \"addItem\" en su respectivo modulo!!");
 }
 
 KListView* LTListView::getListView()
@@ -272,7 +275,8 @@ KListView* LTListView::getListView()
 
 void LTListView::slotSetFilterTimeout()
 {
-	m_timer->start( 280, true );
+	if ( m_searchEdit->text() != m_filterText )
+		m_timer->start( 280, true );
 }
 
 void LTListView::slotSetFilter()
@@ -288,6 +292,8 @@ void LTListView::slotSetFilter()
 void LTListView::slotFilter(const QString &filter)
 {
 	std::cout << "LTListView filter: " << filter << std::endl;
+	
+	qDebug("Por favor reimplemente la funcion \"slotFilter\" en su respectivo modulo!!");
 	if ( filter.isEmpty() )
 	{
 		fillList();

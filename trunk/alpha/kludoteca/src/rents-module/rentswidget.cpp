@@ -21,10 +21,15 @@
 #include <klocale.h>
 #include <iostream>
 
+#define DEBUG_RENTS 1
+
 using std::cout;
 
 RentsWidget::RentsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(QStringList() << i18n("Game") << i18n("First Name") << i18n("Last Name"), button1, button2, button3, button4, parent, "Rents-module")
 {
+#if DEBUG_RENTS
+qDebug("[Initializing RentsWidget]");
+#endif
 	setCaption(i18n("Rents"));
 }
 
@@ -36,14 +41,33 @@ RentsWidget::~RentsWidget()
 
 void RentsWidget::fillList()
 {
+#if DEBUG_RENTS
+qDebug("RentsWidget: filling List");
+#endif
 	if ( !m_db )
 	{
 		qDebug("You're need set the database!!");
 		return;
 	}
 	
-	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_games" << "ldt_clients" << "ldt_rents");
-	sqlquery.setWhere("ldt_rents.clientdocident=ldt_clients.docident and ldt_rents.gameserialreference=ldt_games.serialreference");
+	// SELECT gamename,firstname,lastname 
+	// FROM ldt_persons,ldt_rents,ldt_games 
+
+	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_games" << "ldt_persons" << "ldt_rents");
+	
+	// WHERE ldt_persons.docident in 
+	sqlquery.setWhere("ldt_persons.docident");
+	
+	//			(select ldt_rents.clientdocident from ldt_persons )
+	KLSelect subquery (QStringList() << "clientdocident", QStringList() << "ldt_persons" );
+	sqlquery.addSubConsult("in", subquery);
+	
+	//       and serialreference in 
+	sqlquery.setCondition("and serialreference");
+	
+	//			(select ldt_rents.gameserialreference from ldt_games);
+	KLSelect subquery2 ( QStringList()  << "gameserialreference", QStringList() << "ldt_games" );
+	sqlquery.addSubConsult("in", subquery2);
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 

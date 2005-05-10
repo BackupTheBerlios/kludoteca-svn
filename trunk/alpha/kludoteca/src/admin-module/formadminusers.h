@@ -50,7 +50,7 @@ class FormAdminUsers : public FormBase
 		 * @param parent 
 		 * @return 
 		 */
-		FormAdminUsers(KLDatabase *db, QWidget *parent = 0);
+		FormAdminUsers(FormBase::Type t, QWidget *parent = 0);
 		/**
 		 * Destructor
 		 * @return 
@@ -66,7 +66,7 @@ class FormAdminUsers : public FormBase
 		QString getPassword(); 
 		QString getFirstName(); 
 		QString getLastName(); 
-		QString getSex(); 
+		QString getGenre(); 
 		QString getAddress(); 
 		QString getPhone(); 
 		QString getEmail(); 
@@ -77,7 +77,7 @@ class FormAdminUsers : public FormBase
 		void setPassword(const QString &pass); 
 		void setFirstName(const QString &fname); 
 		void setLastName(const QString &lname); 
-		void setSex(const QString &sex); 
+		void setGenre(QString &sex); 
 		void setAddress(const QString &addrs); 
 		void setPhone(const QString &phone); 
 		void setEmail(const QString &email); 
@@ -109,10 +109,12 @@ class FormAdminUsers : public FormBase
 		QFrame *m_container;
 		QVButtonGroup *m_radioButtons;
 		QRadioButton *m_male, *m_female;
-		HashLineEdit m_lineEdits;
+		HashLineEdit m_personFields, m_userFields;
 		
 		QVButtonGroup *m_permsBox;
 		QCheckBox  *m_adminp, *m_gamesp, *m_clientsp, *m_rentsp, *m_tournamentsp;
+		
+		QString m_docIdent;
 	
 	private:
 		/**

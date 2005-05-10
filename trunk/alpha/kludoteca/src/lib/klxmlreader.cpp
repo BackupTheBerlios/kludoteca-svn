@@ -44,6 +44,11 @@ KLSqlResults KLXmlReader::results()
 	return m_interpreter->getResults();
 }
 
+QStringList KLXmlReader::getResultsList()
+{
+	return m_interpreter->getResultList();
+}
+
 bool KLXmlReader::parse(const QXmlInputSource * input, bool incremental)
 {
 #warning "Please don't use this function!!, use analizeXml instead"

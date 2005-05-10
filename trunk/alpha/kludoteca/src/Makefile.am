@@ -21,11 +21,11 @@ kludoteca_LDADD = $(top_builddir)/src/clients-module/libclients-module.a \
 
 # which sources should be compiled for kludoteca
 kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \
-				ldtapp.cpp crashhandler.cpp validateuser.cpp klfirstdialog.cpp
+	ldtapp.cpp crashhandler.cpp validateuser.cpp klfirstdialog.cpp
 
 # these are the headers for your project
 noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h ldtapp.h \
-			crashhandler.h validateuser.h klfirstdialog.h
+	crashhandler.h validateuser.h klfirstdialog.h
 
 # client stuff
 
@@ -33,7 +33,7 @@ noinst_HEADERS = kludoteca.h kludotecaview.h pref.h osd.h ldtapp.h \
 METASOURCES = AUTO
 
 messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kludoteca.pot
+	$(XGETTEXT) *.cpp */*.cpp -o $(podir)/kludoteca.pot
 
 KDE_ICON = kludoteca
 
@@ -59,3 +59,5 @@ kldatadir_DATA = box-centre-image.png klstyle.css lightning.png mainpage.html \
 	bottom-right.png box-bottom-left.png box-bottom-middle.png box-bottom-right.png \
 	box-middle-left.png box-middle-right.png box-top-left.png box-top-middle.png \
 	box-top-right.png kl_infopage.css kl_infopage_rtl.css top-left.png top-middle.png
+klpicsdir = $(kde_datadir)/kludoteca/pics
+klpics_DATA = klsplash-0.3.png

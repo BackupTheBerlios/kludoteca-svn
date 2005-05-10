@@ -35,3 +35,19 @@ estado
 
 -1       Crear la listas a partir de un xml generado a partir de una consulta a la base de datos, se debe diseñar este XML de forma estandar.
 
+- Ingresar y actualizar la información de los juegos que se alquilan
+en la Ludoteca del Centro Vacacional Juanambú. (50%) (exagerando un
+poco)
+- Ingresar y actualizar la información de alquiler de juegos. (0%)
+- Gestionar la información referente a organización de torneos de
+juegos de pareja (datos del torneo, datos de inscritos y manejo de
+puntuación y puestos). (0%)
+- Visualizar reporte estadístico de juegos más alquilados. (0%)
+- Visualizar reporte estadístico de día de la semana con más
+afluencia de público para jugar determinado juego. (0%)
+- Visualizar reporte de puntuación por jugador en un torneo y puestos
+en el torneo. (0%)
+- Imprimir emparejamiento de jugadores para cada ronda de un torneo. (0%)
+
+Porcentaje total: 7.14%
+

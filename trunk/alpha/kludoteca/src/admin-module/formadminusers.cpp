@@ -25,7 +25,7 @@
 #include <qregexp.h>
 #include <kseparator.h>
 
-FormAdminUsers::FormAdminUsers(KLDatabase *db, QWidget *parent) : FormBase(db, parent, "FormAdminUsers")
+FormAdminUsers::FormAdminUsers(FormBase::Type t, QWidget *parent) : FormBase(t, parent, "FormAdminUsers"), m_docIdent("")
 {
 	setupForm();
 }
@@ -84,20 +84,31 @@ void FormAdminUsers::setupBox()
 	std::cout << "Setup box" << std::endl;
 	QWidget *box = new QWidget(m_container);
 	
-	QStringList labels = QStringList() << i18n("Login") << i18n("Password")  << i18n("First name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("EMail");
+	QStringList userLabels = QStringList() << i18n("Login") << i18n("Password");
+	QStringList userdbfields = QStringList() << "login" << "password";
 	
-	QStringList dbfields = QStringList() << "login" << "password"  << "firstname" << "lastname" << "docident" << "address" << "phone" << "email";
+	m_userFields = this->setupGridLineEdit(box, userLabels, 600, userdbfields);
+			
+	QStringList personLabels = QStringList() << i18n("First name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("EMail");
+	
+	QStringList persondbfields = QStringList() << "firstname" << "lastname" << "docident" << "address" << "phone" << "email";
 
-	m_lineEdits = this->setupGridLineEdit(box, labels, 600, dbfields);
+	std::cout << "add lineedits"<< std::endl;
+	this->addLineEdits(box, personLabels, m_personFields, 600, persondbfields);
 	
-	m_lineEdits[i18n("Login")]->setValidator(new QRegExpValidator(QRegExp("[^0-9\\s]+\\c+$"), 0));
+	m_userFields["login"]->setValidator(new QRegExpValidator(QRegExp("[^0-9\\s]+\\c+$"), 0));
+	if ( getType() == FormBase::Edit )
+	{
+		m_userFields["login"]->setReadOnly(true);
+	}
 	
-// 	m_lineEdits[i18n("Permissions")]->setValidator(new QRegExpValidator(QRegExp("[0-1]{0,5}"), 0));
+			
+// 	m_personFields[i18n("Permissions")]->setValidator(new QRegExpValidator(QRegExp("[0-1]{0,5}"), 0));
 	
-	m_lineEdits[i18n("Password")]->setEchoMode(KLineEdit::Password);
+	m_userFields["password"]->setEchoMode(KLineEdit::Password);
 	
 // 	KSeparator *sep = new KSeparator(KSeparator::HLine, m_container);
-// 	
+	// 	
 // 	m_layout->addWidget(sep, 1,1);
 	
 	setupPermissionsBox();
@@ -135,11 +146,24 @@ void FormAdminUsers::accept()
 	{
 		case FormBase::Add:
 		{
-			KLInsert sqlquery("ldt_users", QStringList() << SQLSTR(this->getIdentification()) << SQLSTR(this->getLogin()) << SQLSTR(this->getFirstName()) << SQLSTR(this->getLastName()) << SQLSTR(getSex() ) << SQLSTR(this->getAddress()) << SQLSTR(this->getPhone()) << SQLSTR(this->getEmail()) << SQLSTR(this->getPermissions()));
+			// Primero añadimos la persona y no me importa si puede o no y luego el usuario
+			KLInsert *sqlquery = new KLInsert("ldt_persons", QStringList()
+				<< SQLSTR(this->getIdentification()) 
+				<< SQLSTR(this->getFirstName()) 
+				<< SQLSTR(this->getLastName()) 
+				<< SQLSTR(this->getPhone()) 
+				<< SQLSTR(this->getPhone()) // TODO: add celullar field
+				<< SQLSTR(this->getEmail())
+				<< SQLSTR(this->getAddress())
+				<< SQLSTR(getGenre() ));
+			
+			emit sendQuery(sqlquery); // No importa si puede o no
+			
+			sqlquery = new KLInsert ("ldt_users", QStringList() << SQLSTR(this->getIdentification()) << SQLSTR(this->getLogin())  << SQLSTR(this->getPermissions()));
 			
 			emit sendRawQuery("CREATE USER "+ this->getLogin() + " PASSWORD "+ SQLSTR(this->getPassword()) );
 			
-			emit sendQuery(&sqlquery);
+			emit sendQuery(sqlquery);
 			if ( ! this->lastQueryWasGood() )
 			{
 				emit sendRawQuery("DROP USER " + this->getLogin());
@@ -147,6 +171,9 @@ void FormAdminUsers::accept()
 			else
 			{
 				// Damos permisos necesarios
+				
+				emit sendRawQuery("GRANT SELECT ON ldt_users,ldt_enterprise TO "+getLogin());
+				
 				QString perms = this->getPermissions();
 				if (perms.at(0).digitValue() )
 				{
@@ -180,10 +207,9 @@ void FormAdminUsers::accept()
 		{
 			QStringList fields, values;
 			
-			QDictIterator<KLineEdit> it( m_lineEdits );
+			QDictIterator<KLineEdit> it( m_personFields );
 			for( ; it.current(); ++it)
 			{
-				if ( it.current()->name() != QString("password")  )
 				if ( it.current()->isModified() )
 				{
 					std::cout << "adding ." << it.current()->name() << "."<< std::endl;
@@ -192,13 +218,10 @@ void FormAdminUsers::accept()
 				}
 			}
 			
-			fields << "permissions";
-			values << this->getPermissions();
-			
 			if ( fields.count() == values.count() && fields.count() > 0 )
 			{
-				KLUpdate sqlup("ldt_users", fields, values);
-				sqlup.setWhere("login="+SQLSTR(getLogin()));
+				KLUpdate sqlup("ldt_persons", fields, values);
+				sqlup.setWhere("docIdent="+SQLSTR(m_docIdent));
 				
 				emit sendQuery(&sqlup);
 				
@@ -208,8 +231,14 @@ void FormAdminUsers::accept()
 				}
 			}
 			
+			
+			
+// 			fields << "permissions";
+// 			values << this->getPermissions();
+			
 			// Now the password!!
-			emit sendRawQuery("alter user " + getLogin() + " WITH PASSWORD " + SQLSTR(getPassword()));
+			if ( m_userFields["password"]->isModified() )
+				emit sendRawQuery("alter user " + getLogin() + " WITH PASSWORD " + SQLSTR(getPassword()));
 			
 			emit message2osd(i18n("The changes to " + getLogin() + " was taken"));
 			
@@ -226,60 +255,72 @@ void FormAdminUsers::cancel()
 
 void FormAdminUsers::clean()
 {
-	QDictIterator<KLineEdit> it( m_lineEdits );
+	QDictIterator<KLineEdit> it( m_personFields );
 	for( ; it.current(); ++it)
 		it.current()->setText("");
+	
+	QDictIterator<KLineEdit> it2( m_userFields );
+	for( ; it2.current(); ++it2)
+		it2.current()->setText("");
+	
+	for (uint i = 0; i < m_permsBox->count(); i++)
+	{
+		static_cast<QCheckBox *>(m_permsBox->find(i))->setChecked(false);
+	}
 }
 
 QString FormAdminUsers::getIdentification()
 {
-	return m_lineEdits[i18n("Identification")]->text().remove('&');
+	return m_personFields["docident"]->text().remove('&');
 }
 
 QString FormAdminUsers::getLogin()
 {
-	return m_lineEdits[i18n("Login")]->text();
+	return m_userFields["login"]->text();
 }
 
 QString FormAdminUsers::getPassword()
 {
-	return m_lineEdits[i18n("Password")]->text();
+	return m_userFields["password"]->text();
 }
 
 QString FormAdminUsers::getFirstName()
 {
-	return m_lineEdits[i18n("First name")]->text();
+	return m_personFields["firstname"]->text();
 }
 
 QString FormAdminUsers::getLastName()
 {
-	return m_lineEdits[i18n("Last name")]->text();
+	return m_personFields["lastname"]->text();
 } 
 
-QString FormAdminUsers::getSex()
+QString FormAdminUsers::getGenre()
 {
-	return (static_cast<QRadioButton*>(m_radioButtons->selected()))->text();
+	QString tsex = (static_cast<QRadioButton*>(m_radioButtons->selected()))->text();
+	
+	tsex.remove('&');
+	return tsex.lower();
 } 
 
 QString FormAdminUsers::getAddress()
 {
-	return m_lineEdits[i18n("Address")]->text();
+	return m_personFields["address"]->text();
 }
 
 QString FormAdminUsers::getPhone()
 {
-	return m_lineEdits[i18n("Phone")]->text();
+	return m_personFields["phone"]->text();
 }
 
 QString FormAdminUsers::getEmail()
 {
-	return m_lineEdits[i18n("EMail")]->text();
+	return m_personFields["email"]->text();
 }
 
 QString FormAdminUsers::getPermissions()
 {
 	QString perms = "";
-	for (uint i = 0; i < 5; i++)
+	for (uint i = 0; i < m_permsBox->count(); i++)
 	{
 		if ( static_cast<QCheckBox *>(m_permsBox->find(i))->isChecked() )
 		{
@@ -298,33 +339,35 @@ QString FormAdminUsers::getPermissions()
 		
 void FormAdminUsers::setIdentification(const QString &ident)
 {
-	m_lineEdits[i18n("Identification")]->setText(ident);
+	m_docIdent = ident;
+	m_personFields["docident"]->setText(ident);
 }
 
 void FormAdminUsers::setLogin(const QString &login)
 {
-	m_lineEdits[i18n("Login")]->setText(login);
+	m_userFields["login"]->setText(login);
 }
 
 void FormAdminUsers::setPassword(const QString &pass)
 {
-	m_lineEdits[i18n("Password")]->setText(pass);
+	m_userFields["password"]->setText(pass);
 }
 
 void FormAdminUsers::setFirstName(const QString &fname)
 {
-	m_lineEdits[i18n("First name")]->setText(fname);
+	m_personFields["firstname"]->setText(fname);
 }
 
 void FormAdminUsers::setLastName(const QString &lname)
 {
-	m_lineEdits[i18n("Last name")]->setText(lname);
+	m_personFields["lastname"]->setText(lname);
 }
 
-void FormAdminUsers::setSex(const QString &sex)
+void FormAdminUsers::setGenre(QString &sex)
 {
+	sex.remove('&');
 	std::cout << "Sex: " << sex << std::endl;
-	for (uint i = 0; i < 2; i++)
+	for (uint i = 0; i < m_radioButtons->count(); i++)
 	{
 		QRadioButton *btmp = static_cast<QRadioButton *>(m_radioButtons->find(i));
 		std::cout << "Sexo: " << btmp->text() << std::endl;;
@@ -338,23 +381,23 @@ void FormAdminUsers::setSex(const QString &sex)
 
 void FormAdminUsers::setAddress(const QString &addrs)
 {
-	m_lineEdits[i18n("Address")]->setText(addrs);
+	m_personFields["address"]->setText(addrs);
 }
 
 void FormAdminUsers::setPhone(const QString &phone)
 {
-	m_lineEdits[i18n("Phone")]->setText(phone);
+	m_personFields["phone"]->setText(phone);
 }
 
 void FormAdminUsers::setEmail(const QString &email)
 {
-	m_lineEdits[i18n("EMail")]->setText(email);
+	m_personFields["email"]->setText(email);
 }
 
 void FormAdminUsers::setPermissions(const QString &perms)
 {
 	std::cout << "setting up perms : " << perms << std::endl;
-	for(uint i = 0; i< perms.length(); i++)
+	for(uint i = 0; i < perms.length(); i++)
 	{
 		if ( perms.at(i) == '1')
 		{

@@ -21,13 +21,13 @@
 #ifndef TOURNAMENTOLD_H
 #define TOURNAMENTOLD_H
 
-#include <qvbox.h>
+#include "ltlistview.h"
 
 /**
  * En esta clase tenemos los torneos pasados
  * @author David Cuadrado
 */
-class TournamentOld : public QVBox
+class TournamentOld : public LTListView
 {
 	Q_OBJECT
 	public:
@@ -39,6 +39,38 @@ class TournamentOld : public QVBox
 		 * Constructor por defecto
 		 */
     		~TournamentOld();
+		
+	protected:
+		/**
+	 	 * Esta funcion debe implementarse para llenar la lista.
+		 */
+		void fillList();
+			
+	public slots:
+		/**
+	 * Esta funcion nos da el item que fue clickeado
+		 */
+		void getClickedItem(QListViewItem *item);
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de adicionar
+		 */
+		void addButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de borrar
+		 */
+		void delButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de modificar
+		 */
+		void modifyButtonClicked();
+		
+		/**
+		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
+		 */
+		void queryButtonClicked();
 
 };
 

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,31 +17,58 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef KLXMLREADER_H
-#define KLXMLREADER_H
 
-#include "klresultsetinterpreter.h"
-#include <qxml.h>
+#include "klpermission.h"
+#include <iostream>
 
-/**
- * Lector XML
- * @author David Cuadrado
-*/
-
-class KLXmlReader : public QXmlSimpleReader
+KLPermission::KLPermission()
 {
-	public:
-		KLXmlReader();
-		~KLXmlReader();
-		bool analizeXml(const QXmlInputSource * input,  KLResultSetInterpreter::Type t);
-		KLSqlResults results();
-		QStringList getResultsList();
-		
-		bool parse(const QXmlInputSource * input, bool incremental);
-		bool parse (const QXmlInputSource *input);
+}
 
-	private:
-		KLResultSetInterpreter *m_interpreter;
-};
 
-#endif
+KLPermission::~KLPermission()
+{
+}
+
+KLPermission *KLPermission::instance()
+{
+	static KLPermission *inst = new KLPermission;
+	return inst;
+}
+
+void KLPermission::string2perms(const QString &str)
+{
+	strperms = str;
+	m_activeAdminModule = str.at(0).digitValue();
+	m_activeClientsModule = str.at(1).digitValue();
+	m_activeGamesModule = str.at(2).digitValue();
+	m_activeRentsModule = str.at(3).digitValue();
+	m_activeTournamentModule = str.at(4).digitValue();
+
+}
+
+
+bool KLPermission::activeAdminModule()
+{
+	return m_activeAdminModule;
+}
+
+bool KLPermission::activeClientsModule()
+{
+	return m_activeClientsModule;
+}
+
+bool KLPermission::activeGamesModule()
+{
+	return m_activeGamesModule;
+}
+
+bool KLPermission::activeTournamentModule()
+{
+	return m_activeTournamentModule;
+}
+
+bool KLPermission::activeRentsModule()
+{
+	return m_activeRentsModule;
+}
