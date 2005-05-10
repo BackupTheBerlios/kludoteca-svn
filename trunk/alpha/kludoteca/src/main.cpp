@@ -36,6 +36,7 @@
 #include "rtkoutputopenoffice.h"
 
 #include "klpermission.h"
+#include "kllogger.h"
 
 static const char description[] = I18N_NOOP("System for administer a game store.");
 

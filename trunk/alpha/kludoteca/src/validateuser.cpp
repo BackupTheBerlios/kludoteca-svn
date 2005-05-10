@@ -22,6 +22,7 @@
 #include <qlabel.h>
 #include <kmessagebox.h>
 #include "klpermission.h"
+#include "kllogger.h"
 
 ValidateUser::ValidateUser(/*KLDatabase *db, */QWidget *parent, const char *name) : KDialogBase(Tabbed, QWidget::WStyle_DialogBorder,  parent, name, true, i18n("Validate dialog"), Ok | Cancel) //, m_db(db)
 {
@@ -63,6 +64,9 @@ void ValidateUser::slotOk()
 			if (perms.length() > 0 )
 			{
 				klperm->string2perms(perms);
+				
+				LOGGER->log(i18n("The user %1 is online").arg(m_userPage->getLogin()));
+				
 				KDialogBase::slotOk();
 				writeConfig();
 			}

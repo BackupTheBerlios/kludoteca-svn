@@ -132,7 +132,7 @@ CREATE TABLE ldt_tournament (
 );
 
 -- Vista para facilitar el filtrado
-create view ldt_tournament_view as select name,gamename,initdate from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games );
+create view ldt_tournament_view as select name,gamename,initdate,active from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games );
 
 insert into ldt_tournament values ( 'XVI Torneo de linares', 'g1', '01-jan-05', '02-jan-05', 4, 4, 1000, 10, 't' );
 insert into ldt_tournament values ( 'XVII Torneo de linares', 'g2', '01-jan-05', '02-jan-05', 4, 4, 1000, 10, 't' );
@@ -147,6 +147,8 @@ CREATE TABLE ldt_rents (
 	foreign key (clientDocIdent) references ldt_clients(docIdent) on delete cascade on update cascade,
 	foreign key (gameSerialReference) references ldt_games(serialReference) on delete cascade on update cascade
 );
+
+create view ldt_rents_view as select gamename,firstname,lastname from ldt_games,ldt_persons,ldt_rents where ldt_persons.docident in ( select clientdocident from ldt_persons )  and serialreference  in ( select gameserialreference from ldt_games );
 
 insert into ldt_rents values ( '1', 'g1', '12:00:00', '01-jan-05');
 insert into ldt_rents values ( '3', 'g2', '12:00:00', '01-jan-05');

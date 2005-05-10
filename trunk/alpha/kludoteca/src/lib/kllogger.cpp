@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                                      *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,63 +17,66 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef LDTAPP_H
-#define LDTAPP_H
-
-#include <kapplication.h> 
-#include <kconfig.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
 #include "kllogger.h"
+#include <iostream>
+#include <klocale.h>
 
-/**
- * Esta clase simboliza la aplicación
- * @author David Cuadrado
-*/
-
-class LDTApp : public KApplication
+KLLogger::KLLogger() : QObject(0, "Logger"), m_file(0)
 {
-	Q_OBJECT
+}
+
+
+KLLogger::~KLLogger()
+{
+}
+
+KLLogger *KLLogger::instance()
+{
+	static KLLogger *inst = new KLLogger;
+	return inst;
+}
+
+void KLLogger::setupLogger(const QString &directory, const QString &filename )
+{
+	QDir dirBase(directory);
+	if ( ! dirBase.exists() )
+	{
+		if ( ! dirBase.mkdir(directory) )
+		{
+			qDebug(i18n("Error: I can't create %").arg(directory));
+			return;
+		}
+	}
 	
-	public:
-		/**
-		 * Constructor por defecto
-		 */
-    		LDTApp();
-		
-    		/**
-		 * Destructor por defecto
-		 */
-		~LDTApp();
-		
-		/**
-		 * Muestra el dialogo de inicializacion y configuracion del sistema.
-		 */
-		void firstDialog();
-		
-		/**
-		 * Retorna el objeto de configuracion de session
-		 * @param group 
-		 * @return 
-		 */
-		KConfig *config(const QString &group = "General");
-		
-		/**
-		 * Retorna la version de la aplicacion 
-		 * @return appversion
-		 */
-		QString appversion();
-		
-		/**
-		 * Coloca los colores de la aplicacion
-		 */
-		void applyColors();
-		
-	private:
-		const QString APPNAME;
-		const QString APPVERSION;
-};
+	setFile(directory+"/"+filename);
+}
 
-#define klapp static_cast<LDTApp*>(kapp)
+void KLLogger::setFile(const QString &filename)
+{
+	std::cout << "set file: " << filename << std::endl;
+	m_file = new QFile(filename);
+}
 
-#endif
+void KLLogger::log(const QString &message)
+{
+	// TODO: Escribir esto en un XML
+	if ( m_file )
+	{
+		if ( m_file->open(IO_WriteOnly | IO_Append) )
+		{
+			QTextStream stream( m_file );
+			stream << QDate::currentDate().toString(Qt::ISODate) + " " + message << endl;
+			m_file->close();
+		}
+		else
+		{
+			qDebug(i18n("I can't open %1 to write!").arg(m_file->name()));
+		}
+	}
+	else
+	{
+		qDebug(i18n("You need setup the logger first"));
+	}
+}
+
+#include "kllogger.moc"

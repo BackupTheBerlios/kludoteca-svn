@@ -366,7 +366,7 @@ bool KLDatabase::createTables()
 	if ( wasgood )
 	{
 		exec("create view ldt_users_view as SELECT firstname,lastname,login from ldt_users,ldt_persons where ldt_persons.docident in (select ldt_users.docident from ldt_persons )");
-		exec("create view ldt_tournament_view as select name,gamename,initdate from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games )");
+		exec("create view ldt_tournament_view as select name,gamename,initdate,active from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games )");
 		exec("create view ldt_clients_view as SELECT firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent in (select ldt_clients.docident from ldt_persons );");
 	}
 	return wasgood;

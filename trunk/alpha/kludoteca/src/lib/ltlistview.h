@@ -28,6 +28,7 @@
 #include <kmdichildview.h>
 #include <ktoolbar.h>
 #include <qtimer.h>
+#include <kmessagebox.h>
 
 #include "klxmlreader.h"
 #include "kldatabase.h"

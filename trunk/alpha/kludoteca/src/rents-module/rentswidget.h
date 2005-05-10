@@ -46,6 +46,10 @@ class RentsWidget : public LTListView
 		 */
 		void fillList();
 		
+		void slotFilter(const QString &filter);
+		
+		void addItem(const QString &pkey);
+		
 	public slots:
 		/**
 	 	 * Esta funcion nos da el item que fue clickeado

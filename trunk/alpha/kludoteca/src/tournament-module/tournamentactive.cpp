@@ -37,7 +37,7 @@ void TournamentActive::addButtonClicked()
 #if DEBUG_TOURNAMENT
 	qDebug("TournamentActive: init addButtonClicked");
 #endif
-	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
+	KMdiChildView *view = new KMdiChildView(i18n("Add tournament"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
@@ -54,7 +54,7 @@ void TournamentActive::addButtonClicked()
 	scroll->addChild(formTournament);
 
 	formTournament->setTitle(i18n("Add a tournament"));
-	formTournament->setExplanation(i18n("Fill the fields with the user information"));
+	formTournament->setExplanation(i18n("Fill the fields with the tournament information"));
 	
 	emit sendWidget(view); 
 #if DEBUG_TOURNAMENT
@@ -64,6 +64,18 @@ void TournamentActive::addButtonClicked()
 
 void TournamentActive::delButtonClicked()
 {
+	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
+	
+	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the tournament ")+itemp->text(2)+ " ?");
+	
+	if (opt == KMessageBox::Yes )
+	{
+		m_db->execRawQuery("delete from ldt_tournament where name="+ SQLSTR(itemp->text(0)));
+		
+		delete itemp;
+		
+		emit message2osd(i18n("The tournament has been deleted!!"));
+	}
 }
 
 void TournamentActive::modifyButtonClicked()
@@ -78,6 +90,7 @@ void TournamentActive::fillList()
 {
 	// SELECT name,gamename,initdate from ldt_tournament,ldt_games where ldt_games.serialreference in (select gamereference from ldt_games);
 	KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
+	sqlquery.setWhere("active");
 	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
@@ -97,6 +110,7 @@ void TournamentActive::addItem(const QString &pkey)
 	std::cout << "Adicionando item con pkey: " << pkey << std::endl;
 	
 	KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
+	sqlquery.setWhere("active");
 	
 	sqlquery.setWhere("name="+SQLSTR(pkey));
 
@@ -120,6 +134,7 @@ void TournamentActive::slotFilter(const QString &filter)
 	else
 	{
 		KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
+		sqlquery.setWhere("active");
 
 		sqlquery.addFilter(filter);
 		

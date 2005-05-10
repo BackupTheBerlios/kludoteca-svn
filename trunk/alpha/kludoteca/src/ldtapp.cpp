@@ -23,12 +23,8 @@
 
 LDTApp::LDTApp() : KApplication(), APPVERSION("0.2a") 
 {
-	// Leemos el archivo de configuracion, si es la primera vez que se lanza la aplicación, mostramos el dialogo de inicio, sino continuamos con la carga normal.
-	
-// 	if ( config()->readBoolEntry( "First Run", true ) )
-// 	{
-// 		firstDialog();
-// 	}
+	// Configuramos el logger
+	LOGGER->setupLogger(QDir::homeDirPath (), QString("logfile.txt"));
 }
 
 

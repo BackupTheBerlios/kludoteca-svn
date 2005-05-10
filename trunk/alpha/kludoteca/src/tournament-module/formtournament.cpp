@@ -161,6 +161,7 @@ void FormTournament::accept ()
  			emit sendQuery(&sqlquery);
 			
 			emit inserted(getTournamentName());
+			clean();
 		}
 		break;
 		case Edit:

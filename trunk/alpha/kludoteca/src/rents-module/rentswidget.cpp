@@ -53,25 +53,9 @@ qDebug("RentsWidget: filling List");
 	// SELECT gamename,firstname,lastname 
 	// FROM ldt_persons,ldt_rents,ldt_games 
 
-	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_games" << "ldt_persons" << "ldt_rents");
-	
-	// WHERE ldt_persons.docident in 
-	sqlquery.setWhere("ldt_persons.docident");
-	
-	//			(select ldt_rents.clientdocident from ldt_persons )
-	KLSelect subquery (QStringList() << "clientdocident", QStringList() << "ldt_persons" );
-	sqlquery.addSubConsult("in", subquery);
-	
-	//       and serialreference in 
-	sqlquery.setCondition("and serialreference");
-	
-	//			(select ldt_rents.gameserialreference from ldt_games);
-	KLSelect subquery2 ( QStringList()  << "gameserialreference", QStringList() << "ldt_games" );
-	sqlquery.addSubConsult("in", subquery2);
+	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_rents_view");
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
-
-	//->select(QStringList() << "gamename" << "firstname" << "lastname", "ldt_games,ldt_clients,ldt_rents", "where ldt_rents.clientdocident=ldt_clients.docident and ldt_rents.gameserialreference=ldt_games.serialreference;");
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -120,6 +104,59 @@ void RentsWidget::queryButtonClicked()
 	cout << "query button clicked" << std::endl;
 }
 
+void RentsWidget::addItem(const QString &pkey)
+{
+	std::cout << "Adicionando item con pkey: " << pkey << std::endl;
+	
+	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_games" << "ldt_persons" << "ldt_rents");
+	
+	// WHERE ldt_persons.docident in 
+	sqlquery.setWhere("ldt_persons.docident");
+	
+	//			(select ldt_rents.clientdocident from ldt_persons )
+	KLSelect subquery (QStringList() << "clientdocident", QStringList() << "ldt_persons" );
+	sqlquery.addSubConsult("in", subquery);
+	
+	//       and serialreference in 
+	sqlquery.setCondition("and serialreference");
+	
+	//			(select ldt_rents.gameserialreference from ldt_games);
+	KLSelect subquery2 ( QStringList()  << "gameserialreference", QStringList() << "ldt_games" );
+	sqlquery.addSubConsult("in", subquery2);
+	
+	sqlquery.setCondition("and login="+SQLSTR(pkey) );
 
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+}
+
+void RentsWidget::slotFilter(const QString &filter)
+{
+	std::cout << "Filtrando filter " << filter << std::endl;
+	
+	if ( filter.isEmpty() )
+	{
+		fillList();
+	}
+	else
+	{
+		KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_rents_view");
+		
+		sqlquery.addFilter(filter);
+		
+		KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+		m_xmlsource.setData(resultSet.toString());
+		if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+		{
+			std::cout << "No se pudo analizar!!!" << std::endl;
+		}
+	}
+}
 
 #include "rentswidget.moc"

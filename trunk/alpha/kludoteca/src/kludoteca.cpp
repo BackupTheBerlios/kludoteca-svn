@@ -72,6 +72,8 @@ KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_
 	setupOSD();
 	
 	m_userValidator = new ValidateUser(this, "UserValidator");
+	
+	LOGGER->log(i18n("Application initialized"));
 }
 
 KLudoteca::~KLudoteca()

@@ -105,6 +105,9 @@ class FormTournament : public FormBase
 		
 	private slots:
 		void initDateChanged(QDate date);
+		
+	signals:
+		void message2osd(const QString &osd);
 	
 	private:
 		QFrame *form;

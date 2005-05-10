@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                                      *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                                	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,63 +17,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef LDTAPP_H
-#define LDTAPP_H
+#ifndef KLLOGGER_H
+#define KLLOGGER_H
 
-#include <kapplication.h> 
-#include <kconfig.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include "kllogger.h"
+#include <qobject.h>
+#include <qstring.h>
+#include <qfile.h>
+#include <qdatetime.h>
+#include <qdir.h>
+
+class KLLogger;
 
 /**
- * Esta clase simboliza la aplicación
+ * Este es el logger de la aplicacion
  * @author David Cuadrado
 */
-
-class LDTApp : public KApplication
+class KLLogger : public QObject
 {
-	Q_OBJECT
-	
+	Q_OBJECT	
 	public:
-		/**
-		 * Constructor por defecto
-		 */
-    		LDTApp();
+		KLLogger();
+		~KLLogger();
 		
-    		/**
-		 * Destructor por defecto
-		 */
-		~LDTApp();
-		
-		/**
-		 * Muestra el dialogo de inicializacion y configuracion del sistema.
-		 */
-		void firstDialog();
-		
-		/**
-		 * Retorna el objeto de configuracion de session
-		 * @param group 
-		 * @return 
-		 */
-		KConfig *config(const QString &group = "General");
-		
-		/**
-		 * Retorna la version de la aplicacion 
-		 * @return appversion
-		 */
-		QString appversion();
-		
-		/**
-		 * Coloca los colores de la aplicacion
-		 */
-		void applyColors();
-		
+		void setFile(const QString &filename);
+		static KLLogger *instance();
+		void log(const QString &message);
+		void setupLogger(const QString &directory, const QString &filename );
+
 	private:
-		const QString APPNAME;
-		const QString APPVERSION;
+		QFile *m_file;
 };
 
-#define klapp static_cast<LDTApp*>(kapp)
+#define LOGGER KLLogger::instance()
 
 #endif
