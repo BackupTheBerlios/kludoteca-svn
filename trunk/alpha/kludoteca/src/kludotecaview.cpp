@@ -480,7 +480,7 @@ void KLMainPage::addClient()
 	
 		QScrollView *scroll = new QScrollView(view);
 		scroll->setResizePolicy(QScrollView::AutoOneFit);
-		FormAdminClients *formAdminClients = new FormAdminClients( KLDM, scroll->viewport() );
+		FormAdminClients *formAdminClients = new FormAdminClients( FormBase::Add, scroll->viewport() );
 		scroll->addChild(formAdminClients);
 		
 		formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
