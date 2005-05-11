@@ -59,7 +59,7 @@ LTListView::~LTListView()
 void LTListView::setDatabase(KLDatabase *db)
 {
 #warning "Por favor no use esta funcion, use KLDM en su lugar"
-	qDebug("Por favor no use esta funcion, use KLDM en su lugar");
+	qDebug(QString("%1:%2 Por favor no use esta funcion, use KLDM en su lugar").arg(__FILE__).arg(__LINE__));
 	if ( db )
 	{
 		m_db = db;
@@ -265,7 +265,7 @@ void LTListView::putItems(QStringList items)
 void LTListView::addItem(const QString &pkey)
 {
 	// TODO: Esto sera virtual puro
-	qDebug("Por favor reimplemente la funcion \"addItem\" en su respectivo modulo!!");
+	qDebug(QString("%1:%2 Por favor reimplemente la funcion \"addItem\" en su respectivo modulo!!").arg(__FILE__).arg(__LINE__) );
 }
 
 KListView* LTListView::getListView()

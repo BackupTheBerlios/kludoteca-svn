@@ -37,51 +37,53 @@ FormTournament::~FormTournament()
 
 void FormTournament::setupForm()
 {
-	form = new QFrame(this);
-	m_grid = new QGridLayout(form,7,4,10);
+	m_form = new QFrame(this);
+	m_form->setLineWidth(3);
+	m_form->setFrameShape(QFrame::Box);
+	m_grid = new QGridLayout(m_form,7,4,10);
 	
-	QLabel *nameTourLabel = new QLabel(i18n("Name of tournament"),form);
-	KLineEdit *nameTournament = new KLineEdit(form);
+	QLabel *nameTourLabel = new QLabel(i18n("Name of tournament"),m_form);
+	KLineEdit *nameTournament = new KLineEdit(m_form);
 	m_lineEdits.insert("name", nameTournament);
 	
 	m_grid->addWidget(nameTourLabel, 0,0);
 	m_grid->addWidget(nameTournament, 0,1);
 	
-	QLabel *dateBegin = new QLabel(i18n("Date of begin of the tournament"),form);
+	QLabel *dateBegin = new QLabel(i18n("Date of begin of the tournament"),m_form);
 	
 	m_grid->addWidget(dateBegin, 0,3);
-	m_dateTournament = new KDatePicker(form, QDate::currentDate());
+	m_dateTournament = new KDatePicker(m_form, QDate::currentDate());
 	
 	m_grid->addWidget(m_dateTournament, 1,3);
 	
 	setupGames();
 	
-	QLabel *dateEnd = new QLabel(i18n("Date end of the tournament"),form);
+	QLabel *dateEnd = new QLabel(i18n("Date end of the tournament"),m_form);
 	m_grid->addWidget(dateEnd,2, 3);
-	m_endDate = new KDateWidget(form);
+	m_endDate = new KDateWidget(m_form);
 	m_endDate->setDate(QDate::currentDate ());
 	m_grid->addWidget(m_endDate, 3,3);
 	
-	m_round = new KIntSpinBox(form);
-	QLabel *roundsGame = new QLabel(i18n("Rounds for players"),form);
+	m_round = new KIntSpinBox(m_form);
+	QLabel *roundsGame = new QLabel(i18n("Rounds for players"),m_form);
 	m_grid->addWidget(roundsGame, 2, 0);
 	m_grid->addWidget(m_round, 2,1);
 	
-	m_gamesPair = new KIntSpinBox(form);
-	QLabel *gamesPlayers = new QLabel(i18n("Games for pairs"),form);
+	m_gamesPair = new KIntSpinBox(m_form);
+	QLabel *gamesPlayers = new QLabel(i18n("Games for pairs"),m_form);
 	m_grid->addWidget(gamesPlayers, 3, 0);
 	m_grid->addWidget(m_gamesPair, 3,1);
 	
 	
 	
-	QLabel *valueInscripLabel = new QLabel(i18n("Value for inscription"),form);
-	KLineEdit *valueInscrip = new KLineEdit(form);
+	QLabel *valueInscripLabel = new QLabel(i18n("Value for inscription"),m_form);
+	KLineEdit *valueInscrip = new KLineEdit(m_form);
 	m_lineEdits.insert("price", valueInscrip);
 	m_grid->addWidget(valueInscripLabel, 4,0);
 	m_grid->addWidget(valueInscrip, 4,1);
 	
-	QLabel *discountLabel = new QLabel(i18n("Discount in the inscription"),form);
-	KLineEdit *discountInscrip = new KLineEdit(form);
+	QLabel *discountLabel = new QLabel(i18n("Discount in the inscription"),m_form);
+	KLineEdit *discountInscrip = new KLineEdit(m_form);
 	m_lineEdits.insert("discount", discountInscrip);
 	m_grid->addWidget(discountLabel, 4,2);
 	m_grid->addWidget(discountInscrip, 4,3);
@@ -97,9 +99,9 @@ void FormTournament::initDateChanged(QDate date)
 void FormTournament::setupGames()
 {
 	// TODO: Consultar la base de datos para sacar los nombres de los juegos
-	QLabel *nameGameLabel = new QLabel(i18n("Name of game"),form);
+	QLabel *nameGameLabel = new QLabel(i18n("Name of game"),m_form);
 	
-	m_nameGame = new KComboBox(form);
+	m_nameGame = new KComboBox(m_form);
 	
 	KLSelect sqlquery(QStringList() << "gamename", QString("ldt_games"));
 	sqlquery.setWhere("available");
@@ -155,9 +157,6 @@ void FormTournament::accept ()
 				<< SQLSTR( getDiscount() )
 				<< SQLSTR( "t" ));
 			
-			std::cout << "Paso limpio" << std::endl;
-			
-			 			
  			emit sendQuery(&sqlquery);
 			
 			emit inserted(getTournamentName());

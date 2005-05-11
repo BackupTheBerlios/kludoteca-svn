@@ -206,10 +206,6 @@ class KLudoteca : public KMdiMainFrm
 		 * Crea y configura el OnScreen-Display
 		 */
 		void setupOSD();
-		/**
-		 * Crea y configura la base de datos
-		 */
-		void setupDatabase();
 		
 	private:
 		KLudotecaView *m_view;

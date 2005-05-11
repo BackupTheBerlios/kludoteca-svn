@@ -44,15 +44,10 @@ void AdminUsers::fillList()
 #if DEBUG_ADMINUSERS
 	qDebug("Fill List");
 #endif
-	if ( !m_db )
-	{
-		qDebug("You're need set the database!!");
-		return;
-	}
 	
 	m_sqlquery = new KLSelect(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users_view");
 	
-	KLResultSet resultSet = m_db->execQuery(m_sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(m_sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -100,9 +95,9 @@ void AdminUsers::delButtonClicked()
 	
 	if (opt == KMessageBox::Yes )
 	{
-		m_db->execRawQuery("delete from ldt_users where login="+ SQLSTR(itemp->text(2)));
+		KLDM->execRawQuery("delete from ldt_users where login="+ SQLSTR(itemp->text(2)));
 		
-		m_db->execRawQuery("drop user "+itemp->text(2));
+		KLDM->execRawQuery("drop user "+itemp->text(2));
 		
 		delete itemp;
 		
@@ -135,7 +130,7 @@ void AdminUsers::modifyButtonClicked()
 	
 	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2))); // Login in the listview
 	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	
@@ -186,7 +181,7 @@ void AdminUsers::queryButtonClicked()
 	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "ldt_users.docident" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users" << "ldt_persons" );
 	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2)));
 	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	
@@ -214,7 +209,7 @@ void AdminUsers::addItem(const QString &pkey)
 	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users_view");
 	sqlquery.setWhere("login="+SQLSTR(pkey) );
 
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -243,7 +238,7 @@ void AdminUsers::slotFilter(const QString &filter)
 
 		sqlquery.addFilter(filter);
 		
-		KLResultSet resultSet = m_db->execQuery(&sqlquery);
+		KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 		m_xmlsource.setData(resultSet.toString());
 		if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )

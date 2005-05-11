@@ -65,7 +65,7 @@ void KLLogger::log(const QString &message, LogType t)
 		if ( m_file->open(IO_WriteOnly | IO_Append) )
 		{
 			QTextStream stream( m_file );
-			QString msg = QDate::currentDate().toString(Qt::ISODate) + " " + message;
+			QString msg = QDate::currentDate().toString(Qt::ISODate)+":"+QTime::currentTime().toString() + " " + message;
 			
 			switch ( t )
 			{

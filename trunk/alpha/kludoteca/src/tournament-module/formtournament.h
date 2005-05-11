@@ -110,7 +110,7 @@ class FormTournament : public FormBase
 		void message2osd(const QString &osd);
 	
 	private:
-		QFrame *form;
+		QFrame *m_form;
 		QGridLayout *m_grid;
 		
 		QGridLayout	*m_maingridLayout;

@@ -66,8 +66,6 @@ KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_
 	// position, icon size, etc.
 	setAutoSaveSettings();
 	
-	setupDatabase();
-	
 	//setupToolWindows();
 	setupOSD();
 	
@@ -78,15 +76,7 @@ KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_
 
 KLudoteca::~KLudoteca()
 {
-}
-
-void KLudoteca::setupDatabase()
-{
-	// TODO: Necesitamos hacer esto configurable, debemos asegurarnos que el driver para postgres exista!!!
-	//m_database = new KLDatabase(this);
-	
-	// DeComment this for DEBUG ( you don't need setup with graphic interface)
-	//m_database->setupConnection("kludoteca", "kladmin","kludoteca", "localhost");
+	LOGGER->log(i18n("Application closed"));
 }
 
 void KLudoteca::setupOSD()
@@ -177,7 +167,7 @@ void KLudoteca::setupToolWindows()
 		
 		connect(adminuser,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 		
-		adminuser->setDatabase( KLDM );
+// 		adminuser->setDatabase( KLDM );
 		adminuser->fillList();
 	}
 	
@@ -186,7 +176,7 @@ void KLudoteca::setupToolWindows()
 	{
 		m_clientsWidget = new ClientsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
 		m_clientsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/clientsicon.png" )) );
-		m_clientsWidget->setDatabase( KLDM );
+// 		m_clientsWidget->setDatabase( KLDM );
 		m_clientsWidget->fillList();
 		
 		m_toolWindows << addToolWindow(m_clientsWidget, KDockWidget::DockLeft, getMainDockWidget());
@@ -213,7 +203,7 @@ void KLudoteca::setupToolWindows()
 	{
 		m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
 		m_rentsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
-		m_rentsWidget->setDatabase(KLDM);
+// 		m_rentsWidget->setDatabase(KLDM);
 		m_rentsWidget->fillList();
 		
 		connect(m_rentsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
@@ -240,7 +230,7 @@ void KLudoteca::setupToolWindows()
 		
 			connect(ltlv,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 		
-			ltlv->setDatabase( KLDM );
+// 			ltlv->setDatabase( KLDM );
 			ltlv->fillList();
 		}
 	}
