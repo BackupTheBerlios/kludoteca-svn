@@ -44,7 +44,10 @@ static const char version[] = "0.1";
 
 static KCmdLineOptions options[] =
 {
-    KCmdLineLastOption
+	{ "+[URL(s)]", I18N_NOOP( "Files/URLs to Open" ), 0 },
+	{ "r", 0, 0 },
+	{ "reconfigure", I18N_NOOP( "Reconfigure the application" ), 0 },
+	{ 0, 0, 0 }
 };
 
 int main(int argc, char **argv)
@@ -125,6 +128,13 @@ int main(int argc, char **argv)
 	else
 	{
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+		
+		if ( args->isSet("reconfigure") )
+		{
+ 			splash->hide();
+			app.firstDialog();
+			std::cout << std::flush;
+		}
 		
 		if (args->count() == 0) // Lanzamos la aplicacion sin argumentos
 		{

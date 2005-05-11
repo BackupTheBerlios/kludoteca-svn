@@ -191,6 +191,7 @@ void FDInitDatabase::createDatabase()
 			{
 				case KMessageBox::Yes:
 				{
+					m_db->dropTables();
 					m_db->exec("DROP DATABASE "+m_dbname->text());
 					m_db->exec("CREATE DATABASE "+m_dbname->text()); 
 					m_db->dropTables();

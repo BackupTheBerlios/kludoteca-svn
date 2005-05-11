@@ -36,12 +36,14 @@ class KLLogger : public QObject
 {
 	Q_OBJECT	
 	public:
+		enum LogType { Err, Warn, Crit, Inf };
+		
 		KLLogger();
 		~KLLogger();
 		
 		void setFile(const QString &filename);
 		static KLLogger *instance();
-		void log(const QString &message);
+		void log(const QString &message, LogType t = Inf);
 		void setupLogger(const QString &directory, const QString &filename );
 
 	private:

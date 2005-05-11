@@ -175,25 +175,26 @@ void FormAdminUsers::accept()
 				emit sendRawQuery("GRANT SELECT ON ldt_users,ldt_enterprise TO "+getLogin());
 				
 				QString perms = this->getPermissions();
+				// Admin
 				if (perms.at(0).digitValue() )
 				{
-					emit sendRawQuery("GRANT ALL  ON ldt_users,ldt_enterprise TO "+getLogin());
+					emit sendRawQuery("GRANT ALL  ON ldt_users,ldt_enterprise,ldt_persons,ldt_users_view TO "+getLogin());
 				}
-				if (perms.at(1).digitValue())
+				if (perms.at(1).digitValue()) // clientes
 				{
-					emit sendRawQuery("GRANT ALL  ON ldt_clients TO "+getLogin());
+					emit sendRawQuery("GRANT ALL  ON ldt_persons, ldt_clients, ldt_clients_view TO "+getLogin());
 				}
-				if(perms.at(2).digitValue())
+				if(perms.at(2).digitValue()) // juegos
 				{
 					emit sendRawQuery("GRANT ALL  ON ldt_games TO "+getLogin());
 				}
-				if (perms.at(3).digitValue())
+				if (perms.at(3).digitValue()) // rentas
 				{
-					emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients TO "+getLogin());
+					emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_rents,ldt_rents_view,ldt_clients,ldt_persons, ldt_clients_view TO "+getLogin());
 				}
-				if(perms.at(4).digitValue())
+				if(perms.at(4).digitValue()) // torneos
 				{
-					emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients,ldt_rents,ldt_participates TO "+getLogin());
+					emit sendRawQuery("GRANT ALL  ON ldt_games,ldt_clients, ldt_clients_view,ldt_rents,ldt_rents_view, ldt_match, ldt_rounds,ldt_participates,ldt_tournament, ldt_tournament_view TO "+getLogin());
 				}
 				
 				emit inserted(getLogin());

@@ -57,7 +57,7 @@ void KLLogger::setFile(const QString &filename)
 	m_file = new QFile(filename);
 }
 
-void KLLogger::log(const QString &message)
+void KLLogger::log(const QString &message, LogType t)
 {
 	// TODO: Escribir esto en un XML
 	if ( m_file )
@@ -65,7 +65,34 @@ void KLLogger::log(const QString &message)
 		if ( m_file->open(IO_WriteOnly | IO_Append) )
 		{
 			QTextStream stream( m_file );
-			stream << QDate::currentDate().toString(Qt::ISODate) + " " + message << endl;
+			QString msg = QDate::currentDate().toString(Qt::ISODate) + " " + message;
+			
+			switch ( t )
+			{
+				case Warn:
+				{
+					msg = "WARNING: " + msg;
+				}
+				break;
+				case Inf:
+				{
+					msg = "INFO: " + msg;
+				}
+				break;
+				case Crit:
+				{
+					msg = "CRITICAL: " + msg;
+				}
+				break;
+				case Err:
+				{
+					msg = "ERROR: " + msg;
+				}
+				break;
+			}
+			
+			stream << msg << endl;
+			
 			m_file->close();
 		}
 		else
