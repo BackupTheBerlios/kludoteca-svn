@@ -25,17 +25,18 @@
 
 using namespace std;
 
-FormAdminClients::FormAdminClients(KLDatabase *db,QWidget *parent) : FormBase(db,parent, "FormAdminClient")
+
+FormAdminClients::FormAdminClients(FormBase::Type t,QWidget *parent) : FormBase(t,parent,"FormAdminClient")
 {
 	setupForm();
 }
-
 FormAdminClients::~FormAdminClients()
 {
 }
 
 void FormAdminClients::setupForm()
 {
+	cout << "CREANDO FORMADMINWIDGET DESDE SETUPFORM" << endl;
 	m_scrollView = new QScrollView(this);
 	m_container = new QFrame(m_scrollView->viewport());
 
@@ -45,7 +46,7 @@ void FormAdminClients::setupForm()
 	m_container->setFrameShape(QFrame::Box);
 	
 	//m_container->setMargin(10);
-	m_layout = new QGridLayout(m_container, 2, 3, 10, 5);
+	m_layout = new QGridLayout(m_container, 1, 2, 10, 5);
 	m_layout->setAlignment(Qt::AlignCenter );
 	
 	setupButtonsBox();
@@ -80,27 +81,64 @@ void FormAdminClients::setupButtonsBox()
 
 void FormAdminClients::setupBox()
 {
-	QStringList labels = QStringList() << i18n("Name") << i18n("Last name") << i18n("Identification") << i18n("Address") << i18n("Phone") << i18n("Celular") << i18n("EMail");
-	QWidget *box = new QWidget(m_container);
-	QStringList labels2 = QStringList() << i18n("Friend name") << i18n("Friend last name") << i18n("Friend address") << i18n("Friend phone");
+	QStringList clientLabels = QStringList() << i18n("Identification");
+		
+	QStringList personLabels = QStringList() << i18n("Name") 
+						<< i18n("Last name")
+						<< i18n("Address")
+						<< i18n("Phone")
+						<< i18n("Celular")
+						<< i18n("EMail");
 	
+	
+
+	QStringList FriendLabels = QStringList() << i18n("Friend Id")
+						<< i18n("Friend Name") 
+						<< i18n("Friend Last name")
+						<< i18n("Friend Address")
+						<< i18n("Friend Phone")
+						<< i18n("Friend Celular")
+						<< i18n("Friend EMail");
+	
+	QStringList clientdbFields = QStringList() << "docIdent";
+	
+	QStringList persondbFields = QStringList() << "firstname" 
+						<< "lastname"
+						<< "phone"
+						<< "celullar"
+						<< "email"
+						<< "address" ;
+	
+	QStringList friendDbFields = QStringList() << "docIdent"
+						<< "firstname" 
+						<< "lastname"
+						<< "phone"
+						<< "celullar"
+						<< "email"
+						<< "address" ;
+						
+	QWidget *box1 = new QWidget(m_container);
 	QWidget *box2 = new QWidget(m_container);
 	
-	m_hashBox1 = this->setupGridLineEdit(box, labels, 500);
-	m_hashBox2 = this->setupGridLineEdit(box2, labels2, 200);
+	m_hashClient = this->setupGridLineEdit(box1, clientLabels, 400, clientdbFields);
 	
-	m_layout->addWidget(box, 0, 0);
-	m_layout->addWidget(box2, 0, 2);
+	this->addLineEdits(box1, personLabels, m_hashPerson, 400 ,persondbFields);
+	
+	m_hashFriend = this->setupGridLineEdit(box2, FriendLabels, 200, friendDbFields);
+	
+	m_layout->addWidget(box1, 0, 0);
+ 	m_layout->addWidget(box2, 0, 2);
+
 }
 
 QString FormAdminClients::getClientId()
 {
-	return m_hashBox1[i18n("Identification")]->text();
+	return m_hashClient["docIdent"]->text();
 }
 
 QString FormAdminClients::getClientName()
 {
-	return m_hashBox1[i18n("Name")]->text();
+	return m_hashPerson["firstname"]->text();
 }
 
 QString FormAdminClients::getInscriptionDate()
@@ -110,7 +148,7 @@ QString FormAdminClients::getInscriptionDate()
 
 QString FormAdminClients::getClientLastName()
 {
-	return m_hashBox1[i18n("Last name")]->text();
+	return m_hashPerson["lastname"]->text();
 }
 
 QString FormAdminClients::getClientSex()
@@ -120,12 +158,12 @@ QString FormAdminClients::getClientSex()
 
 QString FormAdminClients::getClientPhone()
 {
-	return m_hashBox1[i18n("Phone")]->text();
+	return m_hashPerson["phone"]->text();
 }
 
 QString FormAdminClients::getClientCellular()
 {
-	return m_hashBox1[i18n("Celular")]->text();
+	return m_hashPerson["celullar"]->text();
 }
 
 QString FormAdminClients::getClientState()
@@ -136,63 +174,138 @@ QString FormAdminClients::getClientState()
 
 QString FormAdminClients::getClientEmail()
 {
-	return m_hashBox1[i18n("EMail")]->text();
+	return m_hashPerson["email"]->text();
 }
 
 QString FormAdminClients::getClientAddress()
 {
-	return m_hashBox1[i18n("Address")]->text();
+	return m_hashPerson["address"]->text();
 }
 
-QString FormAdminClients::getClientFriendName()
+void FormAdminClients::setClientId()
 {
-	return m_hashBox2[i18n("Friend name")]->text();
 }
 
-
-QString FormAdminClients::getClientFriendPhone()
+void FormAdminClients::setClientName()
 {
-	return m_hashBox2[i18n("Friend phone")]->text();
 }
 
-QString FormAdminClients::getClientFriendAddress()
+void FormAdminClients::setClientLastName()
 {
-	return m_hashBox2[i18n("Friend address")]->text();
 }
+
+void FormAdminClients::setClientPhone()
+{
+}
+
+void FormAdminClients::setClientCellular()
+{
+}
+
+void FormAdminClients::setClientState()
+{
+}
+
+void FormAdminClients::setClientEmail()
+{
+}
+
+void FormAdminClients::setClientSex()
+{
+}
+
+void FormAdminClients::setClientAddress()
+{
+}
+
+
+/******************************************************************************************
+***************************INFO DE REFERENCIA *********************************************
+*******************************************************************************************/
+QString FormAdminClients::getFriendId()
+{
+}
+
+QString FormAdminClients::getFriendName()
+{
+	return m_hashFriend["firstname"]->text();
+}
+
+QString FormAdminClients::getFriendLastName()
+{
+	
+}
+
+QString FormAdminClients::getFriendPhone()
+{
+	return m_hashFriend["phone"]->text();
+}
+
+QString FormAdminClients::getFriendCellular()
+{
+
+}
+
+QString FormAdminClients::getFriendAddress()
+{
+	return m_hashFriend["address"]->text();
+}
+
+QString FormAdminClients::getFriendState()
+{
+}
+
+QString FormAdminClients::getFriendEmail()
+{
+}
+
+QString FormAdminClients::getFriendSex()
+{
+}
+
 
 /*
-* Este metodo toma los valores de los klineedits a traves de dos tablas hash (m_hashBox1 y m_hashBox2)
+* Este metodo toma los valores de los klineedits a traves de dos tablas hash (m_hashPerson y m_hashFriend)
 */
 void FormAdminClients::accept()
 {
-
-	KLInsert sqlquery("ldt_clients", QStringList() 
-			<< SQLSTR( this->getClientId() ) 
-			<< SQLSTR( this->getInscriptionDate() )
-			<< SQLSTR( this->getClientName() )
-			<< SQLSTR( this->getClientLastName() )
-			<< SQLSTR( this->getClientPhone() )
-			<< SQLSTR( this->getClientCellular() )
-			<< SQLSTR( this->getClientEmail() )
-			<< SQLSTR( this->getClientSex() )
-			<< SQLSTR( this->getClientState() )
-			<< SQLSTR( this->getClientAddress() )
-			<< SQLSTR( this->getClientFriendName() )
-			<< SQLSTR( this->getClientFriendPhone() )
-			<< SQLSTR( this->getClientFriendAddress() ) );
-
-	cout << "consulta fue: " << sqlquery.getQuery() << endl;
-	
-	emit sendQuery(&sqlquery);
-	
-	if ( this->lastQueryWasGood() )
+	switch( getType() )
 	{
-		emit accepted();
-		emit inserted(this->getClientId());
-		clean();
-	}
-}
+		case FormBase::Add:
+		{	
+			KLInsert sqlquery("ldt_clients", QStringList() 
+							<< SQLSTR( this->getClientId() ) 
+							<< SQLSTR( this->getInscriptionDate() )
+							<< SQLSTR( this->getClientName() )
+							<< SQLSTR( this->getClientLastName() )
+							<< SQLSTR( this->getClientPhone() )
+							<< SQLSTR( this->getClientCellular() )
+							<< SQLSTR( this->getClientEmail() )
+							<< SQLSTR( this->getClientSex() )
+							<< SQLSTR( this->getClientState() )
+							<< SQLSTR( this->getClientAddress() )
+							<< SQLSTR( this->getFriendName() )
+							<< SQLSTR( this->getFriendPhone() )
+							<< SQLSTR( this->getFriendAddress() ) );
 
+			cout << "consulta fue: " << sqlquery.getQuery() << endl;
+	
+			emit sendQuery(&sqlquery);
+	
+			if ( this->lastQueryWasGood() )
+			{
+				emit accepted();
+				emit inserted(this->getClientId());
+				clean();
+			}
+		}
+		break;
+		case FormBase::Edit:
+		{
+			
+		}
+	}		
+}
 void FormAdminClients::cancel()
 {
 	emit cancelled();
@@ -200,8 +313,8 @@ void FormAdminClients::cancel()
 
 void FormAdminClients::clean()
 {
-	QDictIterator<KLineEdit> it1( m_hashBox1 );
-	QDictIterator<KLineEdit> it2( m_hashBox2 );
+	QDictIterator<KLineEdit> it1( m_hashPerson );
+	QDictIterator<KLineEdit> it2( m_hashFriend );
 	for( ; it1.current(); ++it1)
 		it1.current()->setText("");
 	for(;it2.current();++it2)

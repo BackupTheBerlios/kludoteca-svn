@@ -54,8 +54,7 @@ class FormAdminClients : public FormBase
 		 * @param parent 
 		 * @return 
 		 */
-		FormAdminClients (KLDatabase *db,QWidget *parent = 0);
-		
+		FormAdminClients (FormBase::Type t,QWidget *parent = 0);
 		/**
 		 * Destructor
 		 * @return 
@@ -70,77 +69,36 @@ class FormAdminClients : public FormBase
 		 * Identificacion de cliente
 		 */
 		QString getClientId();
-		
-		/**
-		 * Nombre de cliente
-		 */
-
 		QString getClientName();
-				
-		/**
-		*	Fecha de inscripcion del cliente
-		*/
-
 		QString getInscriptionDate();
-
-		
-		/**
-		 * Apellido de cliente
-		 */
 		QString getClientLastName();
-		
-		/**
-		 * Telefono fijo de cliente
-		 */
-
 		QString getClientPhone();
-		
-		/**
-		 * Telefono movil de cliente
-		 */
-
 		QString getClientCellular();
-
-		/**
-		* Estado del cliente ... baneado o activo !!! 
-		*/
-		
 		QString getClientState();
-		/**
-		 * Correo electronico de clientehttp://www.hdpvidz.com/download.html
-		 */
-
 		QString getClientEmail();
-		
-		/**
-		* Sexo del cliente ... es decir su sexo biologico por ke uno nunca sabe .. :S
-		*/
-		
 		QString getClientSex();
-		/**
-		 * Direccion residencia de cliente
-		 */
-
-		
 		QString getClientAddress();
 		
-		/**
-		 * Nombre de referencia de cliente
-		 */
+		void setClientId();
+		void setClientName();
+		void setClientLastName();
+		void setClientPhone();
+		void setClientCellular();
+		void setClientState();
+		void setClientEmail();
+		void setClientSex();
+		void setClientAddress();
 
-		QString getClientFriendName();
+		QString getFriendId();
+		QString getFriendLastName();
+		QString getFriendName();
+		QString getFriendPhone();
+		QString getFriendCellular();
+		QString getFriendAddress();
+		QString getFriendState();
+		QString getFriendEmail();
+		QString getFriendSex();
 		
-		/**
-		 * Telefono fijo de referencia de cliente
-		 */
-
-		QString getClientFriendPhone();
-		
-		/**
-		 * Direccion de residencia de la referencia del cliente
-		 */
-
-		QString getClientFriendAddress();
 
 	public slots:
 		/**
@@ -156,6 +114,8 @@ class FormAdminClients : public FormBase
 		 * Limpia el formulario
 		 */
 		void clean();
+	signals:
+		void message2osd(const QString &msg);
 		
 	private:
 		QScrollView *m_scrollView;
@@ -164,7 +124,7 @@ class FormAdminClients : public FormBase
 		QHButtonGroup *m_radioButtons;
 		QRadioButton *m_male, *m_female;
 		KPushButton *m_selectFace;
-		HashLineEdit m_hashBox1, m_hashBox2;
+		HashLineEdit m_hashClient, m_hashPerson, m_hashFriend;
 		KComboBox *m_combo;
 		KCompletion *m_comp;
 	

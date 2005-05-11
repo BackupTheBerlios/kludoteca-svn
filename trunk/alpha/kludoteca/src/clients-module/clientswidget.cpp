@@ -20,7 +20,6 @@
  
 #include "clientswidget.h"
 #include <klocale.h>
-#include <iostream>
 #include "klquery.h"
 
 using namespace std;
@@ -43,7 +42,9 @@ void ClientsWidget::fillList()
 		return;
 	}
 	
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_clients");
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname", QStringList() << "ldt_persons");
+	sqlquery.setWhere("ldt_persons.docIdent=ldt_clients.docIdent");
+	
 	
 	KLResultSet resultSet = m_db->execQuery(&sqlquery);
 	
@@ -57,27 +58,37 @@ void ClientsWidget::fillList()
 void ClientsWidget::getClickedItem(QListViewItem *item)
 {
 	qDebug("Clicked item");
+	modifyButtonClicked();
 }
 
 void ClientsWidget::addButtonClicked()
 {
-	cout << "Add button clicked" << std::endl;
+	cout << "Add button clicked" << endl;
 	
 	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
+	
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	FormAdminClients *formAdminClients = new FormAdminClients( m_db, scroll->viewport() );
-	scroll->addChild(formAdminClients);
+	cout << "COMIENZO DE CONFIG CLIENT" << endl;
 	
-	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
+	FormAdminClients *formAdminClients = new FormAdminClients(FormBase::Add, scroll->viewport() );
+	
+	cout << "SE CREO OBJETO ADMINCLIENT" << endl;
+	connect(formAdminClients, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+
+	formAdminClients->setType( FormBase::Add);
+		
 	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));
 	connect(formAdminClients, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+	scroll->addChild(formAdminClients);
+	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
+
 	formAdminClients->setTitle(i18n("Admin Clients"));
 	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
-	
+	cout << "ANTES DEL EMIT SENDWIDGET" << endl;
 	emit sendWidget( view );
+	cout << "DESPUES DEL EMIT DE SENDWIDGET" << endl;
 }
 
 void ClientsWidget::delButtonClicked()
@@ -87,7 +98,34 @@ void ClientsWidget::delButtonClicked()
 
 void ClientsWidget::modifyButtonClicked()
 {
-	cout << "modify button clicked" << std::endl;
+	
+#if DEBUG_ADMINUSERS
+	qDebug("init addButtonClicked");
+#endif
+	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	FormAdminClients *formAdminClients = new FormAdminClients(FormBase::Edit, scroll->viewport() );
+	
+	KLSelect sqlquery(QStringList() << "ldt_clients.docident" << "login" << "firstname" << "lastname" << "genre" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users" << "ldt_persons" );
+	
+	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2))); // Login in the listview
+	
+	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	
+	m_xmlsource.setData(resultSet.toString());
+	
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
+	}
+	
+	KLSqlResults results = m_xmlreader.results();
 }
 
 void ClientsWidget::queryButtonClicked()
