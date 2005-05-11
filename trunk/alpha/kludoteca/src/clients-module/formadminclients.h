@@ -79,15 +79,15 @@ class FormAdminClients : public FormBase
 		QString getClientSex();
 		QString getClientAddress();
 		
-		void setClientId();
-		void setClientName();
-		void setClientLastName();
-		void setClientPhone();
-		void setClientCellular();
-		void setClientState();
-		void setClientEmail();
-		void setClientSex();
-		void setClientAddress();
+		void setClientId(const QString &id);
+		void setClientName(const QString &name);
+		void setClientLastName(const QString &lastname);
+		void setClientPhone(const QString &phone);
+		void setClientCellular(const QString &cell);
+		void setClientState(const QString &state);
+		void setClientEmail(const QString &email);
+		void setClientSex(const QString &sex);
+		void setClientAddress(const QString &address);
 
 		QString getFriendId();
 		QString getFriendLastName();
@@ -95,7 +95,7 @@ class FormAdminClients : public FormBase
 		QString getFriendPhone();
 		QString getFriendCellular();
 		QString getFriendAddress();
-		QString getFriendState();
+		//QString getFriendState();
 		QString getFriendEmail();
 		QString getFriendSex();
 		
@@ -121,12 +121,12 @@ class FormAdminClients : public FormBase
 		QScrollView *m_scrollView;
 		QGridLayout *m_layout;
 		QFrame *m_container;
-		QHButtonGroup *m_radioButtons;
-		QRadioButton *m_male, *m_female;
-		KPushButton *m_selectFace;
+		QHButtonGroup *m_radioButtonClte, *m_radioButtonFrd;
+		QRadioButton *m_maleClte, *m_femaleClte, *m_maleFrd, *m_femaleFrd;
+		KPushButton *m_selectFaceClte, *m_selectFaceFrd;
 		HashLineEdit m_hashClient, m_hashPerson, m_hashFriend;
-		KComboBox *m_combo;
-		KCompletion *m_comp;
+		KComboBox *m_comboClte, *m_comboFrd;
+		KCompletion *m_compClte, *m_compFrd;
 	
 	private:
 		/**

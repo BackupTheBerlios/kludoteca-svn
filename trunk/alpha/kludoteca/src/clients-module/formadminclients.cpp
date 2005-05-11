@@ -36,7 +36,7 @@ FormAdminClients::~FormAdminClients()
 
 void FormAdminClients::setupForm()
 {
-	cout << "CREANDO FORMADMINWIDGET DESDE SETUPFORM" << endl;
+	
 	m_scrollView = new QScrollView(this);
 	m_container = new QFrame(m_scrollView->viewport());
 
@@ -46,7 +46,7 @@ void FormAdminClients::setupForm()
 	m_container->setFrameShape(QFrame::Box);
 	
 	//m_container->setMargin(10);
-	m_layout = new QGridLayout(m_container, 1, 2, 10, 5);
+	m_layout = new QGridLayout(m_container, 2, 3, 10, 5);
 	m_layout->setAlignment(Qt::AlignCenter );
 	
 	setupButtonsBox();
@@ -57,26 +57,50 @@ void FormAdminClients::setupForm()
 
 void FormAdminClients::setupButtonsBox()
 {
-	QVBox *vbox = new QVBox(m_container);
-	m_radioButtons = new QHButtonGroup(vbox);
-	m_male = new QRadioButton(i18n("Male"), m_radioButtons);
-	m_female = new QRadioButton(i18n("Female"), m_radioButtons);
-	m_female->setChecked(true);
+/****************** CLIENT *****************************************************/
+	QVBox *vboxClient = new QVBox(m_container);
+	m_radioButtonClte = new QHButtonGroup(vboxClient);
+	m_maleClte = new QRadioButton(i18n("Male"), m_radioButtonClte);
+	m_femaleClte = new QRadioButton(i18n("Female"), m_radioButtonClte);
+	m_femaleClte->setChecked(true);
 	
 	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
-	m_selectFace = new KPushButton("", vbox );
-	m_selectFace->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png" )) );
-	m_selectFace->resize(64, 64);
-	m_layout->addWidget(vbox, 0 , 1);
-/*********************************************************************************/
-	m_combo = new KComboBox(true,m_container, "m_combo");
-	m_combo->insertItem(i18n("Active"), -1);
-	m_combo->insertItem(i18n("Inactive"), -2);
-	m_combo->insertItem(i18n("Banned"), -3);
+	m_selectFaceClte = new KPushButton("", vboxClient );
+	m_selectFaceClte->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png" )) );
+	m_selectFaceClte->resize(64, 64);
+	m_layout->addWidget(vboxClient, 0 , 1);
+
+	m_comboClte = new KComboBox(true,m_container, "m_combo");
+	m_comboClte->insertItem(i18n("Active"), -1);
+	m_comboClte->insertItem(i18n("Inactive"), -2);
+	m_comboClte->insertItem(i18n("Banned"), -3);
 	
-	m_comp = m_combo->completionObject();
-	connect(m_combo,SIGNAL(returnPressed(const QString&)),m_comp,SLOT(addItem(const QString&)));
-	m_layout->addWidget(m_combo,1,1);
+	m_compClte = m_comboClte->completionObject();
+	connect(m_comboClte,SIGNAL(returnPressed(const QString&)),m_compClte,SLOT(addItem(const QString&)));
+	m_layout->addWidget(m_comboClte,1,1);
+
+/***************** REFERENCE *********************************/
+
+	QVBox *vboxFriend = new QVBox(m_container);
+	m_radioButtonFrd = new QHButtonGroup(vboxFriend);
+	m_maleFrd = new QRadioButton(i18n("Male"), m_radioButtonFrd);
+	m_femaleFrd = new QRadioButton(i18n("Female"), m_radioButtonFrd);
+	m_femaleFrd->setChecked(true);
+	
+	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
+	m_selectFaceFrd = new KPushButton("", vboxFriend );
+	m_selectFaceFrd->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png" )) );
+	m_selectFaceFrd->resize(64, 64);
+	m_layout->addWidget(vboxFriend, 0 , 3);
+
+	m_comboFrd = new KComboBox(true,m_container, "m_comboFrd");
+	m_comboFrd->insertItem(i18n("Active"), -1);
+	m_comboFrd->insertItem(i18n("Inactive"), -2);
+	m_comboFrd->insertItem(i18n("Banned"), -3);
+	
+	m_compFrd = m_comboFrd->completionObject();
+	connect(m_comboFrd,SIGNAL(returnPressed(const QString&)),m_compFrd,SLOT(addItem(const QString&)));
+	m_layout->addWidget(m_comboFrd,1,3);
 }
 
 void FormAdminClients::setupBox()
@@ -120,11 +144,11 @@ void FormAdminClients::setupBox()
 	QWidget *box1 = new QWidget(m_container);
 	QWidget *box2 = new QWidget(m_container);
 	
-	m_hashClient = this->setupGridLineEdit(box1, clientLabels, 400, clientdbFields);
+	m_hashClient = this->setupGridLineEdit(box1, clientLabels, 300, clientdbFields);
 	
-	this->addLineEdits(box1, personLabels, m_hashPerson, 400 ,persondbFields);
+	this->addLineEdits(box1, personLabels, m_hashPerson, 300 ,persondbFields);
 	
-	m_hashFriend = this->setupGridLineEdit(box2, FriendLabels, 200, friendDbFields);
+	m_hashFriend = this->setupGridLineEdit(box2, FriendLabels, 300, friendDbFields);
 	
 	m_layout->addWidget(box1, 0, 0);
  	m_layout->addWidget(box2, 0, 2);
@@ -153,7 +177,7 @@ QString FormAdminClients::getClientLastName()
 
 QString FormAdminClients::getClientSex()
 {
-	return m_radioButtons->selected()->text();
+	return m_radioButtonClte->selected()->text();
 }
 
 QString FormAdminClients::getClientPhone()
@@ -169,7 +193,7 @@ QString FormAdminClients::getClientCellular()
 QString FormAdminClients::getClientState()
 {
 	/*hacer el combobox*/
-	return i18n( m_combo->currentText() );
+	return i18n( m_comboClte->currentText() );
 }
 
 QString FormAdminClients::getClientEmail()
@@ -182,39 +206,39 @@ QString FormAdminClients::getClientAddress()
 	return m_hashPerson["address"]->text();
 }
 
-void FormAdminClients::setClientId()
+void FormAdminClients::setClientId(const QString &id)
 {
 }
 
-void FormAdminClients::setClientName()
+void FormAdminClients::setClientName(const QString &name)
 {
 }
 
-void FormAdminClients::setClientLastName()
+void FormAdminClients::setClientLastName(const QString &lastname)
 {
 }
 
-void FormAdminClients::setClientPhone()
+void FormAdminClients::setClientPhone(const QString &phone)
 {
 }
 
-void FormAdminClients::setClientCellular()
+void FormAdminClients::setClientCellular(const QString &cell)
 {
 }
 
-void FormAdminClients::setClientState()
+void FormAdminClients::setClientState(const QString &state)
 {
 }
 
-void FormAdminClients::setClientEmail()
+void FormAdminClients::setClientEmail(const QString &email)
 {
 }
 
-void FormAdminClients::setClientSex()
+void FormAdminClients::setClientSex(const QString &sex)
 {
 }
 
-void FormAdminClients::setClientAddress()
+void FormAdminClients::setClientAddress(const QString &address)
 {
 }
 
@@ -224,6 +248,7 @@ void FormAdminClients::setClientAddress()
 *******************************************************************************************/
 QString FormAdminClients::getFriendId()
 {
+	return m_hashFriend["docIdent"]->text();
 }
 
 QString FormAdminClients::getFriendName()
@@ -233,7 +258,7 @@ QString FormAdminClients::getFriendName()
 
 QString FormAdminClients::getFriendLastName()
 {
-	
+	return m_hashFriend["lastname"]->text();
 }
 
 QString FormAdminClients::getFriendPhone()
@@ -243,7 +268,7 @@ QString FormAdminClients::getFriendPhone()
 
 QString FormAdminClients::getFriendCellular()
 {
-
+	return m_hashFriend["celullar"]->text();
 }
 
 QString FormAdminClients::getFriendAddress()
@@ -251,16 +276,19 @@ QString FormAdminClients::getFriendAddress()
 	return m_hashFriend["address"]->text();
 }
 
-QString FormAdminClients::getFriendState()
-{
-}
+// QString FormAdminClients::getFriendState()
+// {
+// 	
+// }
 
 QString FormAdminClients::getFriendEmail()
 {
+	return m_hashFriend["email"]->text();
 }
 
 QString FormAdminClients::getFriendSex()
 {
+	return m_radioButtonFrd->selected()->text();
 }
 
 
@@ -273,24 +301,39 @@ void FormAdminClients::accept()
 	{
 		case FormBase::Add:
 		{	
-			KLInsert sqlquery("ldt_clients", QStringList() 
-							<< SQLSTR( this->getClientId() ) 
-							<< SQLSTR( this->getInscriptionDate() )
+			if ( !KLDM )
+			{
+				qDebug("You're need set the database!!");
+				
+				return;
+			}
+			
+			cout << "ENTRO A FORMBASE::ADD" << endl;
+			KLInsert *queryFrd = new KLInsert("ldt_persons", QStringList()
+							<< SQLSTR( this->getFriendId() )
+							<< SQLSTR( this->getFriendName() )
+							<< SQLSTR( this->getFriendLastName() )
+							<< SQLSTR( this->getFriendPhone() )					
+							<< SQLSTR( this->getFriendCellular() )
+							<< SQLSTR( this->getFriendEmail() )
+							<< SQLSTR( this->getFriendAddress() )
+							<< SQLSTR( this->getFriendSex() ) );
+			emit sendQuery(queryFrd);
+			cout << "consulta fue: " << queryFrd->getQuery() << endl;
+
+			KLInsert *queryClt2Person = new KLInsert("ldt_persons", QStringList()
+							<< SQLSTR( this->getClientId() )
 							<< SQLSTR( this->getClientName() )
 							<< SQLSTR( this->getClientLastName() )
-							<< SQLSTR( this->getClientPhone() )
+							<< SQLSTR( this->getClientPhone() )					
 							<< SQLSTR( this->getClientCellular() )
 							<< SQLSTR( this->getClientEmail() )
-							<< SQLSTR( this->getClientSex() )
-							<< SQLSTR( this->getClientState() )
 							<< SQLSTR( this->getClientAddress() )
-							<< SQLSTR( this->getFriendName() )
-							<< SQLSTR( this->getFriendPhone() )
-							<< SQLSTR( this->getFriendAddress() ) );
+							<< SQLSTR( this->getClientSex() ) );
 
-			cout << "consulta fue: " << sqlquery.getQuery() << endl;
+			cout << "consulta fue: " << queryFrd->getQuery() << endl;
 	
-			emit sendQuery(&sqlquery);
+			
 	
 			if ( this->lastQueryWasGood() )
 			{
@@ -304,6 +347,7 @@ void FormAdminClients::accept()
 		{
 			
 		}
+		break;
 	}		
 }
 void FormAdminClients::cancel()
