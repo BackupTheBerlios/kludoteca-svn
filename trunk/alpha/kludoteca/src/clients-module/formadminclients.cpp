@@ -110,20 +110,20 @@ void FormAdminClients::setupBox()
 		
 	QStringList personLabels = QStringList() << i18n("Name") 
 						<< i18n("Last name")
-						<< i18n("Address")
 						<< i18n("Phone")
-						<< i18n("Celular")
-						<< i18n("EMail");
+						<< i18n("Cellular")
+						<< i18n("Email")
+						<< i18n("Address");
 	
 	
 
 	QStringList FriendLabels = QStringList() << i18n("Friend Id")
 						<< i18n("Friend Name") 
 						<< i18n("Friend Last name")
-						<< i18n("Friend Address")
 						<< i18n("Friend Phone")
-						<< i18n("Friend Celular")
-						<< i18n("Friend EMail");
+						<< i18n("Friend Cellular")
+						<< i18n("Friend Email")
+						<< i18n("Friend Address");
 	
 	QStringList clientdbFields = QStringList() << "docIdent";
 	
@@ -337,8 +337,12 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getFriendEmail() )
 							<< SQLSTR( this->getFriendAddress() )
 							<< SQLSTR( this->getFriendSex() ) );
-				emit sendQuery(queryFrd);
-			
+				emit sendQuery(queryFrd);				
+			}
+			else
+			{
+				cout << "NO SE PUEDE CREAR DOS VECES LA MISMA PERSONA" << endl;
+
 				KLInsert *queryClt2Person = new KLInsert("ldt_persons", QStringList()
 							<< SQLSTR( this->getClientId() )
 							<< SQLSTR( this->getClientName() )
@@ -348,7 +352,15 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getClientEmail() )
 							<< SQLSTR( this->getClientAddress() )
 							<< SQLSTR( this->getClientSex() ) );
-
+				
+				emit sendQuery(queryClt2Person);
+				
+				KLInsert *cliente = new KLInsert("ldt_clients", QStringList()
+										<< SQLSTR( this->getClientId() )
+										<< SQLSTR( this->getInscriptionDate() )
+										<< SQLSTR( this->getClientState() ) 
+										<< SQLSTR( this->getFriendId() ) );
+				emit sendQuery(cliente);
 				
 				if ( this->lastQueryWasGood() )
 				{
@@ -356,10 +368,6 @@ void FormAdminClients::accept()
 					emit inserted(this->getClientId());
 					clean();
 				}
-			}
-			else
-			{
-				cout << "NO SE PUEDE CREAR DOS VECES LA MISMA PERSONA" << endl;
 			}
 		}
 		break;
@@ -379,10 +387,16 @@ void FormAdminClients::clean()
 {
 	QDictIterator<KLineEdit> it1( m_hashPerson );
 	QDictIterator<KLineEdit> it2( m_hashFriend );
+	QDictIterator<KLineEdit> it3( m_hashClient );
+
 	for( ; it1.current(); ++it1)
 		it1.current()->setText("");
+
 	for(;it2.current();++it2)
 		it2.current()->setText("");
+
+	for(;it3.current();++it3)
+		it3.current()->setText("");
 }
 
 #include "formadminclients.moc"

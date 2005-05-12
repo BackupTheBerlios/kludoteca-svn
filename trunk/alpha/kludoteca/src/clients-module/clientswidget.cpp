@@ -36,17 +36,17 @@ ClientsWidget::~ClientsWidget()
 
 void ClientsWidget::fillList()
 {
-	if ( !m_db )
+	if ( !KLDM )
 	{
 		qDebug("You're need set the database!!");
 		return;
 	}
 	
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname", QStringList() << "ldt_persons");
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_persons" << "ldt_clients");
 	sqlquery.setWhere("ldt_persons.docIdent=ldt_clients.docIdent");
 	
 	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -111,11 +111,11 @@ void ClientsWidget::modifyButtonClicked()
 	
 	FormAdminClients *formAdminClients = new FormAdminClients(FormBase::Edit, scroll->viewport() );
 	
-	KLSelect sqlquery(QStringList() << "ldt_clients.docident" << "login" << "firstname" << "lastname" << "genre" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users" << "ldt_persons" );
+	KLSelect sqlquery(QStringList() << "ldt_clients.docident" << "firstname" << "lastname" << "address" << "phone" << "email", QStringList() << "ldt_clients" << "ldt_persons" );
 	
-	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2))); // Login in the listview
+	sqlquery.setWhere("ldt_persons.docIdent=ldt_clients.docIdent"); // Login in the listview
 	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	
@@ -125,7 +125,7 @@ void ClientsWidget::modifyButtonClicked()
 		return;
 	}
 	
-	KLSqlResults results = m_xmlreader.results();
+	KLSqlResults results = m_xmlreader.results(); // deboo extraer los valores de results :-)
 }
 
 void ClientsWidget::queryButtonClicked()
@@ -135,10 +135,10 @@ void ClientsWidget::queryButtonClicked()
 
 void ClientsWidget::addItem(const QString &pkey)
 {
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_clients");
-	sqlquery.setWhere("docident="+SQLSTR(pkey));
-	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_clients" << "ldt_persons");
+	sqlquery.setWhere("ldt_persons.docident="+SQLSTR(pkey)+" and ldt_clients.docident="+SQLSTR(pkey));
+	//SELECT firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent='005' and ldt_clients.docident='005';
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
