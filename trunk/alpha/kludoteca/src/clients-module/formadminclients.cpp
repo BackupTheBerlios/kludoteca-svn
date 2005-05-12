@@ -131,8 +131,7 @@ void FormAdminClients::setupBox()
 						<< "lastname"
 						<< "phone"
 						<< "celullar"
-						<< "email"
-						<< "address" ;
+						<< "email"									<< "address" ;
 	
 	QStringList friendDbFields = QStringList() << "docIdent"
 						<< "firstname" 
