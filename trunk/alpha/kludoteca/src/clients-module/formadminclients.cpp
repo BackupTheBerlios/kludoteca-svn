@@ -23,6 +23,7 @@
 #include <iostream>
 #include <qdatetime.h>
 
+
 using namespace std;
 
 
@@ -308,8 +309,26 @@ void FormAdminClients::accept()
 				return;
 			}
 			
-			cout << "ENTRO A FORMBASE::ADD" << endl;
-			KLInsert *queryFrd = new KLInsert("ldt_persons", QStringList()
+			KLSelect queryExist(QStringList() << "docIdent" << "firstname",QStringList() << "ldt_persons");
+			queryExist.setWhere("docIdent="+SQLSTR( this->getFriendId())+" and firstname="+SQLSTR( this->getFriendName()));
+			
+			KLResultSet resultSet = KLDM->execQuery(&queryExist);	
+			
+			m_xmlsource.setData(resultSet.toString());
+			
+			if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+			{
+				std::cerr << "No se puede analizar" << std::endl;
+				return;
+			}
+			
+			KLSqlResults results = m_xmlreader.results();
+			
+			
+			if(results["docIdent"] != this->getFriendId() && results["firstname"] != this->getFriendName() )
+			{
+				cout << "ENTRO A FORMBASE::ADD" << endl;
+				KLInsert *queryFrd = new KLInsert("ldt_persons", QStringList()
 							<< SQLSTR( this->getFriendId() )
 							<< SQLSTR( this->getFriendName() )
 							<< SQLSTR( this->getFriendLastName() )
@@ -318,10 +337,9 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getFriendEmail() )
 							<< SQLSTR( this->getFriendAddress() )
 							<< SQLSTR( this->getFriendSex() ) );
-			emit sendQuery(queryFrd);
-			cout << "consulta fue: " << queryFrd->getQuery() << endl;
-
-			KLInsert *queryClt2Person = new KLInsert("ldt_persons", QStringList()
+				emit sendQuery(queryFrd);
+			
+				KLInsert *queryClt2Person = new KLInsert("ldt_persons", QStringList()
 							<< SQLSTR( this->getClientId() )
 							<< SQLSTR( this->getClientName() )
 							<< SQLSTR( this->getClientLastName() )
@@ -331,15 +349,17 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getClientAddress() )
 							<< SQLSTR( this->getClientSex() ) );
 
-			cout << "consulta fue: " << queryFrd->getQuery() << endl;
-	
-			
-	
-			if ( this->lastQueryWasGood() )
+				
+				if ( this->lastQueryWasGood() )
+				{
+					emit accepted();
+					emit inserted(this->getClientId());
+					clean();
+				}
+			}
+			else
 			{
-				emit accepted();
-				emit inserted(this->getClientId());
-				clean();
+				cout << "NO SE PUEDE CREAR DOS VECES LA MISMA PERSONA" << endl;
 			}
 		}
 		break;

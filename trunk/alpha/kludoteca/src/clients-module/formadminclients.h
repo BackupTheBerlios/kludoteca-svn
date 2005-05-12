@@ -31,6 +31,9 @@
 #include <qdict.h>
 #include <kcombobox.h>
 #include <kcompletion.h>
+#include "klxmlreader.h"
+#include "kldatabase.h"
+#include "klresultsetinterpreter.h"
 
 /**
  * Este es el formulario para añadir y administrar clientes
@@ -127,6 +130,10 @@ class FormAdminClients : public FormBase
 		HashLineEdit m_hashClient, m_hashPerson, m_hashFriend;
 		KComboBox *m_comboClte, *m_comboFrd;
 		KCompletion *m_compClte, *m_compFrd;
+		
+		KLResultSetInterpreter *m_rsinterpreter;
+		KLXmlReader m_xmlreader;
+		QXmlInputSource m_xmlsource;
 	
 	private:
 		/**
