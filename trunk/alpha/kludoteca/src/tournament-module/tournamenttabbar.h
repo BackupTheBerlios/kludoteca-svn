@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,47 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef TOURNAMENTWIDGET_H
-#define TOURNAMENTWIDGET_H
+#ifndef TOURNAMENTTABBAR_H
+#define TOURNAMENTTABBAR_H
 
-#include "lttoolbox.h"
+#include <ktabwidget.h>
+#include "formtournament.h"
 #include "tournamentactive.h"
 #include "tournamentold.h"
-#include <kpushbutton.h>
-#include "formtournament.h"
-#include "tournamenttabbar.h"
-
-typedef QPtrList<LTListView> ListLTListView;
+#include "participantslist.h"
 
 /**
- * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
- * @short Widget con la informacion del los torneos
- * @author David Cuadrado
+ * Este es el tab bar con la informacion del torneo
+ * @author CetiSoft
 */
-class TournamentWidget : public LTToolBox
+class TournamentTabBar : public KTabWidget
 {
 	Q_OBJECT
 	public:
-		/**
-		 * Constructor por defecto
-		 */
-    		TournamentWidget(QWidget *parent);
-		/**
-		 * Destructor por defecto
-		 */
-		~TournamentWidget();
-		
-		ListLTListView listViews();
+		TournamentTabBar(QWidget *parent = 0, const char *name = 0);
+		~TournamentTabBar();
 		
 	private:
-		/**
-		 * Esta funcion sirve para crear los tabs del ToolBox
-		 */
 		void setupTabs();
 		
 	private:
-		ListLTListView m_listViews; 
-		TournamentTabBar *m_ttabBar;
+		TournamentActive *m_tactive;
+		TournamentOld *m_told;
+		ParticipantsList *m_participants;
+
 };
 
 #endif

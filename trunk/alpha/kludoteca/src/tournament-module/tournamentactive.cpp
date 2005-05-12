@@ -25,7 +25,7 @@
 
 TournamentActive::TournamentActive(QWidget *parent) : LTListView(QStringList() << i18n("Tournament name") << i18n("Game") << i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::ButtonModify, LTListView::ButtonDel, parent = 0, "ActiveTournaments")
 {
-	setCaption(i18n("Tournament"));	
+	setCaption(i18n("Tournament"));
 }
 
 TournamentActive::~TournamentActive()
@@ -66,11 +66,11 @@ void TournamentActive::delButtonClicked()
 {
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
 	
-	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the tournament ")+itemp->text(2)+ " ?");
+	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the tournament %1 ?").arg(itemp->text(2)));
 	
 	if (opt == KMessageBox::Yes )
 	{
-		m_db->execRawQuery("delete from ldt_tournament where name="+ SQLSTR(itemp->text(0)));
+		KLDM->execRawQuery("delete from ldt_tournament where name="+ SQLSTR(itemp->text(0)));
 		
 		delete itemp;
 		
@@ -114,7 +114,7 @@ void TournamentActive::addItem(const QString &pkey)
 	
 	sqlquery.setWhere("name="+SQLSTR(pkey));
 
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -138,7 +138,7 @@ void TournamentActive::slotFilter(const QString &filter)
 
 		sqlquery.addFilter(filter);
 		
-		KLResultSet resultSet = m_db->execQuery(&sqlquery);
+		KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 		m_xmlsource.setData(resultSet.toString());
 		if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )

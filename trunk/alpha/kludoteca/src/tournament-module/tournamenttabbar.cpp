@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,47 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef TOURNAMENTWIDGET_H
-#define TOURNAMENTWIDGET_H
-
-#include "lttoolbox.h"
-#include "tournamentactive.h"
-#include "tournamentold.h"
-#include <kpushbutton.h>
-#include "formtournament.h"
 #include "tournamenttabbar.h"
+#include <klocale.h>
 
-typedef QPtrList<LTListView> ListLTListView;
-
-/**
- * Esta clase contiene un widget con la informacion que se va a gestionar de los torneos.
- * @short Widget con la informacion del los torneos
- * @author David Cuadrado
-*/
-class TournamentWidget : public LTToolBox
+TournamentTabBar::TournamentTabBar(QWidget *parent, const char *name) : KTabWidget(parent, name)
 {
-	Q_OBJECT
-	public:
-		/**
-		 * Constructor por defecto
-		 */
-    		TournamentWidget(QWidget *parent);
-		/**
-		 * Destructor por defecto
-		 */
-		~TournamentWidget();
-		
-		ListLTListView listViews();
-		
-	private:
-		/**
-		 * Esta funcion sirve para crear los tabs del ToolBox
-		 */
-		void setupTabs();
-		
-	private:
-		ListLTListView m_listViews; 
-		TournamentTabBar *m_ttabBar;
-};
+	setupTabs();
+}
 
-#endif
+
+TournamentTabBar::~TournamentTabBar()
+{
+}
+
+void TournamentTabBar::setupTabs()
+{
+	m_tactive = new TournamentActive(this);
+	insertTab(m_tactive, i18n("Active"));
+	
+	m_participants = new ParticipantsList(this);
+	insertTab(m_participants, i18n("Participants"));
+}
+
+
+#include "tournamenttabbar.moc"

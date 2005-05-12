@@ -32,13 +32,28 @@ TournamentWidget::~TournamentWidget()
 {
 }
 
+ListLTListView TournamentWidget::listViews()
+{
+	for (uint i = 0; i < m_ttabBar->count(); i++)
+	{
+		LTListView *ltlv = static_cast<LTListView *>( m_ttabBar->page(i) );
+		if ( ltlv )
+		{
+			m_listViews.append(ltlv);
+		}
+	}
+	return m_listViews;
+}
+
 void TournamentWidget::setupTabs()
 {
-	m_tournamentActive = new TournamentActive(this);
-	this->addItem(m_tournamentActive, i18n("Active"));
-	
-	m_tournamentOld = new TournamentOld(this);
-	this->addItem(m_tournamentOld, i18n("Old"));
+	m_ttabBar = new TournamentTabBar(this);
+	addItem(m_ttabBar, i18n("Tournaments"));
+// 	m_tournamentActive = new TournamentActive(this);
+// 	this->addItem(m_tournamentActive, i18n("Active"));
+// 	
+// 	m_tournamentOld = new TournamentOld(this);
+// 	this->addItem(m_tournamentOld, i18n("Old"));
 }
 
 #include "tournamentwidget.moc"

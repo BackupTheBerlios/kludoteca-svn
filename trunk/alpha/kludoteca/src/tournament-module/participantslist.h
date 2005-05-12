@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,46 +16,33 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- *************************************************************************/
- 
-#ifndef TOURNAMENTACTIVE_H
-#define TOURNAMENTACTIVE_H
+ ***************************************************************************/
+#ifndef PARTICIPANTSLIST_H
+#define PARTICIPANTSLIST_H
 
-#include "ltlistview.h"
-#include <qvbox.h>
-
-#include "formtournament.h"
+#include <ltlistview.h>
 
 /**
- * En este widget tenemos los torneos activos
- * @author David Cuadrado
+En este widget manejamos la lista de participantes en torneos
+
+@author CetiSoft
 */
-class TournamentActive : public LTListView
+class ParticipantsList : public LTListView
 {
 	Q_OBJECT
 	public:
-		/**
-		 * Constructor por defecto
-		 */
-    		TournamentActive(QWidget *parent = 0);
-		/**
-		 * Destructor por defecto
-		 */
-    		~TournamentActive();
+		ParticipantsList( QWidget *parent = 0, const char *name = 0);
+
+		~ParticipantsList();
 		
-		void addItem(const QString &pkey);
-		
-		void slotFilter(const QString &filter);
-		
-	protected:
-		/**
-	 	 * Esta funcion debe implementarse para llenar la lista.
-		 */
+				/**
+		 * Llena la lista, esta funcion es reimplementada de LTListView
+				 */
 		void fillList();
-			
+		
 	public slots:
 		/**
-		 * Esta funcion nos da el item que fue clickeado
+	 * Esta funcion nos da el item que fue clickeado
 		 */
 		void getClickedItem(QListViewItem *item);
 		
@@ -78,6 +65,24 @@ class TournamentActive : public LTListView
 		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
 		 */
 		void queryButtonClicked();
+		
+		/**
+		 * Adiciona un item a la lista consultando la base de datos.
+		 * @param table 
+		 * @param pkey 
+		 */
+		void addItem(const QString &pkey);
+		
+		
+		void slotFilter(const QString &filter);
+		
+		
+		/**
+		 * Actualiza un item de la lista basandose en la llave recibida
+		 * @param  
+		 */
+		void updateItem(const QString &pkey);
+		
 };
 
 #endif

@@ -145,10 +145,9 @@ void FormTournament::accept ()
 	{
 		case Add:
 		{
-			std::cout << "Aqui" << std::endl;
  			KLInsert sqlquery("ldt_tournament", QStringList()
 				<< SQLSTR( getTournamentName() )
-				<< SQLSTR( gameName2code(m_nameGame->currentText() )) 
+				<< SQLSTR( gameName2code(m_nameGame->currentText() ))
 				<< SQLSTR( this->getInitDate() )
 				<< SQLSTR( this->getEndDate() )
 				<< SQLSTR( getRounds() )
@@ -157,7 +156,7 @@ void FormTournament::accept ()
 				<< SQLSTR( getDiscount() )
 				<< SQLSTR( "t" ));
 			
- 			emit sendQuery(&sqlquery);
+ 			KLDM->execQuery(&sqlquery);
 			
 			emit inserted(getTournamentName());
 			clean();

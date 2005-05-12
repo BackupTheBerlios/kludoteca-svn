@@ -222,15 +222,16 @@ void KLudoteca::setupToolWindows()
 		
 		m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
 		
-		for (uint i = 0; i < m_tournamentWidget->count(); i++)
+		ListLTListView listViews = m_tournamentWidget->listViews();
+		
+		for (uint i = 0; i < listViews.count(); i++)
 		{
-			LTListView *ltlv = static_cast<LTListView *>(m_tournamentWidget->item(i) );
+			LTListView *ltlv = static_cast<LTListView *>( listViews.at(i) );
 			
 			connect(ltlv, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 		
 			connect(ltlv,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 		
-// 			ltlv->setDatabase( KLDM );
 			ltlv->fillList();
 		}
 	}
