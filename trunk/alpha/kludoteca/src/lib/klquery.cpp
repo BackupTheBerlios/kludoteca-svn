@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                           	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -44,9 +44,12 @@ int KLQuery::getType()
 
 
 // KLSelect
-KLSelect::KLSelect(QStringList fields, QStringList tables) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
+KLSelect::KLSelect(QStringList fields, QStringList tables, bool dist) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
 {
-	m_query = "select ";
+	if ( dist )
+		m_query = "select distinct ";
+	else
+		m_query = "select ";
 	
 	if ( fields.count() == 0 )
 	{
@@ -70,9 +73,12 @@ KLSelect::KLSelect(QStringList fields, QStringList tables) : KLQuery(KLQuery::Se
 
 }
 
-KLSelect::KLSelect(QStringList fields, const QString &table) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
+KLSelect::KLSelect(QStringList fields, const QString &table, bool dist) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
 {
-	m_query = "select ";
+	if ( dist )
+		m_query = "select distinct ";
+	else
+		m_query = "select ";
 	
 	if ( fields.count() == 0 )
 	{

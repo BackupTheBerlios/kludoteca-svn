@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                                 	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,26 +23,35 @@
 #include <ltlistview.h>
 
 /**
-En este widget manejamos la lista de participantes en torneos
-
-@author CetiSoft
+ * En este widget manejamos la lista de participantes en torneos
+ * @author David Cuadrado
 */
 class ParticipantsList : public LTListView
 {
 	Q_OBJECT
 	public:
+		/**
+		 * Constructor
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
 		ParticipantsList( QWidget *parent = 0, const char *name = 0);
 
+		/**
+		 * Destructor
+		 * @return 
+		 */
 		~ParticipantsList();
 		
-				/**
+		/**
 		 * Llena la lista, esta funcion es reimplementada de LTListView
-				 */
+		 */
 		void fillList();
 		
 	public slots:
 		/**
-	 * Esta funcion nos da el item que fue clickeado
+		 * Esta funcion nos da el item que fue clickeado
 		 */
 		void getClickedItem(QListViewItem *item);
 		
@@ -74,6 +83,10 @@ class ParticipantsList : public LTListView
 		void addItem(const QString &pkey);
 		
 		
+		/**
+		 * Filtra ( reimplementado )
+		 * @param filter 
+		 */
 		void slotFilter(const QString &filter);
 		
 		

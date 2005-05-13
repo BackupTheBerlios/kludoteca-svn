@@ -66,7 +66,7 @@ void TournamentActive::delButtonClicked()
 {
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
 	
-	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the tournament %1 ?").arg(itemp->text(2)));
+	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the tournament %1 ?").arg(itemp->text(0)));
 	
 	if (opt == KMessageBox::Yes )
 	{

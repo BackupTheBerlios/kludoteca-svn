@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                             	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -36,6 +36,8 @@ bool KLResultSetInterpreter::startElement( const QString& , const QString& , con
 	if (m_root.isNull() )
 	{
 		m_root = qname;
+		m_results.clear();
+		m_sqlresults.clear();
 		//std::cout << "Rooting to " << qname << std::endl;
 	}
 	else if (qname == "record")
@@ -56,6 +58,10 @@ bool KLResultSetInterpreter::endElement(const QString& ns, const QString& localn
 		//qDebug("Emitiendo resultados");
 		if ( m_type == Partial )
 			emit readRecord(m_results);
+	}
+	else if ( qname== m_root )
+	{
+		m_root = QString::null;
 	}
 	
 	return true;

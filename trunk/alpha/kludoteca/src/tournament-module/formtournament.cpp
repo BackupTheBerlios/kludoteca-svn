@@ -65,6 +65,7 @@ void FormTournament::setupForm()
 	m_grid->addWidget(m_endDate, 3,3);
 	
 	m_round = new KIntSpinBox(m_form);
+
 	QLabel *roundsGame = new QLabel(i18n("Rounds for players"),m_form);
 	m_grid->addWidget(roundsGame, 2, 0);
 	m_grid->addWidget(m_round, 2,1);
@@ -89,6 +90,7 @@ void FormTournament::setupForm()
 	m_grid->addWidget(discountInscrip, 4,3);
 	
 	connect(m_dateTournament, SIGNAL(dateChanged (QDate)), this, SLOT(initDateChanged(QDate)));
+	connect (m_round, SIGNAL(valueChanged ( int )), m_gamesPair, SLOT(setValue(int)));
 }
 
 void FormTournament::initDateChanged(QDate date)

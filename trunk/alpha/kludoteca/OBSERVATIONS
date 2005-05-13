@@ -1,0 +1,48 @@
+Este es un listado de las observaciones a los programadores
+
+src
+---
+
+
+lib
+---
+
+
+admin-module
+------------
+
+
+clients-module
+--------------
+- Hacer la documentacion en el .h
+- Para modify se puede hacer un metodo dentro del formulario que reciba la llave y se llene asi mismo
+- Friend id no dice nada
+- No necesitamos el estado del conocido, ni su foto
+- Reimplementar slotFilter
+- El nombre no es llave primaria, por lo que dos personas pueden tener el mismo nombre
+- Los clientes no se adicionan correctamente, tampoco se insertan en la lista
+- No subir cambios al svn hasta asegurarse que compile y este terminado algo especifico, tampoco subir cambios que puedan comprometer la compilacion
+- No utilizar mas "emit sendQuery", lo recomendables es utilizar KLDM para hacer consultas y obtener directamente los errores
+- Loggear errores e informaciones, etc
+
+
+
+
+games-module
+------------
+- Las consultas no se hacen correctamente ( solo hay que poner la consulta sobre ldt_games y no sobre ldt_users, sobre ldt_games funciona correctamente).
+- Hacer que cancelar cierre el formulario
+- La nueva base de datos tiene un campo "disponible" (available en ingles) para decir si el juego esta disponible o no, añadir a el formulario esta posibilidad y ademas insertarlo en la base de datos, podemos utilizar triggers para cambiar el valor de esta variable por ejemplo cuando se registra un juego con un torneo o se alquila, etc...
+- Terminar el funcionamiento
+- Leer las observaciones de clients-module y seguir las que se ajusten
+
+rents-module
+------------
+
+
+tournament-module
+-----------------
+
+
+
+

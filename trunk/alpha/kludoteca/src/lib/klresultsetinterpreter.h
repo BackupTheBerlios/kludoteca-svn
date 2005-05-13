@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                           	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,7 +29,7 @@ typedef QMap<QString, QString> KLSqlResults;
 
 /**
  * Esta clase representa al interprete de las consultas XML.
- * @author CetiSoft
+ * @author David Cuadrado
 */
 
 class KLResultSetInterpreter : public QObject, public QXmlDefaultHandler

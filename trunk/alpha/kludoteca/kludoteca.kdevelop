@@ -203,8 +203,8 @@
   </kdevclassview>
   <kdevdocumentation>
     <projectdoc>
-      <docsystem>Doxygen Documentation Collection</docsystem>
-      <docurl>kludoteca.tag</docurl>
+      <docsystem/>
+      <docurl/>
       <usermanualurl/>
     </projectdoc>
   </kdevdocumentation>
@@ -242,4 +242,8 @@
       <inlineSet>true</inlineSet>
     </creategettersetter>
   </kdevcppsupport>
+  <ctagspart>
+    <customArguments/>
+    <customTagfilePath/>
+  </ctagspart>
 </kdevelop>

@@ -71,20 +71,76 @@ class FormTournament : public FormBase
 		 */
 		void setupForm();
 		
+		/**
+		 * Pone el nombre del torneo
+		 * @param name 
+		 */
 		void setTournamentName(const QString &name);
+		/**
+		 * Pone el numero de rondas
+		 * @param rounds 
+		 */
 		void setRounds(const QString &rounds);
+		/**
+		 * Pone las rondas por pareja
+		 * @param rounds 
+		 */
 		void setRounds4pair(const QString &rounds);
+		/**
+		 * Pone el precio del inscripcion
+		 * @param price 
+		 */
 		void setPrice(const QString &price);
+		/**
+		 * Pone el posible descuento
+		 * @param discount 
+		 */
 		void setDiscount(const QString &discount);
+		/**
+		 * Pone la fecha de inicio del torneo
+		 * @param date 
+		 */
 		void setInitDate(const QDate &date);
+		/**
+		 * Pone la fecha de finalizacion del torneo
+		 * @param date 
+		 */
 		void setEndDate(const QDate &date);
 		
+		/**
+		 * Obtiene el nombre del torneo
+		 * @return 
+		 */
 		QString getTournamentName();
+		/**
+		 * Obtiene las rondas
+		 * @return 
+		 */
 		QString getRounds();
+		/**
+		 * Obtiene las rondas por pareja
+		 * @return 
+		 */
 		QString getRounds4pair();
+		/**
+		 * Obtiene el precio del incripcion
+		 * @return 
+		 */
 		QString getPrice();
+		/**
+		 * Obtiene el posible descuento
+		 * @return 
+		 */
 		QString getDiscount();
+		/**
+		 * Obtiene la fecha de inicio del torneo
+		 * @return 
+		 */
 		QString getInitDate();
+		/**
+		 * Obtiene la fecha de finalizacion del torneo
+		 * @return 
+		 */
 		QString getEndDate();
 		
 	
@@ -104,9 +160,17 @@ class FormTournament : public FormBase
 		void clean();
 		
 	private slots:
+		/**
+		 * Indica que la fecha de inicio fue cambiada
+		 * @param date 
+		 */
 		void initDateChanged(QDate date);
 		
 	signals:
+		/**
+		 * Envia un mensaje para ser puesto en el OSD
+		 * @param osd 
+		 */
 		void message2osd(const QString &osd);
 	
 	private:

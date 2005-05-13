@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                        	           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -82,6 +82,8 @@ void LTListView::makeList(QStringList colsText)
 	m_listView->setAlternateBackground( c );
 	m_listView->setSelectionMode( QListView::Extended );
 	m_listView->setAllColumnsShowFocus( true );
+	
+	m_listView->setMouseTracking(true);
 	
 #if KDE_IS_VERSION( 3, 3, 91 )
     	m_listView->setShadeSortColumn( true );

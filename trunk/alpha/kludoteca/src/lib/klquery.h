@@ -84,7 +84,7 @@ class KLSelect : public KLQuery
 		 * @param tables 
 		 * @return 
 		 */
-		KLSelect(QStringList fields, QStringList tables);
+		KLSelect(QStringList fields, QStringList tables, bool dist = false);
 		
 		/**
 		 * Construye una consulta select que afecta a una sola tabla
@@ -92,7 +92,7 @@ class KLSelect : public KLQuery
 		 * @param table 
 		 * @return 
 		 */
-		KLSelect(QStringList fields, const QString &table);
+		KLSelect(QStringList fields, const QString &table, bool dist = false);
 		
 		/**
 		 * Destructor
@@ -112,7 +112,7 @@ class KLSelect : public KLQuery
 		void setWhere(const QString &cwhere);
 		
 		void setCondition(const QString &condition);
-		
+
 		/**
 		 * Obtiene la lista de campos afectados
 		 * @return 
