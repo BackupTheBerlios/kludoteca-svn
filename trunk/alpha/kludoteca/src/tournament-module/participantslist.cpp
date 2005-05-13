@@ -41,10 +41,7 @@ void ParticipantsList::fillList()
 #endif
 
 	// SELECT codtournament from ldt_participates where codtournament in (select name from ldt_tournament );
-	KLSelect sqltour (QStringList()  << "codtournament", QString("ldt_participates"), true);
-	sqltour.setWhere("codtournament");
-	KLSelect subsqltour (QStringList() << "name", QString("ldt_tournament"));
-	sqltour.addSubConsult("in", subsqltour);
+	KLSelect sqltour (QStringList()  << "name", QString("ldt_tournament"));
 	
 	KLResultSet tourResults = KLDM->execQuery(&sqltour);
 	m_xmlsource.setData(tourResults.toString());
@@ -92,34 +89,39 @@ void ParticipantsList::addButtonClicked()
 #if DEBUG_PARTICIPANTS
 	qDebug("init addButtonClicked");
 #endif
-	QString tname = m_listView->currentItem()->text(0);
+
+	QListViewItem *le = m_listView->currentItem();
+	if ( !le )
+		return;
+	
+	QString tname = le->text(0);
 	if ( tname.isNull() )
-		tname = m_listView->currentItem()->parent()->text(0);
+		tname = le->parent()->text(0);
 	std::cout << "Adicionando participantes torneo: " << tname << std::endl;
 	
 	
 
-// 	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
-// 	( new QVBoxLayout( view ) )->setAutoAdd( true );
-// 
-// 	QScrollView *scroll = new QScrollView(view);
-// 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-// 	scroll->setMargin(10);
-// 	
-// 	FormParticipantsList *formParticipantsList = new FormParticipantsList(FormBase::Add, scroll->viewport() );
-// 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
-// 
-// 	formParticipantsList->setType( FormBase::Add);
-// 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
-// 	connect(formParticipantsList, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
-// 
-// 	scroll->addChild(formParticipantsList);
-// 	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-// 
-// 	formParticipantsList->setTitle(i18n("Admin User"));
-// 	formParticipantsList->setExplanation(i18n("Fill the fields with the user information"));
-// 	
-// 	emit sendWidget(view); 
+	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	FormParticipants *formParticipantsList = new FormParticipants(FormBase::Add, scroll->viewport() );
+	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+
+	formParticipantsList->setType( FormBase::Add);
+	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formParticipantsList, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+
+	scroll->addChild(formParticipantsList);
+	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+
+	formParticipantsList->setTitle(i18n("Admin Participants"));
+	formParticipantsList->setExplanation(i18n("Fill the fields with the participants information"));
+	
+	emit sendWidget(view); 
 #if DEBUG_PARTICIPANTS
 	qDebug("end addButtonClicked");
 #endif
@@ -160,7 +162,7 @@ void ParticipantsList::modifyButtonClicked()
 // 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 // 	scroll->setMargin(10);
 // 	
-// 	FormParticipantsList *formParticipantsList = new FormParticipantsList(FormBase::Edit, scroll->viewport() );
+// 	FormParticipants *formParticipantsList = new FormParticipants(FormBase::Edit, scroll->viewport() );
 // 	
 // 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 // 
@@ -242,24 +244,15 @@ void ParticipantsList::queryButtonClicked()
 
 void ParticipantsList::addItem(const QString &pkey)
 {
-// 	std::cout << "Adicionando item con pkey: " << pkey << std::endl;
-// 	
-// 	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "login", QStringList() << "ldt_users_view");
-// 	sqlquery.setWhere("login="+SQLSTR(pkey) );
-// 
-// 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
-// 
-// 	m_xmlsource.setData(resultSet.toString());
-// 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
-// 	{
-// 		std::cout << "No se pudo analizar!!!" << std::endl;
-// 	}
+	std::cout << "Adicionando item con pkey: " << pkey << std::endl;
+	
+	fillList();
 }
 
 void ParticipantsList::updateItem(const QString &pkey)
 {
-// 	delete m_listView->currentItem();
-// 	addItem(pkey);
+	delete m_listView->currentItem();
+	addItem(pkey);
 }
 
 void ParticipantsList::slotFilter(const QString &filter)
@@ -273,10 +266,7 @@ void ParticipantsList::slotFilter(const QString &filter)
 	else
 	{
 		m_listView->clear();
-		KLSelect sqltour (QStringList()  << "codtournament", QString("ldt_participates"), true);
-		sqltour.setWhere("codtournament");
-		KLSelect subsqltour (QStringList() << "name", QString("ldt_tournament"));
-		sqltour.addSubConsult("in", subsqltour);
+		KLSelect sqltour (QStringList()  << "name", QString("ldt_tournament"));
 	
 		KLResultSet tourResults = KLDM->execQuery(&sqltour);
 		m_xmlsource.setData(tourResults.toString());

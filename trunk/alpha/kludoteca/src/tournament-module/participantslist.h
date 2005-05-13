@@ -21,6 +21,7 @@
 #define PARTICIPANTSLIST_H
 
 #include <ltlistview.h>
+#include "formparticipants.h"
 
 /**
  * En este widget manejamos la lista de participantes en torneos
