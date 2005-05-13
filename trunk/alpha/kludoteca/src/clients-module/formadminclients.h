@@ -82,16 +82,6 @@ class FormAdminClients : public FormBase
 		QString getClientSex();
 		QString getClientAddress();
 		
-		void setClientId(const QString &id);
-		void setClientName(const QString &name);
-		void setClientLastName(const QString &lastname);
-		void setClientPhone(const QString &phone);
-		void setClientCellular(const QString &cell);
-		void setClientState(const QString &state);
-		void setClientEmail(const QString &email);
-		void setClientSex(const QString &sex);
-		void setClientAddress(const QString &address);
-
 		QString getFriendId();
 		QString getFriendLastName();
 		QString getFriendName();
@@ -101,6 +91,28 @@ class FormAdminClients : public FormBase
 		//QString getFriendState();
 		QString getFriendEmail();
 		QString getFriendSex();
+		
+		void setClientId(const QString &id);
+		void setClientName(const QString &name);
+		void setClientLastName(const QString &lastname);
+		void setClientPhone(const QString &phone);
+		void setClientCellular(const QString &cell);
+		void setClientState(const QString &state);
+		void setClientEmail(const QString &email);
+		void setClientSex(QString &sex);
+		void setClientAddress(const QString &address);
+
+// 		void setFriendId(const QString &id);
+// 		void setClientName(const QString &name);
+// 		void setClientLastName(const QString &lastname);
+// 		void setClientPhone(const QString &phone);
+// 		void setClientCellular(const QString &cell);
+// 		void setClientState(const QString &state);
+// 		void setClientEmail(const QString &email);
+// 		void setClientSex(QString &sex);
+// 		void setClientAddress(const QString &address);
+// 		
+		void setFriendLineEdits(QStringList &fields,KLSqlResults &result);
 		
 
 	public slots:

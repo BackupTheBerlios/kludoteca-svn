@@ -24,7 +24,7 @@
 
 using namespace std;
 
-ClientsWidget::ClientsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent, const char *name) : LTListView(QStringList() << i18n("First Name") << i18n("Last Name") << i18n("State"), button1, button2, button3, button4, parent, name)
+ClientsWidget::ClientsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent, const char *name) : LTListView(QStringList() << i18n("ID") << i18n("First Name") << i18n("Last Name") << i18n("State"), button1, button2, button3, button4, parent, name)
 {
 	setCaption(i18n("Clients"));
 }
@@ -42,7 +42,7 @@ void ClientsWidget::fillList()
 		return;
 	}
 	
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_persons" << "ldt_clients");
+	KLSelect sqlquery(QStringList() << "ldt_clients.docIdent" << "firstname" << "lastname" << "state", QStringList() << "ldt_persons" << "ldt_clients");
 	sqlquery.setWhere("ldt_persons.docIdent=ldt_clients.docIdent");
 	
 	
@@ -110,22 +110,89 @@ void ClientsWidget::modifyButtonClicked()
 	scroll->setMargin(10);
 	
 	FormAdminClients *formAdminClients = new FormAdminClients(FormBase::Edit, scroll->viewport() );
+	QStringList clientFields;
+	clientFields 	<< "ldt_clients.docident"
+			<< "firstname" 
+			<< "lastname" 
+			<< "phone" 
+			<< "celullar" 
+			<< "email"
+			<< "address"
+			<< "genre"
+			<< "ldt_clients.idreferenceperson";
+			
+	KLSelect queryClte(clientFields, 
+			  QStringList() << "ldt_clients" 
+					<< "ldt_persons" );
 	
-	KLSelect sqlquery(QStringList() << "ldt_clients.docident" << "firstname" << "lastname" << "address" << "phone" << "email", QStringList() << "ldt_clients" << "ldt_persons" );
+	queryClte.setWhere("ldt_clients.docIdent=ldt_persons.docIdent and ldt_persons.firstname="+SQLSTR( m_listView->currentItem()->text(1)) ); // Login in the listview
 	
-	sqlquery.setWhere("ldt_persons.docIdent=ldt_clients.docIdent"); // Login in the listview
+	QStringList friendFields;
+	friendFields << "docident" << "firstname" << "lastname" << "phone" << "celullar" << "email" << "address" << "genre";
 	
-	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
-	m_xmlsource.setData(resultSet.toString());
+	KLResultSet resultSetClte = KLDM->execQuery(&queryClte);
+	
+	
+	m_xmlsource.setData(resultSetClte.toString());
 	
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
 	{
 		std::cerr << "No se puede analizar" << std::endl;
 		return;
 	}
+		
+	KLSqlResults resultsClte = m_xmlreader.results(); // primero para el cliente luego para la referencia
+/**********************************************************************************************************************/	
+	KLSelect queryRef(friendFields,
+			  QStringList() << "ldt_persons" );
 	
-	KLSqlResults results = m_xmlreader.results(); // deboo extraer los valores de results :-)
+	queryRef.setWhere("docIdent="+SQLSTR(resultsClte["ldt_clients.idreferenceperson"]) );
+	
+	KLResultSet resultSetRef = KLDM->execQuery(&queryRef);
+	
+	m_xmlsource.setData(resultSetRef.toString());
+	
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
+	}
+		
+	KLSqlResults resultsRef = m_xmlreader.results(); // deboo extraer los valores de resultsClte :-)
+	
+	formAdminClients->setClientId(resultsClte["ldt_clients.docident"]);
+	formAdminClients->setClientName(resultsClte["firstname"]);
+	formAdminClients->setClientLastName(resultsClte["lastname"]);
+	formAdminClients->setClientPhone(resultsClte["phone"]);
+	formAdminClients->setClientCellular(resultsClte["celullar"]);
+	formAdminClients->setClientEmail(resultsClte["email"]);
+	formAdminClients->setClientAddress(resultsClte["address"]);
+	formAdminClients->setClientSex(resultsClte["genre"]);
+	
+// 	formAdminClients->setId(resultsClte["ldt_clients.docident"]);
+// 	formAdminClients->setClientName(resultsClte["firstname"]);
+// 	formAdminClients->setClientLastName(resultsClte["lastname"]);
+// 	formAdminClients->setClientPhone(resultsClte["phone"]);
+// 	formAdminClients->setClientCellular(resultsClte["celullar"]);
+// 	formAdminClients->setClientEmail(resultsClte["email"]);
+// 	formAdminClients->setClientAddress(resultsClte["address"]);
+// 	formAdminClients->setClientSex(resultsClte["genre"]);
+
+	formAdminClients->setFriendLineEdits(clientFields,resultsClte);
+	
+	formAdminClients->setType( FormBase::Edit );
+	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminClients, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
+
+	scroll->addChild(formAdminClients);
+	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	formAdminClients->setTextAcceptButton(i18n("Modify"));
+	formAdminClients->setTextCancelButton(i18n("Close"));
+	formAdminClients->setTitle(i18n("Admin Clients"));
+	formAdminClients->setExplanation(i18n("Modify the fields with the Clients an his personal reference information"));
+	
+	emit sendWidget(view);
 }
 
 void ClientsWidget::queryButtonClicked()
@@ -135,7 +202,7 @@ void ClientsWidget::queryButtonClicked()
 
 void ClientsWidget::addItem(const QString &pkey)
 {
-	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "state", QStringList() << "ldt_clients" << "ldt_persons");
+	KLSelect sqlquery(QStringList() << "ldt_clients.docIdent" << "firstname" << "lastname" << "state", QStringList() << "ldt_clients" << "ldt_persons");
 	sqlquery.setWhere("ldt_persons.docident="+SQLSTR(pkey)+" and ldt_clients.docident="+SQLSTR(pkey));
 	//SELECT firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent='005' and ldt_clients.docident='005';
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
@@ -145,6 +212,12 @@ void ClientsWidget::addItem(const QString &pkey)
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}
+}
+
+void ClientsWidget::updateItem(const QString &pkey)
+{
+	delete m_listView->currentItem();
+	addItem(pkey);
 }
 
 #include "clientswidget.moc"
