@@ -170,16 +170,16 @@ void ClientsWidget::modifyButtonClicked()
 	formAdminClients->setClientAddress(resultsClte["address"]);
 	formAdminClients->setClientSex(resultsClte["genre"]);
 	
-// 	formAdminClients->setId(resultsClte["ldt_clients.docident"]);
-// 	formAdminClients->setClientName(resultsClte["firstname"]);
-// 	formAdminClients->setClientLastName(resultsClte["lastname"]);
-// 	formAdminClients->setClientPhone(resultsClte["phone"]);
-// 	formAdminClients->setClientCellular(resultsClte["celullar"]);
-// 	formAdminClients->setClientEmail(resultsClte["email"]);
-// 	formAdminClients->setClientAddress(resultsClte["address"]);
-// 	formAdminClients->setClientSex(resultsClte["genre"]);
+	formAdminClients->setFriendId(resultsRef["docident"]);
+	formAdminClients->setFriendName(resultsRef["firstname"]);
+	formAdminClients->setFriendLastName(resultsRef["lastname"]);
+	formAdminClients->setFriendPhone(resultsRef["phone"]);
+	formAdminClients->setFriendCellular(resultsRef["celullar"]);
+	formAdminClients->setFriendEmail(resultsRef["email"]);
+	formAdminClients->setFriendAddress(resultsRef["address"]);
+	formAdminClients->setFriendSex(resultsRef["genre"]);
 
-	formAdminClients->setFriendLineEdits(clientFields,resultsClte);
+	//formAdminClients->setFriendLineEdits(friendFields,resultsRef);
 	
 	formAdminClients->setType( FormBase::Edit );
 	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));

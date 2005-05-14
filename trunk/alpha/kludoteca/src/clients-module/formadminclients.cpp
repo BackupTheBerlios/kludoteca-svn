@@ -67,7 +67,7 @@ void FormAdminClients::setupButtonsBox()
 	
 	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
 	m_selectFaceClte = new KPushButton("", vboxClient );
-	m_selectFaceClte->setPixmap( QPixmap( locate("data", "/home/sicness/fotos_holly/cap_004_null.jpg" )) );
+	m_selectFaceClte->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png")) );
 	m_selectFaceClte->resize(64, 64);
 	m_layout->addWidget(vboxClient, 0 , 1);
 
@@ -125,7 +125,7 @@ void FormAdminClients::setupBox()
 						<< i18n("Friend Email")
 						<< i18n("Friend Address");
 	
-	QStringList clientdbFields = QStringList() << "docIdent";
+	QStringList clientdbFields = QStringList() << "docident";
 	
 	QStringList persondbFields = QStringList() << "firstname" 
 						<< "lastname"
@@ -134,7 +134,7 @@ void FormAdminClients::setupBox()
 						<< "email"
 						<< "address" ;
 	
-	QStringList friendDbFields = QStringList() << "docIdent"
+	QStringList friendDbFields = QStringList() << "docident"
 						<< "firstname" 
 						<< "lastname"
 						<< "phone"
@@ -158,7 +158,7 @@ void FormAdminClients::setupBox()
 
 QString FormAdminClients::getClientId()
 {
-	return m_hashClient["docIdent"]->text();
+	return m_hashClient["docident"]->text();
 }
 
 QString FormAdminClients::getClientName()
@@ -209,7 +209,7 @@ QString FormAdminClients::getClientAddress()
 
 void FormAdminClients::setClientId(const QString &id)
 {
-	m_hashClient["docIdent"]->setText(id);
+	m_hashClient["docident"]->setText(id);
 }
 
 void FormAdminClients::setClientName(const QString &name)
@@ -285,7 +285,7 @@ void FormAdminClients::setClientAddress(const QString &address)
 *******************************************************************************************/
 QString FormAdminClients::getFriendId()
 {
-	return m_hashFriend["docIdent"]->text();
+	return m_hashFriend["docident"]->text();
 }
 
 QString FormAdminClients::getFriendName()
@@ -328,7 +328,77 @@ QString FormAdminClients::getFriendSex()
 	return m_radioButtonFrd->selected()->text();
 }
 
+void FormAdminClients::setFriendId(const QString &id)
+{
+	m_hashFriend["docident"]->setText(id);
+}
 
+void FormAdminClients::setFriendName(const QString &name)
+{
+	m_hashFriend["firstname"]->setText(name);
+}
+
+void FormAdminClients::setFriendLastName(const QString &lastname)
+{
+	m_hashFriend["lastname"]->setText(lastname);
+}
+
+void FormAdminClients::setFriendPhone(const QString &phone)
+{
+	m_hashFriend["phone"]->setText(phone);
+}
+
+void FormAdminClients::setFriendCellular(const QString &cell)
+{
+	m_hashFriend["celullar"]->setText(cell);
+}
+
+
+
+void FormAdminClients::setFriendState(const QString &state)
+{
+	if (state == i18n("Active"))
+	{
+		m_comboClte->setCurrentItem(-1);
+	}
+	
+	if (state == i18n("Inactive"))
+	{
+		m_comboClte->setCurrentItem(-2);
+	}
+	
+	if (state == i18n("Banned"))
+	{
+		m_comboClte->setCurrentItem(-3);
+	}
+	
+}
+
+void FormAdminClients::setFriendEmail(const QString &email)
+{
+	m_hashFriend["email"]->setText(email);
+}
+
+void FormAdminClients::setFriendSex(QString &sex)
+{
+	sex.remove('&');
+	std::cout << "Sex: " << sex << std::endl;
+	for (uint i = 0; i < m_radioButtonClte->count(); i++)
+	{
+		QRadioButton *btmp = static_cast<QRadioButton *>(m_radioButtonClte->find(i));
+		std::cout << "Sexo: " << btmp->text() << std::endl;;
+		if ( btmp->text().lower() == sex.lower())
+		{
+			btmp->setChecked(true);
+			break;
+		}
+	}		
+}
+
+void FormAdminClients::setFriendAddress(const QString &address)
+{
+	m_hashFriend["address"]->setText(address);
+}
 /*
 * Este metodo toma los valores de los klineedits a traves de dos tablas hash (m_hashPerson y m_hashFriend)
 */
@@ -339,8 +409,8 @@ void FormAdminClients::accept()
 		case FormBase::Add:
 		{
 			
-			KLSelect queryExist(QStringList() << "docIdent" << "firstname",QStringList() << "ldt_persons");
-			queryExist.setWhere("docIdent="+SQLSTR( this->getFriendId())+" and firstname="+SQLSTR( this->getFriendName()));
+			KLSelect queryExist(QStringList() << "docident" << "firstname",QStringList() << "ldt_persons");
+			queryExist.setWhere("docident="+SQLSTR( this->getFriendId())+" and firstname="+SQLSTR( this->getFriendName()));
 			
 			KLResultSet resultSet = KLDM->execQuery(&queryExist);	
 			
@@ -355,7 +425,7 @@ void FormAdminClients::accept()
 			KLSqlResults results = m_xmlreader.results();
 			
 			
-			if(results["docIdent"] != this->getFriendId() && results["firstname"] != this->getFriendName() )
+			if(results["docident"] != this->getFriendId() && results["firstname"] != this->getFriendName() )
 			{
 				cout << "ENTRO A FORMBASE::ADD" << endl;
 				KLInsert *queryFrd = new KLInsert("ldt_persons", QStringList()
@@ -429,6 +499,107 @@ void FormAdminClients::accept()
 		break;
 		case FormBase::Edit:
 		{
+			cout <<"ENTRA A FORMBASE::EDIT" << endl;
+			bool changedIdFriend = false,changedState = false;
+			QStringList fields, values,
+				    fieldsClte, 
+				    fieldsPerson,
+				    fieldsFriend,
+				    valuesClte,
+				    valuesPerson,
+				    valuesFriend;
+					
+			QDictIterator<KLineEdit> itp2c( m_hashPerson );
+			QDictIterator<KLineEdit> itf( m_hashFriend );
+			QDictIterator<KLineEdit> itc( m_hashClient );
+			
+			for( ; itc.current(); ++itc)
+			{
+				if ( itc.current()->isModified() )
+				{
+					std::cout << "adding cliente." << itc.current()->name() << "."<< std::endl;
+					fieldsClte << itc.current()->name();
+					valuesClte << SQLSTR(itc.current()->text());
+				}
+			}
+			
+			for( ; itp2c.current(); ++itp2c)
+			{
+				if ( itp2c.current()->isModified() )
+				{
+					if(itf.current() == m_hashPerson["state"] )
+						changedState = true;
+					std::cout << "adding person." << itp2c.current()->name() << "."<< std::endl;
+					fieldsPerson << itp2c.current()->name();
+					valuesPerson << SQLSTR(itp2c.current()->text());
+				}
+			}
+			
+			for( ; itf.current(); ++itf)
+			{
+				if ( itf.current()->isModified())
+				{
+					if(itf.current() == m_hashFriend["docident"] )
+						changedIdFriend = true;
+					
+					std::cout << "adding ref." << itf.current()->name() << "." << itf.current()->text() << std::endl;
+					fieldsFriend+=itf.current()->name();
+					cout <<"TRY FILL QSTRINGLIST fields"<< endl;
+					valuesFriend+=SQLSTR(itf.current()->text());
+					cout <<"TRY FILL QSTRINGLISTvalues" << endl;
+				}
+			}
+			
+// 			fields+=fieldsFriend;
+// 			values+=valuesFriend;
+// 			
+			if ( fieldsFriend.count() == valuesFriend.count() && fieldsFriend.count() > 0 )
+			{
+				cout <<"TRY QUERY FRIEND" << endl;
+				KLUpdate sqlup("ldt_persons", fieldsFriend, valuesFriend);
+				sqlup.setWhere("docident="+SQLSTR( m_hashFriend["docident"]->text() ) );
+				cout <<"TRY QUERY FRIEND" << endl;
+				emit sendQuery(&sqlup);
+				/*
+				if ( this->lastQueryWasGood() )  AKI NO NECESITAMOS MOSTRAS LOS NUEVOS
+								NUEVOS VALORES EN EL LISTVIEW
+				{
+					emit inserted();
+				}*/
+			}
+			
+			if ( fieldsPerson.count() == valuesPerson.count() && fieldsPerson.count() > 0 )
+			{
+				KLUpdate sqlup("ldt_persons", fieldsPerson, valuesPerson);
+				sqlup.setWhere("docident="+SQLSTR(m_hashClient["docident"]->text()));
+				cout <<"TRY QUERY PERSON" << endl;
+				emit sendQuery(&sqlup);				
+			}
+			
+			if (changedIdFriend)
+			{
+				fieldsClte << "idreferenceperson";
+				valuesClte << this->getFriendId();
+			}
+			if(changedState)
+			{
+				fieldsClte << "state";
+				valuesClte << this->getClientState();
+			}
+			
+			if ( fieldsClte.count() == valuesClte.count() && fieldsClte.count() > 0 )
+			{
+				KLUpdate sqlup("ldt_clients", fieldsClte, valuesClte);
+				sqlup.setWhere("docident="+SQLSTR(m_hashClient["docident"]->text()));
+				cout <<"TRY QUERY CLIENT" << endl;
+				emit sendQuery(&sqlup);	
+				
+				if ( this->lastQueryWasGood() )
+				{
+					emit inserted(m_hashClient["docident"]->text());
+					
+				}			
+			}
 			
 		}
 		break;
@@ -455,13 +626,20 @@ void FormAdminClients::clean()
 		it3.current()->setText("");
 }
 
-void FormAdminClients::setFriendLineEdits(QStringList &fields, KLSqlResults &result)
-{
-	for ( QStringList::Iterator it = fields.begin(); it != fields.end(); ++it )
-	{
-		cout << (QString)*it++ << " en el for " << endl;
-		m_hashFriend["firstname"]->setText(result["firstname"]);
-	}
-}
+// void FormAdminClients::setFriendLineEdits(QStringList &fields, KLSqlResults &result)
+// {
+// 	for ( QStringList::Iterator it = fields.begin(); it != fields.end(); ++it )
+// 	{
+// 		cout << (QString)*it << " en el for " << endl;
+// 		if ( *it )
+// 		{
+// 			KLineEdit *le = m_hashFriend[*it];
+// 			if ( le )
+// 			{
+// 				le->setText(result[*it]);
+// 			}
+// 		}
+// 	}
+// }
 
 #include "formadminclients.moc"

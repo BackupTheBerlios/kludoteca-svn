@@ -102,17 +102,17 @@ class FormAdminClients : public FormBase
 		void setClientSex(QString &sex);
 		void setClientAddress(const QString &address);
 
-// 		void setFriendId(const QString &id);
-// 		void setClientName(const QString &name);
-// 		void setClientLastName(const QString &lastname);
-// 		void setClientPhone(const QString &phone);
-// 		void setClientCellular(const QString &cell);
-// 		void setClientState(const QString &state);
-// 		void setClientEmail(const QString &email);
-// 		void setClientSex(QString &sex);
-// 		void setClientAddress(const QString &address);
+		void setFriendId(const QString &id);
+		void setFriendName(const QString &name);
+		void setFriendLastName(const QString &lastname);
+		void setFriendPhone(const QString &phone);
+		void setFriendCellular(const QString &cell);
+		void setFriendState(const QString &state);
+		void setFriendEmail(const QString &email);
+		void setFriendSex(QString &sex);
+		void setFriendAddress(const QString &address);
 // 		
-		void setFriendLineEdits(QStringList &fields,KLSqlResults &result);
+		//void setFriendLineEdits(QStringList &fields,KLSqlResults &result);
 		
 
 	public slots:
