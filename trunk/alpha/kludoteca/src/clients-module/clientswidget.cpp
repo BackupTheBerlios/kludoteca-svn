@@ -102,6 +102,7 @@ void ClientsWidget::modifyButtonClicked()
 #if DEBUG_ADMINUSERS
 	qDebug("init addButtonClicked");
 #endif
+	
 	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
@@ -110,6 +111,7 @@ void ClientsWidget::modifyButtonClicked()
 	scroll->setMargin(10);
 	
 	FormAdminClients *formAdminClients = new FormAdminClients(FormBase::Edit, scroll->viewport() );
+	connect(formAdminClients, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	QStringList clientFields;
 	clientFields 	<< "ldt_clients.docident"
 			<< "firstname" 
@@ -119,13 +121,14 @@ void ClientsWidget::modifyButtonClicked()
 			<< "email"
 			<< "address"
 			<< "genre"
-			<< "ldt_clients.idreferenceperson";
+			<< "ldt_clients.idreferenceperson"
+			<< "ldt_clients.state";
 			
 	KLSelect queryClte(clientFields, 
 			  QStringList() << "ldt_clients" 
 					<< "ldt_persons" );
 	
-	queryClte.setWhere("ldt_clients.docIdent=ldt_persons.docIdent and ldt_persons.firstname="+SQLSTR( m_listView->currentItem()->text(1)) ); // Login in the listview
+	queryClte.setWhere("ldt_clients.docIdent=ldt_persons.docIdent and ldt_persons.docident="+SQLSTR( m_listView->currentItem()->text(0)) ); // Login in the listview
 	
 	QStringList friendFields;
 	friendFields << "docident" << "firstname" << "lastname" << "phone" << "celullar" << "email" << "address" << "genre";
@@ -169,6 +172,7 @@ void ClientsWidget::modifyButtonClicked()
 	formAdminClients->setClientEmail(resultsClte["email"]);
 	formAdminClients->setClientAddress(resultsClte["address"]);
 	formAdminClients->setClientSex(resultsClte["genre"]);
+	formAdminClients->setClientState(resultsClte["ldt_clients.state"]);
 	
 	formAdminClients->setFriendId(resultsRef["docident"]);
 	formAdminClients->setFriendName(resultsRef["firstname"]);

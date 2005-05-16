@@ -209,7 +209,9 @@ QString FormAdminClients::getClientAddress()
 
 void FormAdminClients::setClientId(const QString &id)
 {
+	m_pkey = id;
 	m_hashClient["docident"]->setText(id);
+	m_hashClient["docident"]->setReadOnly(true);
 }
 
 void FormAdminClients::setClientName(const QString &name)
@@ -236,20 +238,10 @@ void FormAdminClients::setClientCellular(const QString &cell)
 
 void FormAdminClients::setClientState(const QString &state)
 {
-	if (state == i18n("Active"))
-	{
-		m_comboClte->setCurrentItem(-1);
-	}
+	cltStateChanged = TRUE;
+	cout << "state: " << state << endl;
+	m_comboClte->setCurrentItem(state);
 	
-	if (state == i18n("Inactive"))
-	{
-		m_comboClte->setCurrentItem(-2);
-	}
-	
-	if (state == i18n("Banned"))
-	{
-		m_comboClte->setCurrentItem(-3);
-	}
 	
 }
 
@@ -313,10 +305,10 @@ QString FormAdminClients::getFriendAddress()
 	return m_hashFriend["address"]->text();
 }
 
-// QString FormAdminClients::getFriendState()
-// {
-// 	
-// }
+QString FormAdminClients::getFriendState()
+{
+	return i18n(m_comboFrd->currentText());
+}
 
 QString FormAdminClients::getFriendEmail()
 {
@@ -330,7 +322,9 @@ QString FormAdminClients::getFriendSex()
 
 void FormAdminClients::setFriendId(const QString &id)
 {
+	m_fpkey = id;
 	m_hashFriend["docident"]->setText(id);
+	m_hashFriend["docident"]->setReadOnly(true);
 }
 
 void FormAdminClients::setFriendName(const QString &name)
@@ -357,21 +351,8 @@ void FormAdminClients::setFriendCellular(const QString &cell)
 
 void FormAdminClients::setFriendState(const QString &state)
 {
-	if (state == i18n("Active"))
-	{
-		m_comboClte->setCurrentItem(-1);
-	}
-	
-	if (state == i18n("Inactive"))
-	{
-		m_comboClte->setCurrentItem(-2);
-	}
-	
-	if (state == i18n("Banned"))
-	{
-		m_comboClte->setCurrentItem(-3);
-	}
-	
+	frdStateChanged = TRUE;
+	m_comboFrd->setCurrentItem(state);
 }
 
 void FormAdminClients::setFriendEmail(const QString &email)
@@ -500,7 +481,7 @@ void FormAdminClients::accept()
 		case FormBase::Edit:
 		{
 			cout <<"ENTRA A FORMBASE::EDIT" << endl;
-			bool changedIdFriend = false,changedState = false;
+			bool changedIdFriend = false;
 			QStringList fields, values,
 				    fieldsClte, 
 				    fieldsPerson,
@@ -508,6 +489,8 @@ void FormAdminClients::accept()
 				    valuesClte,
 				    valuesPerson,
 				    valuesFriend;
+			m_hashFriend["docident"]->setReadOnly(true);
+			m_hashClient["docident"]->setReadOnly(true);
 					
 			QDictIterator<KLineEdit> itp2c( m_hashPerson );
 			QDictIterator<KLineEdit> itf( m_hashFriend );
@@ -527,8 +510,6 @@ void FormAdminClients::accept()
 			{
 				if ( itp2c.current()->isModified() )
 				{
-					if(itf.current() == m_hashPerson["state"] )
-						changedState = true;
 					std::cout << "adding person." << itp2c.current()->name() << "."<< std::endl;
 					fieldsPerson << itp2c.current()->name();
 					valuesPerson << SQLSTR(itp2c.current()->text());
@@ -557,7 +538,7 @@ void FormAdminClients::accept()
 			{
 				cout <<"TRY QUERY FRIEND" << endl;
 				KLUpdate sqlup("ldt_persons", fieldsFriend, valuesFriend);
-				sqlup.setWhere("docident="+SQLSTR( m_hashFriend["docident"]->text() ) );
+				sqlup.setWhere("docident="+SQLSTR(m_fpkey) );
 				cout <<"TRY QUERY FRIEND" << endl;
 				emit sendQuery(&sqlup);
 				/*
@@ -566,14 +547,21 @@ void FormAdminClients::accept()
 				{
 					emit inserted();
 				}*/
+				if (frdStateChanged)
+					this->setFriendState(this->getFriendState());
 			}
 			
 			if ( fieldsPerson.count() == valuesPerson.count() && fieldsPerson.count() > 0 )
 			{
 				KLUpdate sqlup("ldt_persons", fieldsPerson, valuesPerson);
-				sqlup.setWhere("docident="+SQLSTR(m_hashClient["docident"]->text()));
+				sqlup.setWhere("docident="+SQLSTR(m_pkey));
 				cout <<"TRY QUERY PERSON" << endl;
-				emit sendQuery(&sqlup);				
+				emit sendQuery(&sqlup);
+				if ( this->lastQueryWasGood() )
+				{
+					emit inserted(m_pkey);
+					
+				}				
 			}
 			
 			if (changedIdFriend)
@@ -581,22 +569,22 @@ void FormAdminClients::accept()
 				fieldsClte << "idreferenceperson";
 				valuesClte << this->getFriendId();
 			}
-			if(changedState)
+			if(cltStateChanged)
 			{
 				fieldsClte << "state";
-				valuesClte << this->getClientState();
+				valuesClte << SQLSTR(this->getClientState());
 			}
 			
 			if ( fieldsClte.count() == valuesClte.count() && fieldsClte.count() > 0 )
 			{
 				KLUpdate sqlup("ldt_clients", fieldsClte, valuesClte);
-				sqlup.setWhere("docident="+SQLSTR(m_hashClient["docident"]->text()));
-				cout <<"TRY QUERY CLIENT" << endl;
-				emit sendQuery(&sqlup);	
+				sqlup.setWhere("docident="+SQLSTR( m_pkey ));
+				cout <<"TRY QUERY CLIENT: " << m_pkey << endl;
+				emit sendQuery(&sqlup);
 				
 				if ( this->lastQueryWasGood() )
 				{
-					emit inserted(m_hashClient["docident"]->text());
+					emit inserted(m_pkey);
 					
 				}			
 			}

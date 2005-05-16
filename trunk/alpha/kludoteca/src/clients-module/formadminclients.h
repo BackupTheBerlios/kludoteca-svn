@@ -88,7 +88,7 @@ class FormAdminClients : public FormBase
 		QString getFriendPhone();
 		QString getFriendCellular();
 		QString getFriendAddress();
-		//QString getFriendState();
+		QString getFriendState();
 		QString getFriendEmail();
 		QString getFriendSex();
 		
@@ -146,6 +146,8 @@ class FormAdminClients : public FormBase
 		KLResultSetInterpreter *m_rsinterpreter;
 		KLXmlReader m_xmlreader;
 		QXmlInputSource m_xmlsource;
+		QString m_pkey, m_fpkey; // clientId;
+		bool cltStateChanged , frdStateChanged ;
 	
 	private:
 		/**
