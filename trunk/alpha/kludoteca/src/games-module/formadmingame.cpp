@@ -22,11 +22,14 @@
 #include <klocale.h>
 #include <iostream>
 #include <kstandarddirs.h>
+#include "klxmlreader.h"
+#include "kldatabase.h"
+#include "klresultsetinterpreter.h"
 
 
-FormAdminGame::FormAdminGame( KLDatabase *db, QWidget *parent, const char *name): FormBase(db, parent, name)
+FormAdminGame::FormAdminGame(FormBase::Type t, QWidget *parent) : FormBase(t, parent, "FormAdminGame")//( KLDatabase *db, QWidget *parent, const char *name): FormBase(db, parent, name)
 {
-	this->setupForm();
+	setupForm();
 }
 
 FormAdminGame::~FormAdminGame()
@@ -84,10 +87,9 @@ void FormAdminGame::setupForm()
 	m_grid->addWidget(m_rulesGame, 3,3);
 	
 	m_labelNMinPlayerGame = new QLabel(i18n("Minimus number of player"), form);
-	//FIXME:averiguar cuanto es el maximo de jugadores en un juego
 	m_nMinPlayerGame = new KIntSpinBox(form);
 	m_nMinPlayerGame->setRange (2,10);
-	//FIXME:averiguar cuanto es el maximo de jugadores en un juego
+	//FIXME:averiguar cuanto es el minimo de jugadores en un juego
 		
 	m_grid->addWidget(m_labelNMinPlayerGame, 4,0);
 	m_grid->addWidget(m_nMinPlayerGame, 4,1);
@@ -118,7 +120,7 @@ void FormAdminGame::setupForm()
 	
 	m_labelCostUnit = new QLabel(i18n("cost for time unit"), form);
 	m_costUnit = new KIntSpinBox(form);
-	m_costUnit->setRange (1000.0, 20000);
+	m_costUnit->setRange (1000, 20000);
 	//FIXME:averiguar cual es el rango del costo por unidad de tiempo
 	
 	m_grid->addWidget(m_labelCostUnit, 5,2);
@@ -127,47 +129,75 @@ void FormAdminGame::setupForm()
 	
 	m_labelTimeAdd = new QLabel(i18n("Cost aditional time unit"), form);
 	m_timeAdd = new KIntSpinBox(form);
-	m_timeAdd->setRange (1000.0, 20000);
+	m_timeAdd->setRange (1000, 20000);
 	
 	m_grid->addWidget(m_labelTimeAdd, 6, 2);
 	m_grid->addWidget(m_timeAdd, 6, 3);
+
 	
 }
 
 void FormAdminGame::accept ()
 {
-	//FIXME: tomar los datos de los campos validarlos y tratarlos
-	/*std::cout << "Nombre juego " <<getGameName()<< std::endl;
-	std::cout << "Descripcion juego " <<getDescriptionGame()<< std::endl;
-	std::cout << "Reglas juego " <<getRulesGame()<< std::endl;
-	std::cout << "tipo juego " <<getTypeGame()<< std::endl;
-	std::cout << "Unidad tiempo " <<getTimeUnit()<< std::endl;
-	std::cout << "max jugadores " <<getMaxPlayers()<< std::endl;
-	*/
-
+	
+	switch( getType() )
+	{
+		case FormBase::Add:
+		{
+			
+			KLInsert sqlquery("ldt_games", QStringList() 
+					<< SQLSTR(this->getReferenceGame()) 
+							<< SQLSTR(this->getGameName()) 
+							<< SQLSTR(this->getDescriptionGame()) 
+							<< SQLSTR(this->getRulesGame()) 
+							<< QString::number(this->getMinPlayers()) 
+							<< QString::number(this->getMaxPlayers()) 
+							<< SQLSTR(this->getTypeGame()) 
+							<< SQLSTR(this->getTimeUnit()) 
+							<< SQLSTR(this->getTimeUnit()) 
+							<< QString::number(this->getCostUnitTime()) 
+							<< QString::number(this->getCostTimeAdditional()) 
+							<< SQLSTR(QString("1")) 
+							<< SQLSTR( this->getStateGame()));
+	
+			std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
+			emit sendQuery(&sqlquery); // No importa si puede o no
+			
+			clean();
+			
+		}
 		
-	KLInsert sqlquery("ldt_games", QStringList() 
-			<< SQLSTR(this->getReferenceGame()) 
-					<< SQLSTR(this->getGameName()) 
-					<< SQLSTR(this->getDescriptionGame()) 
-					<< SQLSTR(this->getRulesGame()) 
-					<< QString::number(this->getMinPlayers()) 
-					<< QString::number(this->getMaxPlayers()) 
-					<< SQLSTR(this->getTypeGame()) 
-					<< SQLSTR(this->getTimeUnit()) 
-					<< SQLSTR(this->getTimeUnit()) 
-					<< QString::number(this->getCostUnitTime()) 
-					<< QString::number(this->getCostTimeAdditional()) 
-					<< SQLSTR(QString("1")) 
-					<< SQLSTR( this->getStateGame()));
+		break;
+		case FormBase::Edit:
+		{
+			QStringList values;
+			values << SQLSTR(getGameName()) << SQLSTR(getDescriptionGame())<< SQLSTR(getRulesGame() )<< SQLSTR(getStateGame()) << SQLSTR(getTypeGame())<< SQLSTR(getTimeUnit()) << SQLSTR(getTimeUnitAdd() ) << SQLSTR(getMinPlayers()) << SQLSTR(getMaxPlayers()) << SQLSTR(getCostUnitTime()) << SQLSTR(getCostTimeAdditional());
+
+			QStringList fields; 
+			fields << "gamename" << "description" << "rules" << "state"<< "gametype" << "timeunit"<<"timeunitadd" << "mingamers" << "maxgamers" << "costtm" << "costtma" ;
+			KLUpdate sqlup("ldt_games", fields, values);
+			sqlup.setWhere("serialreference ="+SQLSTR(game));
+				
+			emit sendQuery(&sqlup);
+				
+			if ( this->lastQueryWasGood() )
+			{
+					emit inserted(game);
+			}
+			emit message2osd(i18n("The changes to " + getGameName() + " was taken"));
+			
+			clean();
+			cancel();
+		}
+		break;
 	
-	std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
-	
-	emit sendQuery( &sqlquery );
-	
-	this->clean();
-	
-	emit accepted();
+	}	
+
+}
+
+void FormAdminGame::cancel()
+{
+	emit cancelled();
 }
 
 void FormAdminGame::formQuery(const QString &idGame)
@@ -178,44 +208,95 @@ void FormAdminGame::formDelete(const QString &idGame)
 {
 }
 
-void FormAdminGame::formModify()//QString &idGame)
+void FormAdminGame::formModify(const QString &idGame)
 {
-	//QString quering = "";
-	/*
-	KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "description" << "rules" << "mingamers" << "maxgamers" << "gametype"<<"timeunitadd"<< "timeunit" << "costtm" << "costtma"<<"position" <<"state" , QString("ldt_users"));
+	game = idGame;
+	KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "description" << "rules" << "mingamers" << "maxgamers" << "gametype"<<"timeunitadd"<< "timeunit" << "costtm" << "costtma"<<"position" <<"state" , QString("ldt_games"));
 	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	sqlquery.setWhere("serialreference="+SQLSTR(idGame)); 
 	
-	m_xmlsource.setData(resultSet.toString());
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
-	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total ))
+	QXmlInputSource *xmlsource = new  QXmlInputSource();
+	xmlsource->setData(resultSet.toString());
+	
+	KLXmlReader xmlreader;
+	
+	if ( ! xmlreader.analizeXml(xmlsource, KLResultSetInterpreter::Total) )
 	{
-		std::cout << "No se pudo analizar!!!" << std::endl;
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
 	}
 	
-	KLSqlResults results = m_xmlreader.results();
+	KLSqlResults results = xmlreader.results();
 	
-	quering += i18n("Game  name: ") + results["gamename"]  + "\n";
-	
+
+	m_referenceGame->setDisabled(true);
 	setGameName(results["gamename"]  );
 	setDescriptionGame(results["description"]  );
 	setRulesGame(results["rules"]  );
-//	setStateGame(const QString &state, int index);
-//	setTypeGame(const QString &type, int index);
-	setReferenceGame(serialreference);
-//	setTimeUnit(const QString &unitTime, int index );
-//	setUnitTimeAdd(const QString &unitTimeAdd, int index );
-	setMinPlayers(results["mingamers"] );
-	setMaxPlayers(results["maxgamers"] );
-	setCostUnitTime(results["costtm"] );
-	setCostTimeAdditional(results["costtma"] );*/
+	int index;
+	QString state = results["state"];
+	if(i18n("Free") == state )
+	{
+		index = 0;
+	}
+	if(i18n("Busy") == state)
+	{
+		index = 1;
+	}
+	if(i18n("Fixing") == state)
+	{
+		index = 2;
+	}
+	setStateGame(state, index);
+	
+	state = results["gameType"]; 
+	
+	if(i18n("Board") == state)
+	{
+		index = 0;
+	}
+	if(i18n("Video") == state)
+	{
+		index = 1;
+	}
+	if(i18n("Cards") == state)
+	{
+		index = 2;
+	}
+	
+	setTypeGame(state, index);
+	setReferenceGame(results["serialreference"]);
+	
+	state = results["timeunit"]; 
+	
+	if(i18n("minutes") == state)
+	{
+		index = 0;
+	}
+	if(i18n("hours") == state)
+	{
+		index = 1;
+	}
+	setTimeUnit(state, index );
 
-}
-
-
-void FormAdminGame::cancel()
-{
-	emit cancelled();
+	state = results["timeunitadd"]; 
+	
+	if(i18n("minutes") == state)
+	{
+		index = 0;
+	}
+	if(i18n("hours") == state)
+	{
+		index = 1;
+	}
+	setUnitTimeAdd(state, index );
+	bool ok;
+	setMinPlayers(results["mingamers"].toInt( &ok, 10 ) );
+	setMaxPlayers(results["maxgamers"] .toInt( &ok, 10 ));
+	setCostUnitTime(results["costtm"].toDouble() );
+	setCostTimeAdditional(results["costtma"] .toDouble());
 }
 
 
@@ -348,6 +429,8 @@ void FormAdminGame::setCostTimeAdditional(const double &costAditional)
 
 void FormAdminGame::clean()
 {
+	m_referenceGame->setDisabled(false);
+	game = "";
 	this->setGameName("");
 	this->setDescriptionGame("");
 	this->setRulesGame("");

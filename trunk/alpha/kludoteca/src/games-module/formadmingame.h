@@ -40,7 +40,7 @@
 /**
  * Este es el formumario para añadir juegos
  * @short Formulario para añadir juegos
- * @author David Cuadrado Juliana DAvila
+ * @author David Cuadrado Juliana Dàvila
  * @todo - Heredar de FormBase
 */
 class FormAdminGame : public FormBase
@@ -51,7 +51,7 @@ class FormAdminGame : public FormBase
 		/**
 		* Costructor por defecto
 		 */
-		FormAdminGame(KLDatabase *db, QWidget *parent = 0, const char *name = 0);
+		FormAdminGame(FormBase::Type t, QWidget *parent = 0);
 		
 		/**
 		 * Destructor por defecto
@@ -65,7 +65,7 @@ class FormAdminGame : public FormBase
 		
 		void formQuery(const QString &idGame );
 		void formDelete(const QString &idGame);
-		void formModify();//const QString &idGame);
+		void formModify(const QString &idGame);
 		
 		/**
 		 *  Funcion que retorna un qstring del nombre del juego
@@ -202,9 +202,12 @@ class FormAdminGame : public FormBase
 		 */
 		void setCostTimeAdditional(const double &costAditional);
 		
-		
+	
 	protected:
 		QGridLayout *m_grid;
+		
+	signals:
+		void message2osd(const QString &msg);
 		
 	public slots:
 		/**
@@ -231,6 +234,7 @@ class FormAdminGame : public FormBase
 		KTextEdit *m_descriptionGame, *m_rulesGame ;
 		
 		//FIXME: la unidad de tiempo adicional se captura por un combobox?
+		QString game;
 		
 		KComboBox *m_typeGame, *m_unitTime, *m_unitTimeAdd, *m_stateGame ;
 		KIntSpinBox *m_nMinPlayerGame, *m_nMaxPlayerGame, *m_costUnit, *m_timeAdd;
