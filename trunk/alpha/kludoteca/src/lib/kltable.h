@@ -17,62 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FORMPARTICIPANTS_H
-#define FORMPARTICIPANTS_H
 
-#include <klineedit.h>
-#include <qvgroupbox.h>
-#include <qhbox.h>
-#include <kcombobox.h>
-#include <qstringlist.h>
+#ifndef KLTABLE_H
+#define KLTABLE_H
 
-#include "formbase.h"
-#include "kltable.h"
+#include <qtable.h>
 
 /**
- * Formulario para la gestion de participantes de torneos
- * @author CetiSoft
+@author CetiSoft
 */
-class FormParticipants : public FormBase
+class KLTable : public QTable
 {
 	Q_OBJECT
 	public:
-		FormParticipants(const QString &tournament, FormBase::Type t, QWidget *parent = 0);
+		KLTable(int rows, int cols, QWidget *parent = 0, const char *name = 0);
+		~KLTable();
 
-		~FormParticipants();
-		
-		void setTournament(const QString &tournament);
-
-		virtual void setupForm();
-
-		virtual void accept();
-		virtual void cancel();
-		virtual void clean();
-		
-		QStringList getAllClients();
-		
-		
-	signals:
-		void message2osd(const QString &);
-		
+		void resizeEvent ( QResizeEvent * e );
+		void setHeaderHText(int col, const QString &text);
 		
 	public slots:
-		void fillClientInformation(const QString &key);
-		void addParticipant();
-		void removeParticipant();
-		void fillTableInformation();
-		
-	private:
-		QString m_tournament;
-		QVGroupBox *m_clientBox;
-		KComboBox *m_clientIdent;
-		KLineEdit *m_clientName, *m_clientLastName;
-		
-		KPushButton *m_add;
-		KPushButton *m_del;
-		
-		KLTable *m_table;
-		QStringList m_identsList;
+		void fixSize();
+		void expandTableSize();
+		void redimensionTable(int rows);
+		void insertRowData(const QStringList &data, int row = -1);
 };
 
 #endif

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-09 19:43-0500\n"
+"POT-Creation-Date: 2005-05-18 10:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,8 +96,8 @@ msgstr ""
 msgid "Server"
 msgstr ""
 
-#: klfirstdialog.cpp:141 pref.cpp:35 pref.cpp:62 validateuser.cpp:33
-#: validateuser.cpp:165 admin-module/adminwidget.cpp:47
+#: klfirstdialog.cpp:141 pref.cpp:35 pref.cpp:62 validateuser.cpp:34
+#: validateuser.cpp:169 admin-module/adminwidget.cpp:47
 msgid "Database"
 msgstr ""
 
@@ -105,7 +105,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: klfirstdialog.cpp:152 validateuser.cpp:123
+#: klfirstdialog.cpp:152 validateuser.cpp:127
 #: admin-module/formadminusers.cpp:87
 msgid "Password"
 msgstr ""
@@ -126,74 +126,80 @@ msgid ""
 "try remove it?"
 msgstr ""
 
-#: klfirstdialog.cpp:220
+#: klfirstdialog.cpp:221
 msgid "I can't create (all) tables"
 msgstr ""
 
-#: klfirstdialog.cpp:225
+#: klfirstdialog.cpp:226
 msgid "The database was create succesfully!\n"
 msgstr ""
 
-#: klfirstdialog.cpp:225
+#: klfirstdialog.cpp:226
 msgid "You can continue to next step"
 msgstr ""
 
-#: klfirstdialog.cpp:232
+#: klfirstdialog.cpp:233
 msgid ""
 "I can't open the database!\n"
 "The error was %1"
 msgstr ""
 
-#: klfirstdialog.cpp:269
+#: klfirstdialog.cpp:270
 msgid ""
 "<p>In this dialog, you must be fill the information in the fields, for setup "
 "your admin account.</p>"
 msgstr ""
 
-#: klfirstdialog.cpp:275 admin-module/formadminusers.cpp:92
+#: klfirstdialog.cpp:276 admin-module/formadminusers.cpp:92
 msgid "First name"
 msgstr ""
 
-#: klfirstdialog.cpp:280
+#: klfirstdialog.cpp:281
 msgid "male"
 msgstr ""
 
-#: klfirstdialog.cpp:282
+#: klfirstdialog.cpp:283
 msgid "female"
 msgstr ""
 
-#: klfirstdialog.cpp:287 admin-module/formadminusers.cpp:92
-#: clients-module/formadminclients.cpp:83
-#: clients-module/formadminclients.cpp:113
+#: klfirstdialog.cpp:288 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:112
+#: tournament-module/formparticipants.cpp:63
 msgid "Last name"
 msgstr ""
 
-#: klfirstdialog.cpp:291 admin-module/formadminusers.cpp:92
-#: clients-module/formadminclients.cpp:83
-#: clients-module/formadminclients.cpp:98
+#: klfirstdialog.cpp:292 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:109
+#: tournament-module/formparticipants.cpp:78
 msgid "Identification"
 msgstr ""
 
-#: klfirstdialog.cpp:295 admin-module/formadminusers.cpp:92
-#: clients-module/formadminclients.cpp:83
-#: clients-module/formadminclients.cpp:144
+#: klfirstdialog.cpp:296 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:116
 msgid "Address"
 msgstr ""
 
-#: klfirstdialog.cpp:299 admin-module/formadminusers.cpp:92
-#: clients-module/formadminclients.cpp:83
-#: clients-module/formadminclients.cpp:123
+#: klfirstdialog.cpp:300 admin-module/formadminusers.cpp:92
+#: clients-module/formadminclients.cpp:113
 msgid "Phone"
 msgstr ""
 
-#: klfirstdialog.cpp:305
+#: klfirstdialog.cpp:306 clients-module/formadminclients.cpp:115
 msgid "Email"
+msgstr ""
+
+#: kludoteca.cpp:74
+msgid "Application initialized"
+msgstr ""
+
+#: kludoteca.cpp:79
+msgid "Application closed"
 msgstr ""
 
 #: kludotecaview.cpp:136 kludotecaview.cpp:137 kludotecaview.cpp:140
 #: kludotecaview.cpp:200 kludotecaview.cpp:203 kludotecaview.cpp:251
 #: kludotecaview.cpp:254 kludotecaview.cpp:337 kludotecaview.cpp:340
-#: main.cpp:71
+#: main.cpp:75
 msgid "KLudoteca"
 msgstr ""
 
@@ -231,6 +237,7 @@ msgid "Click for add clients"
 msgstr ""
 
 #: kludotecaview.cpp:150 kludotecaview.cpp:456
+#: tournament-module/tournamentactive.cpp:40
 msgid "Add tournament"
 msgstr ""
 
@@ -490,15 +497,16 @@ msgstr ""
 msgid "You doesn't have permissions to add tournaments, sorry!"
 msgstr ""
 
-#: kludotecaview.cpp:478 clients-module/clientswidget.cpp:66
+#: kludotecaview.cpp:478 clients-module/clientswidget.cpp:68
 msgid "Add client"
 msgstr ""
 
-#: kludotecaview.cpp:488 clients-module/clientswidget.cpp:77
+#: kludotecaview.cpp:488 clients-module/clientswidget.cpp:87
+#: clients-module/clientswidget.cpp:196
 msgid "Admin Clients"
 msgstr ""
 
-#: kludotecaview.cpp:489 clients-module/clientswidget.cpp:78
+#: kludotecaview.cpp:489 clients-module/clientswidget.cpp:88
 msgid "Fill the fields with the client information"
 msgstr ""
 
@@ -510,21 +518,29 @@ msgstr ""
 msgid "Cooming soon"
 msgstr ""
 
-#: ldtapp.cpp:41
+#: ldtapp.cpp:37
 msgid "Running 1st Dialog!"
 msgstr ""
 
-#: main.cpp:40 main.cpp:72
+#: main.cpp:41 main.cpp:76
 msgid "System for administer a game store."
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:47
+msgid "Files/URLs to Open"
+msgstr ""
+
+#: main.cpp:49
+msgid "Reconfigure the application"
+msgstr ""
+
+#: main.cpp:77
 msgid ""
 "David Cuadrado\n"
 "(C) 2005"
 msgstr ""
 
-#: main.cpp:74
+#: main.cpp:78
 msgid ""
 "IRC:\n"
 "server: irc.freenode.net / channel: #cetis\n"
@@ -533,47 +549,47 @@ msgid ""
 "cetis@univalle.edu.co"
 msgstr ""
 
-#: main.cpp:75
+#: main.cpp:79
 msgid "http://www.cetisoft.org"
 msgstr ""
 
-#: main.cpp:78
+#: main.cpp:82
 msgid "Main developer"
 msgstr ""
 
-#: main.cpp:82
+#: main.cpp:86
 msgid "Thanks for your interest in this project, ideas, help and testing."
 msgstr ""
 
-#: main.cpp:84
+#: main.cpp:88
 msgid "Thanks for your artwork!"
 msgstr ""
 
-#: main.cpp:85
+#: main.cpp:89
 msgid "The best media player on the world ;)"
 msgstr ""
 
-#: main.cpp:86
+#: main.cpp:90
 msgid "Your about page rules!"
 msgstr ""
 
-#: main.cpp:88
+#: main.cpp:92
 msgid "Many thanks to all GNU community!!"
 msgstr ""
 
-#: main.cpp:102
+#: main.cpp:106
 msgid "You need first configure the system"
 msgstr ""
 
-#: main.cpp:112
+#: main.cpp:116
 msgid "Initializing application"
 msgstr ""
 
-#: main.cpp:121
+#: main.cpp:125
 msgid "Restoring application"
 msgstr ""
 
-#: main.cpp:134 main.cpp:148
+#: main.cpp:145 main.cpp:159
 msgid "Application is running and up!"
 msgstr ""
 
@@ -597,11 +613,11 @@ msgstr ""
 msgid "Look&feel"
 msgstr ""
 
-#: pref.cpp:56 validateuser.cpp:162
+#: pref.cpp:56 validateuser.cpp:166
 msgid "Server: "
 msgstr ""
 
-#: pref.cpp:59 validateuser.cpp:30 validateuser.cpp:120
+#: pref.cpp:59 validateuser.cpp:31 validateuser.cpp:124
 msgid "User"
 msgstr ""
 
@@ -626,31 +642,35 @@ msgid ""
 "Your emails"
 msgstr ""
 
-#: validateuser.cpp:26
+#: validateuser.cpp:27
 msgid "Validate dialog"
 msgstr ""
 
-#: validateuser.cpp:30
+#: validateuser.cpp:31
 msgid "Choose your user"
 msgstr ""
 
-#: validateuser.cpp:33
+#: validateuser.cpp:34
 msgid "Setup your database connection"
 msgstr ""
 
-#: validateuser.cpp:71
+#: validateuser.cpp:68
+msgid "The user %1 is online"
+msgstr ""
+
+#: validateuser.cpp:75
 msgid "You need a kludoteca account! Talk with the system administer."
 msgstr ""
 
-#: validateuser.cpp:76
+#: validateuser.cpp:80
 msgid "Login or password incorrect"
 msgstr ""
 
-#: validateuser.cpp:81
+#: validateuser.cpp:85
 msgid "I can't connect to database server."
 msgstr ""
 
-#: validateuser.cpp:117
+#: validateuser.cpp:121
 msgid "Store password"
 msgstr ""
 
@@ -671,12 +691,12 @@ msgstr ""
 msgid "Admin Database"
 msgstr ""
 
-#: admin-module/adminusers.cpp:31 clients-module/clientswidget.cpp:28
+#: admin-module/adminusers.cpp:31 clients-module/clientswidget.cpp:27
 #: rents-module/rentswidget.cpp:28
 msgid "First Name"
 msgstr ""
 
-#: admin-module/adminusers.cpp:31 clients-module/clientswidget.cpp:28
+#: admin-module/adminusers.cpp:31 clients-module/clientswidget.cpp:27
 #: rents-module/rentswidget.cpp:28
 msgid "Last Name"
 msgstr ""
@@ -689,60 +709,59 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: admin-module/adminusers.cpp:69 tournament-module/tournamentactive.cpp:40
-#: tournament-module/tournamentold.cpp:41
+#: admin-module/adminusers.cpp:64 tournament-module/tournamentold.cpp:41
 msgid "Add user"
 msgstr ""
 
-#: admin-module/adminusers.cpp:86 admin-module/adminusers.cpp:170
+#: admin-module/adminusers.cpp:81 admin-module/adminusers.cpp:165
 msgid "Admin User"
 msgstr ""
 
-#: admin-module/adminusers.cpp:87 tournament-module/tournamentactive.cpp:57
+#: admin-module/adminusers.cpp:82
 msgid "Fill the fields with the user information"
 msgstr ""
 
-#: admin-module/adminusers.cpp:99
+#: admin-module/adminusers.cpp:94
 msgid "Are you sure to delete the user "
 msgstr ""
 
-#: admin-module/adminusers.cpp:109
+#: admin-module/adminusers.cpp:104
 msgid "The user has been deleted!!"
 msgstr ""
 
-#: admin-module/adminusers.cpp:123
+#: admin-module/adminusers.cpp:118 clients-module/clientswidget.cpp:106
 msgid "Modify user"
 msgstr ""
 
-#: admin-module/adminusers.cpp:171
+#: admin-module/adminusers.cpp:166
 msgid "Modify the fields with the user information"
 msgstr ""
 
-#: admin-module/adminusers.cpp:184
+#: admin-module/adminusers.cpp:179
 msgid "== query to user "
 msgstr ""
 
-#: admin-module/adminusers.cpp:200
+#: admin-module/adminusers.cpp:195
 msgid "Real name: "
 msgstr ""
 
-#: admin-module/adminusers.cpp:201
+#: admin-module/adminusers.cpp:196
 msgid "Identification: "
 msgstr ""
 
-#: admin-module/adminusers.cpp:202
+#: admin-module/adminusers.cpp:197
 msgid "Address: "
 msgstr ""
 
-#: admin-module/adminusers.cpp:203
+#: admin-module/adminusers.cpp:198
 msgid "Phone: "
 msgstr ""
 
-#: admin-module/adminusers.cpp:204
+#: admin-module/adminusers.cpp:199
 msgid "Email: "
 msgstr ""
 
-#: admin-module/adminusers.cpp:205
+#: admin-module/adminusers.cpp:200
 msgid "Permissions:"
 msgstr ""
 
@@ -750,16 +769,17 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: admin-module/formadminusers.cpp:75 clients-module/formadminclients.cpp:61
+#: admin-module/formadminusers.cpp:75 clients-module/formadminclients.cpp:64
+#: clients-module/formadminclients.cpp:87
 msgid "Male"
 msgstr ""
 
-#: admin-module/formadminusers.cpp:77 clients-module/formadminclients.cpp:62
+#: admin-module/formadminusers.cpp:77 clients-module/formadminclients.cpp:65
+#: clients-module/formadminclients.cpp:88
 msgid "Female"
 msgstr ""
 
-#: admin-module/formadminusers.cpp:92 clients-module/formadminclients.cpp:83
-#: clients-module/formadminclients.cpp:139
+#: admin-module/formadminusers.cpp:92
 msgid "EMail"
 msgstr ""
 
@@ -783,149 +803,172 @@ msgstr ""
 msgid "Tournament module"
 msgstr ""
 
-#: admin-module/formadminusers.cpp:201
+#: admin-module/formadminusers.cpp:202
 msgid "The user "
 msgstr ""
 
-#: admin-module/formadminusers.cpp:201
+#: admin-module/formadminusers.cpp:202
 msgid " has been added"
 msgstr ""
 
-#: admin-module/formadminusers.cpp:243
+#: admin-module/formadminusers.cpp:244 games-module/formadmingame.cpp:187
 msgid "The changes to "
 msgstr ""
 
-#: admin-module/formadminusers.cpp:243
+#: admin-module/formadminusers.cpp:244 games-module/formadmingame.cpp:187
 msgid " was taken"
 msgstr ""
 
-#: clients-module/clientswidget.cpp:28 games-module/gameslist.cpp:29
+#: clients-module/clientswidget.cpp:27
+msgid "ID"
+msgstr ""
+
+#: clients-module/clientswidget.cpp:27 games-module/gameslist.cpp:29
 msgid "State"
 msgstr ""
 
-#: clients-module/clientswidget.cpp:30
+#: clients-module/clientswidget.cpp:29
 msgid "Clients"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:72
-#: tournament-module/tournamentwidget.cpp:38
+#: clients-module/clientswidget.cpp:197
+msgid ""
+"Modify the fields with the Clients an his personal reference information"
+msgstr ""
+
+#: clients-module/formadminclients.cpp:75
+#: clients-module/formadminclients.cpp:98
+#: tournament-module/tournamenttabbar.cpp:36
 msgid "Active"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:73
+#: clients-module/formadminclients.cpp:76
+#: clients-module/formadminclients.cpp:99
 msgid "Inactive"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:74
+#: clients-module/formadminclients.cpp:77
+#: clients-module/formadminclients.cpp:100
 msgid "Banned"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:83
-#: clients-module/formadminclients.cpp:103 games-module/gameslist.cpp:29
+#: clients-module/formadminclients.cpp:111 games-module/gameslist.cpp:29
+#: tournament-module/formparticipants.cpp:59
+#: tournament-module/formparticipants.cpp:78
 msgid "Name"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:83
-#: clients-module/formadminclients.cpp:128
-msgid "Celular"
+#: clients-module/formadminclients.cpp:114
+msgid "Cellular"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:85
-#: clients-module/formadminclients.cpp:149
-msgid "Friend name"
+#: clients-module/formadminclients.cpp:120
+msgid "Friend Id"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:85
-msgid "Friend last name"
+#: clients-module/formadminclients.cpp:121
+msgid "Friend Name"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:85
-#: clients-module/formadminclients.cpp:160
-msgid "Friend address"
+#: clients-module/formadminclients.cpp:122
+msgid "Friend Last name"
 msgstr ""
 
-#: clients-module/formadminclients.cpp:85
-#: clients-module/formadminclients.cpp:155
-msgid "Friend phone"
+#: clients-module/formadminclients.cpp:123
+msgid "Friend Phone"
 msgstr ""
 
-#: games-module/formadmingame.cpp:41
+#: clients-module/formadminclients.cpp:124
+msgid "Friend Cellular"
+msgstr ""
+
+#: clients-module/formadminclients.cpp:125
+msgid "Friend Email"
+msgstr ""
+
+#: clients-module/formadminclients.cpp:126
+msgid "Friend Address"
+msgstr ""
+
+#: games-module/formadmingame.cpp:44
 msgid "Game name"
 msgstr ""
 
-#: games-module/formadmingame.cpp:51
+#: games-module/formadmingame.cpp:54
 msgid "Type game"
 msgstr ""
 
-#: games-module/formadmingame.cpp:53
+#: games-module/formadmingame.cpp:56 games-module/formadmingame.cpp:256
 msgid "Board"
 msgstr ""
 
-#: games-module/formadmingame.cpp:54
+#: games-module/formadmingame.cpp:57 games-module/formadmingame.cpp:260
 msgid "Video"
 msgstr ""
 
-#: games-module/formadmingame.cpp:55
+#: games-module/formadmingame.cpp:58 games-module/formadmingame.cpp:264
 msgid "Cards"
 msgstr ""
 
-#: games-module/formadmingame.cpp:59
+#: games-module/formadmingame.cpp:62
 msgid "State of game"
 msgstr ""
 
-#: games-module/formadmingame.cpp:61
+#: games-module/formadmingame.cpp:64 games-module/formadmingame.cpp:240
 msgid "Free"
 msgstr ""
 
-#: games-module/formadmingame.cpp:62
+#: games-module/formadmingame.cpp:65 games-module/formadmingame.cpp:244
 msgid "Busy"
 msgstr ""
 
-#: games-module/formadmingame.cpp:63
+#: games-module/formadmingame.cpp:66 games-module/formadmingame.cpp:248
 msgid "Fixing"
 msgstr ""
 
-#: games-module/formadmingame.cpp:67
+#: games-module/formadmingame.cpp:70
 msgid "Reference of game"
 msgstr ""
 
-#: games-module/formadmingame.cpp:73
+#: games-module/formadmingame.cpp:76
 msgid "Description game"
 msgstr ""
 
-#: games-module/formadmingame.cpp:80
+#: games-module/formadmingame.cpp:83
 msgid "rules"
 msgstr ""
 
-#: games-module/formadmingame.cpp:86
+#: games-module/formadmingame.cpp:89
 msgid "Minimus number of player"
 msgstr ""
 
-#: games-module/formadmingame.cpp:95
+#: games-module/formadmingame.cpp:97
 msgid "Maximus number of player"
 msgstr ""
 
-#: games-module/formadmingame.cpp:103
+#: games-module/formadmingame.cpp:105
 msgid "unit of time"
 msgstr ""
 
-#: games-module/formadmingame.cpp:105 games-module/formadmingame.cpp:113
+#: games-module/formadmingame.cpp:107 games-module/formadmingame.cpp:115
+#: games-module/formadmingame.cpp:274 games-module/formadmingame.cpp:286
 msgid "minutes"
 msgstr ""
 
-#: games-module/formadmingame.cpp:106 games-module/formadmingame.cpp:114
+#: games-module/formadmingame.cpp:108 games-module/formadmingame.cpp:116
+#: games-module/formadmingame.cpp:278 games-module/formadmingame.cpp:290
 msgid "hours"
 msgstr ""
 
-#: games-module/formadmingame.cpp:111
+#: games-module/formadmingame.cpp:113
 msgid "unit of time additional"
 msgstr ""
 
-#: games-module/formadmingame.cpp:119
+#: games-module/formadmingame.cpp:121
 msgid "cost for time unit"
 msgstr ""
 
-#: games-module/formadmingame.cpp:128
+#: games-module/formadmingame.cpp:130
 msgid "Cost aditional time unit"
 msgstr ""
 
@@ -937,68 +980,68 @@ msgstr ""
 msgid "Games"
 msgstr ""
 
-#: games-module/gameslist.cpp:103
-msgid "The game "
-msgstr ""
-
-#: games-module/gameslist.cpp:103
-msgid " is good!"
-msgstr ""
-
-#: games-module/gameslist.cpp:112
+#: games-module/gameslist.cpp:80
 msgid "Add game"
 msgstr ""
 
-#: games-module/gameslist.cpp:121
+#: games-module/gameslist.cpp:89 games-module/gameslist.cpp:136
 msgid "Admin game"
 msgstr ""
 
-#: games-module/gameslist.cpp:122
+#: games-module/gameslist.cpp:90
 msgid "fill the fields for add a new game"
 msgstr ""
 
-#: games-module/gameslist.cpp:134
+#: games-module/gameslist.cpp:105
 msgid "Are you sure to delete the game "
 msgstr ""
 
-#: games-module/gameslist.cpp:144
+#: games-module/gameslist.cpp:115
 msgid "The game has been deleted!!"
 msgstr ""
 
-#: games-module/gameslist.cpp:160
+#: games-module/gameslist.cpp:127
+msgid "Modify game"
+msgstr ""
+
+#: games-module/gameslist.cpp:137
+msgid "Change the fields for modify the game"
+msgstr ""
+
+#: games-module/gameslist.cpp:154
 msgid "== query  game "
 msgstr ""
 
+#: games-module/gameslist.cpp:169
+msgid "Game  name:   "
+msgstr ""
+
+#: games-module/gameslist.cpp:170
+msgid "Code game:   "
+msgstr ""
+
+#: games-module/gameslist.cpp:171
+msgid "Description:   "
+msgstr ""
+
+#: games-module/gameslist.cpp:172
+msgid "Rules:   "
+msgstr ""
+
+#: games-module/gameslist.cpp:173
+msgid "Mininus of gamers:   "
+msgstr ""
+
+#: games-module/gameslist.cpp:174
+msgid "Maximus of gamers:   "
+msgstr ""
+
 #: games-module/gameslist.cpp:175
-msgid "Game  name: "
+msgid "Cost unit time:   "
 msgstr ""
 
 #: games-module/gameslist.cpp:176
-msgid "Code game: "
-msgstr ""
-
-#: games-module/gameslist.cpp:177
-msgid "Description: "
-msgstr ""
-
-#: games-module/gameslist.cpp:178
-msgid "Rules: "
-msgstr ""
-
-#: games-module/gameslist.cpp:179
-msgid "Mininus of gamers: "
-msgstr ""
-
-#: games-module/gameslist.cpp:180
-msgid "Maximus of gamers:"
-msgstr ""
-
-#: games-module/gameslist.cpp:181
-msgid "Cost unit time: "
-msgstr ""
-
-#: games-module/gameslist.cpp:182
-msgid "State of gamers:"
+msgid "State of gamers:   "
 msgstr ""
 
 #: lib/formbase.cpp:66
@@ -1013,7 +1056,19 @@ msgstr ""
 msgid "<h3>%1</h3>"
 msgstr ""
 
-#: lib/klquery.cpp:53 lib/klquery.cpp:79
+#: lib/kllogger.cpp:46
+msgid "Error: I can't create %"
+msgstr ""
+
+#: lib/kllogger.cpp:100
+msgid "I can't open %1 to write!"
+msgstr ""
+
+#: lib/kllogger.cpp:105
+msgid "You need setup the logger first"
+msgstr ""
+
+#: lib/klquery.cpp:56 lib/klquery.cpp:85
 msgid "You need specify the fields"
 msgstr ""
 
@@ -1021,8 +1076,8 @@ msgstr ""
 msgid "Filter here..."
 msgstr ""
 
-#: lib/ltlistview.cpp:126 lib/ltlistview.cpp:162 lib/ltlistview.cpp:198
-#: lib/ltlistview.cpp:234
+#: lib/ltlistview.cpp:128 lib/ltlistview.cpp:164 lib/ltlistview.cpp:200
+#: lib/ltlistview.cpp:236
 msgid "Query"
 msgstr ""
 
@@ -1035,40 +1090,84 @@ msgstr ""
 msgid "Rents"
 msgstr ""
 
-#: rents-module/rentswidget.cpp:92
+#: rents-module/rentswidget.cpp:76
 msgid "Add rent"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:43
+#: tournament-module/formparticipants.cpp:43
+msgid "Client identification"
+msgstr ""
+
+#: tournament-module/formparticipants.cpp:69
+msgid "Add participant"
+msgstr ""
+
+#: tournament-module/formparticipants.cpp:71
+msgid "Remove participant"
+msgstr ""
+
+#: tournament-module/formparticipants.cpp:78
+#: tournament-module/participantslist.cpp:25
+msgid "Rank"
+msgstr ""
+
+#: tournament-module/formtournament.cpp:45
 msgid "Name of tournament"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:50
+#: tournament-module/formtournament.cpp:52
 msgid "Date of begin of the tournament"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:59
+#: tournament-module/formtournament.cpp:61
 msgid "Date end of the tournament"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:66
+#: tournament-module/formtournament.cpp:69
 msgid "Rounds for players"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:71
+#: tournament-module/formtournament.cpp:74
 msgid "Games for pairs"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:77
+#: tournament-module/formtournament.cpp:80
 msgid "Value for inscription"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:83
+#: tournament-module/formtournament.cpp:86
 msgid "Discount in the inscription"
 msgstr ""
 
-#: tournament-module/formtournament.cpp:100
+#: tournament-module/formtournament.cpp:104
 msgid "Name of game"
+msgstr ""
+
+#: tournament-module/participantslist.cpp:25
+#: tournament-module/tournamentactive.cpp:28
+#: tournament-module/tournamentwidget.cpp:26
+msgid "Tournament"
+msgstr ""
+
+#: tournament-module/participantslist.cpp:25
+msgid "Client"
+msgstr ""
+
+#: tournament-module/participantslist.cpp:27
+#: tournament-module/tournamenttabbar.cpp:39
+msgid "Participants"
+msgstr ""
+
+#: tournament-module/participantslist.cpp:104
+msgid "Add participants"
+msgstr ""
+
+#: tournament-module/participantslist.cpp:121
+msgid "Admin Participants"
+msgstr ""
+
+#: tournament-module/participantslist.cpp:122
+msgid "Fill the fields with the participants information"
 msgstr ""
 
 #: tournament-module/tournamentactive.cpp:26
@@ -1076,15 +1175,22 @@ msgstr ""
 msgid "Tournament name"
 msgstr ""
 
-#: tournament-module/tournamentactive.cpp:28
-#: tournament-module/tournamentwidget.cpp:26
-msgid "Tournament"
+#: tournament-module/tournamentactive.cpp:57
+msgid "Fill the fields with the tournament information"
+msgstr ""
+
+#: tournament-module/tournamentactive.cpp:69
+msgid "Are you sure to delete the tournament %1 ?"
+msgstr ""
+
+#: tournament-module/tournamentactive.cpp:77
+msgid "The tournament has been deleted!!"
 msgstr ""
 
 #: tournament-module/tournamentold.cpp:28
 msgid "Tournament Old"
 msgstr ""
 
-#: tournament-module/tournamentwidget.cpp:41
-msgid "Old"
+#: tournament-module/tournamentwidget.cpp:51
+msgid "Tournaments"
 msgstr ""

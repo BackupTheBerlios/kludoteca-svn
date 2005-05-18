@@ -22,7 +22,7 @@
 
 #define DEBUG_PARTICIPANTS 1
 
-ParticipantsList::ParticipantsList(QWidget *parent, const char *name) : LTListView(QStringList() << i18n("Tournament") << i18n("Client") << i18n("Rank"), LTListView::ButtonAdd, LTListView::ButtonModify, LTListView::ButtonModify, LTListView::NoButton, parent, name)
+ParticipantsList::ParticipantsList(QWidget *parent, const char *name) : LTListView(QStringList() << i18n("Tournament") << i18n("Client") << i18n("Rank"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::NoButton, LTListView::NoButton, parent, name)
 {
 	setCaption(i18n("Participants"));
 	m_listView->setRootIsDecorated(true);
@@ -101,17 +101,17 @@ void ParticipantsList::addButtonClicked()
 	
 	
 
-	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
+	KMdiChildView *view = new KMdiChildView(i18n("Add participants"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
-	FormParticipants *formParticipantsList = new FormParticipants(FormBase::Add, scroll->viewport() );
+	FormParticipants *formParticipantsList = new FormParticipants(tname, FormBase::Any, scroll->viewport() );
+	formParticipantsList->fillTableInformation();
 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
-
-	formParticipantsList->setType( FormBase::Add);
+	
 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
 	connect(formParticipantsList, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 
@@ -155,57 +155,38 @@ void ParticipantsList::modifyButtonClicked()
 #if DEBUG_PARTICIPANTS
 	qDebug("init modifyButtonClicked");
 #endif
-// 	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
+
+// 	QListViewItem *le = m_listView->currentItem();
+// 	if ( !le )
+// 		return;
+// 	
+// 	QString tname = le->text(0);
+// 	if ( tname.isNull() )
+// 		tname = le->parent()->text(0);
+// 	std::cout << "Adicionando participantes torneo: " << tname << std::endl;
+// 	
+// 	KMdiChildView *view = new KMdiChildView(i18n("Modify participants"), this );
 // 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 // 
 // 	QScrollView *scroll = new QScrollView(view);
 // 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 // 	scroll->setMargin(10);
 // 	
-// 	FormParticipants *formParticipantsList = new FormParticipants(FormBase::Edit, scroll->viewport() );
-// 	
+// 	FormParticipants *formParticipantsList = new FormParticipants(tname, FormBase::Edit, scroll->viewport() );
+// 	formParticipantsList->fillTableInformation();
 // 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
-// 
-// 	KLSelect sqlquery(QStringList() << "ldt_users.docident" << "login" << "firstname" << "lastname" << "genre" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users" << "ldt_persons" );
 // 	
-// 	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2))); // Login in the listview
-// 	
-// 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
-// 	
-// 	m_xmlsource.setData(resultSet.toString());
-// 	
-// 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
-// 	{
-// 		std::cerr << "No se puede analizar" << std::endl;
-// 		return;
-// 	}
-// 	
-// 	KLSqlResults results = m_xmlreader.results();
-// 	
-// 	std::cout << results["login"] << std::endl;
-// 
-// 	formParticipantsList->setAddress( results["address"] );
-// 	formParticipantsList->setEmail(results["email"]);
-// 	formParticipantsList->setFirstName( results["firstname"]);
-// 	formParticipantsList->setIdentification( results["ldt_users.docident"]);
-// 	formParticipantsList->setLastName( results["lastname"]);
-// 	formParticipantsList->setLogin( results["login"]);
-// 	formParticipantsList->setPermissions( results["permissions"]);
-// 	formParticipantsList->setPhone( results["phone"]);
-// 	formParticipantsList->setGenre( results["genre"]);
-// 	
-// 	formParticipantsList->setType( FormBase::Edit );
 // 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
-// 	connect(formParticipantsList, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
+// 	connect(formParticipantsList, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 // 
 // 	scroll->addChild(formParticipantsList);
 // 	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-// 	formParticipantsList->setTextAcceptButton(i18n("Modify"));
-// 	formParticipantsList->setTextCancelButton(i18n("Close"));
-// 	formParticipantsList->setTitle(i18n("Admin User"));
-// 	formParticipantsList->setExplanation(i18n("Modify the fields with the user information"));
+// 
+// 	formParticipantsList->setTitle(i18n("Modify Participants of the tournament %1").arg(tname));
+// 	formParticipantsList->setExplanation(i18n("Fill the fields with the participants information"));
 // 	
-// 	emit sendWidget(view);
+// 	emit sendWidget(view); 
+
 #if DEBUG_PARTICIPANTS
 	qDebug("end addButtonClicked");
 #endif
