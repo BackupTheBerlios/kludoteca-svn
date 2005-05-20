@@ -17,35 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "tournamenttabbar.h"
-#include <klocale.h>
+#ifndef ROUNDLIST_H
+#define ROUNDLIST_H
 
-TournamentTabBar::TournamentTabBar(QWidget *parent, const char *name) : KTabWidget(parent, name)
+#include "ltlistview.h"
+
+/**
+ * Esta clase mantiene informacion sobre las rondas de los torneos
+ * @author David Cuadrado
+*/
+
+class RoundList : public LTListView
 {
-	setupTabs();
-}
-
-
-TournamentTabBar::~TournamentTabBar()
-{
-}
-
-void TournamentTabBar::setupTabs()
-{
-	m_tactive = new TournamentActive(this);
-	insertTab(m_tactive, i18n("Active"));
+	Q_OBJECT
 	
-	m_participants = new ParticipantsList(this);
-	insertTab(m_participants, i18n("Participants"));
-	
-	m_rounds = new RoundList(this);	
-	insertTab(m_rounds, i18n("Rounds"));
-	
-	m_told = new TournamentOld(this);
-	insertTab(m_told, i18n("Old"));
-	
-	connect(m_tactive, SIGNAL(tournamentModified()), m_participants, SLOT(fillList()));
-}
+	public:
+		RoundList(QWidget *parent = 0, const char *name = 0);
 
+		~RoundList();
 
-#include "tournamenttabbar.moc"
+		void addButtonClicked();
+		void delButtonClicked();
+		void getClickedItem(QListViewItem* item);
+		void modifyButtonClicked();
+		void queryButtonClicked();
+		
+	public slots:
+		void fillList();
+};
+
+#endif

@@ -172,7 +172,7 @@ class FormBase : public QVBox
 		/**
 		 * Esta es la accion predeterminada cuando se presiona el boton cancelar
 		 */
-		virtual void cancel() = 0;
+		virtual void cancel();
 		
 		
 		/**

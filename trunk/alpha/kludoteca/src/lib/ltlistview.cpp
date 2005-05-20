@@ -254,6 +254,11 @@ void LTListView::makeButtons(Button button1, Button button2, Button button3, But
 		connect(m_buttonQuery, SIGNAL(clicked()), this, SLOT(queryButtonClicked()));
 }
 
+void LTListView::setButtonText(Button b, const QString &text)
+{
+	m_buttons->find(b)->setText(text);
+}
+
 void LTListView::putItems(QStringList items)
 {
 	KListViewItem *itemp = new KListViewItem(m_listView);
@@ -302,5 +307,31 @@ void LTListView::slotFilter(const QString &filter)
 	}
 }
 
+// LTListVIewItem
+LTListViewItem::LTListViewItem(QListView * parent) : KListViewItem(parent)
+{
+}
+
+LTListViewItem::LTListViewItem(QListViewItem * parent) : KListViewItem(parent)
+{
+}
+
+LTListViewItem::~ LTListViewItem()
+{
+}
+
+int LTListViewItem::compare ( QListViewItem * i, int col, bool ascending )
+{
+	std::cout << "****************COOOOOOOOOMPARANDOOOOOOOOOO*********" << std::endl;
+	bool ok = false;
+	
+	int number = i->text(col).toInt(&ok);
+	
+	if (ok)
+	{
+		return number;
+	}
+	QListViewItem::compare(i, col, ascending);
+}
 
 #include "ltlistview.moc"

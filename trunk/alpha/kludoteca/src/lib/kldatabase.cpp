@@ -277,7 +277,7 @@ bool KLDatabase::createTables()
 	
 	q = exec("CREATE TABLE ldt_participates ("
 			"clientDocIdent character varying(15) references ldt_clients(docIdent) on delete cascade on update cascade,"
-			"codTournament character varying(10) references ldt_tournament(name) on delete cascade on update cascade,"
+			"codTournament character varying(50) references ldt_tournament(name) on delete cascade on update cascade,"
 			"rank integer,"
 			"primary key(clientDocIdent, codTournament)"
 			");");
@@ -311,7 +311,7 @@ bool KLDatabase::createTables()
 	// RONDAS
 	q = exec("CREATE TABLE ldt_rounds ("
 			"nRound integer NOT NULL,"
-			"codTournament character varying(10) references ldt_tournament(name) on delete cascade on update cascade,"
+			"codTournament character varying(50) references ldt_tournament(name) on delete cascade on update cascade,"
 	
 			"primary key(nRound, codTournament)"
 			");");
@@ -327,7 +327,7 @@ bool KLDatabase::createTables()
 	q = exec("CREATE TABLE ldt_match ("
 			"number integer primary key,"
 			"nRound integer,"
-			"codTournament character varying(10),"
+			"codTournament character varying(50),"
 			"opponent1 character varying(10),"
 			"resultOpp1 integer NOT NULL,"
 			"opponent2 character varying(10),"

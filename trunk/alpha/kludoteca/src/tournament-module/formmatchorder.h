@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                           	   *
+ *   krawek@gmail.com                                              	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "tournamenttabbar.h"
-#include <klocale.h>
+#ifndef FORMMATCHORDER_H
+#define FORMMATCHORDER_H
 
-TournamentTabBar::TournamentTabBar(QWidget *parent, const char *name) : KTabWidget(parent, name)
+#include "formbase.h"
+#include "kltable.h"
+
+/**
+Aqui tenemos las partidas de una ronda, con sus respectivos puntajes
+
+@author CetiSoft
+*/
+class FormMatchOrder : public FormBase
 {
-	setupTabs();
-}
+	Q_OBJECT
+	public:
+		FormMatchOrder(FormBase::Type t, QWidget *parent = 0);
 
+		~FormMatchOrder();
 
-TournamentTabBar::~TournamentTabBar()
-{
-}
+		void setupForm();
 
-void TournamentTabBar::setupTabs()
-{
-	m_tactive = new TournamentActive(this);
-	insertTab(m_tactive, i18n("Active"));
-	
-	m_participants = new ParticipantsList(this);
-	insertTab(m_participants, i18n("Participants"));
-	
-	m_rounds = new RoundList(this);	
-	insertTab(m_rounds, i18n("Rounds"));
-	
-	m_told = new TournamentOld(this);
-	insertTab(m_told, i18n("Old"));
-	
-	connect(m_tactive, SIGNAL(tournamentModified()), m_participants, SLOT(fillList()));
-}
+		void accept();
+		void cancel();
+		void clean();
+		
+	private:
+		KLTable *m_table;
+};
 
-
-#include "tournamenttabbar.moc"
+#endif

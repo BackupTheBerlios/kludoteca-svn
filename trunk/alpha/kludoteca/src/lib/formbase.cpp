@@ -77,6 +77,8 @@ void FormBase::setupButtons(Button button1, Button button2)
 	m_buttons->setLineWidth(0);
 	m_buttons->setMidLineWidth(0);
 	
+	m_accept = m_cancel = 0;
+	
 	switch ( button1)
 	{
 		case AcceptButton:
@@ -201,6 +203,11 @@ void FormBase::addLineEdits(QWidget *parent, QStringList texts, HashLineEdit &hl
 		
 		hle.insert(names[i], lineEditTmp);
 	}
+}
+
+void FormBase::cancel()
+{
+	emit cancelled();
 }
 
 bool FormBase::lastQueryWasGood()

@@ -36,6 +36,7 @@
 
 class KListView;
 class LTListView;
+class LTListViewItem;
 
 /**
  * Esta clase es la base para crear un widget con una lista y un panel de botones para el manejo de la misma, de esta clase se deben sobreescribir varios metodos, los cuales son:
@@ -96,6 +97,12 @@ class LTListView : public QVBox
 		virtual void fillList() = 0;
 		
 	public slots:
+		
+		/**
+		 * Coloca texto al boton especificado
+		 */
+		void setButtonText(Button b, const QString &text);
+		
 		/**
 		 * Esta funcion nos da el item que fue clickeado
 		 */
@@ -171,6 +178,15 @@ class LTListView : public QVBox
 		QXmlInputSource m_xmlsource;
 		// Poner el qstring en m_xmlsource con setData, y darle m_xmlreader.parse(m_xmlsource);
 		QString m_filterText;
+};
+
+class LTListViewItem : public KListViewItem
+{
+	public:
+		LTListViewItem(QListView * parent);
+		LTListViewItem(QListViewItem * parent);
+		~LTListViewItem();
+		int compare ( QListViewItem * i, int col, bool ascending );
 };
 
 #endif

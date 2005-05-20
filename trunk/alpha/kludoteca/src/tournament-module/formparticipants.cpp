@@ -54,7 +54,6 @@ void FormParticipants::setupForm()
 	m_clientIdent->completionObject()->setItems(m_identsList);
 	m_clientIdent->insertStringList(m_identsList);	
 	m_clientIdent->setCompletionMode (KGlobalSettings::CompletionPopupAuto  );
-	m_clientIdent->clearEdit();
 	
 	(new QLabel(i18n("Name"), hbox))->setMargin(2);
 	m_clientName = new KLineEdit(hbox);
@@ -76,6 +75,7 @@ void FormParticipants::setupForm()
 	m_table = new KLTable(0,3,this);
 	m_table->setReadOnly(true);
 	m_table->setColumnLabels(QStringList() << i18n("Identification") << i18n("Name") << i18n("Rank") );
+	m_clientIdent->clearEdit();
 }
 
 QStringList FormParticipants::getAllClients()
@@ -121,12 +121,30 @@ void FormParticipants::fillClientInformation(const QString &key)
 
 void FormParticipants::accept()
 {
+	QStringList added;
 	for(uint i = 0; i < m_table->numRows(); i++)
 	{
+		std::cout << "aqui" << std::endl;
 		QStringList values = QStringList() << SQLSTR(m_table->text(i, 0)) << SQLSTR(m_tournament) << SQLSTR(m_table->text(i, 2));
 		KLInsert sqlins("ldt_participates", values);
 		KLDM->execQuery(&sqlins);
+		added << SQLSTR(m_table->text(i, 0));
 	}
+	
+	for(uint i = 0; i < m_delList.count(); i++)
+	{
+		if( added.findIndex(m_delList[i]) == -1 )
+		{
+			KLDelete sqldel(QString("ldt_participates"));
+			sqldel.setWhere("clientdocident="+m_delList[i]);
+			sqldel.setCondition("and codTournament="+SQLSTR(m_tournament));
+			KLDM->execQuery(&sqldel);
+		}
+	}
+	
+	m_delList.clear();
+	added.clear();
+	emit accepted();
 }
 
 void FormParticipants::cancel()
@@ -154,6 +172,9 @@ void FormParticipants::addParticipant()
 void FormParticipants::removeParticipant()
 {
 	m_clientIdent->insertItem(m_table->text(m_table->currentRow(), 0));
+	
+	m_delList << SQLSTR(m_table->text(m_table->currentRow(), 0));
+	
 	m_clientIdent->clearEdit();
 	m_table->removeRow(m_table->currentRow());
 }
@@ -179,7 +200,7 @@ void FormParticipants::fillTableInformation()
 	
 	int count = 0;
 	for(uint i = 0; i < results.count() / 4; i++)
-	{	
+	{
 		QStringList data = QStringList() << results[count++] << results[count++]+" " +results[count++] << results[count++];
 		
 		int indexL = m_identsList.findIndex(data[0]);
@@ -191,6 +212,7 @@ void FormParticipants::fillTableInformation()
 		
 		m_table->insertRowData(data);
 	}
+	m_clientIdent->clearEdit();
 }
 
 #include "formparticipants.moc"

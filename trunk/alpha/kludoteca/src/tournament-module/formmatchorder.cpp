@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                           	   *
+ *   krawek@gmail.com                                               	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "tournamenttabbar.h"
+#include "formmatchorder.h"
 #include <klocale.h>
 
-TournamentTabBar::TournamentTabBar(QWidget *parent, const char *name) : KTabWidget(parent, name)
+FormMatchOrder::FormMatchOrder(FormBase::Type t, QWidget *parent)
+ : FormBase(t, parent, "FormMatchOrder")
 {
-	setupTabs();
+	setupForm();
 }
 
 
-TournamentTabBar::~TournamentTabBar()
+FormMatchOrder::~FormMatchOrder()
 {
 }
 
-void TournamentTabBar::setupTabs()
+
+void FormMatchOrder::setupForm()
 {
-	m_tactive = new TournamentActive(this);
-	insertTab(m_tactive, i18n("Active"));
+	// filas = participantes / 2
+	m_table = new KLTable(30, 3, this, "MatchTable");
+	m_table->setColumnLabels(QStringList() << i18n("Oponnent one") << i18n("Oponnent two") << i18n("Results"));
 	
-	m_participants = new ParticipantsList(this);
-	insertTab(m_participants, i18n("Participants"));
-	
-	m_rounds = new RoundList(this);	
-	insertTab(m_rounds, i18n("Rounds"));
-	
-	m_told = new TournamentOld(this);
-	insertTab(m_told, i18n("Old"));
-	
-	connect(m_tactive, SIGNAL(tournamentModified()), m_participants, SLOT(fillList()));
+	for(uint i = 0; i < m_table->numRows(); i++)
+	{
+		QComboTableItem *tcombo = new QComboTableItem(m_table, QStringList() << i18n("Draw") << i18n("Win") << i18n("Lose"), false);
+		m_table->setItem(i, 2, tcombo);
+	}
 }
 
+void FormMatchOrder::accept()
+{
+}
 
-#include "tournamenttabbar.moc"
+void FormMatchOrder::cancel()
+{
+    FormBase::cancel();
+}
+
+void FormMatchOrder::clean()
+{
+}
+
+#include "formmatchorder.moc"

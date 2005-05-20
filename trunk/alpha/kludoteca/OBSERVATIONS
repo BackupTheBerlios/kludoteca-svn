@@ -30,6 +30,8 @@ clients-module
 
 games-module
 ------------
+- Validar entradas, en este momento se pueden entrar valores vaciones a la base de datos!
+- Delete no borra en la base de datos!!
 - Las consultas no se hacen correctamente ( solo hay que poner la consulta sobre ldt_games y no sobre ldt_users, sobre ldt_games funciona correctamente).
 - Hacer que cancelar cierre el formulario
 - La nueva base de datos tiene un campo "disponible" (available en ingles) para decir si el juego esta disponible o no, añadir a el formulario esta posibilidad y ademas insertarlo en la base de datos, podemos utilizar triggers para cambiar el valor de esta variable por ejemplo cuando se registra un juego con un torneo o se alquila, etc...

@@ -52,6 +52,9 @@ class TournamentActive : public LTListView
 	 	 * Esta funcion debe implementarse para llenar la lista.
 		 */
 		void fillList();
+		
+	signals:
+		void tournamentModified();
 			
 	public slots:
 		/**

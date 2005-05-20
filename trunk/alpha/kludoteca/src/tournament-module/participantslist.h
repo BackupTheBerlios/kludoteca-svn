@@ -45,12 +45,12 @@ class ParticipantsList : public LTListView
 		 */
 		~ParticipantsList();
 		
+	public slots:
 		/**
-		 * Llena la lista, esta funcion es reimplementada de LTListView
+	 	 * Llena la lista, esta funcion es reimplementada de LTListView
 		 */
 		void fillList();
 		
-	public slots:
 		/**
 		 * Esta funcion nos da el item que fue clickeado
 		 */

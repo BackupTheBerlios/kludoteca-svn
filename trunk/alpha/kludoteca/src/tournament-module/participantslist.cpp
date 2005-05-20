@@ -26,6 +26,7 @@ ParticipantsList::ParticipantsList(QWidget *parent, const char *name) : LTListVi
 {
 	setCaption(i18n("Participants"));
 	m_listView->setRootIsDecorated(true);
+	this->setButtonText(LTListView::ButtonAdd, i18n("Manage"));
 }
 
 
@@ -39,7 +40,7 @@ void ParticipantsList::fillList()
 #if DEBUG_PARTICIPANTS
 	qDebug("Fill List");
 #endif
-
+	m_listView->clear();
 	// SELECT codtournament from ldt_participates where codtournament in (select name from ldt_tournament );
 	KLSelect sqltour (QStringList()  << "name", QString("ldt_tournament"));
 	
@@ -97,11 +98,12 @@ void ParticipantsList::addButtonClicked()
 	QString tname = le->text(0);
 	if ( tname.isNull() )
 		tname = le->parent()->text(0);
+	
 	std::cout << "Adicionando participantes torneo: " << tname << std::endl;
 	
 	
 
-	KMdiChildView *view = new KMdiChildView(i18n("Add participants"), this );
+	KMdiChildView *view = new KMdiChildView(i18n("Add participants to %1").arg(tname), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
@@ -113,12 +115,12 @@ void ParticipantsList::addButtonClicked()
 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
-	connect(formParticipantsList, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+	connect(formParticipantsList, SIGNAL(accepted()), this, SLOT(fillList()));
 
 	scroll->addChild(formParticipantsList);
 	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 
-	formParticipantsList->setTitle(i18n("Admin Participants"));
+	formParticipantsList->setTitle(i18n("Admin %1 Participants").arg(tname));
 	formParticipantsList->setExplanation(i18n("Fill the fields with the participants information"));
 	
 	emit sendWidget(view); 

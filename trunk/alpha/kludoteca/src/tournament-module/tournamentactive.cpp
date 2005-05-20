@@ -75,6 +75,7 @@ void TournamentActive::delButtonClicked()
 		delete itemp;
 		
 		emit message2osd(i18n("The tournament has been deleted!!"));
+		emit tournamentModified();
 	}
 }
 
@@ -120,6 +121,10 @@ void TournamentActive::addItem(const QString &pkey)
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+	else
+	{
+		emit tournamentModified();
 	}
 }
 

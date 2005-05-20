@@ -72,7 +72,7 @@ class FormParticipants : public FormBase
 		KPushButton *m_del;
 		
 		KLTable *m_table;
-		QStringList m_identsList;
+		QStringList m_identsList, m_delList;
 };
 
 #endif

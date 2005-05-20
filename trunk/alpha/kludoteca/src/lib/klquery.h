@@ -56,6 +56,16 @@ class KLQuery : public QObject
 		 * @return 
 		 */
 		virtual QString getQuery() const;
+		
+		
+		/**
+		 * Coloca la clausula where
+		 * @param cwhere 
+		 */
+		virtual void setWhere(const QString &w);
+		
+		virtual void setCondition(const QString &condition);
+		
 		/**
 		 * Obtiene el tipo de consulta
 		 * @return 
@@ -64,6 +74,7 @@ class KLQuery : public QObject
 		
 	protected:
 		QString m_query;
+		QString m_cwhere;
 		
 	private:
 		Type m_type;
@@ -105,13 +116,6 @@ class KLSelect : public KLQuery
 		 * @param subconsult 
 		 */
 		void addSubConsult(QString connector, const KLSelect &subconsult);
-		/**
-		 * Coloca la clausula where
-		 * @param cwhere 
-		 */
-		void setWhere(const QString &cwhere);
-		
-		void setCondition(const QString &condition);
 
 		/**
 		 * Obtiene la lista de campos afectados
@@ -129,7 +133,6 @@ class KLSelect : public KLQuery
 		
 	private:
 		QStringList m_fields;
-		QString m_cwhere;
 		QString m_subquery;
 		QString m_filter;
 };
@@ -155,19 +158,6 @@ class KLUpdate : public KLQuery
 		 * @return 
 		 */
 		~KLUpdate();
-		/**
-		 * Obtiene la consulta (Reimplementado de KLQuery)
-		 * @return 
-		 */
-		QString getQuery() const;
-		/**
-		 * Coloca una clausula where dentro de la consulta, se debe pasar el argumento a continuacion de "where"
-		 * @param cwhere 
-		 */
-		void setWhere(QString cwhere);
-		
-	private:
-		QString m_cwhere;
 };
 
 /**
@@ -192,5 +182,26 @@ class KLInsert : public KLQuery
 		~KLInsert();
 };
 
+/**
+ * Esta clase encapsula clausulas INSERT
+ * @author David Cuadrado
+ */
+class KLDelete : public KLQuery
+{
+	Q_OBJECT
+	public:
+		/**
+		 * Construye una consulta INSERT INTO, se debe pasar la tabla que se quiere afectar y la lista de valores para cada campo en orden.
+		 * @param table 
+		 * @param values 
+		 * @return 
+		 */
+		KLDelete(QString table);
+		/**
+		 * Destructor
+		 * @return 
+		 */
+		~KLDelete();
+};
 
 #endif

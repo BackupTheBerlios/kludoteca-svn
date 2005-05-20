@@ -25,6 +25,7 @@
 #include "tournamentactive.h"
 #include "tournamentold.h"
 #include "participantslist.h"
+#include "roundlist.h"
 
 /**
  * Este es el tab bar con la informacion del torneo
@@ -44,6 +45,7 @@ class TournamentTabBar : public KTabWidget
 		TournamentActive *m_tactive;
 		TournamentOld *m_told;
 		ParticipantsList *m_participants;
+		RoundList *m_rounds;
 
 };
 

@@ -23,7 +23,7 @@
 
 // KLQuery
 
-KLQuery::KLQuery(Type t) : m_type(t)
+KLQuery::KLQuery(Type t) : m_type(t), m_cwhere("")
 {
 }
 
@@ -34,7 +34,7 @@ KLQuery::~KLQuery()
 
 QString KLQuery::getQuery() const
 {
-	return m_query;
+	return m_query + " " + m_cwhere;
 }
 
 int KLQuery::getType()
@@ -42,9 +42,21 @@ int KLQuery::getType()
 	return m_type;
 }
 
+void KLQuery::setWhere(const QString &w)
+{
+	m_cwhere = " where " + w;
+}
+
+void KLQuery::setCondition(const QString &condition)
+{
+	if ( m_cwhere.isNull() )
+		setWhere("'t'");
+	m_cwhere += " " + condition + " ";
+}
+
 
 // KLSelect
-KLSelect::KLSelect(QStringList fields, QStringList tables, bool dist) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
+KLSelect::KLSelect(QStringList fields, QStringList tables, bool dist) : KLQuery(KLQuery::Select), m_fields(fields), m_filter("")
 {
 	if ( dist )
 		m_query = "select distinct ";
@@ -73,7 +85,7 @@ KLSelect::KLSelect(QStringList fields, QStringList tables, bool dist) : KLQuery(
 
 }
 
-KLSelect::KLSelect(QStringList fields, const QString &table, bool dist) : KLQuery(KLQuery::Select), m_fields(fields), m_cwhere(""), m_filter("")
+KLSelect::KLSelect(QStringList fields, const QString &table, bool dist) : KLQuery(KLQuery::Select), m_fields(fields), m_filter("")
 {
 	if ( dist )
 		m_query = "select distinct ";
@@ -113,16 +125,6 @@ void KLSelect::addSubConsult(QString connector, const KLSelect &subconsult)
 	m_subquery += " " + connector + " ( " + subconsult.getQuery() + " ) ";
 }
 
-void KLSelect::setWhere(const QString &cwhere)
-{
-	m_cwhere = " where " + cwhere;
-}
-
-void KLSelect::setCondition(const QString &condition)
-{
-	m_subquery += " " + condition + " ";
-}
-
 void KLSelect::addFilter( const QString& filter, QStringList fields )
 {
 	std::cout << "FILTER: " << filter << std::endl;
@@ -159,7 +161,7 @@ void KLSelect::addFilter( const QString& filter, QStringList fields )
 
 // KLUpdate
 
-KLUpdate::KLUpdate(QString table, QStringList fields, QStringList values) : KLQuery(KLQuery::Update), m_cwhere("")
+KLUpdate::KLUpdate(QString table, QStringList fields, QStringList values) : KLQuery(KLQuery::Update)
 {
 	Q_ASSERT(fields.count() == values.count());
 	
@@ -177,18 +179,6 @@ KLUpdate::~KLUpdate()
 {
 }
 
-void KLUpdate::setWhere(QString cwhere)
-{
-	m_cwhere = " where " + cwhere;
-}
-
-QString KLUpdate::getQuery() const
-{
-	return m_query + m_cwhere;
-}
-
-
-// KLDelete
 KLInsert::KLInsert(QString table, QStringList values) : KLQuery(KLQuery::Insert)
 {
 	m_query = "insert into " + table + " values ( ";
@@ -207,5 +197,16 @@ KLInsert::KLInsert(QString table, QStringList values) : KLQuery(KLQuery::Insert)
 KLInsert::~KLInsert()
 {
 }
+
+// KLDelete
+KLDelete::KLDelete(QString table) : KLQuery(KLQuery::Delete)
+{
+	m_query = "delete from " + table + " ";
+}
+
+KLDelete::~KLDelete()
+{
+}
+
 
 #include "klquery.moc"
