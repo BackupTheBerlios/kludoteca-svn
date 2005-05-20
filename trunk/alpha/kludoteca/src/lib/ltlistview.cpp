@@ -23,6 +23,8 @@
 #include <kapplication.h>
 #include <klineedit.h>
 #include <ktoolbarbutton.h>
+#include <qpainter.h>
+#include <qsimplerichtext.h>
 
 LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
 {
@@ -77,7 +79,7 @@ void LTListView::setDatabase(KLDatabase *db)
 
 void LTListView::makeList(QStringList colsText)
 {
-	m_listView = new KListView(this);
+	m_listView = new KLListView(this);
 	QColor c; c.setRgb( 57, 64, 98 );
 	m_listView->setAlternateBackground( c );
 	m_listView->setSelectionMode( QListView::Extended );
@@ -304,6 +306,53 @@ void LTListView::slotFilter(const QString &filter)
 	if ( filter.isEmpty() )
 	{
 		fillList();
+	}
+}
+
+
+// KLListView
+KLListView::KLListView(QWidget *parent, const char *name) : KListView(parent, name)
+{
+	m_title = i18n("A Module");
+	m_explain = i18n("Please click in the buttons actions");
+}
+
+KLListView::~ KLListView()
+{
+}
+
+void KLListView::setTitle(const QString &t)
+{
+	m_title = t;
+}
+
+void KLListView::setExplain(const QString &exp)
+{
+	m_explain = exp;
+}
+
+void KLListView::viewportPaintEvent(QPaintEvent *e)
+{
+	KListView::viewportPaintEvent( e );
+
+	if ( childCount() == 0 )
+	{
+		QPainter p( viewport() );
+
+		QSimpleRichText t( i18n(
+				"<div align=center>"
+				"<h3>"+m_title+"</h3>"
+				+m_explain+
+				"</div>" ), QApplication::font() );
+
+		t.setWidth( width() - 50 );
+
+		const uint w = t.width() + 20;
+		const uint h = t.height() + 20;
+
+		p.setBrush( colorGroup().background() );
+		p.drawRoundRect( 15, 15, w, h, (8*200)/w, (8*200)/h );
+		t.draw( &p, 20, 20, QRect(), colorGroup() );
 	}
 }
 

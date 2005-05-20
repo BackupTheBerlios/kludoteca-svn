@@ -37,6 +37,7 @@
 class KListView;
 class LTListView;
 class LTListViewItem;
+class KLListView;
 
 /**
  * Esta clase es la base para crear un widget con una lista y un panel de botones para el manejo de la misma, de esta clase se deben sobreescribir varios metodos, los cuales son:
@@ -171,13 +172,27 @@ class LTListView : public QVBox
 		QTimer *m_timer;
 		
 	protected:
-		KListView *m_listView;
+		KLListView *m_listView;
 		KLDatabase *m_db;
 		KLResultSetInterpreter *m_rsinterpreter;
 		KLXmlReader m_xmlreader;
 		QXmlInputSource m_xmlsource;
 		// Poner el qstring en m_xmlsource con setData, y darle m_xmlreader.parse(m_xmlsource);
 		QString m_filterText;
+};
+
+class KLListView : public KListView
+{
+	public:
+		KLListView(QWidget *parent=0, const char *name=0);
+		~KLListView();
+		void viewportPaintEvent( QPaintEvent* );
+		void setTitle(const QString &t);
+		void setExplain(const QString &exp);
+		
+	private:
+		QString m_title;
+		QString m_explain;
 };
 
 class LTListViewItem : public KListViewItem
