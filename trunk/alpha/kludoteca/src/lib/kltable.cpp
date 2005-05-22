@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                       	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,9 +19,13 @@
  ***************************************************************************/
 
 #include "kltable.h"
+#include <klocale.h>
+#include <qpainter.h>
+#include <qsimplerichtext.h>
+#include <qapplication.h>
 
 KLTable::KLTable(int rows, int cols, QWidget *parent, const char *name)
- : QTable(rows, cols, parent, name)
+	: QTable(rows, cols, parent, name), m_text(""), m_textSize(70)
 {
 	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	expandTableSize();
@@ -110,5 +114,53 @@ void KLTable::redimensionTable(int rows)
 		}
 	}
 }
+
+void KLTable::setViewportText(const QString &text, int size)
+{
+	m_textSize = size;
+	m_text = text;
+}
+
+void KLTable::drawContents( QPainter * p, int cx, int cy, int cw, int ch )
+{
+// 	qDebug("drawContents");
+	if ( numRows() == 0)
+	{
+		if ( !m_text.isEmpty() )
+		{
+			QSimpleRichText t( QString(
+					"<div align=center>"
+					"<h1>"+m_text+"</h1>"
+					"</div>" ), QFont("Helvetica", m_textSize, QFont::Bold) );
+		
+			t.setWidth( clipper()->width() - 50 );
+		
+			const uint w = clipper()->width() - 20;
+			const uint h = clipper()->height() - 20;
+		
+			p->setBrush( colorGroup().background() );
+			p->drawRoundRect( 15, 15, w, h, (8*200)/w, (8*200)/h );
+			t.draw( p, 60, h/2, QRect(), colorGroup() );
+		}
+	}
+	else
+	{
+		QTable::drawContents( p, cx, cy, cw, ch );
+	}
+	clipper()->repaint();
+}
+
+void KLTable::paintEvent ( QPaintEvent * event )
+{
+// 	qDebug("paintEvent");
+	QTable::paintEvent(event);
+	viewport()->repaint();
+}
+
+// void KLTable::viewportPaintEvent(QPaintEvent * pe )
+// {
+// 	qDebug("viewportPaintEvent");
+// 	QTable::viewportPaintEvent(pe);
+// }
 
 #include "kltable.moc"

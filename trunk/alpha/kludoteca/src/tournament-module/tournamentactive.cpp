@@ -26,6 +26,8 @@
 TournamentActive::TournamentActive(QWidget *parent) : LTListView(QStringList() << i18n("Tournament name") << i18n("Game") << i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::ButtonModify, LTListView::ButtonDel, parent = 0, "ActiveTournaments")
 {
 	setCaption(i18n("Tournament"));
+	m_listView->setTitle(i18n("Active Tournaments"));
+	m_listView->setExplain(i18n("Please click in the \"Add\" button for added a tournament"));
 }
 
 TournamentActive::~TournamentActive()

@@ -311,10 +311,8 @@ void LTListView::slotFilter(const QString &filter)
 
 
 // KLListView
-KLListView::KLListView(QWidget *parent, const char *name) : KListView(parent, name)
+KLListView::KLListView(QWidget *parent, const char *name) : KListView(parent, name), m_title(""), m_explain("")
 {
-	m_title = i18n("A Module");
-	m_explain = i18n("Please click in the buttons actions");
 }
 
 KLListView::~ KLListView()
@@ -337,22 +335,25 @@ void KLListView::viewportPaintEvent(QPaintEvent *e)
 
 	if ( childCount() == 0 )
 	{
-		QPainter p( viewport() );
-
-		QSimpleRichText t( i18n(
-				"<div align=center>"
-				"<h3>"+m_title+"</h3>"
-				+m_explain+
-				"</div>" ), QApplication::font() );
-
-		t.setWidth( width() - 50 );
-
-		const uint w = t.width() + 20;
-		const uint h = t.height() + 20;
-
-		p.setBrush( colorGroup().background() );
-		p.drawRoundRect( 15, 15, w, h, (8*200)/w, (8*200)/h );
-		t.draw( &p, 20, 20, QRect(), colorGroup() );
+		if ( !m_title.isEmpty() && !m_title.isEmpty())
+		{
+			QPainter p( viewport() );
+	
+			QSimpleRichText t( QString(
+					"<div align=center>"
+					"<h3>"+m_title+"</h3>"
+					+m_explain+
+					"</div>" ), QApplication::font() );
+	
+			t.setWidth( width() - 50 );
+	
+			const uint w = t.width() + 20;
+			const uint h = t.height() + 20;
+	
+			p.setBrush( colorGroup().background() );
+			p.drawRoundRect( 15, 15, w, h, (8*200)/w, (8*200)/h );
+			t.draw( &p, 20, 20, QRect(), colorGroup() );
+		}
 	}
 }
 
@@ -371,7 +372,7 @@ LTListViewItem::~ LTListViewItem()
 
 int LTListViewItem::compare ( QListViewItem * i, int col, bool ascending )
 {
-	std::cout << "****************COOOOOOOOOMPARANDOOOOOOOOOO*********" << std::endl;
+	std::cout << "****************CMP******************" << std::endl;
 	bool ok = false;
 	
 	int number = i->text(col).toInt(&ok);

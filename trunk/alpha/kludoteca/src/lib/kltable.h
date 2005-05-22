@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                        *
+ *   krawek@gmail.com                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,12 +35,20 @@ class KLTable : public QTable
 
 		void resizeEvent ( QResizeEvent * e );
 		void setHeaderHText(int col, const QString &text);
-		
+		void drawContents ( QPainter * p, int cx, int cy, int cw, int ch );
+		void paintEvent ( QPaintEvent * event );
+// 		void viewportPaintEvent(QPaintEvent * pe );
+				
 	public slots:
 		void fixSize();
 		void expandTableSize();
 		void redimensionTable(int rows);
 		void insertRowData(const QStringList &data, int row = -1);
+		void setViewportText(const QString &text, int size = 70);
+		
+	private:
+		QString m_text;
+		int m_textSize;
 };
 
 #endif

@@ -75,6 +75,9 @@ void FormParticipants::setupForm()
 	m_table = new KLTable(0,3,this);
 	m_table->setReadOnly(true);
 	m_table->setColumnLabels(QStringList() << i18n("Identification") << i18n("Name") << i18n("Rank") );
+	
+	m_table->setViewportText(i18n("ADD PARTICIPANTS"));
+	
 	m_clientIdent->clearEdit();
 }
 
@@ -162,6 +165,7 @@ void FormParticipants::addParticipant()
 		return;
 	QStringList data = QStringList() << m_clientIdent->currentText() << QString("%1 %2").arg(m_clientName->text()).arg(m_clientLastName->text()) << "0";
 	m_table->insertRowData(data);
+	m_table->viewport()->repaint();
 	
 	m_clientIdent->removeItem(m_clientIdent->currentItem());
 	m_clientIdent->clearEdit();
