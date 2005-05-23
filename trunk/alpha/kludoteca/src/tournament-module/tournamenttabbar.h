@@ -38,6 +38,9 @@ class TournamentTabBar : public KTabWidget
 		TournamentTabBar(QWidget *parent = 0, const char *name = 0);
 		~TournamentTabBar();
 		
+	public slots:
+		void applyChangesToLists();
+		
 	private:
 		void setupTabs();
 		

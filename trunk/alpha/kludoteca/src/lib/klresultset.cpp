@@ -39,7 +39,7 @@ void KLResultSet::setRecord(QStringList &fields, QStringList &results)
 	
 	for (uint i = 0; i < results.count(); i++)
 	{
-		QDomElement fieldElement = this->createElement(fields[i]);
+		QDomElement fieldElement = this->createElement(fields[i].remove('(').remove(')'));
 		QDomText resultText = this->createTextNode(results[i]);
 		fieldElement.appendChild(resultText);
 		recordElement.appendChild(fieldElement);

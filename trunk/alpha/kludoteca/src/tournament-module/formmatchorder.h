@@ -22,18 +22,17 @@
 
 #include "formbase.h"
 #include "kltable.h"
+#include "matchgenerator.h"
 
 /**
-Aqui tenemos las partidas de una ronda, con sus respectivos puntajes
-
-@author CetiSoft
+ * Aqui tenemos las partidas de una ronda, con sus respectivos puntajes
+ * @author David Cuadrado
 */
 class FormMatchOrder : public FormBase
 {
 	Q_OBJECT
 	public:
-		FormMatchOrder(FormBase::Type t, QWidget *parent = 0);
-
+		FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent = 0);
 		~FormMatchOrder();
 
 		void setupForm();
@@ -41,9 +40,23 @@ class FormMatchOrder : public FormBase
 		void accept();
 		void cancel();
 		void clean();
+		void updateRanks(const QStringList &clients);
+		
+		QStringList getMatchResult(int number);
+		
+	private slots:
+		void fillTable();
+		
 		
 	private:
+		MatchClientInfo getMatchClientInfo(const QStringList &sqlresults, int newpos);
+		
+	private:
+		QString m_tournament;
+		int m_nround;
 		KLTable *m_table;
+		QStringList m_restParticipant;
+		MatchClientInfo m_clientList;
 };
 
 #endif

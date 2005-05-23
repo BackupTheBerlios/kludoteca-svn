@@ -24,31 +24,93 @@
 #include <qtable.h>
 
 /**
-@author CetiSoft
+ * Table generica de KLudoteca
+ * @author CetiSoft
 */
 class KLTable : public QTable
 {
 	Q_OBJECT
 	public:
+		/**
+		 * Construye una tabla con el numero de filas y columnas indicados
+		 * @param rows 
+		 * @param cols 
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
 		KLTable(int rows, int cols, QWidget *parent = 0, const char *name = 0);
+		/**
+		 * Destructor
+		 * @return 
+		 */
 		~KLTable();
 
+		/**
+		 * Captura el evento cuando se redimensiona la tabla
+		 * @param e 
+		 */
 		void resizeEvent ( QResizeEvent * e );
+		
+		/**
+		 * Pone un titulo a la columna
+		 * @param col 
+		 * @param text 
+		 */
 		void setHeaderHText(int col, const QString &text);
+		
+		
+		/**
+		 * Dibuja los contenidos de la tabla
+		 * @param p 
+		 * @param cx 
+		 * @param cy 
+		 * @param cw 
+		 * @param ch 
+		 */
 		void drawContents ( QPainter * p, int cx, int cy, int cw, int ch );
+		
+		
+		/**
+		 * Captura el evento de pintado de la tabla
+		 * @param event 
+		 */
 		void paintEvent ( QPaintEvent * event );
-// 		void viewportPaintEvent(QPaintEvent * pe );
+		
+		void paintRow(int row, const QColor &color);
+		
+		void paintCell ( QPainter * p, int row, int col, const QRect & cr, bool selected, const QColorGroup & cg);
 				
 	public slots:
+		/**
+		 * Arregla el tamño
+		 */
 		void fixSize();
+		/**
+		 * Distrubuye el ancho de las columnas con el ancho de toda la tabla
+		 */
 		void expandTableSize();
+		/**
+		 * Redimenciona las filas de una tabla
+		 * @param rows 
+		 */
 		void redimensionTable(int rows);
+		/**
+		 * inserta datos a una fila
+		 * @param data 
+		 * @param row 
+		 */
 		void insertRowData(const QStringList &data, int row = -1);
-		void setViewportText(const QString &text, int size = 70);
+		/**
+		 * Pone un texto para mostrar cuando la tabla esta vacia
+		 * @param text 
+		 */
+		void setViewportText(const QString &text);
 		
 	private:
 		QString m_text;
-		int m_textSize;
+		int m_specialRow;
+		QColor m_specialRowColor;
 };
 
 #endif

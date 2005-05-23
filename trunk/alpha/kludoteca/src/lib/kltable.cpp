@@ -25,7 +25,7 @@
 #include <qapplication.h>
 
 KLTable::KLTable(int rows, int cols, QWidget *parent, const char *name)
-	: QTable(rows, cols, parent, name), m_text(""), m_textSize(70)
+	: QTable(rows, cols, parent, name), m_text("")
 {
 	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	expandTableSize();
@@ -43,8 +43,6 @@ void KLTable::resizeEvent(QResizeEvent * e )
 
 void KLTable::expandTableSize()
 {
-	QWidget *vp = viewport();
-	
 	int totalWidth = sizeHint().width();
 	int colWidth = totalWidth / (numCols() - 1);
 	
@@ -115,9 +113,8 @@ void KLTable::redimensionTable(int rows)
 	}
 }
 
-void KLTable::setViewportText(const QString &text, int size)
+void KLTable::setViewportText(const QString &text)
 {
-	m_textSize = size;
 	m_text = text;
 }
 
@@ -128,15 +125,15 @@ void KLTable::drawContents( QPainter * p, int cx, int cy, int cw, int ch )
 	{
 		if ( !m_text.isEmpty() )
 		{
+			const uint w = clipper()->width() - 20;
+			const uint h = clipper()->height() - 20;
+			
 			QSimpleRichText t( QString(
 					"<div align=center>"
 					"<h1>"+m_text+"</h1>"
-					"</div>" ), QFont("Helvetica", m_textSize, QFont::Bold) );
+					"</div>" ), QFont("Helvetica", h/7, QFont::Bold) );
 		
 			t.setWidth( clipper()->width() - 50 );
-		
-			const uint w = clipper()->width() - 20;
-			const uint h = clipper()->height() - 20;
 		
 			p->setBrush( colorGroup().background() );
 			p->drawRoundRect( 15, 15, w, h, (8*200)/w, (8*200)/h );
@@ -157,10 +154,24 @@ void KLTable::paintEvent ( QPaintEvent * event )
 	viewport()->repaint();
 }
 
-// void KLTable::viewportPaintEvent(QPaintEvent * pe )
-// {
-// 	qDebug("viewportPaintEvent");
-// 	QTable::viewportPaintEvent(pe);
-// }
+void KLTable::paintRow(int row, const QColor &color)
+{
+	m_specialRow = row;
+	m_specialRowColor = color;
+}
+
+void KLTable::paintCell ( QPainter * p, int row, int col, const QRect & cr, bool selected, const QColorGroup & cg)
+{
+	QColorGroup mycg = cg;
+	if (row == m_specialRow)
+	{
+		mycg.setColor(QColorGroup::Base, m_specialRowColor);
+		QTable::paintCell(p, row,col, cr, selected, mycg);
+	}
+	else
+	{
+		QTable::paintCell(p, row,col, cr, selected, mycg);
+	}
+}
 
 #include "kltable.moc"

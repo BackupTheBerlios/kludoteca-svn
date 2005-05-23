@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                           	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
 #include <klocale.h>
 #include <qxml.h>
 
@@ -127,7 +128,6 @@ void FormParticipants::accept()
 	QStringList added;
 	for(uint i = 0; i < m_table->numRows(); i++)
 	{
-		std::cout << "aqui" << std::endl;
 		QStringList values = QStringList() << SQLSTR(m_table->text(i, 0)) << SQLSTR(m_tournament) << SQLSTR(m_table->text(i, 2));
 		KLInsert sqlins("ldt_participates", values);
 		KLDM->execQuery(&sqlins);
@@ -163,7 +163,7 @@ void FormParticipants::addParticipant()
 {
 	if( m_clientIdent->currentText().isEmpty() )
 		return;
-	QStringList data = QStringList() << m_clientIdent->currentText() << QString("%1 %2").arg(m_clientName->text()).arg(m_clientLastName->text()) << "0";
+	QStringList data = QStringList() << m_clientIdent->currentText() << QString("%1 %2").arg(m_clientName->text()).arg(m_clientLastName->text()) << "1";
 	m_table->insertRowData(data);
 	m_table->viewport()->repaint();
 	

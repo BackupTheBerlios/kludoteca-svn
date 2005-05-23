@@ -40,6 +40,9 @@ class QRegExp;
  * Este es el formulario para añadir y administrar usuarios de la aplicacion
  * @short Añadir usuarios
  * @author David Cuadrado
+ * @todo
+ * - No usar sendQuery, usar KLDM en su lugar
+ * - Usar KLQuery en lugar de enviar raw querys.
 */
 class FormAdminUsers : public FormBase
 {

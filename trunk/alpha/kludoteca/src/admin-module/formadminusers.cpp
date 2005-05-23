@@ -157,13 +157,13 @@ void FormAdminUsers::accept()
 				<< SQLSTR(this->getAddress())
 				<< SQLSTR(getGenre() ));
 			
-			emit sendQuery(sqlquery); // No importa si puede o no
+			KLDM->execQuery(sqlquery); // No importa si puede o no
 			
 			sqlquery = new KLInsert ("ldt_users", QStringList() << SQLSTR(this->getIdentification()) << SQLSTR(this->getLogin())  << SQLSTR(this->getPermissions()));
 			
 			emit sendRawQuery("CREATE USER "+ this->getLogin() + " PASSWORD "+ SQLSTR(this->getPassword()) );
 			
-			emit sendQuery(sqlquery);
+			KLDM->execQuery(sqlquery);
 			if ( ! this->lastQueryWasGood() )
 			{
 				emit sendRawQuery("DROP USER " + this->getLogin());
@@ -224,7 +224,7 @@ void FormAdminUsers::accept()
 				KLUpdate sqlup("ldt_persons", fields, values);
 				sqlup.setWhere("docIdent="+SQLSTR(m_docIdent));
 				
-				emit sendQuery(&sqlup);
+				KLDM->execQuery(&sqlup);
 				
 				if ( this->lastQueryWasGood() )
 				{

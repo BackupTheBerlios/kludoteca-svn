@@ -39,8 +39,7 @@ class TournamentOld : public LTListView
 		 * Constructor por defecto
 		 */
     		~TournamentOld();
-		
-	protected:
+
 		/**
 	 	 * Esta funcion debe implementarse para llenar la lista.
 		 */

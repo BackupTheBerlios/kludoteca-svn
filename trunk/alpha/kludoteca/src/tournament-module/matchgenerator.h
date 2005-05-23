@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                             	   *
+ *   krawek@gmail.com                                           	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,62 +17,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FORMPARTICIPANTS_H
-#define FORMPARTICIPANTS_H
+#ifndef MATCHGENERATOR_H
+#define MATCHGENERATOR_H
 
-#include <klineedit.h>
-#include <qvgroupbox.h>
-#include <qhbox.h>
-#include <kcombobox.h>
+#include <qobject.h>
+#include <qmap.h>
+#include <qstring.h>
 #include <qstringlist.h>
+#include <qvaluevector.h>
 
-#include "formbase.h"
-#include "kltable.h"
-
+typedef QMap<QString, int> MatchClientInfo;
+typedef QValueVector<QString> StringVector;
+		
 /**
- * Formulario para la gestion de participantes de torneos
- * @author CetiSoft
+ * Esta clase se encarga de hacer el pareo de torneos, se intentara tener varios metodos para hacer pareos
+ * @author David Cuadrado
 */
-class FormParticipants : public FormBase
+
+class MatchGenerator : public QObject
 {
 	Q_OBJECT
 	public:
-		FormParticipants(const QString &tournament, FormBase::Type t, QWidget *parent = 0);
-
-		~FormParticipants();
+		enum Type { Random = 0, Ascending }; // Podemos añadir mas metodos
 		
-		void setTournament(const QString &tournament);
-
-		virtual void setupForm();
-
-		virtual void accept();
-		virtual void cancel();
-		virtual void clean();
+		MatchGenerator();
+		MatchGenerator(const MatchClientInfo &mci);
+		~MatchGenerator();
+		void setMatchClientInfo(const MatchClientInfo &mci);
+		StringVector generate(Type t);
+		StringVector qstringlist2stringvector(const QStringList &);
 		
-		QStringList getAllClients();
-		
-		
-	signals:
-		void message2osd(const QString &);
-		
-		
-	public slots:
-		void fillClientInformation(const QString &key);
-		void addParticipant();
-		void removeParticipant();
-		void fillTableInformation();
+	protected:
+		// <heapsort>
+		inline int parent(int i);
+		inline int left(int i);
+		inline int rigth(int i);
+		void maxHeapify(QStringList &list, int i);
+		void buildMaxHeap(QStringList &list);
+		void heapsort(QStringList &list);
+		void swap(QStringList &list, int i1, int i2);
+		// </heapsort>
 		
 	private:
-		QString m_tournament;
-		QVGroupBox *m_clientBox;
-		KComboBox *m_clientIdent;
-		KLineEdit *m_clientName, *m_clientLastName;
-		
-		KPushButton *m_add;
-		KPushButton *m_del;
-		
-		KLTable *m_table;
-		QStringList m_identsList, m_delList;
+		MatchClientInfo m_mci;
+		int heapsize;
 };
 
 #endif

@@ -14,6 +14,7 @@ admin-module
 
 clients-module
 --------------
+- El campo de friend identification deberia tener la lista de las actuales personas, cuando es elegido que se llenen los campos respectivos o dejar añadir uno nuevo.
 - Hacer la documentacion en el .h
 - Para modify se puede hacer un metodo dentro del formulario que reciba la llave y se llene asi mismo
 - Friend id no dice nada

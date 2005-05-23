@@ -23,10 +23,10 @@
 #include <klocale.h>
 
 RoundList::RoundList(QWidget *parent, const char *name)
-	: LTListView(QStringList() << i18n("Tournament") << i18n("Ronda"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::NoButton, LTListView::NoButton, parent, name)
+	: LTListView(QStringList() << i18n("Tournament") << i18n("Ronda"), LTListView::ButtonAdd, LTListView::ButtonModify, LTListView::NoButton, LTListView::NoButton, parent, name)
 {
 	setButtonText(LTListView::ButtonAdd, i18n("New"));
-	setButtonText(LTListView::ButtonQuery, i18n("Update"));
+	setButtonText(LTListView::ButtonModify, i18n("Update"));
 	m_listView->setRootIsDecorated(true);
 	m_listView->setSorting(1);
 }
@@ -89,7 +89,7 @@ void RoundList::addButtonClicked()
 	
 	QString tname = le->text(0);
 	
-	int roundNumber = 0;
+	int roundNumber = 1;
 	
 	if ( tname.isNull() )
 	{
@@ -114,6 +114,10 @@ void RoundList::addButtonClicked()
 		le->sortChildItems(1, true);
 	}
 	
+	// Insertamos la ronda
+	// TODO: Mensaje de advertencia que pregunta si en realidad quiere
+	KLDM->execQuery(new KLInsert("ldt_rounds", QStringList() << QString::number(roundNumber) << SQLSTR(tname)));
+	
 	// La idea de este bloque es seguir una secuencia de rondas
 	
 	KMdiChildView *view = new KMdiChildView(i18n("Add matchs to %1").arg(tname), this );
@@ -123,7 +127,7 @@ void RoundList::addButtonClicked()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
-	FormMatchOrder *formMatchs = new FormMatchOrder(FormBase::Add, this);
+	FormMatchOrder *formMatchs = new FormMatchOrder(tname, roundNumber, FormBase::Add, this);
 	
 // 	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
@@ -136,11 +140,12 @@ void RoundList::addButtonClicked()
 	formMatchs->setTitle(i18n("Manage %1 matchs for the %2 round").arg(tname).arg(roundNumber));
 	formMatchs->setExplanation(i18n("Fill the fields with the match's results"));
 	
-	emit sendWidget(view); 
+	emit sendWidget(view);
 }
 
 void RoundList::delButtonClicked()
 {
+	// No es usado
 }
 
 void RoundList::getClickedItem(QListViewItem* item)
@@ -149,10 +154,49 @@ void RoundList::getClickedItem(QListViewItem* item)
 
 void RoundList::modifyButtonClicked()
 {
+	LTListViewItem *le = static_cast<LTListViewItem*>(m_listView->currentItem());
+	if ( !le )
+		return;
+	
+	QString tname = le->text(0);
+	
+	int roundNumber = 1;
+	
+	if ( tname.isNull() )
+	{
+		// Estoy sobre un hijo
+		tname = le->parent()->text(0);
+		roundNumber = le->parent()->childCount();
+	}
+	else
+	{
+		// Sobre el padre
+		roundNumber = le->childCount();
+	}
+	
+	KMdiChildView *view = new KMdiChildView(i18n("Update matchs to %1").arg(tname), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	FormMatchOrder *formMatchs = new FormMatchOrder(tname, roundNumber, FormBase::Edit, this);
+	
+// 	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+	
+	connect(formMatchs, SIGNAL(cancelled()), view, SLOT(close()));
+// 	connect(formMatchs, SIGNAL(accepted()), this, SLOT(fillList()));
+
+	scroll->addChild(formMatchs);
+	formMatchs->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	
+	emit sendWidget(view);
 }
 
 void RoundList::queryButtonClicked()
 {
+	// No es usado
 }
 
 #include "roundlist.moc"

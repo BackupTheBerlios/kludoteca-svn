@@ -44,7 +44,14 @@ void TournamentTabBar::setupTabs()
 	m_told = new TournamentOld(this);
 	insertTab(m_told, i18n("Old"));
 	
-	connect(m_tactive, SIGNAL(tournamentModified()), m_participants, SLOT(fillList()));
+	connect(m_tactive, SIGNAL(tournamentModified()), this, SLOT(applyChangesToLists()));
+}
+
+void TournamentTabBar::applyChangesToLists()
+{
+	m_participants->fillList();
+	m_rounds->fillList();
+	m_told->fillList();
 }
 
 
