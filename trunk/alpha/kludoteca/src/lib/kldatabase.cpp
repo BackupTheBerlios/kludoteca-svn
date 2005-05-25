@@ -230,6 +230,7 @@ bool KLDatabase::createTables()
 			"docIdent character varying(10) references ldt_persons(docIdent)  on delete cascade on update cascade,"
 			"inscriptionDate date NOT NULL,"
 			"comment character varying(40),"
+			"banned boolean default 'f',"
 			"idReferencePerson character varying(10) references ldt_persons(docIdent),"
 			"primary key(docIdent)"
 			");");

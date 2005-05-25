@@ -1,8 +1,9 @@
 Changelog
-=========
+=======
 
 Cambios en la base de datos:
 
+- Creado dominio para el sexo compuesto por 'f' y 'm'
 - Creado lenguaje procedimental PL/pgSQL para utilizar triggers y funcion para manejarlo.
 - Creado trigger y funcion que actualiza el estado del juego automaticamente cuando se rentan o se usan en torneos los juegos.
 
@@ -10,6 +11,7 @@ ldt_games:
 	- costTM -> costForUnit
 	- costTMA -> costForUnitAdd
 	- removido state
+	- añadido available
 	
 	
 ldt_persons:
@@ -19,6 +21,7 @@ ldt_persons:
 
 ldt_clients:
 	- state -> comment (se utiliza para guardar comentarios sobre el cliente)
+	- banned 
 	
 	
 ldt_users:
