@@ -1,0 +1,34 @@
+Changelog
+=========
+
+Cambios en la base de datos:
+
+- Creado lenguaje procedimental PL/pgSQL para utilizar triggers y funcion para manejarlo.
+- Creado trigger y funcion que actualiza el estado del juego automaticamente cuando se rentan o se usan en torneos los juegos.
+
+ldt_games:
+	- costTM -> costForUnit
+	- costTMA -> costForUnitAdd
+	- removido state
+	
+	
+ldt_persons:
+	- email: solo admite *@*.*
+	- genre: solo admite 'f' o 'm'
+	
+
+ldt_clients:
+	- state -> comment (se utiliza para guardar comentarios sobre el cliente)
+	
+	
+ldt_users:
+	- permissions disminuido tamaño maximo de 10 a 5
+	
+ldt_rents:
+	- Añadido rentHour
+	- Añadida llave primaria (gameSerialReference, date,rentHour)
+	- Eliminado returnHour
+	- Añadido units : guarda las unidades de tiempo del juego que se va a alquilar
+	- Añadido addunits: guarda las unidades de tiempo adicional del juego que se va a alquilar.
+	- Añadido active: verificar cuales son activas
+	

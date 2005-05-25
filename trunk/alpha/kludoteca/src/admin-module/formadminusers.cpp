@@ -297,10 +297,9 @@ QString FormAdminUsers::getLastName()
 
 QString FormAdminUsers::getGenre()
 {
-	QString tsex = (static_cast<QRadioButton*>(m_radioButtons->selected()))->text();
-	
-	tsex.remove('&');
-	return tsex.lower();
+	if ( m_radioButtons->selectedId() == 0)
+		return "m";
+	return "f";
 } 
 
 QString FormAdminUsers::getAddress()
@@ -368,15 +367,14 @@ void FormAdminUsers::setGenre(QString &sex)
 {
 	sex.remove('&');
 	std::cout << "Sex: " << sex << std::endl;
-	for (uint i = 0; i < m_radioButtons->count(); i++)
+	
+	if( sex == "m")
 	{
-		QRadioButton *btmp = static_cast<QRadioButton *>(m_radioButtons->find(i));
-		std::cout << "Sexo: " << btmp->text() << std::endl;;
-		if ( btmp->text().lower() == sex.lower())
-		{
-			btmp->setChecked(true);
-			break;
-		}
+		(static_cast<QRadioButton *>(m_radioButtons->find(0)))->setChecked(true);
+	}
+	else
+	{
+		(static_cast<QRadioButton *>(m_radioButtons->find(1)))->setChecked(true);
 	}
 }
 

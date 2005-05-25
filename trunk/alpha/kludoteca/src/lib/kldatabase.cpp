@@ -171,6 +171,13 @@ bool KLDatabase::createTables()
 	bool wasgood = true;
 	int p = 1;
 	
+	// Creamos plpgsql
+	exec("CREATE FUNCTION plpgsql_call_handler() RETURNS language_handler AS '$libdir/plpgsql' LANGUAGE C;");
+	exec("CREATE TRUSTED PROCEDURAL LANGUAGE plpgsql HANDLER plpgsql_call_handler");
+	
+	// Dominio para el sexo
+	exec("CREATE DOMAIN ldt_genre_domain as char(1) check(value in ('f', 'm'));");
+	exec("CREATE DOMAIN ldt_points_domain as smallint check (value in ('0','1','3'))"); // podemos dar configurabilidad a este nivel
 	
 	// JUEGOS
 	q = exec("CREATE TABLE ldt_games ("
@@ -183,10 +190,9 @@ bool KLDatabase::createTables()
 		"gameType character varying(10) NOT NULL,"
 		"timeUnitAdd character varying(10) NOT NULL,"
 		"timeUnit character varying(10) NOT NULL,"
-		"costTM real NOT NULL,"
-		"costTMA real NOT NULL,"
+		"costForUnit real NOT NULL,"
+		"costForUnitAdd real NOT NULL,"
 		"position character varying(10) NOT NULL,"
-		"state character varying (10) NOT NULL,"
 		"available boolean DEFAULT 't' NOT NULL"
 		");");
 	
@@ -205,10 +211,10 @@ bool KLDatabase::createTables()
 		"firstName character varying(50) NOT NULL,"
 		"lastName character varying(50) NOT NULL,"
 		"phone character varying(15),"
-		"celullar character varying(15),"
-		"email character varying(60),"
+		"cellular character varying(15),"
+		"email character varying(60) check( email like '%@%.%' ),"
 		"address character varying(40),"
-		"genre character varying (10)"
+		"genre ldt_genre_domain"
 		");");
 	
 	if ( ! q.isActive() )
@@ -223,7 +229,7 @@ bool KLDatabase::createTables()
 	q = exec("CREATE TABLE ldt_clients ("
 			"docIdent character varying(10) references ldt_persons(docIdent)  on delete cascade on update cascade,"
 			"inscriptionDate date NOT NULL,"
-			"state character varying(10),"
+			"comment character varying(40),"
 			"idReferencePerson character varying(10) references ldt_persons(docIdent),"
 			"primary key(docIdent)"
 			");");
@@ -241,10 +247,10 @@ bool KLDatabase::createTables()
 	q = exec("CREATE TABLE ldt_users ("
 			"docIdent character varying(10) references ldt_persons(docIdent) on delete cascade on update cascade,"
 			"login character varying(20) primary key,"
-			"permissions character varying(10) NOT NULL"
+			"permissions character varying(5) NOT NULL"
 			");");
 	
-	if ( ! q.isActive() ) 
+	if ( ! q.isActive() )
 	{
 		std::cout << "Fails to create ldt_users" << lastError().text() << std::endl;
 		wasgood = false;
@@ -257,7 +263,7 @@ bool KLDatabase::createTables()
 			"name character varying(50) PRIMARY KEY,"
 			"gameReference character varying(8) references ldt_games(serialReference) on delete cascade on update cascade,"
 			"initDate date NOT NULL,"
-			"endDate date NOT NULL,"
+			"endDate date NOT NULL check (initDate <= endDate),"
 			"roundsForPair integer NOT NULL,"
 			"rounds integer NOT NULL,"
 			"price real NOT NULL,"
@@ -294,8 +300,12 @@ bool KLDatabase::createTables()
 	q = exec("CREATE TABLE ldt_rents ("
 			"clientDocIdent character varying(10) NOT NULL,"
 			"gameSerialReference character varying(10) NOT NULL,"
-			"returnHour time without time zone NOT NULL,"
+			"rentHour time without time zone NOT NULL,"
+			"units int NOT NULL,"
+			"addunits int,"
 			"date date NOT NULL,"
+			"active boolean default 't' NOT NULL,"
+			"primary key (gameSerialReference, date, rentHour),"
 			"foreign key (clientDocIdent) references ldt_clients(docIdent) on delete cascade on update cascade,"
 			"foreign key (gameSerialReference) references ldt_games(serialReference) on delete cascade on update cascade"
 			");");
@@ -329,9 +339,9 @@ bool KLDatabase::createTables()
 			"nRound integer,"
 			"codTournament character varying(50),"
 			"opponent1 character varying(10),"
-			"resultOpp1 integer NOT NULL,"
+			"resultOpp1 ldt_points_domain NOT NULL,"
 			"opponent2 character varying(10),"
-			"resultOpp2 integer,"
+			"resultOpp2 ldt_points_domain,"
 			"rest bool default 'f',"
 			"foreign key (nRound, codTournament) references ldt_rounds(nRound, codTournament) on delete cascade on update cascade,"
 			"foreign key (opponent1,codTournament) references ldt_participates(clientDocIdent, codTournament) on delete cascade on update cascade,"
@@ -349,10 +359,10 @@ bool KLDatabase::createTables()
 	// EMPRESA
 	q = exec("CREATE TABLE ldt_enterprise ("
 			"nit character varying(10) NOT NULL,"
-			"address character varying(40) NOT NULL,"
+			"address character varying(40),"
 			"name character varying(50) NOT NULL,"
-			"phone character varying(10) NOT NULL,"
-			"city character varying(15) NOT NULL,"
+			"phone character varying(10),"
+			"city character varying(15),"
 			"primary key(nit)"
 			");");
 	
@@ -363,13 +373,20 @@ bool KLDatabase::createTables()
 	}
 	emit progress(p++);
 	
-	// Por ultimo creamos las vistas
+	// Por ultimo creamos las vistas y triggers
 	if ( wasgood )
 	{
 		exec("create view ldt_users_view as SELECT firstname,lastname,login from ldt_users,ldt_persons where ldt_persons.docident in (select ldt_users.docident from ldt_persons )");
 		exec("create view ldt_tournament_view as select name,gamename,initdate,active from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games )");
 		exec("create view ldt_clients_view as SELECT ldt_clients.docIdent,firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent in (select ldt_clients.docident from ldt_persons );");
 		exec("create view ldt_rents_view as select gameserialreference,clientdocident, gamename,firstname,lastname from ldt_games,ldt_persons,ldt_rents where ldt_persons.docident in ( select clientdocident from ldt_persons )  and serialreference  in ( select gameserialreference from ldt_games );");
+		
+		// Triggers
+		exec("CREATE or replace FUNCTION ldt_updateGameAvail() returns trigger AS 'begin update ldt_games set available=not NEW.active; return NEW; end; 'language plpgsql;");
+		
+		exec("CREATE TRIGGER ldt_addTournamentTrigger after insert or update on ldt_tournament for row execute procedure ldt_updateGameAvail();");
+		
+		exec("CREATE TRIGGER ldt_rentGameTrigger after insert or update on ldt_rents for row execute procedure ldt_updateGameAvail();");
 	}
 	return wasgood;
 }
