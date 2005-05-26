@@ -158,6 +158,8 @@ void FormTournament::accept ()
 				<< SQLSTR( getDiscount() )
 				<< SQLSTR( "t" ));
 			
+			m_nameGame->removeItem(m_nameGame->currentItem ());
+			
  			KLDM->execQuery(&sqlquery);
 			
 			emit inserted(getTournamentName());

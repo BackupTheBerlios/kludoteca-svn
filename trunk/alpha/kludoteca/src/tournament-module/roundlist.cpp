@@ -38,7 +38,7 @@ RoundList::~RoundList()
 
 void RoundList::fillList()
 {
-	m_listView->clear();
+ 	m_listView->clear();
 	// SELECT codtournament from ldt_participates where codtournament in (select name from ldt_tournament );
 	KLSelect sqltour (QStringList()  << "name", QString("ldt_tournament"));
 	
@@ -56,7 +56,7 @@ void RoundList::fillList()
 	{
 		LTListViewItem *tourtemp = new LTListViewItem(m_listView);
 		tourtemp->setText(0, tournaments[i]);
-// 		tourtemp->setOpen(true);
+		tourtemp->setOpen(true);
 		
  		KLSelect sqlquery(QStringList() << "nround", QStringList() << "ldt_rounds");
  		sqlquery.setWhere("codtournament="+SQLSTR(tournaments[i]));
@@ -116,7 +116,6 @@ void RoundList::addButtonClicked()
 	
 	// Insertamos la ronda
 	// TODO: Mensaje de advertencia que pregunta si en realidad quiere
-	KLDM->execQuery(new KLInsert("ldt_rounds", QStringList() << QString::number(roundNumber) << SQLSTR(tname)));
 	
 	// La idea de este bloque es seguir una secuencia de rondas
 	
@@ -132,7 +131,7 @@ void RoundList::addButtonClicked()
 // 	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
 	connect(formMatchs, SIGNAL(cancelled()), view, SLOT(close()));
-	connect(formMatchs, SIGNAL(accepted()), this, SLOT(fillList()));
+ 	connect(formMatchs, SIGNAL(accepted()), this, SLOT(fillList()));
 
 	scroll->addChild(formMatchs);
 	formMatchs->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );

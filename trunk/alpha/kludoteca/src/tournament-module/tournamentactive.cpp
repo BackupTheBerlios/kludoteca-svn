@@ -21,6 +21,7 @@
 #define DEBUG_TOURNAMENT 1
  
 #include "tournamentactive.h"
+#include "formquerytournament.h"
 #include <klocale.h>
 
 TournamentActive::TournamentActive(QWidget *parent) : LTListView(QStringList() << i18n("Tournament name") << i18n("Game") << i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonQuery, LTListView::ButtonModify, LTListView::ButtonDel, parent = 0, "ActiveTournaments")
@@ -87,6 +88,25 @@ void TournamentActive::modifyButtonClicked()
 
 void TournamentActive::queryButtonClicked()
 {
+	QString tname = m_listView->currentItem()->text(0);
+	if(tname.isEmpty())
+		return;
+	KMdiChildView *view = new KMdiChildView(i18n("Query tournament"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	FormQueryTournament* formQueryTournament = new FormQueryTournament(tname ,scroll->viewport() );
+
+	formQueryTournament->setType( FormBase::Add);
+	connect(formQueryTournament, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formQueryTournament, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+
+	scroll->addChild(formQueryTournament);
+	
+	emit sendWidget(view); 
 }
 
 void TournamentActive::fillList()

@@ -24,6 +24,7 @@
 
 #include <klocale.h>
 #include <iostream>
+#include <qstringlist.h>
 
 FormMatchOrder::FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent)
 	: FormBase(t, parent, "FormMatchOrder"), m_tournament(tournament) ,m_nround(nround)
@@ -100,6 +101,8 @@ void FormMatchOrder::accept()
 	{
 		case Add:
 		{
+			KLDM->execQuery(new KLInsert("ldt_rounds", QStringList() << QString::number(m_nround) << SQLSTR(m_tournament)));
+			
 			int parts = m_table->numRows();
 			if( !m_restParticipant.isEmpty() )
 			{
@@ -134,6 +137,8 @@ void FormMatchOrder::accept()
 				KLDM->execQuery(&sqlins);
 			
 			}
+			
+			emit inserted(QString::number(m_nround));
 		}
 		break;
 		case Edit:
@@ -163,7 +168,8 @@ void FormMatchOrder::accept()
 
 void FormMatchOrder::cancel()
 {
-    FormBase::cancel();
+	emit accepted();
+	FormBase::cancel();
 }
 
 void FormMatchOrder::clean()
@@ -289,45 +295,34 @@ void FormMatchOrder::fillTable()
 	}
 }
 
-// Puntajes de todos los participantes!
-// SELECT opponent1,resultopp1 as points from ldt_match join ldt_participates on clientdocident=opponent1 union SELECT opponent2,resultopp2 as points from ldt_match join ldt_participates on clientdocident=opponent2;
-
-// Puntaje total por cada participante:
-// SELECT opponent1,sum(resultopp1) as total from ldt_match join ldt_participates on clientdocident=opponent1 group by opponent1 union SELECT opponent2,sum(resultopp2) as total from ldt_match join ldt_participates on clientdocident=opponent2 group by opponent2 order by total desc;
-
+// La idea es que saquemos los mayores puntajes de ldt_resultstable_view y los pongamos en el rank de ldt_participates, esta vista tiene elementos nulos, por lo que primero hay que verificarlo!
 void FormMatchOrder::updateRanks(const QStringList &clients)
 {
-	std::cout << "UPDATE RANKS" << std::endl;
+	std::cout << "UPDATING RANKS" << std::endl;
 	
-	QValueList<int> points;
-	for(uint i = 0; i < clients.count(); i++)
-	{
-		// SELECT sum(resultopp1),sum(resultopp2) from ldt_match where opponent1='1' or opponent2='1';
-		KLSelect query(QStringList() << "sum(resultopp1)", QString("ldt_match"));
-		query.setWhere("opponent1="+SQLSTR(clients[i])+" or opponent2="+SQLSTR(clients[i]));
-		query.setCondition("and codTournament="+SQLSTR(m_tournament));
-		
-		KLResultSet resultSet = KLDM->execQuery(&query);
+	KLSelect query(QStringList() << "participant", QString("ldt_resultstable_view"));
+	query.setWhere("tournament="+SQLSTR(m_tournament));
+	query.setOrderBy("total", KLSelect::Desc);
+	
+	KLResultSet resultSet = KLDM->execQuery(&query);
 
-		QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
-		KLXmlReader xmlreader;
-	
-		if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
-		{
-			std::cerr << "No se puede analizar" << std::endl;
-			return;
-		}
-		
-		QStringList results = xmlreader.getResultsList();
-		
-//  		m_clientList[clients[i]] = results[0].toInt();
-		
-		points << results[0].toInt();
-	}
-	qHeapSort(points);
-	for(uint i = 0; i < points.count(); i++)
+	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
+	KLXmlReader xmlreader;
+
+	if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
 	{
-		qDebug(QString("Puntos: %1").arg(points[i]));
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
+	}
+	
+	QStringList results = xmlreader.getResultsList();
+	
+	for(uint i = 0; i < results.count(); i++) // La lista viene ordenada!
+	{
+		KLUpdate sqlupdate("ldt_participates", QStringList() << "rank", QStringList() << SQLSTR(QString::number(i+1)) );
+		sqlupdate.setWhere("clientdocident="+SQLSTR(results[i]));
+		
+		KLDM->execQuery(&sqlupdate);
 	}
 }
 

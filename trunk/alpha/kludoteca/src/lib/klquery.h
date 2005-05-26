@@ -89,6 +89,8 @@ class KLSelect : public KLQuery
 {
 	Q_OBJECT
 	public:
+		enum Order { NoOrder = 0, Asc, Desc };
+		
 		/**
 		 * Construye una consulta select
 		 * @param fields 
@@ -131,10 +133,14 @@ class KLSelect : public KLQuery
 		
 		void addFilter( const QString& filter, QStringList fields = QStringList() );
 		
+		void setOrderBy(const QString &field, Order o);
+		void setOrderBy(int field, Order o);
+		
 	private:
 		QStringList m_fields;
 		QString m_subquery;
 		QString m_filter;
+		QString m_orderby;
 };
 
 /**

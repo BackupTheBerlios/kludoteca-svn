@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                              	   *
+ *   krawek@gmail.com                                           	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FORMMATCHORDER_H
-#define FORMMATCHORDER_H
+#ifndef FORMQUERYTOURNAMENT_H
+#define FORMQUERYTOURNAMENT_H
 
-#include "formbase.h"
-#include "kltable.h"
-#include "matchgenerator.h"
+#include <formbase.h>
+#include <kltable.h>
 
 /**
- * Aqui tenemos las partidas de una ronda, con sus respectivos puntajes
  * @author David Cuadrado
 */
-class FormMatchOrder : public FormBase
+class FormQueryTournament : public FormBase
 {
 	Q_OBJECT
 	public:
-		FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent = 0);
-		~FormMatchOrder();
+		FormQueryTournament(const QString &tournament, QWidget *parent = 0);
+
+		~FormQueryTournament();
 
 		void setupForm();
 
 		void accept();
-		void cancel();
 		void clean();
-		void updateRanks(const QStringList &clients);
-		
-		QStringList getMatchResult(int number);
-		
-	private slots:
 		void fillTable();
 		
 	private:
-		MatchClientInfo getMatchClientInfo(const QStringList &sqlresults, int newpos);
-		
-	private:
 		QString m_tournament;
-		int m_nround;
-		KLTable *m_table;
-		QStringList m_restParticipant;
-		MatchClientInfo m_clientList;
+		KLTable *m_resultTable;
 };
 
 #endif

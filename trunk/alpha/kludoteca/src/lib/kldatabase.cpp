@@ -337,7 +337,7 @@ bool KLDatabase::createTables()
 	
 	// PARTIDA
 	q = exec("CREATE TABLE ldt_match ("
-			"number integer primary key,"
+			"number integer,"
 			"nRound integer,"
 			"codTournament character varying(50),"
 			"opponent1 character varying(10),"
@@ -345,6 +345,7 @@ bool KLDatabase::createTables()
 			"opponent2 character varying(10),"
 			"resultOpp2 ldt_points_domain,"
 			"rest bool default 'f',"
+			"primary key(number, codTournament),"
 			"foreign key (nRound, codTournament) references ldt_rounds(nRound, codTournament) on delete cascade on update cascade,"
 			"foreign key (opponent1,codTournament) references ldt_participates(clientDocIdent, codTournament) on delete cascade on update cascade,"
 			"foreign key (opponent2,codTournament) references ldt_participates(clientDocIdent, codTournament) on delete cascade on update cascade"
@@ -383,12 +384,64 @@ bool KLDatabase::createTables()
 		exec("create view ldt_clients_view as SELECT ldt_clients.docIdent,firstname,lastname,banned from ldt_clients,ldt_persons where ldt_persons.docIdent in (select ldt_clients.docident from ldt_persons );");
 		exec("create view ldt_rents_view as select gameserialreference,clientdocident, gamename,firstname,lastname from ldt_games,ldt_persons,ldt_rents where ldt_persons.docident in ( select clientdocident from ldt_persons )  and serialreference  in ( select gameserialreference from ldt_games );");
 		
+		exec("create or replace view ldt_resultstable_view as select codtournament as tournament, opponent1 as participant, win, draw,lost, total from  "
+				"( select codtournament, opponent1, sum(win1) as win from  "
+				"( SELECT ldt_participates.codtournament,opponent1,count(resultopp1) as win1 from ldt_match join ldt_participates on clientdocident=opponent1 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"where resultopp1='3' "
+				"group by ldt_participates.codtournament,opponent1  "
+				"union  "
+				"SELECT ldt_participates.codtournament,opponent2,count(resultopp2) as win1 from ldt_match  "
+				"join ldt_participates on clientdocident=opponent2 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"where resultopp2='3' "
+				"group by ldt_participates.codtournament,opponent2 ) as tabletmp group by opponent1, codtournament  "
+				") as tablewin "
+				"full join  "
+				"( select codtournament, opponent1, sum(draw1) as draw from  "
+				"( SELECT ldt_participates.codtournament,opponent1,count(resultopp1) as draw1 from ldt_match join ldt_participates on clientdocident=opponent1 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"where resultopp1='1' "
+				"group by ldt_participates.codtournament,opponent1  "
+				"union  "
+				"SELECT ldt_participates.codtournament,opponent2,count(resultopp2) as draw1 from ldt_match  "
+				"join ldt_participates on clientdocident=opponent2 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"where resultopp2='1' "
+				"group by ldt_participates.codtournament,opponent2 ) as tabletmp group by opponent1, codtournament  "
+				") as tabledraw "
+				"using ( codtournament,opponent1 ) "
+				"full join "
+				"( select codtournament, opponent1, sum(lost1) as lost from  "
+				"( SELECT ldt_participates.codtournament,opponent1,count(resultopp1) as lost1 from ldt_match join ldt_participates on clientdocident=opponent1 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"where resultopp1='0' "
+				"group by ldt_participates.codtournament,opponent1  "
+				"union  "
+				"SELECT ldt_participates.codtournament,opponent2,count(resultopp2) as lost1 from ldt_match join ldt_participates on clientdocident=opponent2 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"where resultopp2='0' "
+				"group by ldt_participates.codtournament,opponent2 ) as tabletmp group by opponent1, codtournament "
+				") as tablelost "
+				"using ( codtournament,opponent1 ) "
+				"join "
+				"( select codtournament, opponent1, sum(subtotal) as total from  "
+				"( SELECT ldt_participates.codtournament,opponent1,sum(resultopp1) as subtotal from ldt_match  "
+				"join ldt_participates on clientdocident=opponent1 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"group by ldt_participates.codtournament,opponent1  "
+				"union  "
+				"SELECT ldt_participates.codtournament,opponent2,sum(resultopp2) as subtotal from ldt_match  "
+				"join ldt_participates on clientdocident=opponent2 and ldt_participates.codtournament=ldt_match.codtournament  "
+				"group by ldt_participates.codtournament,opponent2 ) as tabletmp group by opponent1, codtournament "
+				") as tabletotal "
+				"using (codtournament,opponent1); ");
+		
 		// Triggers
 		exec("CREATE or replace FUNCTION ldt_updateGameAvail() returns trigger AS 'begin update ldt_games set available=not NEW.active where ldt_games.serialreference=NEW.gameserialreference; return NEW; end; 'language plpgsql;");
+		
+		exec("CREATE or replace FUNCTION ldt_releaseGame() returns trigger AS ' begin update ldt_games set available=''t'' where serialreference=OLD.gameserialreference; return OLD; end; 'language plpgsql;");
 		
 		exec("CREATE TRIGGER ldt_addTournamentTrigger after insert or update on ldt_tournament for row execute procedure ldt_updateGameAvail();");
 		
 		exec("CREATE TRIGGER ldt_rentGameTrigger after insert or update on ldt_rents for row execute procedure ldt_updateGameAvail();");
+		
+		exec("CREATE TRIGGER ldt_delTournamentTrigger before delete on ldt_tournament for row execute procedure ldt_releaseGame();");
+		
+		exec("CREATE TRIGGER ldt_delRentTrigger before delete on ldt_rents for row execute procedure ldt_releaseGame();");
 	}
 	return wasgood;
 }
@@ -404,6 +457,8 @@ bool KLDatabase::dropTables()
 	
 	exec("drop trigger ldt_addTournamentTrigger on ldt_tournament");
 	exec("drop trigger ldt_rentGameTrigger on ldt_rents");
+	exec("drop trigger ldt_delTournamentTrigger on ldt_tournament");
+	exec("drop trigger ldt_delRentTrigger on ldt_rents");
 	exec("drop function ldt_updateGameAvail() cascade");
 	
 	

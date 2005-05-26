@@ -23,12 +23,13 @@
 #include <qpainter.h>
 #include <qsimplerichtext.h>
 #include <qapplication.h>
+#include <iostream>
 
 KLTable::KLTable(int rows, int cols, QWidget *parent, const char *name)
-	: QTable(rows, cols, parent, name), m_text("")
+	: QTable(rows, cols, parent, name), m_text(""), m_specialRow(-1)
 {
 	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	expandTableSize();
+ 	expandTableSize();
 }
 
 KLTable::~KLTable()
@@ -43,12 +44,12 @@ void KLTable::resizeEvent(QResizeEvent * e )
 
 void KLTable::expandTableSize()
 {
-	int totalWidth = sizeHint().width();
-	int colWidth = totalWidth / (numCols() - 1);
+	int totalWidth = clipper()->width();
+	int colWidth = totalWidth / numCols();
 	
 	for(uint i = 0; i < numCols(); i++)
 	{
-		setColumnWidth(i, colWidth-30);
+		setColumnWidth(i, colWidth);
 	}
 }
 
@@ -84,6 +85,7 @@ void KLTable::insertRowData(const QStringList &data, int row)
 	
 	for(uint i = 0; i < data.count(); i++)
 	{
+// 		std::cout << QString("Insertando a tabla %1 en fila %2 columna %3").arg(name()).arg(row).arg(i) << " dato " << data[i] << std::endl;
 		setText(row, i, data[i]);
 	}
 }
@@ -151,6 +153,7 @@ void KLTable::paintEvent ( QPaintEvent * event )
 {
 // 	qDebug("paintEvent");
 	QTable::paintEvent(event);
+	expandTableSize();
 	viewport()->repaint();
 }
 

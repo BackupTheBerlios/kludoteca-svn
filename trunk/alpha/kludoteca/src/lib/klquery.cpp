@@ -112,7 +112,7 @@ KLSelect::~ KLSelect()
 
 QString KLSelect::getQuery() const
 {
-	return m_query + m_cwhere + m_subquery + m_filter;
+	return m_query + m_cwhere + m_subquery + m_filter + m_orderby;
 }
 
 QStringList KLSelect::getFields()
@@ -158,6 +158,34 @@ void KLSelect::addFilter( const QString& filter, QStringList fields )
 	}
 }
 
+void KLSelect::setOrderBy(const QString &field, Order o)
+{
+	m_orderby = " order by "+field+" ";
+	switch(o)
+	{
+		case Asc:
+		{
+			m_orderby += "asc";
+		}
+		break;
+		case Desc:
+		{
+			m_orderby += "desc";
+		}
+		break;
+		case NoOrder:
+		{
+			m_orderby = "";
+		}
+		break;
+	}
+}
+
+void KLSelect::setOrderBy(int field, Order o)
+{
+	if ( field < m_fields.count() )
+		setOrderBy(m_fields[field], o);
+}
 
 // KLUpdate
 

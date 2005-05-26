@@ -272,10 +272,12 @@ void KLudoteca::readProperties(KConfig *config)
 void KLudoteca::dragEnterEvent(QDragEnterEvent *event)
 {
 	qDebug("Dragg!!");
+	event->accept(QTextDrag::canDecode(event) || QImageDrag::canDecode(event));
 }
 
 void KLudoteca::dropEvent(QDropEvent *event)
 {
+	event->accept();
 	qDebug("Droppp!!");
 }
 
