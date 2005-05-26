@@ -55,7 +55,7 @@ qDebug("RentsWidget: filling List");
 
 	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_rents_view");
 	
-	KLResultSet resultSet = m_db->execQuery(&sqlquery);
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -78,13 +78,13 @@ void RentsWidget::addButtonClicked()
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-// 	FormAdminClients *formAdminClients = new FormAdminClients( scroll->viewport() );
-// 	scroll->addChild(formAdminClients);
-// 	
-// 	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
-// 	
-// 	formAdminClients->setTitle(i18n("Admin Clients"));
-// 	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
+	FormAdminRents *formAdminRents = new FormAdminRents(FormBase::Add,scroll->viewport() );
+	scroll->addChild(formAdminRents);
+	
+	formAdminRents->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
+	
+	formAdminRents->setTitle(i18n("Admin Rents"));
+	formAdminRents->setExplanation(i18n("Fill the fields with the Rent information"));
 	
 	emit sendWidget( view );
 }

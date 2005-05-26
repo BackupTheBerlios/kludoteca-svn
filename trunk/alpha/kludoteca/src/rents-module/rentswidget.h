@@ -21,7 +21,7 @@
 #define RENTSWIDGET_H
 
 #include "ltlistview.h"
-
+#include "formadminrents.h"
 /**
  * Esta clase contiene el widget principal del modulo de prestamos
  * @author David Cuadrado
