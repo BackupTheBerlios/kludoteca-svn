@@ -61,8 +61,8 @@ void FormAdminClients::setupButtonsBox()
 /****************** CLIENT *****************************************************/
 	QVBox *vboxClient = new QVBox(m_container);
 	m_radioButtonClte = new QHButtonGroup(vboxClient);
-	m_maleClte = new QRadioButton(i18n("Male"), m_radioButtonClte);
-	m_femaleClte = new QRadioButton(i18n("Female"), m_radioButtonClte);
+	m_maleClte = new QRadioButton(i18n("male"), m_radioButtonClte);
+	m_femaleClte = new QRadioButton(i18n("female"), m_radioButtonClte);
 	m_femaleClte->setChecked(true);
 	
 	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
@@ -84,8 +84,8 @@ void FormAdminClients::setupButtonsBox()
 
 	QVBox *vboxFriend = new QVBox(m_container);
 	m_radioButtonFrd = new QHButtonGroup(vboxFriend);
-	m_maleFrd = new QRadioButton(i18n("Male"), m_radioButtonFrd);
-	m_femaleFrd = new QRadioButton(i18n("Female"), m_radioButtonFrd);
+	m_maleFrd = new QRadioButton(i18n("male"), m_radioButtonFrd);
+	m_femaleFrd = new QRadioButton(i18n("female"), m_radioButtonFrd);
 	m_femaleFrd->setChecked(true);
 	
 	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
@@ -166,7 +166,7 @@ QString FormAdminClients::getClientName()
 	return m_hashPerson["firstname"]->text();
 }
 
-QString FormAdminClients::getInscriptionDate()
+QString FormAdminClients::getSystemDate()
 {
 	return QString( QDate::currentDate().toString(Qt::ISODate) );
 }
@@ -178,7 +178,13 @@ QString FormAdminClients::getClientLastName()
 
 QString FormAdminClients::getClientSex()
 {
-	return m_radioButtonClte->selected()->text();
+	QString sexo = m_radioButtonClte->selected()->text();
+	sexo.remove('&');
+	if (sexo == i18n("male"))
+		return QString("m");
+	else if (sexo == i18n("female"))
+		return QString("f");
+	
 }
 
 QString FormAdminClients::getClientPhone()
@@ -253,16 +259,14 @@ void FormAdminClients::setClientEmail(const QString &email)
 void FormAdminClients::setClientSex(QString &sex)
 {
 	sex.remove('&');
-	std::cout << "Sex: " << sex << std::endl;
-	for (uint i = 0; i < m_radioButtonClte->count(); i++)
+	
+	if( sex == "m")
 	{
-		QRadioButton *btmp = static_cast<QRadioButton *>(m_radioButtonClte->find(i));
-		std::cout << "Sexo: " << btmp->text() << std::endl;;
-		if ( btmp->text().lower() == sex.lower())
-		{
-			btmp->setChecked(true);
-			break;
-		}
+		(static_cast<QRadioButton *>(m_radioButtonClte->find(0)))->setChecked(true);
+	}
+	else
+	{
+		(static_cast<QRadioButton *>(m_radioButtonClte->find(1)))->setChecked(true);
 	}		
 }
 
@@ -317,7 +321,13 @@ QString FormAdminClients::getFriendEmail()
 
 QString FormAdminClients::getFriendSex()
 {
-	return m_radioButtonFrd->selected()->text();
+	QString sexo = m_radioButtonFrd->selected()->text();
+	sexo.remove('&');
+	cout << "sexo refe: "<< QString(i18n("male")) << endl;
+	if (sexo == QString(i18n("male")) )
+		return QString("m");
+	else if (sexo == QString(i18n("female")) )
+		return QString("f");
 }
 
 void FormAdminClients::setFriendId(const QString &id)
@@ -363,16 +373,13 @@ void FormAdminClients::setFriendEmail(const QString &email)
 void FormAdminClients::setFriendSex(QString &sex)
 {
 	sex.remove('&');
-	std::cout << "Sex: " << sex << std::endl;
-	for (uint i = 0; i < m_radioButtonClte->count(); i++)
+	if( sex == "m")
 	{
-		QRadioButton *btmp = static_cast<QRadioButton *>(m_radioButtonClte->find(i));
-		std::cout << "Sexo: " << btmp->text() << std::endl;;
-		if ( btmp->text().lower() == sex.lower())
-		{
-			btmp->setChecked(true);
-			break;
-		}
+		(static_cast<QRadioButton *>(m_radioButtonFrd->find(0)))->setChecked(true);
+	}
+	else
+	{
+		(static_cast<QRadioButton *>(m_radioButtonFrd->find(1)))->setChecked(true);
 	}		
 }
 
@@ -434,7 +441,7 @@ void FormAdminClients::accept()
 				
 				KLInsert *cliente = new KLInsert("ldt_clients", QStringList()
 										<< SQLSTR( this->getClientId() )
-										<< SQLSTR( this->getInscriptionDate() )
+										<< SQLSTR( this->getSystemDate() )
 										<< SQLSTR( this->getClientState() ) 
 										<< SQLSTR( this->getFriendId() ) );
 				emit sendQuery(cliente);
@@ -464,7 +471,7 @@ void FormAdminClients::accept()
 				
 				KLInsert *cliente = new KLInsert("ldt_clients", QStringList()
 										<< SQLSTR( this->getClientId() )
-										<< SQLSTR( this->getInscriptionDate() )
+										<< SQLSTR( this->getSystemDate() )
 										<< SQLSTR( this->getClientState() ) 
 										<< SQLSTR( this->getFriendId() ) );
 				emit sendQuery(cliente);
@@ -531,7 +538,7 @@ void FormAdminClients::accept()
 				}
 			}
 			
-// 			fields+=fieldsFriend;
+// 			fields+=fieldsFriend; 
 // 			values+=valuesFriend;
 // 			
 			if ( fieldsFriend.count() == valuesFriend.count() && fieldsFriend.count() > 0 )

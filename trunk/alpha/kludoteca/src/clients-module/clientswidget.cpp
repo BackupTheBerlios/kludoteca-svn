@@ -24,7 +24,7 @@
 
 using namespace std;
 
-ClientsWidget::ClientsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent, const char *name) : LTListView(QStringList() << i18n("ID") << i18n("First Name") << i18n("Last Name") << i18n("State"), button1, button2, button3, button4, parent, name)
+ClientsWidget::ClientsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent, const char *name) : LTListView(QStringList() << i18n("ID") << i18n("First Name") << i18n("Last Name") << i18n("Comment"), button1, button2, button3, button4, parent, name)
 {
 	setCaption(i18n("Clients"));
 }
@@ -42,7 +42,7 @@ void ClientsWidget::fillList()
 		return;
 	}
 	
-	KLSelect sqlquery(QStringList() << "ldt_clients.docIdent" << "firstname" << "lastname" << "state", QStringList() << "ldt_persons" << "ldt_clients");
+	KLSelect sqlquery(QStringList() << "ldt_clients.docIdent" << "firstname" << "lastname" << "comment", QStringList() << "ldt_persons" << "ldt_clients");
 	sqlquery.setWhere("ldt_persons.docIdent=ldt_clients.docIdent");
 	
 	
@@ -117,12 +117,12 @@ void ClientsWidget::modifyButtonClicked()
 			<< "firstname" 
 			<< "lastname" 
 			<< "phone" 
-			<< "celullar" 
+			<< "cellular" 
 			<< "email"
 			<< "address"
 			<< "genre"
 			<< "ldt_clients.idreferenceperson"
-			<< "ldt_clients.state";
+			<< "ldt_clients.comment";
 			
 	KLSelect queryClte(clientFields, 
 			  QStringList() << "ldt_clients" 
@@ -131,7 +131,7 @@ void ClientsWidget::modifyButtonClicked()
 	queryClte.setWhere("ldt_clients.docIdent=ldt_persons.docIdent and ldt_persons.docident="+SQLSTR( m_listView->currentItem()->text(0)) ); // Login in the listview
 	
 	QStringList friendFields;
-	friendFields << "docident" << "firstname" << "lastname" << "phone" << "celullar" << "email" << "address" << "genre";
+	friendFields << "docident" << "firstname" << "lastname" << "phone" << "cellular" << "email" << "address" << "genre";
 	
 	
 	KLResultSet resultSetClte = KLDM->execQuery(&queryClte);
@@ -168,17 +168,17 @@ void ClientsWidget::modifyButtonClicked()
 	formAdminClients->setClientName(resultsClte["firstname"]);
 	formAdminClients->setClientLastName(resultsClte["lastname"]);
 	formAdminClients->setClientPhone(resultsClte["phone"]);
-	formAdminClients->setClientCellular(resultsClte["celullar"]);
+	formAdminClients->setClientCellular(resultsClte["cellular"]);
 	formAdminClients->setClientEmail(resultsClte["email"]);
 	formAdminClients->setClientAddress(resultsClte["address"]);
 	formAdminClients->setClientSex(resultsClte["genre"]);
-	formAdminClients->setClientState(resultsClte["ldt_clients.state"]);
+	formAdminClients->setClientState(resultsClte["ldt_clients.comment"]);
 	
 	formAdminClients->setFriendId(resultsRef["docident"]);
 	formAdminClients->setFriendName(resultsRef["firstname"]);
 	formAdminClients->setFriendLastName(resultsRef["lastname"]);
 	formAdminClients->setFriendPhone(resultsRef["phone"]);
-	formAdminClients->setFriendCellular(resultsRef["celullar"]);
+	formAdminClients->setFriendCellular(resultsRef["cellular"]);
 	formAdminClients->setFriendEmail(resultsRef["email"]);
 	formAdminClients->setFriendAddress(resultsRef["address"]);
 	formAdminClients->setFriendSex(resultsRef["genre"]);
@@ -206,9 +206,9 @@ void ClientsWidget::queryButtonClicked()
 
 void ClientsWidget::addItem(const QString &pkey)
 {
-	KLSelect sqlquery(QStringList() << "ldt_clients.docIdent" << "firstname" << "lastname" << "state", QStringList() << "ldt_clients" << "ldt_persons");
+	KLSelect sqlquery(QStringList() << "ldt_clients.docIdent" << "firstname" << "lastname" << "comment", QStringList() << "ldt_clients" << "ldt_persons");
 	sqlquery.setWhere("ldt_persons.docident="+SQLSTR(pkey)+" and ldt_clients.docident="+SQLSTR(pkey));
-	//SELECT firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent='005' and ldt_clients.docident='005';
+	//SELECT firstname,lastname,comment from ldt_clients,ldt_persons where ldt_persons.docIdent='005' and ldt_clients.docident='005';
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());

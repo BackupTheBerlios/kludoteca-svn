@@ -73,7 +73,7 @@ class FormAdminClients : public FormBase
 		 */
 		QString getClientId();
 		QString getClientName();
-		QString getInscriptionDate();
+		QString getSystemDate();
 		QString getClientLastName();
 		QString getClientPhone();
 		QString getClientCellular();
