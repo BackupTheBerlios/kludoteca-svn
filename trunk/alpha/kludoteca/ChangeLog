@@ -4,6 +4,7 @@ Changelog
 Cambios en la base de datos:
 
 - Creado dominio para el sexo compuesto por 'f' y 'm'
+- Creado dominio para unidades de tiempo compuesto por 'm' y 'h'
 - Creado lenguaje procedimental PL/pgSQL para utilizar triggers y funcion para manejarlo.
 - Creado trigger y funcion que actualiza el estado del juego automaticamente cuando se rentan o se usan en torneos los juegos.
 
@@ -12,6 +13,7 @@ ldt_games:
 	- costTMA -> costForUnitAdd
 	- removido state
 	- añadido available
+	- Cambiado tipo de dato de las unidades de tiempo a ldt_timeunit_domain
 	
 	
 ldt_persons:

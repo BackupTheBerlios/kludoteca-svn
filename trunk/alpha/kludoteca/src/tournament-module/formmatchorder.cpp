@@ -289,6 +289,12 @@ void FormMatchOrder::fillTable()
 	}
 }
 
+// Puntajes de todos los participantes!
+// SELECT opponent1,resultopp1 as points from ldt_match join ldt_participates on clientdocident=opponent1 union SELECT opponent2,resultopp2 as points from ldt_match join ldt_participates on clientdocident=opponent2;
+
+// Puntaje total por cada participante:
+// SELECT opponent1,sum(resultopp1) as total from ldt_match join ldt_participates on clientdocident=opponent1 group by opponent1 union SELECT opponent2,sum(resultopp2) as total from ldt_match join ldt_participates on clientdocident=opponent2 group by opponent2 order by total desc;
+
 void FormMatchOrder::updateRanks(const QStringList &clients)
 {
 	std::cout << "UPDATE RANKS" << std::endl;

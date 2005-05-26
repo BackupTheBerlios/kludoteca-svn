@@ -178,6 +178,7 @@ bool KLDatabase::createTables()
 	// Dominio para el sexo
 	exec("CREATE DOMAIN ldt_genre_domain as char(1) check(value in ('f', 'm'));");
 	exec("CREATE DOMAIN ldt_points_domain as smallint check (value in ('0','1','3'))"); // podemos dar configurabilidad a este nivel
+	exec("CREATE DOMAIN ldt_timeunit_domain as char(1) check(value in ('m', 'h'));");
 	
 	// JUEGOS
 	q = exec("CREATE TABLE ldt_games ("
@@ -262,7 +263,7 @@ bool KLDatabase::createTables()
 	// TORNEO
 	q = exec("CREATE TABLE ldt_tournament ("
 			"name character varying(50) PRIMARY KEY,"
-			"gameReference character varying(8) references ldt_games(serialReference) on delete cascade on update cascade,"
+			"gameSerialReference character varying(8) references ldt_games(serialReference) on delete cascade on update cascade,"
 			"initDate date NOT NULL,"
 			"endDate date NOT NULL check (initDate <= endDate),"
 			"roundsForPair integer NOT NULL,"
@@ -378,12 +379,12 @@ bool KLDatabase::createTables()
 	if ( wasgood )
 	{
 		exec("create view ldt_users_view as SELECT firstname,lastname,login from ldt_users,ldt_persons where ldt_persons.docident in (select ldt_users.docident from ldt_persons )");
-		exec("create view ldt_tournament_view as select name,gamename,initdate,active from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gamereference from ldt_games )");
-		exec("create view ldt_clients_view as SELECT ldt_clients.docIdent,firstname,lastname,state from ldt_clients,ldt_persons where ldt_persons.docIdent in (select ldt_clients.docident from ldt_persons );");
+		exec("create view ldt_tournament_view as select name,gamename,initdate,active from ldt_tournament,ldt_games where ldt_games.serialreference in ( select gameserialreference from ldt_games )");
+		exec("create view ldt_clients_view as SELECT ldt_clients.docIdent,firstname,lastname,banned from ldt_clients,ldt_persons where ldt_persons.docIdent in (select ldt_clients.docident from ldt_persons );");
 		exec("create view ldt_rents_view as select gameserialreference,clientdocident, gamename,firstname,lastname from ldt_games,ldt_persons,ldt_rents where ldt_persons.docident in ( select clientdocident from ldt_persons )  and serialreference  in ( select gameserialreference from ldt_games );");
 		
 		// Triggers
-		exec("CREATE or replace FUNCTION ldt_updateGameAvail() returns trigger AS 'begin update ldt_games set available=not NEW.active; return NEW; end; 'language plpgsql;");
+		exec("CREATE or replace FUNCTION ldt_updateGameAvail() returns trigger AS 'begin update ldt_games set available=not NEW.active where ldt_games.serialreference=NEW.gameserialreference; return NEW; end; 'language plpgsql;");
 		
 		exec("CREATE TRIGGER ldt_addTournamentTrigger after insert or update on ldt_tournament for row execute procedure ldt_updateGameAvail();");
 		
@@ -395,6 +396,17 @@ bool KLDatabase::createTables()
 bool KLDatabase::dropTables()
 {
 	std::cout << "Dropping tables" << std::endl;
+	
+	// Quitamos las vistas
+	exec("drop view ldt_users_view cascade");
+	exec("drop view ldt_clients_view cascade");
+	exec("drop view ldt_tournament_view cascade");
+	
+	exec("drop trigger ldt_addTournamentTrigger on ldt_tournament");
+	exec("drop trigger ldt_rentGameTrigger on ldt_rents");
+	exec("drop function ldt_updateGameAvail() cascade");
+	
+	
 	exec("drop table ldt_users cascade");
 	exec("drop table ldt_participates cascade");
 	exec("drop table ldt_rents cascade");
@@ -405,11 +417,11 @@ bool KLDatabase::dropTables()
 	exec("drop table ldt_match cascade");
 	exec("drop table ldt_enterprise cascade");
 	exec("drop table ldt_persons cascade");
+
+	exec("drop domain ldt_genre_domain");
+	exec("drop domain ldt_points_domain");
+	exec("drop domain ldt_timeunit_domain;");
 	
-	// Quitamos las vistas
-	exec("drop view ldt_users_view cascade");
-	exec("drop table ldt_clients_view cascade");
-	exec("drop table ldt_tournament_view cascade");
 	return true;
 }
 

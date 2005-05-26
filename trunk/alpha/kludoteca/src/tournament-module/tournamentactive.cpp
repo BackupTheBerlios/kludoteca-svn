@@ -91,7 +91,6 @@ void TournamentActive::queryButtonClicked()
 
 void TournamentActive::fillList()
 {
-	// SELECT name,gamename,initdate from ldt_tournament,ldt_games where ldt_games.serialreference in (select gamereference from ldt_games);
 	KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
 	sqlquery.setWhere("active");
 	
