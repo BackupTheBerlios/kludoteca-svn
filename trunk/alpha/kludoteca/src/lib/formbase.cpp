@@ -224,4 +224,9 @@ void FormBase::wasExecuted(bool good)
 	}
 }
 
+QString FormBase::getSystemDate()
+{
+	return QString( QDate::currentDate().toString(Qt::ISODate) );
+}
+
 #include "formbase.moc"

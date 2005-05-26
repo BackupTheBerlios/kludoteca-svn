@@ -33,7 +33,7 @@
 #include <qobject.h>
 #include <qscrollview.h>
 #include <qdict.h>
-
+#include <qdatetime.h>
 #include "kldatabase.h"
 
 typedef QDict<KLineEdit> HashLineEdit;
@@ -162,6 +162,8 @@ class FormBase : public QVBox
 		 * @return 
 		 */
 		bool lastQueryWasGood();
+		
+		virtual QString getSystemDate();
 		
 		
 	public slots:
