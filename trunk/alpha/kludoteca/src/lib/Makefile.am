@@ -6,5 +6,5 @@ noinst_HEADERS = lttoolbox.h ltlistview.h formbase.h kludotecaiface.h \
 			kldatabase.h klresultset.h klresultsetinterpreter.h klquery.h klxmlreader.h \
 			klpermission.h kllogger.h kltable.h
 lib_a_SOURCES = lttoolbox.cpp ltlistview.cpp formbase.cpp kludotecaiface.skel \
-			kldatabase.cpp klresultset.cpp klresultsetinterpreter.cpp klquery.cpp klxmlreader.cpp \
-			klpermission.cpp kllogger.cpp kltable.cpp
+				kldatabase.cpp klresultset.cpp klresultsetinterpreter.cpp klquery.cpp klxmlreader.cpp \
+				klpermission.cpp kllogger.cpp kltable.cpp createdatabase.cpp

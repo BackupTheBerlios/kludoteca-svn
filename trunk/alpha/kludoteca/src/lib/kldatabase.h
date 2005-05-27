@@ -109,12 +109,12 @@ class KLDatabase : public QSqlDatabase
 		/**
 		 * Crea las tablas de la aplicacion
 		 */
-		bool createTables();
+		bool createTables(); // Defined in createdatabase.cpp
 		
 		/**
 		 * Elimina las tablas
 		 */
-		bool dropTables();
+		bool dropTables(); // Defined in createdatabase.cpp
 		
 		/**
 		 * Determina si la ultima consulta produjo error
