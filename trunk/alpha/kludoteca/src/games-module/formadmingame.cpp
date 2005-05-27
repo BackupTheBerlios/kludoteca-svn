@@ -25,6 +25,8 @@
 #include "klxmlreader.h"
 #include "kldatabase.h"
 #include "klresultsetinterpreter.h"
+#include "kmessagebox.h"
+#include <qradiobutton.h>
 
 
 FormAdminGame::FormAdminGame(FormBase::Type t, QWidget *parent) : FormBase(t, parent, "FormAdminGame")//( KLDatabase *db, QWidget *parent, const char *name): FormBase(db, parent, name)
@@ -41,38 +43,40 @@ void FormAdminGame::setupForm()
 	form = new QFrame(this);
 	m_grid = new QGridLayout(form,7,4,10);
 	
+	
+	m_labelReference = new QLabel(i18n("Reference of game"), form);
+	m_referenceGame = new KLineEdit(form);
+	m_referenceGame->setMaxLength(8);
+	m_grid->addWidget(m_labelReference,0, 0);
+	m_grid->addWidget(m_referenceGame, 0 , 1);
+	
 	m_labelNameGame = new QLabel(i18n("Game name"),form);
 	m_nameGame = new KLineEdit(form);
 	m_nameGame->setMaxLength(10);
-	m_grid->addWidget(m_labelNameGame, 0,0);
-	m_grid->addWidget(m_nameGame, 0,1);
+	m_grid->addWidget(m_labelNameGame, 2,0);
+	m_grid->addWidget(m_nameGame, 2,1);
 	
-	m_imagen = new QLabel("", form );
-	m_imagen->setPixmap( QPixmap( locate("data", "kludoteca/games-module/game1.png" )) );
-	m_grid->addWidget(m_imagen, 0,2);
+	/*m_state = new QCheckBox(i18n("Texto"), this, "cosa");
+	m_grid->addWidget(m_state, 0, 2);*/
 	
 	m_labelTypeGame = new QLabel(i18n("Type game"), form);
 	m_typeGame = new KComboBox(form);
 	m_typeGame->insertItem(i18n("Board"),0);
 	m_typeGame->insertItem(i18n("Video"), 1);
 	m_typeGame->insertItem(i18n("Cards"), 2);
-	m_grid->addWidget(m_labelTypeGame, 2,0);
-	m_grid->addWidget(m_typeGame, 2,1);
+	m_grid->addWidget(m_labelTypeGame, 2,2);
+	m_grid->addWidget(m_typeGame, 2,3);
 	
-	m_labelStateGame = new QLabel(i18n("State of game"), form);
-	m_stateGame = new KComboBox(form);
-	m_stateGame->insertItem(i18n("Free"),0);
-	m_stateGame->insertItem(i18n("Busy"), 1);
-	m_stateGame->insertItem(i18n("Fixing"), 2);
-	m_grid->addWidget(m_labelStateGame, 2,2);
-	m_grid->addWidget(m_stateGame, 2,3);
+	//m_labelStateGame = new QLabel(i18n(), form);
+	//hboxState = new QVBox(this);
+	m_radioButtonState = new QVButtonGroup("State of game",this, "State" );
+	m_stateAvaible = new QRadioButton(i18n("Avaible"), m_radioButtonState, "avaible");
+	m_stateNoAvaible = new QRadioButton(i18n("Not Avaible"), m_radioButtonState, "Not avaible");
+	m_stateAvaible->setChecked(true);
+	m_grid->addWidget(m_radioButtonState, 2,2);
+	//m_grid->addWidget(m_radioButtonState, 2,3);
 	
-	m_labelReference = new QLabel(i18n("Reference of game"), form);
-	m_referenceGame = new KLineEdit(form);
-	m_referenceGame->setMaxLength(8);
-	m_grid->addWidget(m_labelReference, 1, 0);
-	m_grid->addWidget(m_referenceGame, 1 , 1);
-		
+			
 	m_labelDescriptionGame = new QLabel(i18n("Description game"),form);
 	m_descriptionGame = new KTextEdit(form);
 	m_descriptionGame->setCheckSpellingEnabled (true);
@@ -144,8 +148,9 @@ void FormAdminGame::accept ()
 	{
 		case FormBase::Add:
 		{
-			
-			KLInsert sqlquery("ldt_games", QStringList() 
+			if (check())
+			{
+				KLInsert sqlquery("ldt_games", QStringList() 
 					<< SQLSTR(this->getReferenceGame()) 
 							<< SQLSTR(this->getGameName()) 
 							<< SQLSTR(this->getDescriptionGame()) 
@@ -160,10 +165,16 @@ void FormAdminGame::accept ()
 							<< SQLSTR(QString("1")) 
 							<< SQLSTR( this->getStateGame()));
 	
-			std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
-			emit sendQuery(&sqlquery); // No importa si puede o no
-			
-			clean();
+				std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
+				emit sendQuery(&sqlquery); // No importa si puede o no
+				emit message2osd(i18n("The action was make successful"));
+				clean();
+			}
+			else 
+			{
+				KMessageBox::error( this, i18n("For continue, fill all the fields"),QString::null) ;
+
+			}
 			
 		}
 		
@@ -174,7 +185,7 @@ void FormAdminGame::accept ()
 			values << SQLSTR(getGameName()) << SQLSTR(getDescriptionGame())<< SQLSTR(getRulesGame() )<< SQLSTR(getStateGame()) << SQLSTR(getTypeGame())<< SQLSTR(getTimeUnit()) << SQLSTR(getTimeUnitAdd() ) << SQLSTR(getMinPlayers()) << SQLSTR(getMaxPlayers()) << SQLSTR(getCostUnitTime()) << SQLSTR(getCostTimeAdditional());
 
 			QStringList fields; 
-			fields << "gamename" << "description" << "rules" << "state"<< "gametype" << "timeunit"<<"timeunitadd" << "mingamers" << "maxgamers" << "costtm" << "costtma" ;
+			fields << "gamename" << "description" << "rules" << "available"<< "gametype" << "timeunit"<<"timeunitadd" << "mingamers" << "maxgamers" << "costforunit" << "costforunitadd" ;
 			KLUpdate sqlup("ldt_games", fields, values);
 			sqlup.setWhere("serialreference ="+SQLSTR(game));
 				
@@ -211,7 +222,7 @@ void FormAdminGame::formDelete(const QString &idGame)
 void FormAdminGame::formModify(const QString &idGame)
 {
 	game = idGame;
-	KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "description" << "rules" << "mingamers" << "maxgamers" << "gametype"<<"timeunitadd"<< "timeunit" << "costtm" << "costtma"<<"position" <<"state" , QString("ldt_games"));
+	KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "description" << "rules" << "mingamers" << "maxgamers" << "gametype"<<"timeunitadd"<< "timeunit" << "costforunit" << "costforunitadd"<<"position" <<"available" , QString("ldt_games"));
 	
 	sqlquery.setWhere("serialreference="+SQLSTR(idGame)); 
 	
@@ -236,73 +247,61 @@ void FormAdminGame::formModify(const QString &idGame)
 	setDescriptionGame(results["description"]  );
 	setRulesGame(results["rules"]  );
 	int index;
-	QString state = results["state"];
-	if(i18n("Free") == state )
+ 	QString available = results["available"];
+	setStateGame(available);
+	
+	available = results["gameType"]; 
+	
+	if(i18n("Board") == available)
 	{
 		index = 0;
 	}
-	if(i18n("Busy") == state)
+	if(i18n("Video") == available)
 	{
 		index = 1;
 	}
-	if(i18n("Fixing") == state)
-	{
-		index = 2;
-	}
-	setStateGame(state, index);
-	
-	state = results["gameType"]; 
-	
-	if(i18n("Board") == state)
-	{
-		index = 0;
-	}
-	if(i18n("Video") == state)
-	{
-		index = 1;
-	}
-	if(i18n("Cards") == state)
+	if(i18n("Cards") == available)
 	{
 		index = 2;
 	}
 	
-	setTypeGame(state, index);
+	setTypeGame(available, index);
 	setReferenceGame(results["serialreference"]);
 	
-	state = results["timeunit"]; 
+	available = results["timeunit"]; 
 	
-	if(i18n("minutes") == state)
+	if(i18n("minutes") == available)
 	{
 		index = 0;
 	}
-	if(i18n("hours") == state)
+	if(i18n("hours") == available)
 	{
 		index = 1;
 	}
-	setTimeUnit(state, index );
+	setTimeUnit(available, index );
 
-	state = results["timeunitadd"]; 
+	available = results["timeunitadd"]; 
 	
-	if(i18n("minutes") == state)
+	if(i18n("minutes") == available)
 	{
 		index = 0;
 	}
-	if(i18n("hours") == state)
+	if(i18n("hours") == available)
 	{
 		index = 1;
 	}
-	setUnitTimeAdd(state, index );
+	setUnitTimeAdd(available, index );
 	bool ok;
 	setMinPlayers(results["mingamers"].toInt( &ok, 10 ) );
 	setMaxPlayers(results["maxgamers"] .toInt( &ok, 10 ));
-	setCostUnitTime(results["costtm"].toDouble() );
-	setCostTimeAdditional(results["costtma"] .toDouble());
+	setCostUnitTime(results["costforunit"].toDouble() );
+	setCostTimeAdditional(results["costforunitadd"] .toDouble());
 }
 
 
 void FormAdminGame::fillField(QString explanation, QString name, QString description, QString rules, int numPlayer, QString type, double costUnit)
 {
-	//FIXME: llenar los campos con arg de entrada de esta funcion, pesar en un orden estandar, talves este dado por la BD
+	//FIXME: llenar /*los*/ campos con arg de entrada de esta funcion, pesar en un orden estandar, talves este dado por la BD
 }
 
 
@@ -329,7 +328,12 @@ QString FormAdminGame::getTypeGame()
 
 QString FormAdminGame::getStateGame()
 {
-	return m_stateGame->currentText();
+	QString state = m_radioButtonState->selected()->text();
+	if (state == i18n("Avaible"))
+		return QString("t");
+	else if (state == i18n("Not Avaible"))
+		return QString("f");
+	
 }
 
 QString FormAdminGame::getReferenceGame()
@@ -382,9 +386,12 @@ void FormAdminGame::setRulesGame(const QString &rules)
 	m_rulesGame->setText(rules);
 }
 
-void FormAdminGame::setStateGame(const QString &state, int index)
+void FormAdminGame::setStateGame(const QString &available)
 {
-	m_stateGame->changeItem( state,  index ) ;
+	if (available == i18n("t"))
+		m_stateAvaible->setChecked(true);
+	else if (available == i18n("f"))
+		m_stateNoAvaible->setChecked(true);;
 }
 
 void FormAdminGame::setTypeGame(const QString &type, int index)
@@ -427,6 +434,13 @@ void FormAdminGame::setCostTimeAdditional(const double &costAditional)
 	m_timeAdd->setValue(costAditional);
 }
 
+bool FormAdminGame::check()
+{
+	if(getGameName() == "" or getReferenceGame() == "")
+		return false;
+	else return true;
+}
+
 void FormAdminGame::clean()
 {
 	m_referenceGame->setDisabled(false);
@@ -435,7 +449,7 @@ void FormAdminGame::clean()
 	this->setDescriptionGame("");
 	this->setRulesGame("");
 	this->setTypeGame("Board", 0);
-	this->setStateGame("Active", 0);
+	this->setStateGame("t");
 	this->setReferenceGame("");
 	this->setTimeUnit("minutes",0);
 	this->setMinPlayers(2);

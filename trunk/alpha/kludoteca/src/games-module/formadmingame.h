@@ -34,7 +34,10 @@
 #include <knuminput.h>
 #include <kpushbutton.h>
 #include <qstringlist.h>
-
+#include <qcheckbox.h> 
+#include <qhbox.h> 
+#include <qradiobutton.h> 
+#include <qvbuttongroup.h>
 #include "formbase.h"
 
 /**
@@ -159,7 +162,7 @@ class FormAdminGame : public FormBase
 		 */
 		void setTypeGame(const QString &type, int index);
 		
-		void setStateGame(const QString &state, int index);
+		void setStateGame(const QString &available);
 		
 		/**
 		 * Funcion encargada de llenar el campo de la referencia o codigo del juego
@@ -201,6 +204,7 @@ class FormAdminGame : public FormBase
 		 * @param costAditional 
 		 */
 		void setCostTimeAdditional(const double &costAditional);
+		bool check();
 		
 	
 	protected:
@@ -228,13 +232,18 @@ class FormAdminGame : public FormBase
 		
 		QFrame *form;
 		
-		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNMinPlayerGame,*m_labelNMaxPlayerGame,  *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd, *m_labelReference,  *m_imagen, *m_labelStateGame;
+		QLabel *m_labelNameGame, *m_labelDescriptionGame, *m_labelrulesGame, *m_labelNMinPlayerGame,*m_labelNMaxPlayerGame,  *m_labelTypeGame, *m_labelCostUnit, *m_labelUnitTime, *m_labelTimeAdd, *m_labelReference,   *m_labelStateGame;
 		
 		KLineEdit *m_nameGame, *m_referenceGame;
 		KTextEdit *m_descriptionGame, *m_rulesGame ;
 		
-		//FIXME: la unidad de tiempo adicional se captura por un combobox?
+
 		QString game;
+		
+		//QHButtonGroup m_radioButtonState ;
+		//QHBox *hboxState;
+		QRadioButton *m_stateAvaible, *m_stateNoAvaible ;
+		QVButtonGroup *m_radioButtonState;
 		
 		KComboBox *m_typeGame, *m_unitTime, *m_unitTimeAdd, *m_stateGame ;
 		KIntSpinBox *m_nMinPlayerGame, *m_nMaxPlayerGame, *m_costUnit, *m_timeAdd;

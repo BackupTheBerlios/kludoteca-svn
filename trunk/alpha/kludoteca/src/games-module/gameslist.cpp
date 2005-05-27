@@ -26,10 +26,13 @@
 
 using namespace std;
 
-GamesList::GamesList(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(QStringList() << i18n("Code")<<i18n("Name") << i18n("State"),button1, button2, button3, button4, parent, "Games")
+GamesList::GamesList(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(QStringList() << i18n("Code")<<i18n("Name") << i18n("available"),button1, button2, button3, button4, parent, "Games")
 {
 	setCaption(i18n("Games"));
+	m_listView->setTitle(i18n("Games"));
+	m_listView->setExplain(i18n("Please click in the \"Add\" button for add a game"));
 	setupListView();
+	
 }
 
 
@@ -48,7 +51,7 @@ void GamesList::fillList()
 		return;
 	}
 	
-	KLSelect sqlquery(QStringList() <<"serialreference"<< "gamename" << "state", QStringList() << "ldt_games");
+	KLSelect sqlquery(QStringList() <<"serialreference"<< "gamename" << "available", QStringList() << "ldt_games");
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
@@ -153,7 +156,9 @@ void GamesList::queryButtonClicked()
 	
 	quering += i18n("== query  game ") + itemp->text(0) + " == \n";
 	
-	KLSelect sqlquery(QStringList() << "gamename" << "serialreference" << "description" << "rules" << "mingamers" << "maxgamers" << "costtm"<<"state" , QString("ldt_games"));
+	KLSelect sqlquery(QStringList() << "gamename" << "serialreference" << "description" << "rules" << "mingamers" << "maxgamers" << "costforunit"<<"available" , QString("ldt_games"));
+	
+	sqlquery.setWhere("serialreference ="+SQLSTR( m_listView->currentItem()->text(0)));
 	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
@@ -172,8 +177,8 @@ void GamesList::queryButtonClicked()
 	quering += i18n("Rules:   ") + results["rules"] + "\n";
 	quering += i18n("Mininus of gamers:   ") + results["mingamers"] + "\n";
 	quering += i18n("Maximus of gamers:   ") + results["maxgamers"] + "\n";
-	quering += i18n("Cost unit time:   ") + results["costtm"] + "\n";
-	quering += i18n("State of gamers:   ") + results["state"] + "\n\n";
+	quering += i18n("Cost unit time:   ") + results["costforunit"] + "\n";
+	quering += i18n("available of gamers:   ") + results["available"] + "\n\n";
 	
 	emit message2osd(quering);
 }
@@ -181,7 +186,7 @@ void GamesList::queryButtonClicked()
 void GamesList::addItem(const QString &pkey)
 {
 	
-	KLSelect sqlquery(QStringList() << "serialreference" << "namegame" << "state", QStringList() << "ldt_users");
+	KLSelect sqlquery(QStringList() << "serialreference" << "namegame" << "available", QStringList() << "ldt_users");
 	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	m_xmlsource.setData(resultSet.toString());
@@ -193,7 +198,7 @@ void GamesList::addItem(const QString &pkey)
 
 void GamesList::updateItem(const QString &pkey)
 {
-	delete m_listView->currentItem();
+	//delete m_listView->currentItem();
 	addItem(pkey);
 }
 #include "gameslist.moc"
