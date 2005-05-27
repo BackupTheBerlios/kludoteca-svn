@@ -65,21 +65,16 @@ void TournamentOld::queryButtonClicked()
 
 void TournamentOld::fillList()
 {
-	/*
-	if ( !m_db )
-	{
-	qDebug("You're need set the database!!");
-	return;
-}
+	KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
+	sqlquery.setWhere("not active");
 	
-	KLResultSet resultSet = m_db->select(QStringList() << "firstname" << "lastname", "ldt_clients");
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.parse(m_xmlsource) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
 	{
-	std::cout << "No se pudo analizar!!!" << std::endl;
-}
-	*/
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
 }
 
 void TournamentOld::getClickedItem(QListViewItem *item)

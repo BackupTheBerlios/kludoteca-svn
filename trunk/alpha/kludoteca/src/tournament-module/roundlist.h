@@ -41,6 +41,7 @@ class RoundList : public LTListView
 		void getClickedItem(QListViewItem* item);
 		void modifyButtonClicked();
 		void queryButtonClicked();
+		bool tournamentFinished(const QString &tname, int round);
 		
 	public slots:
 		void fillList();

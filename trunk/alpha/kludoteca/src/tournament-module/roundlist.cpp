@@ -95,9 +95,16 @@ void RoundList::addButtonClicked()
 	{
 		// Estoy sobre un hijo
 		tname = le->parent()->text(0);
-		LTListViewItem *nround = new LTListViewItem(le->parent());
-		
 		roundNumber = le->parent()->childCount();
+		
+		if ( tournamentFinished(tname, roundNumber) )
+		{
+			KLUpdate update("ldt_tournament", QStringList() << "active", QStringList() << SQLSTR("f"));
+			KLDM->execQuery(&update);
+			KMessageBox::information(this, i18n("The tournament has finished!!"));
+			return;
+		}	
+		LTListViewItem *nround = new LTListViewItem(le->parent());
 		
 		nround->setText( 1, QString::number(roundNumber));
 		le->parent()->insertItem(nround);
@@ -108,6 +115,14 @@ void RoundList::addButtonClicked()
 		// Sobre el padre
 		LTListViewItem *nround = new LTListViewItem(le);
 		roundNumber = le->childCount();
+		
+		if ( tournamentFinished(tname, roundNumber))
+		{
+			KLUpdate update("ldt_tournament", QStringList() << "active", QStringList() << SQLSTR("f"));
+			KLDM->execQuery(&update);
+			KMessageBox::information(this, i18n("The tournament has finished!!"));
+			return;
+		}
 		nround->setText( 1, QString::number(roundNumber));
 		
 		le->insertItem(nround);
@@ -197,5 +212,31 @@ void RoundList::queryButtonClicked()
 {
 	// No es usado
 }
+
+bool RoundList::tournamentFinished(const QString &tname, int round)
+{
+	KLSelect sqlquery (QStringList() << "rounds", QString("ldt_tournament"));
+	sqlquery.setWhere("name="+SQLSTR(tname));
+	
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
+	KLXmlReader xmlreader;
+	
+	if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return false;
+	}
+	
+	QStringList results = xmlreader.getResultsList();
+	
+	if ( round >= results[0].toInt())
+	{
+		return true;
+	}
+	
+	return false;
+}
+
 
 #include "roundlist.moc"
