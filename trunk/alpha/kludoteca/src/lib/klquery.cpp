@@ -103,7 +103,7 @@ KLSelect::KLSelect(QStringList fields, const QString &table, bool dist) : KLQuer
 		else
 			m_query += fields[i] + ",";
 	}
-	m_query += " from " + table;
+	m_from = " from " + table;
 }
 
 KLSelect::~ KLSelect()
@@ -112,7 +112,7 @@ KLSelect::~ KLSelect()
 
 QString KLSelect::getQuery() const
 {
-	return m_query + m_cwhere + m_subquery + m_filter + m_orderby;
+	return m_query + m_from + m_join + m_cwhere + m_subquery + m_filter + m_orderby;
 }
 
 QStringList KLSelect::getFields()
@@ -185,6 +185,46 @@ void KLSelect::setOrderBy(int field, Order o)
 {
 	if ( field < m_fields.count() )
 		setOrderBy(m_fields[field], o);
+}
+
+void KLSelect::setJoin(const QString &link, JoinConnector jc, const QStringList &rest)
+{
+	m_join = " join " + link + " ";
+	switch(jc)
+	{
+		case On:
+		{
+			if ( rest.count() > 1 )
+				m_join += "on "+rest[0]+"="+rest[1];
+			else
+			{
+				qDebug(i18n("For a join clause you need two fields"));
+				m_join = "";
+			}
+		}
+		break;
+		
+		case Using:
+		{
+			m_join += "using (";
+			for(uint i = 0; i < rest.count(); i++)
+			{
+				if ( i == rest.count() - 1)
+					m_join += rest[i];
+				else
+					m_join += rest[i] + ",";
+			}
+			
+			m_join += ")";
+		}
+		break;
+		
+		default:
+		{
+			m_join ="";
+		}
+		break;
+	}
 }
 
 // KLUpdate

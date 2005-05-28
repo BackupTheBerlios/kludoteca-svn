@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-18 10:52-0500\n"
+"POT-Creation-Date: 2005-05-27 00:33-0500\n"
 "PO-Revision-Date: 2005-05-18 10:56-0500\n"
 "Last-Translator: krawek <krawek@gmail.com>\n"
 "Language-Team: Español <krawek@gmail.com>\n"
@@ -131,7 +131,8 @@ msgid "Create the database!"
 msgstr "Crea la base de datos!"
 
 #: klfirstdialog.cpp:179
-msgid "Your account is invalid, you need a user which can create users and databases"
+msgid ""
+"Your account is invalid, you need a user which can create users and databases"
 msgstr ""
 "Su cuenta es invalida, necesitas un usuario que pueda crear usuarios y bases "
 "de datos"
@@ -177,11 +178,18 @@ msgstr ""
 msgid "First name"
 msgstr "Nombre"
 
-#: klfirstdialog.cpp:281
+#: klfirstdialog.cpp:281 clients-module/formadminclients.cpp:64
+#: clients-module/formadminclients.cpp:87
+#: clients-module/formadminclients.cpp:183
+#: clients-module/formadminclients.cpp:326
+#: clients-module/formadminclients.cpp:327
 msgid "male"
 msgstr "hombre"
 
-#: klfirstdialog.cpp:283
+#: klfirstdialog.cpp:283 clients-module/formadminclients.cpp:65
+#: clients-module/formadminclients.cpp:88
+#: clients-module/formadminclients.cpp:185
+#: clients-module/formadminclients.cpp:329
 msgid "female"
 msgstr "mujer"
 
@@ -260,8 +268,8 @@ msgstr "Agregar clientes"
 msgid "Click for add clients"
 msgstr "Click para agregar clientes"
 
-#: kludotecaview.cpp:150 kludotecaview.cpp:456
-#: tournament-module/tournamentactive.cpp:40
+#: kludotecaview.cpp:150 kludotecaview.cpp:461
+#: tournament-module/tournamentactive.cpp:43
 msgid "Add tournament"
 msgstr "Agregar torneo"
 
@@ -289,9 +297,7 @@ msgstr "Click para alquilar un juego"
 msgid "New functionally"
 msgstr "Nueva funcionabilidad"
 
-#: kludotecaview.cpp:163 kludotecaview.cpp:172 kludotecaview.cpp:348
-#: kludotecaview.cpp:349 kludotecaview.cpp:350 kludotecaview.cpp:351
-#: kludotecaview.cpp:352 kludotecaview.cpp:353 kludotecaview.cpp:354
+#: kludotecaview.cpp:163 kludotecaview.cpp:172
 msgid "..."
 msgstr "..."
 
@@ -333,7 +339,8 @@ msgid " "
 msgstr "."
 
 #: kludotecaview.cpp:218
-msgid "For more detailed documentation on KLudoteca click <a href=\"%1\">here</a>."
+msgid ""
+"For more detailed documentation on KLudoteca click <a href=\"%1\">here</a>."
 msgstr "Para informacion detallada click <a href=\"%1\">aqui</a>."
 
 #: kludotecaview.cpp:220
@@ -371,8 +378,9 @@ msgstr "Descripcion"
 msgid "XML"
 msgstr "XML"
 
-#: kludotecaview.cpp:265 kludotecaview.cpp:267 kludotecaview.cpp:274
-#: kludotecaview.cpp:280 kludotecaview.cpp:282
+#: kludotecaview.cpp:265 kludotecaview.cpp:267 kludotecaview.cpp:272
+#: kludotecaview.cpp:275 kludotecaview.cpp:278 kludotecaview.cpp:280
+#: kludotecaview.cpp:282
 msgid "built-in"
 msgstr "construido"
 
@@ -381,52 +389,50 @@ msgid "Postgresql"
 msgstr "PGS"
 
 #: kludotecaview.cpp:268
-msgid "1"
-msgstr "1"
+#, fuzzy
+msgid "database-module"
+msgstr "Base de datos"
 
 #: kludotecaview.cpp:269
-msgid "2"
-msgstr "2"
+msgid "In progress"
+msgstr ""
 
 #: kludotecaview.cpp:270
 msgid "3"
 msgstr "3"
 
 #: kludotecaview.cpp:271
-msgid "4"
-msgstr "4"
-
-#: kludotecaview.cpp:272
-msgid "5"
-msgstr "5"
+msgid "GUI"
+msgstr ""
 
 #: kludotecaview.cpp:273
-msgid "6"
-msgstr "6"
+msgid "Extern in progress"
+msgstr ""
 
-#: kludotecaview.cpp:275
-msgid "7"
-msgstr "7"
+#: kludotecaview.cpp:274
+#, fuzzy
+msgid "game-module"
+msgstr "Modulo de juegos"
 
 #: kludotecaview.cpp:276
-msgid "otra"
-msgstr "otar"
+#, fuzzy
+msgid "clients"
+msgstr "Clientes"
 
 #: kludotecaview.cpp:277
-msgid "falta"
-msgstr "fal"
-
-#: kludotecaview.cpp:278
-msgid "8"
-msgstr "8"
+#, fuzzy
+msgid "module"
+msgstr "Modulo de administracion"
 
 #: kludotecaview.cpp:279
-msgid "9"
-msgstr "9"
+#, fuzzy
+msgid "users module"
+msgstr "Modulo de juegos"
 
 #: kludotecaview.cpp:281
-msgid "10"
-msgstr "0"
+#, fuzzy
+msgid "rents module"
+msgstr "Modulo de alquiler"
 
 #: kludotecaview.cpp:283
 msgid "G E N E R A L"
@@ -449,20 +455,22 @@ msgid "Protocols"
 msgstr "Protocolos"
 
 #: kludotecaview.cpp:291
-msgid "11"
-msgstr "11"
+#, fuzzy
+msgid "Database techs"
+msgstr "Base de datos"
 
 #: kludotecaview.cpp:292
-msgid "12"
-msgstr "12"
+msgid "Triggers"
+msgstr ""
 
 #: kludotecaview.cpp:293
-msgid "13"
-msgstr "13"
+#, fuzzy
+msgid "Special functions"
+msgstr "Especificaciones"
 
 #: kludotecaview.cpp:294
-msgid "14"
-msgstr "14"
+msgid "PL/pgSQL"
+msgstr ""
 
 #: kludotecaview.cpp:296
 msgid "<a href=\"%1\">Return to KLudoteca</a>"
@@ -473,16 +481,31 @@ msgid "Tips &amp; Tricks"
 msgstr "Trucos"
 
 #: kludotecaview.cpp:345
-msgid "Write a email to krawek!!! krawek@gmail.com"
-msgstr "Escriba un email a krawek!!! krawek@gmail.com"
+msgid "You can browse the web with kludoteca!"
+msgstr ""
 
 #: kludotecaview.cpp:346
-msgid "Second tip"
-msgstr "Segundo tip"
+msgid "You can use drag and drop for add games,users and so..."
+msgstr ""
 
 #: kludotecaview.cpp:347
-msgid "Third tip"
-msgstr "Tercer tip"
+msgid ""
+"When kludoteca is crash, you can send me detailed information of the problem!"
+msgstr ""
+
+#: kludotecaview.cpp:348
+msgid "The accel keys can simplify the work"
+msgstr ""
+
+#: kludotecaview.cpp:349
+msgid ""
+"You can change the application idiom in kcontrol, or launch the applicacion "
+"with KDE_LANG=[lang code] e.g. KDE_LANG=es kludoteca"
+msgstr ""
+
+#: kludotecaview.cpp:350
+msgid "You can reconnect with other users: only press a new connection icon"
+msgstr ""
 
 #: kludotecaview.cpp:355
 msgid ""
@@ -516,40 +539,40 @@ msgstr "Instalado"
 msgid "<td>Mime Type</td><td>Description</td><td>Suffixes</td><td>Plugin</td>"
 msgstr "<td>Mime Type</td><td>Description</td><td>Suffixes</td><td>Plugin</td>"
 
-#: kludotecaview.cpp:464 tournament-module/tournamentactive.cpp:56
+#: kludotecaview.cpp:472 tournament-module/tournamentactive.cpp:59
 msgid "Add a tournament"
 msgstr "Agregar un torneo"
 
-#: kludotecaview.cpp:465
+#: kludotecaview.cpp:473
 msgid "Fill the fields with the new tournament information"
 msgstr "Llene los campos con la informacion para un nuevo torneo"
 
-#: kludotecaview.cpp:470
+#: kludotecaview.cpp:478
 msgid "You doesn't have permissions to add tournaments, sorry!"
 msgstr "No tienes permisos para adicionar torneos, lo siento!"
 
-#: kludotecaview.cpp:478 clients-module/clientswidget.cpp:68
+#: kludotecaview.cpp:486 clients-module/clientswidget.cpp:68
 msgid "Add client"
 msgstr "Agregar cliente"
 
-#: kludotecaview.cpp:488 clients-module/clientswidget.cpp:87
+#: kludotecaview.cpp:496 clients-module/clientswidget.cpp:87
 #: clients-module/clientswidget.cpp:196
 msgid "Admin Clients"
 msgstr "Gestionar clientes"
 
-#: kludotecaview.cpp:489 clients-module/clientswidget.cpp:88
+#: kludotecaview.cpp:497 clients-module/clientswidget.cpp:88
 msgid "Fill the fields with the client information"
 msgstr "Llene los campos con la informacion del cliente"
 
-#: kludotecaview.cpp:494
+#: kludotecaview.cpp:502
 msgid "You doesn't have permissions to add clients, sorry!"
 msgstr "No tienes permisos para adicionar clienteslo siento!"
 
-#: kludotecaview.cpp:552
+#: kludotecaview.cpp:560
 msgid "Cooming soon"
 msgstr "Proximamente"
 
-#: ldtapp.cpp:37
+#: ldtapp.cpp:39
 msgid "Running 1st Dialog!"
 msgstr "Corriendo 1er dialogo!"
 
@@ -727,7 +750,7 @@ msgstr "Nombre del volcado"
 msgid "Database Name"
 msgstr "Base de datos"
 
-#: admin-module/admindatabase.cpp:25 tournament-module/tournamentactive.cpp:26
+#: admin-module/admindatabase.cpp:25 tournament-module/tournamentactive.cpp:27
 #: tournament-module/tournamentold.cpp:26
 msgid "Date"
 msgstr "Fecha"
@@ -754,7 +777,7 @@ msgstr "Usuario"
 msgid "Users"
 msgstr "Usuarios"
 
-#: admin-module/adminusers.cpp:64 tournament-module/tournamentold.cpp:41
+#: admin-module/adminusers.cpp:64
 msgid "Add user"
 msgstr "Agregar usuario"
 
@@ -814,13 +837,11 @@ msgstr "Permisos:"
 msgid "Admin"
 msgstr "Administrador"
 
-#: admin-module/formadminusers.cpp:75 clients-module/formadminclients.cpp:64
-#: clients-module/formadminclients.cpp:87
+#: admin-module/formadminusers.cpp:75
 msgid "Male"
 msgstr "hombre"
 
-#: admin-module/formadminusers.cpp:77 clients-module/formadminclients.cpp:65
-#: clients-module/formadminclients.cpp:88
+#: admin-module/formadminusers.cpp:77
 msgid "Female"
 msgstr "mujer "
 
@@ -868,9 +889,10 @@ msgstr "fueron hechos"
 msgid "ID"
 msgstr "ID"
 
-#: clients-module/clientswidget.cpp:27 games-module/gameslist.cpp:29
-msgid "State"
-msgstr "Estado"
+#: clients-module/clientswidget.cpp:27
+#, fuzzy
+msgid "Comment"
+msgstr "Clientes"
 
 #: clients-module/clientswidget.cpp:29
 msgid "Clients"
@@ -878,7 +900,8 @@ msgstr "Clientes"
 
 #: clients-module/clientswidget.cpp:197
 #, fuzzy
-msgid "Modify the fields with the Clients an his personal reference information"
+msgid ""
+"Modify the fields with the Clients an his personal reference information"
 msgstr "Modifique los campos con la informacion del usuario"
 
 #: clients-module/formadminclients.cpp:75
@@ -1029,6 +1052,10 @@ msgstr "Costo por unidad de tiempo adicional"
 msgid "Code"
 msgstr "Codigo"
 
+#: games-module/gameslist.cpp:29
+msgid "State"
+msgstr "Estado"
+
 #: games-module/gameslist.cpp:31
 msgid "Games"
 msgstr "Juegos"
@@ -1111,11 +1138,11 @@ msgstr "Estado de jugadores:"
 msgid "<h1><div align=\"center\">%1</dvi></h1>"
 msgstr "<h1><div align=\"center\">%1</dvi></h1>"
 
-#: lib/formbase.cpp:84 lib/formbase.cpp:104
+#: lib/formbase.cpp:86 lib/formbase.cpp:106
 msgid "Register"
 msgstr "Registrar"
 
-#: lib/formbase.cpp:150
+#: lib/formbase.cpp:152
 msgid "<h3>%1</h3>"
 msgstr "<h3>%1</h3>"
 
@@ -1132,20 +1159,63 @@ msgstr "No puedo abrir %1 para escritura!"
 msgid "You need setup the logger first"
 msgstr "Necesita especificar los campos"
 
-#: lib/klquery.cpp:56 lib/klquery.cpp:85
+#: lib/klquery.cpp:68 lib/klquery.cpp:97
 msgid "You need specify the fields"
 msgstr "Necesita especificar los campos"
 
-#: lib/ltlistview.cpp:31
+#: lib/klquery.cpp:201
+msgid "For a join clause you need two fields"
+msgstr ""
+
+#: lib/ltlistview.cpp:33
 msgid "Filter here..."
 msgstr "Filtre aqui..."
 
-#: lib/ltlistview.cpp:128 lib/ltlistview.cpp:164 lib/ltlistview.cpp:200
-#: lib/ltlistview.cpp:236
+#: lib/ltlistview.cpp:130 lib/ltlistview.cpp:166 lib/ltlistview.cpp:202
+#: lib/ltlistview.cpp:238
 msgid "Query"
 msgstr "Consulta"
 
-#: rents-module/rentswidget.cpp:28 tournament-module/tournamentactive.cpp:26
+#: rents-module/formadminrents.cpp:79
+#, fuzzy
+msgid "Game's Info"
+msgstr "Juegos"
+
+#: rents-module/formadminrents.cpp:80
+msgid "Available Games"
+msgstr ""
+
+#: rents-module/formadminrents.cpp:87
+#, fuzzy
+msgid "Client's Info"
+msgstr "Clientes"
+
+#: rents-module/formadminrents.cpp:88
+#, fuzzy
+msgid "Available Clients"
+msgstr "Gestionar clientes"
+
+#: rents-module/formadminrents.cpp:105
+#, fuzzy
+msgid "Rent's Info"
+msgstr "Alquiler"
+
+#: rents-module/formadminrents.cpp:107
+#, fuzzy
+msgid "Client ID"
+msgstr "Clientes"
+
+#: rents-module/formadminrents.cpp:112
+#, fuzzy
+msgid "Rent Hour"
+msgstr "Modulo de alquiler"
+
+#: rents-module/formadminrents.cpp:122
+#, fuzzy
+msgid "Client Name"
+msgstr "Nombre de amigo"
+
+#: rents-module/rentswidget.cpp:28 tournament-module/tournamentactive.cpp:27
 #: tournament-module/tournamentold.cpp:26
 msgid "Game"
 msgstr "Juego"
@@ -1158,7 +1228,65 @@ msgstr "Alquiler"
 msgid "Add rent"
 msgstr "Alquile un juego"
 
-#: tournament-module/formparticipants.cpp:43
+#: rents-module/rentswidget.cpp:86
+#, fuzzy
+msgid "Admin Rents"
+msgstr "Gestionar clientes"
+
+#: rents-module/rentswidget.cpp:87
+#, fuzzy
+msgid "Fill the fields with the Rent information"
+msgstr "Llene los campos con la informacion del cliente"
+
+#: tournament-module/formmatchorder.cpp:40 tournament-module/roundlist.cpp:154
+msgid "Manage %1 matchs for the %2 round"
+msgstr ""
+
+#: tournament-module/formmatchorder.cpp:41
+msgid ""
+"Fill the fields with the match's results<br> <div align=center> <b>NOTE:</b> "
+"Results are respect to the first opponent </div>"
+msgstr ""
+
+#: tournament-module/formmatchorder.cpp:59
+msgid "Oponnent one"
+msgstr ""
+
+#: tournament-module/formmatchorder.cpp:59
+msgid "Oponnent two"
+msgstr ""
+
+#: tournament-module/formmatchorder.cpp:59
+#, fuzzy
+msgid "Results"
+msgstr "Alquiler"
+
+#: tournament-module/formmatchorder.cpp:63
+#: tournament-module/formmatchorder.cpp:233
+#: tournament-module/formmatchorder.cpp:270
+#: tournament-module/formquerytournament.cpp:53
+msgid "Draw"
+msgstr ""
+
+#: tournament-module/formmatchorder.cpp:63
+#: tournament-module/formmatchorder.cpp:233
+#: tournament-module/formmatchorder.cpp:270
+#: tournament-module/formquerytournament.cpp:53
+msgid "Win"
+msgstr ""
+
+#: tournament-module/formmatchorder.cpp:63
+#: tournament-module/formmatchorder.cpp:233
+#: tournament-module/formmatchorder.cpp:270
+msgid "Lose"
+msgstr ""
+
+#: tournament-module/formmatchorder.cpp:241
+#, fuzzy
+msgid "Rest"
+msgstr "Registrar"
+
+#: tournament-module/formparticipants.cpp:44
 #, fuzzy
 msgid "Client identification"
 msgstr "Identificacion"
@@ -1176,6 +1304,60 @@ msgstr "Borrar el participante"
 #: tournament-module/participantslist.cpp:25
 msgid "Rank"
 msgstr "Puesto"
+
+#: tournament-module/formparticipants.cpp:80
+msgid "ADD PARTICIPANTS"
+msgstr ""
+
+#: tournament-module/formquerytournament.cpp:33
+#, fuzzy
+msgid "Query tournament %1"
+msgstr "Agregar torneo"
+
+#: tournament-module/formquerytournament.cpp:34
+#, fuzzy
+msgid "This is the ranking of the tournament"
+msgstr "Fecha de finalizacion del torneo"
+
+#: tournament-module/formquerytournament.cpp:53
+#, fuzzy
+msgid "Participant"
+msgstr "Participantes"
+
+#: tournament-module/formquerytournament.cpp:53
+msgid "Lost"
+msgstr ""
+
+#: tournament-module/formquerytournament.cpp:53
+#, fuzzy
+msgid "Total"
+msgstr "otar"
+
+#: tournament-module/formquerytournament.cpp:82
+#, fuzzy
+msgid "Tournament:"
+msgstr "Torneo"
+
+#: tournament-module/formquerytournament.cpp:85
+msgid "Init date:"
+msgstr ""
+
+#: tournament-module/formquerytournament.cpp:88
+msgid "End date:"
+msgstr ""
+
+#: tournament-module/formquerytournament.cpp:91
+msgid "Rounds:"
+msgstr ""
+
+#: tournament-module/formquerytournament.cpp:94
+#, fuzzy
+msgid "Game:"
+msgstr "Juego"
+
+#: tournament-module/formquerytournament.cpp:97
+msgid "Price:"
+msgstr ""
 
 #: tournament-module/formtournament.cpp:45
 msgid "Name of tournament"
@@ -1210,7 +1392,8 @@ msgid "Name of game"
 msgstr "Nombre del juego"
 
 #: tournament-module/participantslist.cpp:25
-#: tournament-module/tournamentactive.cpp:28
+#: tournament-module/roundlist.cpp:26
+#: tournament-module/tournamentactive.cpp:29
 #: tournament-module/tournamentwidget.cpp:26
 msgid "Tournament"
 msgstr "Torneo"
@@ -1225,47 +1408,158 @@ msgstr "Clientes"
 msgid "Participants"
 msgstr "Participantes"
 
-#: tournament-module/participantslist.cpp:104
+#: tournament-module/participantslist.cpp:29
+msgid "Manage"
+msgstr ""
+
+#: tournament-module/participantslist.cpp:106
 #, fuzzy
-msgid "Add participants"
+msgid "Add participants to %1"
 msgstr "Agregar clientes"
 
-#: tournament-module/participantslist.cpp:121
+#: tournament-module/participantslist.cpp:123
 #, fuzzy
-msgid "Admin Participants"
+msgid "Admin %1 Participants"
 msgstr "Gestionar clientes"
 
-#: tournament-module/participantslist.cpp:122
+#: tournament-module/participantslist.cpp:124
 #, fuzzy
 msgid "Fill the fields with the participants information"
 msgstr "Llene los campos con la informacion del cliente"
 
-#: tournament-module/tournamentactive.cpp:26
+#: tournament-module/roundlist.cpp:26
+msgid "Ronda"
+msgstr ""
+
+#: tournament-module/roundlist.cpp:28
+msgid "New"
+msgstr ""
+
+#: tournament-module/roundlist.cpp:29
+msgid "Update"
+msgstr ""
+
+#: tournament-module/roundlist.cpp:104 tournament-module/roundlist.cpp:123
+#, fuzzy
+msgid "The tournament has finished!!"
+msgstr "El juego ha sido borrado"
+
+#: tournament-module/roundlist.cpp:137
+msgid "Add matchs to %1"
+msgstr ""
+
+#: tournament-module/roundlist.cpp:155
+#, fuzzy
+msgid "Fill the fields with the match's results"
+msgstr "Llene los campos con la informacion del cliente"
+
+#: tournament-module/roundlist.cpp:191
+msgid "Update matchs to %1"
+msgstr ""
+
+#: tournament-module/tournamentactive.cpp:27
 #: tournament-module/tournamentold.cpp:26
 msgid "Tournament name"
 msgstr "Nombre del torneo"
 
-#: tournament-module/tournamentactive.cpp:57
+#: tournament-module/tournamentactive.cpp:30
+#, fuzzy
+msgid "Active Tournaments"
+msgstr "Torneo"
+
+#: tournament-module/tournamentactive.cpp:31
+msgid "Please click in the \"Add\" button for added a tournament"
+msgstr ""
+
+#: tournament-module/tournamentactive.cpp:60
 #, fuzzy
 msgid "Fill the fields with the tournament information"
 msgstr "Llene los campos con la informacion para un nuevo torneo"
 
-#: tournament-module/tournamentactive.cpp:69
+#: tournament-module/tournamentactive.cpp:72
 #, fuzzy
 msgid "Are you sure to delete the tournament %1 ?"
 msgstr "Esta seguro de querer borrar el juego"
 
-#: tournament-module/tournamentactive.cpp:77
+#: tournament-module/tournamentactive.cpp:80
 #, fuzzy
 msgid "The tournament has been deleted!!"
 msgstr "El juego ha sido borrado"
 
+#: tournament-module/tournamentactive.cpp:94
+#, fuzzy
+msgid "Query tournament"
+msgstr "Agregar torneo"
+
 #: tournament-module/tournamentold.cpp:28
 msgid "Tournament Old"
 msgstr "Torneos antiguos"
+
+#: tournament-module/tournamentold.cpp:53
+#, fuzzy
+msgid "Tornamet Old"
+msgstr "Torneos antiguos"
+
+#: tournament-module/tournamenttabbar.cpp:42
+msgid "Rounds"
+msgstr ""
+
+#: tournament-module/tournamenttabbar.cpp:45
+msgid "Old"
+msgstr ""
 
 #: tournament-module/tournamentwidget.cpp:51
 #, fuzzy
 msgid "Tournaments"
 msgstr "Torneo"
 
+#~ msgid "1"
+#~ msgstr "1"
+
+#~ msgid "2"
+#~ msgstr "2"
+
+#~ msgid "4"
+#~ msgstr "4"
+
+#~ msgid "5"
+#~ msgstr "5"
+
+#~ msgid "6"
+#~ msgstr "6"
+
+#~ msgid "7"
+#~ msgstr "7"
+
+#~ msgid "falta"
+#~ msgstr "fal"
+
+#~ msgid "8"
+#~ msgstr "8"
+
+#~ msgid "9"
+#~ msgstr "9"
+
+#~ msgid "10"
+#~ msgstr "0"
+
+#~ msgid "11"
+#~ msgstr "11"
+
+#~ msgid "12"
+#~ msgstr "12"
+
+#~ msgid "13"
+#~ msgstr "13"
+
+#~ msgid "14"
+#~ msgstr "14"
+
+#~ msgid "Write a email to krawek!!! krawek@gmail.com"
+#~ msgstr "Escriba un email a krawek!!! krawek@gmail.com"
+
+#~ msgid "Second tip"
+#~ msgstr "Segundo tip"
+
+#~ msgid "Third tip"
+#~ msgstr "Tercer tip"

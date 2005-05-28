@@ -41,11 +41,16 @@ class MatchGenerator : public QObject
 		enum Type { Random = 0, Ascending }; // Podemos añadir mas metodos
 		
 		MatchGenerator();
-		MatchGenerator(const MatchClientInfo &mci);
+		MatchGenerator(const MatchClientInfo &mci, const QString &tournament);
 		~MatchGenerator();
-		void setMatchClientInfo(const MatchClientInfo &mci);
+		void setMatchClientInfo(const MatchClientInfo &mci, const QString &tournament);
 		StringVector generate(Type t);
 		StringVector qstringlist2stringvector(const QStringList &);
+		void verifyPairs(StringVector &sv);
+		
+	private:
+		int rounds4pair();
+		int whatTimes(const QString &opp1, const QString &opp2);
 		
 	protected:
 		// <heapsort>
@@ -61,6 +66,7 @@ class MatchGenerator : public QObject
 	private:
 		MatchClientInfo m_mci;
 		int heapsize;
+		QString m_tournament;
 };
 
 #endif

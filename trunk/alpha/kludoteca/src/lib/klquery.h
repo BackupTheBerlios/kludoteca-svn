@@ -90,6 +90,7 @@ class KLSelect : public KLQuery
 	Q_OBJECT
 	public:
 		enum Order { NoOrder = 0, Asc, Desc };
+		enum JoinConnector { On = 0, Using };
 		
 		/**
 		 * Construye una consulta select
@@ -136,11 +137,15 @@ class KLSelect : public KLQuery
 		void setOrderBy(const QString &field, Order o);
 		void setOrderBy(int field, Order o);
 		
+		void setJoin(const QString &link, JoinConnector jc, const QStringList & rest);
+		
 	private:
 		QStringList m_fields;
 		QString m_subquery;
+		QString m_from;
 		QString m_filter;
 		QString m_orderby;
+		QString m_join;
 };
 
 /**

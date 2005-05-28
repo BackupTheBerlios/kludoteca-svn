@@ -21,6 +21,8 @@
 #include "matchgenerator.h"
 #include <qvaluevector.h>
 #include <iostream>
+#include <klxmlreader.h>
+#include <kldatabase.h>
 
 MatchGenerator::MatchGenerator()
 	: QObject(), heapsize(0)
@@ -28,8 +30,8 @@ MatchGenerator::MatchGenerator()
 	
 }
 
-MatchGenerator::MatchGenerator(const MatchClientInfo &mci)
-	: QObject(), m_mci(mci), heapsize(0)
+MatchGenerator::MatchGenerator(const MatchClientInfo &mci, const QString &tournament)
+	: QObject(), m_mci(mci), heapsize(0), m_tournament(tournament)
 {
 	
 }
@@ -39,14 +41,16 @@ MatchGenerator::~MatchGenerator()
 {
 }
 
-void MatchGenerator::setMatchClientInfo(const MatchClientInfo &mci)
+void MatchGenerator::setMatchClientInfo(const MatchClientInfo &mci, const QString &tournament)
 {
 	m_mci = mci;
+	m_tournament = tournament;
 }
 
 StringVector MatchGenerator::generate(Type t)
 {
 	StringVector res(m_mci.count());
+	
 	switch(t)
 	{
 		case Random:
@@ -70,10 +74,62 @@ StringVector MatchGenerator::generate(Type t)
 				res[index] = key;
 				values[index] = -1;
 			}
+			
+			verifyPairs(res);
 		}
 		break;
 	}
 	return res;
+}
+
+void MatchGenerator::verifyPairs(StringVector &sv)
+{
+	int r4p = this->rounds4pair();
+	QValueList<int> imps;
+	for(uint i = 0; i < sv.count(); i+=2)
+	{
+		if( whatTimes(sv[i], sv[i+1]) > r4p)
+		{
+			if ( whatTimes(sv[i+1], sv[i]) > r4p )
+			{
+				imps << i << i+1;
+			}
+			else
+			{
+				// swap
+				QString sv1 = sv[i];
+				QString sv2 = sv[i+1];
+				sv[i] = sv2;
+				sv[i+1] = sv1;
+			}
+		}
+	}
+	
+	for(uint i = 0; i < imps.count(); i++)
+	{
+		std::cout << "No puedo elegir: " << sv[imps[i]] << std::endl;
+	}
+}
+
+int MatchGenerator::whatTimes(const QString &opp1, const QString &opp2)
+{
+	//SELECT count(number) from ldt_match where opponent1='002' and opponent2='004';
+	KLSelect sqlquery(QStringList() << "count(opponent1)", QString("ldt_match"));
+	sqlquery.setWhere("codtournament="+SQLSTR(m_tournament));
+	sqlquery.setCondition(QString("and opponent1='%1' and opponent2='%2'").arg(opp1).arg(opp2));
+	
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
+	KLXmlReader xmlreader;
+	
+	if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+	}
+	
+	KLSqlResults results = xmlreader.results();
+	
+	return results["countopponent1"].toInt();
 }
 
 StringVector MatchGenerator::qstringlist2stringvector(const QStringList &list)
@@ -84,6 +140,25 @@ StringVector MatchGenerator::qstringlist2stringvector(const QStringList &list)
 		vec[i] = list[i];
 	}
 	return vec;
+}
+
+int MatchGenerator::rounds4pair()
+{
+	KLSelect sqlquery(QStringList() << "roundsforpair", QString("ldt_tournament"));
+	sqlquery.setWhere("name="+SQLSTR(m_tournament));
+	
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
+	KLXmlReader xmlreader;
+	
+	if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+	}
+	
+	KLSqlResults results = xmlreader.results();
+	
+	return results["roundsforpair"].toInt();
 }
 
 // HEAPSORT

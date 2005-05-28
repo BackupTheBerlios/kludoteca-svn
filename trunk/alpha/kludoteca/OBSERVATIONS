@@ -1,5 +1,24 @@
 Este es un listado de las observaciones a los programadores
 
+HOLA muchachos:
+Hemos estado revisando las entregas 4 y 5 y para poder emitir una
+calificación necesito que me sustenten cómo diseñaron e implementaron
+algunas funcionalidades del sistema (ej: la definición de los integrantes
+de cada ronda en un torneo, el cálculo del valor del alquiler de juegos
+solicitados por un usuario etc.)
+Como ustedes no tienen un manejo de clases que representen los diferentes
+objetos del mundo real (juegos, usuarios, rondas etc)a nivel de la capa de
+la lógica, es muy difícil establecer cómo hacen las cosas. Pues
+prácticamente su diseño se concentró en trabajar con clases de la capa de
+la interfaz, unas cuantas fachadas a nivel de la lógica y el manejo de la
+información la concentraron directamente en la base de datos.
+El próximo miércoles a las 11 a.m. los espero (al grupo) para hacer la
+sustentación correspondiente.
+Daniel, por favor, envíele copia a sus compañeros de este mensaje y
+asegúrese que lo reciban.
+Saludos,
+María Eugenia Valencia
+
 src
 ---
 

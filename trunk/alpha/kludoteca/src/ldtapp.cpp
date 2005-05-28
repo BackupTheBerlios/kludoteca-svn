@@ -20,13 +20,15 @@
 #include "ldtapp.h"
 #include "klfirstdialog.h"
 #include <iostream>
+#include <klocale.h>
 
 LDTApp::LDTApp() : KApplication(), APPVERSION("0.2a") 
 {
 	// Configuramos el logger
-	LOGGER->setupLogger(QDir::homeDirPath (), QString("logfile.txt"));
-}
+// 	LOGGER->setupLogger(QDir::homeDirPath (), QString("logfile.txt") );
 
+	LOGGER->setupLogger(locate("data", "kludoteca/"), QString("logfile"));
+}
 
 LDTApp::~LDTApp()
 {

@@ -65,6 +65,7 @@ void TournamentOld::queryButtonClicked()
 
 void TournamentOld::fillList()
 {
+	m_listView->clear();
 	KLSelect sqlquery(QStringList() << "name" << "gamename" << "initdate", QStringList() << "ldt_tournament_view");
 	sqlquery.setWhere("not active");
 	

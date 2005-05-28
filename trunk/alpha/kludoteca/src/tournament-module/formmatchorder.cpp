@@ -197,7 +197,7 @@ void FormMatchOrder::fillTable()
 	
 	if(getType() == Add)
 	{
-		MatchGenerator mg(m_clientList);
+		MatchGenerator mg(m_clientList, m_tournament);
 		
 		StringVector results(m_clientList.count());
 		

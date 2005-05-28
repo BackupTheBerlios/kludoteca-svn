@@ -103,7 +103,7 @@ void RoundList::addButtonClicked()
 			KLDM->execQuery(&update);
 			KMessageBox::information(this, i18n("The tournament has finished!!"));
 			return;
-		}	
+		}
 		LTListViewItem *nround = new LTListViewItem(le->parent());
 		
 		nround->setText( 1, QString::number(roundNumber));
@@ -113,7 +113,6 @@ void RoundList::addButtonClicked()
 	else
 	{
 		// Sobre el padre
-		LTListViewItem *nround = new LTListViewItem(le);
 		roundNumber = le->childCount();
 		
 		if ( tournamentFinished(tname, roundNumber))
@@ -123,6 +122,8 @@ void RoundList::addButtonClicked()
 			KMessageBox::information(this, i18n("The tournament has finished!!"));
 			return;
 		}
+		
+		LTListViewItem *nround = new LTListViewItem(le);
 		nround->setText( 1, QString::number(roundNumber));
 		
 		le->insertItem(nround);
@@ -230,7 +231,7 @@ bool RoundList::tournamentFinished(const QString &tname, int round)
 	
 	QStringList results = xmlreader.getResultsList();
 	
-	if ( round >= results[0].toInt())
+	if ( round > results[0].toInt())
 	{
 		return true;
 	}

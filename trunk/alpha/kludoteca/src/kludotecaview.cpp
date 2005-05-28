@@ -265,20 +265,20 @@ QString KLMainPageFactory::page4()
 			.arg( i18n("built-in") )
 			.arg( i18n("Postgresql") )
 			.arg( i18n("built-in") )
-			.arg( i18n("1") )
-			.arg( i18n("2") )
-			.arg( i18n("3") ) // leave the double backslashes here, they are necessary for javascript !
-			.arg( i18n("4") )
-			.arg( i18n("5") )
-			.arg( i18n("6") )
+			.arg( i18n("database-module") )
+			.arg( i18n("In progress") )
+			.arg( i18n("3") )
+			.arg( i18n("GUI") )
 			.arg( i18n("built-in") )
-			.arg( i18n("7") )
-			.arg( i18n("otra"))
-			.arg( i18n("falta"))
-			.arg( i18n("8") )
-			.arg( i18n("9") )
+			.arg( i18n("Extern in progress") )
+			.arg( i18n("game-module") )
 			.arg( i18n("built-in") )
-			.arg( i18n("10") )
+			.arg( i18n("clients"))
+			.arg( i18n("module"))
+			.arg( i18n("built-in") )
+			.arg( i18n("users module") )
+			.arg( i18n("built-in") )
+			.arg( i18n("rents module") )
 			.arg( i18n("built-in") )
 			.arg( i18n("G E N E R A L") )
 			.arg( i18n("Feature") )
@@ -288,10 +288,10 @@ QString KLMainPageFactory::page4()
 			.arg( "addtournament:/" )
 			.arg( "addclient:/" )
 			.arg( "addgame:/" )
-			.arg( i18n("11") )
-			.arg( i18n("12"))
-			.arg( i18n("13"))
-			.arg( i18n("14"))
+			.arg( i18n("Database techs") )
+			.arg( i18n("Triggers"))
+			.arg( i18n("Special functions"))
+			.arg( i18n("PL/pgSQL"))
 			.arg( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path )
 			.arg( i18n("<a href=\"%1\">Return to KLudoteca</a>").arg("mainpage.html") );
 
@@ -342,16 +342,16 @@ QString KLMainPageFactory::page5()
 			.arg( i18n( "Tips" ) )
 			.arg( i18n( "Specifications" ) )
 			.arg( i18n( "Tips &amp; Tricks" ) )
-			.arg( i18n( "Write a email to krawek!!! krawek@gmail.com") )
-			.arg( i18n( "Second tip" ))
-			.arg( i18n( "Third tip"))
-			.arg( i18n( "..." ) )
-			.arg( i18n( "...") )
-			.arg( i18n( "..."))
-			.arg( i18n( "...") )
-			.arg( i18n( "...") )
-			.arg( i18n( "...") )
-			.arg( i18n( "..."))
+			.arg( i18n( "You can browse the web with kludoteca!") )
+			.arg( i18n( "You can use drag and drop for add games,users and so..." ))
+			.arg( i18n( "When kludoteca is crash, you can send me detailed information of the problem!"))
+			.arg( i18n( "The accel keys can simplify the work" ) )
+			.arg( i18n( "You can change the application idiom in kcontrol, or launch the applicacion with KDE_LANG=[lang code] e.g. KDE_LANG=es kludoteca") )
+			.arg( i18n( "You can reconnect with other users: only press a new connection icon") )
+			.arg( "<a href=http://www.google.com>Go to google!</a>" )
+			.arg( "" )
+			.arg( "" )
+			.arg( "" )
 			.arg( i18n( "Thanks to <a href=\"%1\">DCOP</a> you can have full control over KLudoteca using a script."
 				  ).arg("exec:/kdcop") )
 			.arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
@@ -413,6 +413,11 @@ KLMainPage::~KLMainPage()
 
 bool KLMainPage::openURL( const KURL &u )
 {
+	if ( u.protocol() == "http")
+	{
+		qDebug("Openning google");
+		KHTMLPart::openURL(u);
+	}
 	if ( u.protocol() == "addtournament" )
 	{
 		this->urlSelected("addtournament:/", 1, 0, QString::null);
@@ -459,6 +464,9 @@ void KLMainPage::addTournament(const QString &name)
 		QScrollView *scroll = new QScrollView(view);
 		scroll->setResizePolicy(QScrollView::AutoOneFit);
 		FormTournament *formAdminTournament = new FormTournament(FormBase::Add , scroll->viewport() );
+		
+		connect(formAdminTournament, SIGNAL(cancelled()), view, SLOT(close()));
+		
 		scroll->addChild(formAdminTournament);
 	
 		formAdminTournament->setTitle(i18n("Add a tournament"));
@@ -551,6 +559,10 @@ void KLMainPage::urlSelected( const QString &url, int button, int state, const Q
 	{
 		KMessageBox::information(m_parent, i18n("Cooming soon"), i18n("Information"));
 		return;
+	}
+	else if (u.protocol() == "http")
+	{
+		KHTMLPart::openURL(u);
 	}
 	
 	qDebug(QString("Protocolo: %1").arg(u.protocol()));

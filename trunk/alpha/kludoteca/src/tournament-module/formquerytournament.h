@@ -41,6 +41,9 @@ class FormQueryTournament : public FormBase
 		void fillTable();
 		
 	private:
+		void setupTournamentInfo();
+		
+	private:
 		QString m_tournament;
 		KLTable *m_resultTable;
 };
