@@ -86,6 +86,8 @@ class FormAdminUsers : public FormBase
 		void setEmail(const QString &email); 
 		void setPermissions(const QString &perms);
 		
+		bool validateFields();
+		
 	public slots: 
 		/**
 	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar

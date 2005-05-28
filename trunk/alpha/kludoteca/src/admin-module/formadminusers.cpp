@@ -134,11 +134,69 @@ void FormAdminUsers::setupPermissionsBox()
 	m_permsBox->insert(m_tournamentsp, 4);
 }
 
+bool FormAdminUsers::validateFields()
+{
+	QString errors = "";
+	bool ok = true;
+	if ( getIdentification().length() <= 6)
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad identification field</li>");
+	}
+	if ( getLogin().length() <= 3 )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad login field</li>");
+	}
+	
+// 	if ( getPassword() == "" && ok)
+// 	{
+// 		ok = ok && false;
+// 		errors = i18n("Bad password field");
+// 	} 
+	
+	if ( getFirstName().isEmpty() )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad first name field</li>");
+	}
+	
+	if ( getLastName().isEmpty()  )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad last name field</li>");
+	}
+	
+	if ( getAddress().isEmpty()   )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad address field</li>");
+	}
+	
+	bool convertion = false;
+	getPhone().toInt(&convertion);
+	ok = ok && convertion;
+	if ( !convertion)
+	{
+		errors += i18n("<li>Bad phone field</li>");
+	}
+	 
+	if ( !getEmail().contains("@")  )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad email field</li>");
+	}
+	
+	if ( !ok )
+		KMessageBox::detailedSorry (0, i18n("I can't insert or modify this user!"), errors);//<br> %1 ").arg(errors));
+	
+	return ok;
+}
+
 void FormAdminUsers::accept()
 {
-	if ( getLogin().length() < 3)
+	if ( !validateFields())
 	{
-		std::cout << "El login debe ser mayor de 3 caracteres" << std::endl;
 		return;
 	}
 	
