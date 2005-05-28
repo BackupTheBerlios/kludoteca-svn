@@ -70,8 +70,8 @@ void FormAdminGame::setupForm()
 	//m_labelStateGame = new QLabel(i18n(), form);
 	//hboxState = new QVBox(this);
 	m_radioButtonState = new QVButtonGroup("State of game",this, "State" );
-	m_stateAvaible = new QRadioButton(i18n("Avaible"), m_radioButtonState, "avaible");
-	m_stateNoAvaible = new QRadioButton(i18n("Not Avaible"), m_radioButtonState, "Not avaible");
+	m_stateAvaible = new QRadioButton(i18n("Available"), m_radioButtonState,"available");
+	m_stateNoAvaible = new QRadioButton(i18n("Not available"), m_radioButtonState, "Not available");
 	m_stateAvaible->setChecked(true);
 	m_grid->addWidget(m_radioButtonState, 2,2);
 	//m_grid->addWidget(m_radioButtonState, 2,3);
@@ -148,10 +148,12 @@ void FormAdminGame::accept ()
 	{
 		case FormBase::Add:
 		{
-			if (check())
+			if (check() ) 
 			{
-				KLInsert sqlquery("ldt_games", QStringList() 
-					<< SQLSTR(this->getReferenceGame()) 
+				if( verification(getReferenceGame() ))
+				{
+					KLInsert sqlquery("ldt_games", QStringList() 
+						<< SQLSTR(this->getReferenceGame()) 
 							<< SQLSTR(this->getGameName()) 
 							<< SQLSTR(this->getDescriptionGame()) 
 							<< SQLSTR(this->getRulesGame()) 
@@ -165,15 +167,23 @@ void FormAdminGame::accept ()
 							<< SQLSTR(QString("1")) 
 							<< SQLSTR( this->getStateGame()));
 	
-				std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
-				emit sendQuery(&sqlquery); // No importa si puede o no
-				emit message2osd(i18n("The action was make successful"));
-				clean();
+					std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
+					emit sendQuery(&sqlquery); // No importa si puede o no
+					emit message2osd(i18n("The action was make successful"));
+					emit inserted(getReferenceGame());
+					
+					
+					clean();
+				}
+				else 
+				{
+					KMessageBox::error( this, i18n("The code of the game realy exist, plase chage it"),QString::null) ;
+
+				}
 			}
 			else 
 			{
 				KMessageBox::error( this, i18n("For continue, fill all the fields"),QString::null) ;
-
 			}
 			
 		}
@@ -181,27 +191,37 @@ void FormAdminGame::accept ()
 		break;
 		case FormBase::Edit:
 		{
+			QStringList fields;
 			QStringList values;
-			values << SQLSTR(getGameName()) << SQLSTR(getDescriptionGame())<< SQLSTR(getRulesGame() )<< SQLSTR(getStateGame()) << SQLSTR(getTypeGame())<< SQLSTR(getTimeUnit()) << SQLSTR(getTimeUnitAdd() ) << SQLSTR(getMinPlayers()) << SQLSTR(getMaxPlayers()) << SQLSTR(getCostUnitTime()) << SQLSTR(getCostTimeAdditional());
-
-			QStringList fields; 
-			fields << "gamename" << "description" << "rules" << "available"<< "gametype" << "timeunit"<<"timeunitadd" << "mingamers" << "maxgamers" << "costforunit" << "costforunitadd" ;
-			KLUpdate sqlup("ldt_games", fields, values);
-			sqlup.setWhere("serialreference ="+SQLSTR(game));
+			if(!verification(getReferenceGame()) )
+			{
+				values << SQLSTR(getGameName()) << SQLSTR(getDescriptionGame())<< SQLSTR(getRulesGame() )<< SQLSTR(getStateGame()) << SQLSTR(getTypeGame())<< SQLSTR(getTimeUnit()) << SQLSTR(getTimeUnitAdd() ) << SQLSTR(getMinPlayers()) << SQLSTR(getMaxPlayers()) << SQLSTR(getCostUnitTime()) << SQLSTR(getCostTimeAdditional());
+				fields << "gamename" << "description" << "rules" << "available"<< "gametype" << "timeunit"<<"timeunitadd" << "mingamers" << "maxgamers" << "costforunit" << "costforunitadd" ;
+				KLUpdate sqlup("ldt_games", fields, values);
+				sqlup.setWhere("serialreference ="+SQLSTR(game));
 				
-			emit sendQuery(&sqlup);
+				emit sendQuery(&sqlup);
 				
+			}
+			else 
+			{
+				values << SQLSTR(getReferenceGame())<< SQLSTR(getGameName()) << SQLSTR(getDescriptionGame())<< SQLSTR(getRulesGame() )<< SQLSTR(getStateGame()) << SQLSTR(getTypeGame())<< SQLSTR(getTimeUnit()) << SQLSTR(getTimeUnitAdd() ) << SQLSTR(getMinPlayers()) << SQLSTR(getMaxPlayers()) << SQLSTR(getCostUnitTime()) << SQLSTR(getCostTimeAdditional());
+				fields << "serialreference" << "gamename" << "description" << "rules" << "available"<< "gametype" << "timeunit"<<"timeunitadd" << "mingamers" << "maxgamers" << "costforunit" << "costforunitadd" ;
+				KLUpdate sqlup("ldt_games", fields, values);
+				sqlup.setWhere("serialreference ="+SQLSTR(game));
+				
+				emit sendQuery(&sqlup);
+			}
 			if ( this->lastQueryWasGood() )
 			{
 					emit inserted(game);
 			}
 			emit message2osd(i18n("The changes to " + getGameName() + " was taken"));
-			
 			clean();
 			cancel();
 		}
 		break;
-	
+		
 	}	
 
 }
@@ -242,7 +262,7 @@ void FormAdminGame::formModify(const QString &idGame)
 	KLSqlResults results = xmlreader.results();
 	
 
-	m_referenceGame->setDisabled(true);
+	// m_referenceGame->setDisabled(true);
 	setGameName(results["gamename"]  );
 	setDescriptionGame(results["description"]  );
 	setRulesGame(results["rules"]  );
@@ -296,6 +316,7 @@ void FormAdminGame::formModify(const QString &idGame)
 	setMaxPlayers(results["maxgamers"] .toInt( &ok, 10 ));
 	setCostUnitTime(results["costforunit"].toDouble() );
 	setCostTimeAdditional(results["costforunitadd"] .toDouble());
+	
 }
 
 
@@ -329,9 +350,9 @@ QString FormAdminGame::getTypeGame()
 QString FormAdminGame::getStateGame()
 {
 	QString state = m_radioButtonState->selected()->text();
-	if (state == i18n("Avaible"))
+	if (state == i18n("Available"))
 		return QString("t");
-	else if (state == i18n("Not Avaible"))
+	else if (state == i18n("Not available"))
 		return QString("f");
 	
 }
@@ -343,12 +364,16 @@ QString FormAdminGame::getReferenceGame()
 
 QString FormAdminGame::getTimeUnit()
 {
-	return m_unitTime->currentText();
+	if( m_unitTime->currentText() == "hours")
+	return "h";
+	return "m";
 }
 
 QString FormAdminGame::getTimeUnitAdd()
 {
-	return m_unitTimeAdd->currentText();
+	if( m_unitTimeAdd->currentText() == "hours")
+	return "h";
+	return "m";
 }
 
 int FormAdminGame::getMaxPlayers()
@@ -436,7 +461,7 @@ void FormAdminGame::setCostTimeAdditional(const double &costAditional)
 
 bool FormAdminGame::check()
 {
-	if(getGameName() == "" or getReferenceGame() == "")
+	if(getGameName() == "" or getReferenceGame() == "" or getDescriptionGame() == "" or getRulesGame() == "")
 		return false;
 	else return true;
 }
@@ -459,5 +484,35 @@ void FormAdminGame::clean()
 	this->setUnitTimeAdd("minutes",0);
 	
 }
+
+bool FormAdminGame::verification(const QString &code)
+{
+	
+	KLSelect sqlquery(QStringList() << "serialreference", QString("ldt_games"));
+	
+	sqlquery.setWhere("serialreference="+SQLSTR(code)); 
+	
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+	
+	QXmlInputSource *xmlsource = new  QXmlInputSource();
+	xmlsource->setData(resultSet.toString());
+	
+	KLXmlReader xmlreader;
+	
+	if ( ! xmlreader.analizeXml(xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return false;
+	}
+	
+	if( xmlreader.getResultsList().count() == 0 )
+	{
+		return true;	
+	}
+	
+	return false;
+}
+
+
 
 #include "formadmingame.moc"

@@ -72,6 +72,7 @@ class GamesList : public LTListView
 		 */
 		void fillList();
 		
+				
 	public slots:
 		/**
 		 * Agrega un juego a la lista.
@@ -107,8 +108,11 @@ class GamesList : public LTListView
 				
 		void addItem(const QString &pkey);
 		
+		void slotFilter(const QString &filter);
+		
 	private:
 		QStringList m_gameCategories;
+		bool save;
 		
 };
 

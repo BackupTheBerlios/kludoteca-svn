@@ -45,12 +45,7 @@ void GamesList::fillList()
 #if DEBUG_GAMESLIST
 	qDebug("Fill List");
 #endif
-	if ( !KLDM )
-	{
-		qDebug("You're need set the database!!");
-		return;
-	}
-	
+	m_listView->clear();
 	KLSelect sqlquery(QStringList() <<"serialreference"<< "gamename" << "available", QStringList() << "ldt_games");
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
@@ -72,6 +67,7 @@ void GamesList::addGame(const QString &game)
 void GamesList::getClickedItem(QListViewItem *item)
 {
 	QString game = item->text(1);
+	modifyButtonClicked();
 }
 
 void GamesList::addButtonClicked()
@@ -92,9 +88,11 @@ void GamesList::addButtonClicked()
 	formAdminGame->setTitle(i18n("Admin game"));
 	formAdminGame->setExplanation(i18n("fill the fields for add a new game"));
 	connect(formAdminGame, SIGNAL(cancelled()), view, SLOT(close()));
-	connect(formAdminGame, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
+	connect(formAdminGame, SIGNAL(inserted(const QString& )), this, SLOT(addItem(const QString &)));
 	connect(formAdminGame, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	emit sendWidget(view);
+	addItem( formAdminGame->getReferenceGame() );	
+	
 #if DEBUG_GAMESLIST
 	qDebug("end addButtonClicked");
 #endif
@@ -117,6 +115,7 @@ void GamesList::delButtonClicked()
 		
 		emit message2osd(i18n("The game has been deleted!!"));
 	}
+	
 }
 
 void GamesList::modifyButtonClicked()
@@ -139,10 +138,13 @@ void GamesList::modifyButtonClicked()
 	formAdminGame->setTitle(i18n("Admin game"));
 	formAdminGame->setExplanation(i18n("Change the fields for modify the game"));
 	formAdminGame->formModify(itemp->text(0));
+	
 	connect(formAdminGame, SIGNAL(cancelled()), view, SLOT(close()));
 	connect(formAdminGame, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
 	connect(formAdminGame, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+	
 	emit sendWidget(view);
+
 #if DEBUG_GAMESLIST
 	qDebug("end modifyButtonClicked");
 #endif
@@ -183,11 +185,61 @@ void GamesList::queryButtonClicked()
 	emit message2osd(quering);
 }
 
+void GamesList::slotFilter(const QString &filter)
+{
+	std::cout << "Filtrando filter " << filter << std::endl;
+	
+	if ( filter.isEmpty() )
+	{
+		fillList();
+	}
+	else
+	{
+		KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "available", QStringList() << "ldt_games");
+
+		sqlquery.addFilter(filter, QStringList() << "serialreference" << "gamename");
+		
+		KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+	
+		m_xmlsource.setData(resultSet.toString());
+		if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+		{
+			std::cout << "No se pudo analizar!!!" << std::endl;
+		}
+	}
+}
+
+void GamesList::addItem(const QString &pkey)
+{
+	std::cout << "Adicionando item con pkey: " << pkey << std::endl;
+	
+	KLSelect sqlquery(QStringList() << "serialreference" << "gamename" << "available", QStringList() << "ldt_games");
+	sqlquery.setWhere("serialreference="+SQLSTR(pkey) );
+
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+	{
+		std::cout << "No se pudo analizar!!!" << std::endl;
+	}
+}
+
+void GamesList::updateItem(const QString &pkey)
+{
+	delete m_listView->currentItem();
+	addItem(pkey);
+}
+
+
+
+/*
 void GamesList::addItem(const QString &pkey)
 {
 	
 	KLSelect sqlquery(QStringList() << "serialreference" << "namegame" << "available", QStringList() << "ldt_users");
-	
+	sqlquery.setWhere("serialference = "+SQLSTR( pkey));
+		
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	m_xmlsource.setData(resultSet.toString());
 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
@@ -201,4 +253,5 @@ void GamesList::updateItem(const QString &pkey)
 	//delete m_listView->currentItem();
 	addItem(pkey);
 }
+*/
 #include "gameslist.moc"

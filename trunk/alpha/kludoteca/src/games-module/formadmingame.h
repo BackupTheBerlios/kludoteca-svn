@@ -206,6 +206,7 @@ class FormAdminGame : public FormBase
 		void setCostTimeAdditional(const double &costAditional);
 		bool check();
 		
+		bool verification(const QString &code);
 	
 	protected:
 		QGridLayout *m_grid;
