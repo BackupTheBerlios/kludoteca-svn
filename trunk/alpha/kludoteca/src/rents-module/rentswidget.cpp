@@ -44,15 +44,7 @@ void RentsWidget::fillList()
 #if DEBUG_RENTS
 qDebug("RentsWidget: filling List");
 #endif
-	if ( !m_db )
-	{
-		qDebug("You're need set the database!!");
-		return;
-	}
 	
-	// SELECT gamename,firstname,lastname 
-	// FROM ldt_persons,ldt_rents,ldt_games 
-
 	KLSelect sqlquery(QStringList() << "gamename" << "firstname" << "lastname", QStringList() << "ldt_rents_view");
 	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);

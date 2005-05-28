@@ -32,19 +32,20 @@
 #include "klxmlreader.h"
 #include "kldatabase.h"
 #include "klresultsetinterpreter.h"
-#include <ktextedit.h>
+#include "kltable.h"
 #include <knuminput.h>
+#include "klquery.h"
 
 
 /**
-clase para el manejo de lso torneos
+clase para el manejo de los torneos
 
 @author Daniel Valencia - David Cuadrado
 @mail dafevara@gmail.com
 */
 class FormAdminRents : public FormBase
 {
-	
+	Q_OBJECT
 	public:
 		FormAdminRents(FormBase::Type t, QWidget* parent = 0);
 		~FormAdminRents();
@@ -65,8 +66,9 @@ class FormAdminRents : public FormBase
 		 */
 		void clean();
 		void idTextEdit(int id);
-		void setTextEditContent(const QString &pkey);	
-	
+		void setCltTable(const QString &pkey);	
+		void setGameTable(const QString &pkey);
+		
 	signals:
 		void message2osd(const QString &msg);
 		void changedTextEdit(int id);
@@ -97,11 +99,12 @@ class FormAdminRents : public FormBase
 		KLResultSetInterpreter *m_rsinterpreter;
 		KLXmlReader m_xmlreader;
 		QXmlInputSource m_xmlsource;
-		QGroupBox *m_cltgb, *m_gamegb, *m_rentInfogb;
-		KTextEdit *m_cltte,*m_gamete;
+		QVGroupBox *m_cltgb, *m_gamegb;
+		QGroupBox *m_rentInfogb;
+		KLTable *m_cltTable,*m_gameTable;
 		KIntSpinBox *m_hour, *m_min, *m_seg;
 		KLineEdit *m_cltName, *m_cltId;
-		int m_idTextEdit;
+		
 		
 		
 };

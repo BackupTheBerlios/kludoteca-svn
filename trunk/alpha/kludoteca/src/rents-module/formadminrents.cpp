@@ -45,15 +45,15 @@ void FormAdminRents::setupForm()
 	m_container->setFrameShape(QFrame::Box);
 	
 	//m_container->setMargin(10); 
-	m_layout = new QGridLayout(m_container, 1, 3, 2, 2);
+	m_layout = new QGridLayout(m_container, 1, 3, 10, 10);
 	m_layout->setAlignment(Qt::AlignCenter );
 
 	
 	setupButtonsBox();
 	setupBox();
-	connect( this,SIGNAL(changedTextEdit(int )),this,SLOT(idTextEdit(int )) );
-	connect(m_comboClte,SIGNAL(activated(const QString&)),this,SLOT( setTextEditContent(const QString&)));
-	connect(m_comboGame,SIGNAL(activated(const QString&)),this,SLOT( setTextEditContent(const QString&)));
+
+	connect(m_comboClte,SIGNAL(activated(const QString&)),this,SLOT( setCltTable(const QString&)) );
+	connect(m_comboGame,SIGNAL(activated(const QString&)),this,SLOT( setGameTable(const QString&)) );
 }
 
 void FormAdminRents::setupButtonsBox()	
@@ -76,20 +76,37 @@ void FormAdminRents::setupButtonsBox()
 	
 	QStringList results = m_xmlreader.getResultsList();
 		
-	m_gamegb = new QGroupBox(4,Qt::Horizontal,i18n("Game's Info"),m_container);
-	QLabel *games = new QLabel(i18n("Available Games"),m_gamegb);
-	m_comboGame = new KComboBox(true,m_gamegb,"game_combo");
+	m_gamegb = new QVGroupBox(i18n("Game's Info"),m_container);
+	QHBox *gameBox = new QHBox(m_gamegb);
+	QLabel *games = new QLabel(i18n("Available Games"),gameBox);
+	m_comboGame = new KComboBox(true,gameBox,"game_combo");
 	m_comboGame->setDuplicatesEnabled ( FALSE); 
 	games->setBuddy(m_comboGame);
-	m_gamete = new KTextEdit(m_gamegb);
+	m_gameTable = new KLTable(0,8,m_gamegb);
+	m_gameTable->setReadOnly(true);
+	m_gameTable->setColumnLabels(QStringList() << i18n("Reference")
+						<< i18n("Name")
+						<< i18n("Description")
+						<< i18n("Rules")
+						<< i18n("Mingamers")
+						<< i18n("Maxgamers")
+						<< i18n("Type")
+						<< i18n("Cost for Unit") );
+	
 	
 
-	m_cltgb = new QGroupBox(4,Qt::Horizontal,i18n("Client's Info"),m_container);
-	QLabel *client = new QLabel(i18n("Available Clients"),m_cltgb);
-	m_comboClte = new KComboBox(true,m_cltgb,"game_combo");
+	m_cltgb = new QVGroupBox(i18n("Client's Info"),m_container);
+	QHBox *cltBox = new QHBox(m_cltgb);
+	QLabel *client = new QLabel(i18n("Available Clients"),cltBox);
+	m_comboClte = new KComboBox(true,cltBox,"game_combo");
 	m_comboClte->setDuplicatesEnabled ( FALSE); 
 	client->setBuddy(m_comboClte);
-	m_cltte= new KTextEdit(m_cltgb);
+	m_cltTable= new KLTable(0,4,m_cltgb);
+	m_cltTable->setReadOnly(true);
+	m_cltTable->setColumnLabels(QStringList() << i18n("Identification")
+			<< i18n("Name")
+			<< i18n("Last Name")
+			<< i18n("Mail"));
 	
 	QStringList::Iterator it;
 	uint i = 0;
@@ -140,7 +157,7 @@ void FormAdminRents::accept()
 }
 
 void FormAdminRents::cancel()
-{
+{	connect( this,SIGNAL(changedTextEdit(int )),this,SLOT(idTextEdit(int )) );
     
 }
 
@@ -151,24 +168,44 @@ void FormAdminRents::clean()
 
 void FormAdminRents::idTextEdit(int id)
 {
-	m_idTextEdit = id;
+
 }
 
-void FormAdminRents::setTextEditContent(const QString &pkey)
+void FormAdminRents::setCltTable(const QString &pkey)
 {
-	/*KTextEdit *teTmp;
-	if(m_idTextEdit == 0) //kiere decir ke el combo del cual se va a sacar la pkey es m_comboGame
-		teTmp = m_gamete;
+	KLSelect query(QStringList() << "ldt_persons.docident"
+					<< "ldt_persons.firstname"
+					<< "ldt_persons.lastname"
+					<< "ldt_persons.email"
+					,QStringList() << "ldt_persons");
+	query.setWhere("ldt_persons.firstname="+SQLSTR(pkey));
+	KLResultSet resultSet = KLDM->execQuery(&query);	
 	
-	if(m_idTextEdit == 1)
-		teTmp = m_cltte;	
-		
-	KSelect query(QStringList() << "*",QStringList() << "");*/
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
+	}
 	
-	/**
-	*	TENGO KE SEPARAR LAS ACCIONES DE ESTE SLOT PARA CADA TEXTEDIT ASIES MAS RAPIDO	
-	*	REVISAR EL DUMP DE KLDB.SQL TENGO APUNTES ALLI
-	 */ 
+	QStringList results = m_xmlreader.getResultsList();
+	
+	for ( QStringList::Iterator it = results.begin(); it != results.end(); ++it ) {
+		cout << *it << ":";
+	}
+	cout << endl;
+	
+	int count = 0;
+	for(uint i = 0; i < results.count() / 4; i++)
+	{
+		QStringList data = QStringList() << results[count++] << results[count++]<< results[count++] << results[count++];
+		m_cltTable->insertRowData(data);
+	}
+}
+	
+void FormAdminRents::setGameTable(const QString &pkey)
+{
+	
 }	
-	
 
+#include "formadminrents.moc"
