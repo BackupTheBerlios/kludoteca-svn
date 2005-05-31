@@ -41,6 +41,7 @@ void RoundList::fillList()
  	m_listView->clear();
 	// SELECT codtournament from ldt_participates where codtournament in (select name from ldt_tournament );
 	KLSelect sqltour (QStringList()  << "name", QString("ldt_tournament"));
+	sqltour.setWhere("active");
 	
 	KLResultSet tourResults = KLDM->execQuery(&sqltour);
 	m_xmlsource.setData(tourResults.toString());
@@ -95,7 +96,7 @@ void RoundList::addButtonClicked()
 	{
 		// Estoy sobre un hijo
 		tname = le->parent()->text(0);
-		roundNumber = le->parent()->childCount();
+		roundNumber = le->parent()->childCount()+1;
 		
 		if ( tournamentFinished(tname, roundNumber) )
 		{
@@ -113,7 +114,7 @@ void RoundList::addButtonClicked()
 	else
 	{
 		// Sobre el padre
-		roundNumber = le->childCount();
+		roundNumber = le->childCount() +1;
 		
 		if ( tournamentFinished(tname, roundNumber))
 		{
@@ -142,6 +143,7 @@ void RoundList::addButtonClicked()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
+	std::cout << "RONDA: " << roundNumber << std::endl;
 	FormMatchOrder *formMatchs = new FormMatchOrder(tname, roundNumber, FormBase::Add, this);
 	
 // 	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));

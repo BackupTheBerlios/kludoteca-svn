@@ -35,6 +35,7 @@
 #include <qdict.h>
 #include <qdatetime.h>
 #include "kldatabase.h"
+#include "klenterprise.h"
 
 typedef QDict<KLineEdit> HashLineEdit;
 
@@ -101,7 +102,7 @@ class FormBase : public QVBox
 		/**
 		* Cambia el titulo del formulario.
 		 */
-		void setTitle(QString newTitle);
+		void setTitle(QString newTitle, bool addEnterprise = true);
 		
 		/**
 		 * Coloca el tipo del formulario

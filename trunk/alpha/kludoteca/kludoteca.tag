@@ -1,8 +1,79 @@
 <?xml version='1.0' encoding='ISO-8859-1' standalone='yes'?>
 <tagfile>
+  <compound kind="page">
+    <name>index</name>
+    <title></title>
+    <filename>index</filename>
+    <docanchor file="index">casos</docanchor>
+    <docanchor file="index">fac</docanchor>
+    <docanchor file="index">actores</docanchor>
+    <docanchor file="index">drkonq</docanchor>
+    <docanchor file="index">func</docanchor>
+    <docanchor file="index">riezgos</docanchor>
+    <docanchor file="index">gui</docanchor>
+    <docanchor file="index">imp</docanchor>
+    <docanchor file="index">intro</docanchor>
+    <docanchor file="index">req</docanchor>
+    <docanchor file="index">leg</docanchor>
+    <docanchor file="index">cliente</docanchor>
+    <docanchor file="index">admin</docanchor>
+    <docanchor file="index">fia</docanchor>
+    <docanchor file="index">red</docanchor>
+    <docanchor file="index">definition</docanchor>
+    <docanchor file="index">sop</docanchor>
+  </compound>
   <compound kind="class">
     <name>AdminDatabase</name>
     <filename>classAdminDatabase.html</filename>
+    <base>LTListView</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>getClickedItem</name>
+      <anchor>i0</anchor>
+      <arglist>(QListViewItem *item)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addButtonClicked</name>
+      <anchor>i1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>delButtonClicked</name>
+      <anchor>i2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>modifyButtonClicked</name>
+      <anchor>i3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>queryButtonClicked</name>
+      <anchor>i4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addItem</name>
+      <anchor>i5</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>slotFilter</name>
+      <anchor>i6</anchor>
+      <arglist>(const QString &amp;filter)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>updateItem</name>
+      <anchor>i7</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>AdminDatabase</name>
@@ -13,6 +84,12 @@
       <type></type>
       <name>~AdminDatabase</name>
       <anchor>a1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>fillList</name>
+      <anchor>a2</anchor>
       <arglist>()</arglist>
     </member>
   </compound>
@@ -54,6 +131,18 @@
       <type>void</type>
       <name>addItem</name>
       <anchor>i5</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>slotFilter</name>
+      <anchor>i6</anchor>
+      <arglist>(const QString &amp;filter)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>updateItem</name>
+      <anchor>i7</anchor>
       <arglist>(const QString &amp;pkey)</arglist>
     </member>
     <member kind="function">
@@ -105,106 +194,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>BDConnection</name>
-    <filename>classBDConnection.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>BDConnection</name>
-      <anchor>a0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>~BDConnection</name>
-      <anchor>a1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>loadDB</name>
-      <anchor>a2</anchor>
-      <arglist>(const QString bddriver, const QString bdname, const QString bduser, const QString bdpassword, const QString bdhost)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>loadDB</name>
-      <anchor>a3</anchor>
-      <arglist>(const QString bduser, const QString bdpassword, const QString bdhost)</arglist>
-    </member>
-    <member kind="function">
-      <type>QSqlDatabase *</type>
-      <name>getDB</name>
-      <anchor>a4</anchor>
-      <arglist>(const QString &amp;key, bool open=false) const </arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>openConnection</name>
-      <anchor>a5</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>QSqlQuery</type>
-      <name>query</name>
-      <anchor>a6</anchor>
-      <arglist>(const QString &amp;consult=QString::null) const </arglist>
-    </member>
-    <member kind="function">
-      <type>QString</type>
-      <name>dbName</name>
-      <anchor>a7</anchor>
-      <arglist>() const </arglist>
-    </member>
-    <member kind="function">
-      <type>QString</type>
-      <name>userName</name>
-      <anchor>a8</anchor>
-      <arglist>() const </arglist>
-    </member>
-    <member kind="function">
-      <type>QString</type>
-      <name>passwd</name>
-      <anchor>a9</anchor>
-      <arglist>() const </arglist>
-    </member>
-    <member kind="function">
-      <type>QString</type>
-      <name>host</name>
-      <anchor>a10</anchor>
-      <arglist>() const </arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>setDatabaseName</name>
-      <anchor>a11</anchor>
-      <arglist>(const QString &amp;name)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>setUserName</name>
-      <anchor>a12</anchor>
-      <arglist>(const QString &amp;name)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>setPassword</name>
-      <anchor>a13</anchor>
-      <arglist>(const QString &amp;password)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>setHostName</name>
-      <anchor>a14</anchor>
-      <arglist>(const QString &amp;host)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static BDConnection *</type>
-      <name>instance</name>
-      <anchor>e0</anchor>
-      <arglist>()</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>ClientsWidget</name>
     <filename>classClientsWidget.html</filename>
     <base>LTListView</base>
@@ -237,6 +226,18 @@
       <name>queryButtonClicked</name>
       <anchor>i4</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addItem</name>
+      <anchor>i5</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>updateItem</name>
+      <anchor>i6</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -275,6 +276,12 @@
       <name>enableNext</name>
       <anchor>l0</anchor>
       <arglist>(QWidget *widget, bool e)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>gotoFinish</name>
+      <anchor>l1</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -367,11 +374,17 @@
       <anchor>i2</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>message2osd</name>
+      <anchor>l0</anchor>
+      <arglist>(const QString &amp;msg)</arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>FormAdminClients</name>
       <anchor>a0</anchor>
-      <arglist>(KLDatabase *db, QWidget *parent=0)</arglist>
+      <arglist>(FormBase::Type t, QWidget *parent=0)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -384,6 +397,228 @@
       <name>setupForm</name>
       <anchor>a2</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientId</name>
+      <anchor>a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientName</name>
+      <anchor>a4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getSystemDate</name>
+      <anchor>a5</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientLastName</name>
+      <anchor>a6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientPhone</name>
+      <anchor>a7</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientCellular</name>
+      <anchor>a8</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientState</name>
+      <anchor>a9</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientEmail</name>
+      <anchor>a10</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientSex</name>
+      <anchor>a11</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getClientAddress</name>
+      <anchor>a12</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendId</name>
+      <anchor>a13</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendLastName</name>
+      <anchor>a14</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendName</name>
+      <anchor>a15</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendPhone</name>
+      <anchor>a16</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendCellular</name>
+      <anchor>a17</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendAddress</name>
+      <anchor>a18</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendState</name>
+      <anchor>a19</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendEmail</name>
+      <anchor>a20</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getFriendSex</name>
+      <anchor>a21</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientId</name>
+      <anchor>a22</anchor>
+      <arglist>(const QString &amp;id)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientName</name>
+      <anchor>a23</anchor>
+      <arglist>(const QString &amp;name)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientLastName</name>
+      <anchor>a24</anchor>
+      <arglist>(const QString &amp;lastname)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientPhone</name>
+      <anchor>a25</anchor>
+      <arglist>(const QString &amp;phone)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientCellular</name>
+      <anchor>a26</anchor>
+      <arglist>(const QString &amp;cell)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientState</name>
+      <anchor>a27</anchor>
+      <arglist>(const QString &amp;state)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientEmail</name>
+      <anchor>a28</anchor>
+      <arglist>(const QString &amp;email)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientSex</name>
+      <anchor>a29</anchor>
+      <arglist>(QString &amp;sex)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setClientAddress</name>
+      <anchor>a30</anchor>
+      <arglist>(const QString &amp;address)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendId</name>
+      <anchor>a31</anchor>
+      <arglist>(const QString &amp;id)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendName</name>
+      <anchor>a32</anchor>
+      <arglist>(const QString &amp;name)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendLastName</name>
+      <anchor>a33</anchor>
+      <arglist>(const QString &amp;lastname)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendPhone</name>
+      <anchor>a34</anchor>
+      <arglist>(const QString &amp;phone)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendCellular</name>
+      <anchor>a35</anchor>
+      <arglist>(const QString &amp;cell)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendState</name>
+      <anchor>a36</anchor>
+      <arglist>(const QString &amp;state)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendEmail</name>
+      <anchor>a37</anchor>
+      <arglist>(const QString &amp;email)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendSex</name>
+      <anchor>a38</anchor>
+      <arglist>(QString &amp;sex)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setFriendAddress</name>
+      <anchor>a39</anchor>
+      <arglist>(const QString &amp;address)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -408,11 +643,17 @@
       <anchor>i2</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>message2osd</name>
+      <anchor>l0</anchor>
+      <arglist>(const QString &amp;msg)</arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>FormAdminGame</name>
       <anchor>a0</anchor>
-      <arglist>(KLDatabase *db, QWidget *parent=0, const char *name=0)</arglist>
+      <arglist>(FormBase::Type t, QWidget *parent=0)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -427,130 +668,249 @@
       <arglist>(QString explanation, QString name, QString description, QString rules, int numPlayer, QString type, double costUnit)</arglist>
     </member>
     <member kind="function">
+      <type>void</type>
+      <name>formQuery</name>
+      <anchor>a3</anchor>
+      <arglist>(const QString &amp;idGame)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>formDelete</name>
+      <anchor>a4</anchor>
+      <arglist>(const QString &amp;idGame)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>formModify</name>
+      <anchor>a5</anchor>
+      <arglist>(const QString &amp;idGame)</arglist>
+    </member>
+    <member kind="function">
       <type>QString</type>
       <name>getGameName</name>
-      <anchor>a3</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>QString</type>
-      <name>getDescriptionGame</name>
-      <anchor>a4</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>QString</type>
-      <name>getRulesGame</name>
-      <anchor>a5</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>QString</type>
-      <name>getTypeGame</name>
       <anchor>a6</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>QString</type>
-      <name>getReferenceGame</name>
+      <name>getDescriptionGame</name>
       <anchor>a7</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>QString</type>
-      <name>getTimeUnit</name>
+      <name>getRulesGame</name>
       <anchor>a8</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getTypeGame</name>
+      <anchor>a9</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getStateGame</name>
+      <anchor>a10</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getReferenceGame</name>
+      <anchor>a11</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getTimeUnit</name>
+      <anchor>a12</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getTimeUnitAdd</name>
+      <anchor>a13</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>getMinPlayers</name>
-      <anchor>a9</anchor>
+      <anchor>a14</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>getMaxPlayers</name>
-      <anchor>a10</anchor>
+      <anchor>a15</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>double</type>
       <name>getCostUnitTime</name>
-      <anchor>a11</anchor>
+      <anchor>a16</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>double</type>
       <name>getCostTimeAdditional</name>
-      <anchor>a12</anchor>
+      <anchor>a17</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setGameName</name>
-      <anchor>a13</anchor>
+      <anchor>a18</anchor>
       <arglist>(const QString &amp;name)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setDescriptionGame</name>
-      <anchor>a14</anchor>
+      <anchor>a19</anchor>
       <arglist>(const QString &amp;description)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setRulesGame</name>
-      <anchor>a15</anchor>
+      <anchor>a20</anchor>
       <arglist>(const QString &amp;rules)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setTypeGame</name>
-      <anchor>a16</anchor>
+      <anchor>a21</anchor>
       <arglist>(const QString &amp;type, int index)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
+      <name>setStateGame</name>
+      <anchor>a22</anchor>
+      <arglist>(const QString &amp;available)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
       <name>setReferenceGame</name>
-      <anchor>a17</anchor>
+      <anchor>a23</anchor>
       <arglist>(const QString &amp;reference)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setTimeUnit</name>
-      <anchor>a18</anchor>
+      <anchor>a24</anchor>
       <arglist>(const QString &amp;unitTime, int index)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
+      <name>setUnitTimeAdd</name>
+      <anchor>a25</anchor>
+      <arglist>(const QString &amp;unitTimeAdd, int index)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
       <name>setMinPlayers</name>
-      <anchor>a19</anchor>
+      <anchor>a26</anchor>
       <arglist>(const int &amp;numMinPlayers)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setMaxPlayers</name>
-      <anchor>a20</anchor>
+      <anchor>a27</anchor>
       <arglist>(const int &amp;numMaxPlayers)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setCostUnitTime</name>
-      <anchor>a21</anchor>
+      <anchor>a28</anchor>
       <arglist>(const double &amp;costTime)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setCostTimeAdditional</name>
-      <anchor>a22</anchor>
+      <anchor>a29</anchor>
       <arglist>(const double &amp;costAditional)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>check</name>
+      <anchor>a30</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>verification</name>
+      <anchor>a31</anchor>
+      <arglist>(const QString &amp;code)</arglist>
     </member>
     <member kind="variable" protection="protected">
       <type>QGridLayout *</type>
       <name>m_grid</name>
       <anchor>p0</anchor>
       <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>FormAdminRents</name>
+    <filename>classFormAdminRents.html</filename>
+    <base>FormBase</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>accept</name>
+      <anchor>i0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>cancel</name>
+      <anchor>i1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>clean</name>
+      <anchor>i2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>idTextEdit</name>
+      <anchor>i3</anchor>
+      <arglist>(int id)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setCltTable</name>
+      <anchor>i4</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setGameTable</name>
+      <anchor>i5</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>message2osd</name>
+      <anchor>l0</anchor>
+      <arglist>(const QString &amp;msg)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>changedTextEdit</name>
+      <anchor>l1</anchor>
+      <arglist>(int id)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>FormAdminRents</name>
+      <anchor>a0</anchor>
+      <arglist>(FormBase::Type t, QWidget *parent=0)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setupForm</name>
+      <anchor>a2</anchor>
+      <arglist>()</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -575,11 +935,17 @@
       <anchor>i2</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>message2osd</name>
+      <anchor>l0</anchor>
+      <arglist>(const QString &amp;msg)</arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>FormAdminUsers</name>
       <anchor>a0</anchor>
-      <arglist>(KLDatabase *db, QWidget *parent=0)</arglist>
+      <arglist>(FormBase::Type t, QWidget *parent=0)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -625,7 +991,7 @@
     </member>
     <member kind="function">
       <type>QString</type>
-      <name>getSex</name>
+      <name>getGenre</name>
       <anchor>a8</anchor>
       <arglist>()</arglist>
     </member>
@@ -685,9 +1051,9 @@
     </member>
     <member kind="function">
       <type>void</type>
-      <name>setSex</name>
+      <name>setGenre</name>
       <anchor>a18</anchor>
-      <arglist>(const QString &amp;sex)</arglist>
+      <arglist>(QString &amp;sex)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -713,6 +1079,12 @@
       <anchor>a22</anchor>
       <arglist>(const QString &amp;perms)</arglist>
     </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>validateFields</name>
+      <anchor>a23</anchor>
+      <arglist>()</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>FormBase</name>
@@ -723,11 +1095,11 @@
       <anchor>i0</anchor>
       <arglist>()=0</arglist>
     </member>
-    <member kind="slot" virtualness="pure">
+    <member kind="slot" virtualness="virtual">
       <type>virtual void</type>
       <name>cancel</name>
       <anchor>i1</anchor>
-      <arglist>()=0</arglist>
+      <arglist>()</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
@@ -781,90 +1153,261 @@
       <type></type>
       <name>FormBase</name>
       <anchor>a1</anchor>
+      <arglist>(Type t, QWidget *parent=0, const char *name=0)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>FormBase</name>
+      <anchor>a2</anchor>
       <arglist>(Button button1=NoButton, Button button2=NoButton, QWidget *parent=0, const char *name=0)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>~FormBase</name>
-      <anchor>a2</anchor>
+      <anchor>a3</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setTitle</name>
-      <anchor>a3</anchor>
+      <anchor>a4</anchor>
       <arglist>(QString newTitle)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setType</name>
-      <anchor>a4</anchor>
+      <anchor>a5</anchor>
       <arglist>(Type t)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>getType</name>
-      <anchor>a5</anchor>
+      <anchor>a6</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setTitleFont</name>
-      <anchor>a6</anchor>
+      <anchor>a7</anchor>
       <arglist>(QString font, int fontsize)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setExplanation</name>
-      <anchor>a7</anchor>
+      <anchor>a8</anchor>
       <arglist>(QString newExplanation)</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>
       <name>setupForm</name>
-      <anchor>a8</anchor>
+      <anchor>a9</anchor>
       <arglist>()=0</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setupButtons</name>
-      <anchor>a9</anchor>
+      <anchor>a10</anchor>
       <arglist>(Button button1, Button button2)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setTextAcceptButton</name>
-      <anchor>a10</anchor>
+      <anchor>a11</anchor>
       <arglist>(QString newText)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>setTextCancelButton</name>
-      <anchor>a11</anchor>
+      <anchor>a12</anchor>
       <arglist>(QString newText)</arglist>
     </member>
     <member kind="function">
       <type>QWidget *</type>
       <name>setupLineEdit</name>
-      <anchor>a12</anchor>
+      <anchor>a13</anchor>
       <arglist>(QWidget *parent, QString text, int lineEditWidth=200)</arglist>
     </member>
     <member kind="function">
       <type>HashLineEdit</type>
       <name>setupGridLineEdit</name>
-      <anchor>a13</anchor>
-      <arglist>(QWidget *parent, QStringList texts, int lineEditWidth=200)</arglist>
+      <anchor>a14</anchor>
+      <arglist>(QWidget *parent, QStringList texts, int lineEditWidth=200, QStringList names=QStringList())</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>addLineEdits</name>
-      <anchor>a14</anchor>
-      <arglist>(QWidget *parent, QStringList texts, HashLineEdit &amp;hle, int lineEditWidth)</arglist>
+      <anchor>a15</anchor>
+      <arglist>(QWidget *parent, QStringList texts, HashLineEdit &amp;hle, int lineEditWidth, QStringList names=QStringList())</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>lastQueryWasGood</name>
-      <anchor>a15</anchor>
+      <anchor>a16</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual QString</type>
+      <name>getSystemDate</name>
+      <anchor>a17</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>FormMatchOrder</name>
+    <filename>classFormMatchOrder.html</filename>
+    <base>FormBase</base>
+    <member kind="function">
+      <type></type>
+      <name>FormMatchOrder</name>
+      <anchor>a0</anchor>
+      <arglist>(const QString &amp;tournament, int nround, FormBase::Type t, QWidget *parent=0)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setupForm</name>
+      <anchor>a2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>accept</name>
+      <anchor>a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>cancel</name>
+      <anchor>a4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clean</name>
+      <anchor>a5</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>updateRanks</name>
+      <anchor>a6</anchor>
+      <arglist>(const QStringList &amp;clients)</arglist>
+    </member>
+    <member kind="function">
+      <type>QStringList</type>
+      <name>getMatchResult</name>
+      <anchor>a7</anchor>
+      <arglist>(int number)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>FormParticipants</name>
+    <filename>classFormParticipants.html</filename>
+    <base>FormBase</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>fillClientInformation</name>
+      <anchor>i0</anchor>
+      <arglist>(const QString &amp;key)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addParticipant</name>
+      <anchor>i1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>removeParticipant</name>
+      <anchor>i2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>fillTableInformation</name>
+      <anchor>i3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>message2osd</name>
+      <anchor>l0</anchor>
+      <arglist>(const QString &amp;)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>FormParticipants</name>
+      <anchor>a0</anchor>
+      <arglist>(const QString &amp;tournament, FormBase::Type t, QWidget *parent=0)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setTournament</name>
+      <anchor>a2</anchor>
+      <arglist>(const QString &amp;tournament)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>setupForm</name>
+      <anchor>a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>accept</name>
+      <anchor>a4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>cancel</name>
+      <anchor>a5</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>clean</name>
+      <anchor>a6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QStringList</type>
+      <name>getAllClients</name>
+      <anchor>a7</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>FormQueryTournament</name>
+    <filename>classFormQueryTournament.html</filename>
+    <base>FormBase</base>
+    <member kind="function">
+      <type></type>
+      <name>FormQueryTournament</name>
+      <anchor>a0</anchor>
+      <arglist>(const QString &amp;tournament, QWidget *parent=0)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setupForm</name>
+      <anchor>a2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>accept</name>
+      <anchor>a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clean</name>
+      <anchor>a4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>fillTable</name>
+      <anchor>a5</anchor>
       <arglist>()</arglist>
     </member>
   </compound>
@@ -890,11 +1433,17 @@
       <anchor>i2</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>message2osd</name>
+      <anchor>l0</anchor>
+      <arglist>(const QString &amp;osd)</arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>FormTournament</name>
       <anchor>a0</anchor>
-      <arglist>(KLDatabase *db, QWidget *parent=0)</arglist>
+      <arglist>(Type t, QWidget *parent=0)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -910,9 +1459,87 @@
     </member>
     <member kind="function">
       <type>void</type>
-      <name>fillField</name>
+      <name>setTournamentName</name>
       <anchor>a3</anchor>
-      <arglist>(QString nameTournament, QString nameGame, double inscription, double discount)</arglist>
+      <arglist>(const QString &amp;name)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setRounds</name>
+      <anchor>a4</anchor>
+      <arglist>(const QString &amp;rounds)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setRounds4pair</name>
+      <anchor>a5</anchor>
+      <arglist>(const QString &amp;rounds)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setPrice</name>
+      <anchor>a6</anchor>
+      <arglist>(const QString &amp;price)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setDiscount</name>
+      <anchor>a7</anchor>
+      <arglist>(const QString &amp;discount)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setInitDate</name>
+      <anchor>a8</anchor>
+      <arglist>(const QDate &amp;date)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setEndDate</name>
+      <anchor>a9</anchor>
+      <arglist>(const QDate &amp;date)</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getTournamentName</name>
+      <anchor>a10</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getRounds</name>
+      <anchor>a11</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getRounds4pair</name>
+      <anchor>a12</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getPrice</name>
+      <anchor>a13</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getDiscount</name>
+      <anchor>a14</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getInitDate</name>
+      <anchor>a15</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>getEndDate</name>
+      <anchor>a16</anchor>
+      <arglist>()</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -954,6 +1581,24 @@
       <name>queryButtonClicked</name>
       <anchor>i5</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>updateItem</name>
+      <anchor>i6</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addItem</name>
+      <anchor>i7</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>slotFilter</name>
+      <anchor>i8</anchor>
+      <arglist>(const QString &amp;filter)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -1101,6 +1746,29 @@
       <anchor>a12</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static KLDatabase *</type>
+      <name>instance</name>
+      <anchor>e0</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>KLDelete</name>
+    <filename>classKLDelete.html</filename>
+    <base>KLQuery</base>
+    <member kind="function">
+      <type></type>
+      <name>KLDelete</name>
+      <anchor>a0</anchor>
+      <arglist>(QString table)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~KLDelete</name>
+      <anchor>a1</anchor>
+      <arglist>()</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>KLFirstDialog</name>
@@ -1119,8 +1787,14 @@
     </member>
     <member kind="slot">
       <type>void</type>
-      <name>cancel</name>
+      <name>showFinish</name>
       <anchor>i2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>cancel</name>
+      <anchor>i3</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -1150,6 +1824,34 @@
       <type></type>
       <name>~KLInsert</name>
       <anchor>a1</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>KLLogger</name>
+    <filename>classKLLogger.html</filename>
+    <member kind="function">
+      <type>void</type>
+      <name>setFile</name>
+      <anchor>a2</anchor>
+      <arglist>(const QString &amp;filename)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>log</name>
+      <anchor>a3</anchor>
+      <arglist>(const QString &amp;message, LogType t=Inf)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setupLogger</name>
+      <anchor>a4</anchor>
+      <arglist>(const QString &amp;directory, const QString &amp;filename)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static KLLogger *</type>
+      <name>instance</name>
+      <anchor>e0</anchor>
       <arglist>()</arglist>
     </member>
   </compound>
@@ -1258,6 +1960,52 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>KLPermission</name>
+    <filename>classKLPermission.html</filename>
+    <member kind="function">
+      <type>void</type>
+      <name>string2perms</name>
+      <anchor>a2</anchor>
+      <arglist>(const QString &amp;str)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>activeAdminModule</name>
+      <anchor>a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>activeClientsModule</name>
+      <anchor>a4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>activeGamesModule</name>
+      <anchor>a5</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>activeTournamentModule</name>
+      <anchor>a6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>activeRentsModule</name>
+      <anchor>a7</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static KLPermission *</type>
+      <name>instance</name>
+      <anchor>e0</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>KLQuery</name>
     <filename>classKLQuery.html</filename>
     <member kind="function">
@@ -1272,10 +2020,22 @@
       <anchor>a1</anchor>
       <arglist>() const </arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>setWhere</name>
+      <anchor>a2</anchor>
+      <arglist>(const QString &amp;w)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>setCondition</name>
+      <anchor>a3</anchor>
+      <arglist>(const QString &amp;condition)</arglist>
+    </member>
     <member kind="function">
       <type>int</type>
       <name>getType</name>
-      <anchor>a2</anchor>
+      <anchor>a4</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="protected">
@@ -1288,6 +2048,12 @@
       <type>QString</type>
       <name>m_query</name>
       <anchor>p0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>QString</type>
+      <name>m_cwhere</name>
+      <anchor>p1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -1352,6 +2118,24 @@
       <anchor>a4</anchor>
       <arglist>(const QString &amp;ch)</arglist>
     </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setParseType</name>
+      <anchor>a5</anchor>
+      <arglist>(Type type)</arglist>
+    </member>
+    <member kind="function">
+      <type>KLSqlResults</type>
+      <name>getResults</name>
+      <anchor>a6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QStringList</type>
+      <name>getResultList</name>
+      <anchor>a7</anchor>
+      <arglist>()</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>KLSelect</name>
@@ -1361,13 +2145,13 @@
       <type></type>
       <name>KLSelect</name>
       <anchor>a0</anchor>
-      <arglist>(QStringList fields, QStringList tables)</arglist>
+      <arglist>(QStringList fields, QStringList tables, bool dist=false)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>KLSelect</name>
       <anchor>a1</anchor>
-      <arglist>(QStringList fields, const QString &amp;table)</arglist>
+      <arglist>(QStringList fields, const QString &amp;table, bool dist=false)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -1382,22 +2166,122 @@
       <arglist>(QString connector, const KLSelect &amp;subconsult)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>setWhere</name>
-      <anchor>a4</anchor>
-      <arglist>(QString cwhere)</arglist>
-    </member>
-    <member kind="function">
       <type>QStringList</type>
       <name>getFields</name>
-      <anchor>a5</anchor>
+      <anchor>a4</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>QString</type>
       <name>getQuery</name>
-      <anchor>a6</anchor>
+      <anchor>a5</anchor>
       <arglist>() const </arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addFilter</name>
+      <anchor>a6</anchor>
+      <arglist>(const QString &amp;filter, QStringList fields=QStringList())</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderBy</name>
+      <anchor>a7</anchor>
+      <arglist>(const QString &amp;field, Order o)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setOrderBy</name>
+      <anchor>a8</anchor>
+      <arglist>(int field, Order o)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setJoin</name>
+      <anchor>a9</anchor>
+      <arglist>(const QString &amp;link, JoinConnector jc, const QStringList &amp;rest)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>KLTable</name>
+    <filename>classKLTable.html</filename>
+    <member kind="slot">
+      <type>void</type>
+      <name>fixSize</name>
+      <anchor>i0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>expandTableSize</name>
+      <anchor>i1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>redimensionTable</name>
+      <anchor>i2</anchor>
+      <arglist>(int rows)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>insertRowData</name>
+      <anchor>i3</anchor>
+      <arglist>(const QStringList &amp;data, int row=-1)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setViewportText</name>
+      <anchor>i4</anchor>
+      <arglist>(const QString &amp;text)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>KLTable</name>
+      <anchor>a0</anchor>
+      <arglist>(int rows, int cols, QWidget *parent=0, const char *name=0)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~KLTable</name>
+      <anchor>a1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>resizeEvent</name>
+      <anchor>a2</anchor>
+      <arglist>(QResizeEvent *e)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setHeaderHText</name>
+      <anchor>a3</anchor>
+      <arglist>(int col, const QString &amp;text)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>drawContents</name>
+      <anchor>a4</anchor>
+      <arglist>(QPainter *p, int cx, int cy, int cw, int ch)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>paintEvent</name>
+      <anchor>a5</anchor>
+      <arglist>(QPaintEvent *event)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>paintRow</name>
+      <anchor>a6</anchor>
+      <arglist>(int row, const QColor &amp;color)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>paintCell</name>
+      <anchor>a7</anchor>
+      <arglist>(QPainter *p, int row, int col, const QRect &amp;cr, bool selected, const QColorGroup &amp;cg)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -1495,7 +2379,7 @@
       <type></type>
       <name>KLudotecaView</name>
       <anchor>a0</anchor>
-      <arglist>(const QString &amp;caption, KLDatabase *db=0, QWidget *parentWidget=0L, const char *name=0L, WFlags f=0)</arglist>
+      <arglist>(const QString &amp;caption, QWidget *parentWidget=0L, const char *name=0L, WFlags f=0)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual</type>
@@ -1550,17 +2434,39 @@
       <anchor>a1</anchor>
       <arglist>()</arglist>
     </member>
+  </compound>
+  <compound kind="class">
+    <name>KLXmlReader</name>
+    <filename>classKLXmlReader.html</filename>
     <member kind="function">
-      <type>QString</type>
-      <name>getQuery</name>
+      <type>bool</type>
+      <name>analizeXml</name>
       <anchor>a2</anchor>
-      <arglist>() const </arglist>
+      <arglist>(const QXmlInputSource *input, KLResultSetInterpreter::Type t)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>setWhere</name>
+      <type>KLSqlResults</type>
+      <name>results</name>
       <anchor>a3</anchor>
-      <arglist>(QString cwhere)</arglist>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QStringList</type>
+      <name>getResultsList</name>
+      <anchor>a4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>parse</name>
+      <anchor>a5</anchor>
+      <arglist>(const QXmlInputSource *input, bool incremental)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>parse</name>
+      <anchor>a6</anchor>
+      <arglist>(const QXmlInputSource *input)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -1606,47 +2512,71 @@
   <compound kind="class">
     <name>LTListView</name>
     <filename>classLTListView.html</filename>
+    <member kind="slot">
+      <type>void</type>
+      <name>setButtonText</name>
+      <anchor>i0</anchor>
+      <arglist>(Button b, const QString &amp;text)</arglist>
+    </member>
     <member kind="slot" virtualness="pure">
       <type>virtual void</type>
       <name>getClickedItem</name>
-      <anchor>i0</anchor>
+      <anchor>i1</anchor>
       <arglist>(QListViewItem *item)=0</arglist>
     </member>
     <member kind="slot" virtualness="pure">
       <type>virtual void</type>
       <name>addButtonClicked</name>
-      <anchor>i1</anchor>
-      <arglist>()=0</arglist>
-    </member>
-    <member kind="slot" virtualness="pure">
-      <type>virtual void</type>
-      <name>delButtonClicked</name>
       <anchor>i2</anchor>
       <arglist>()=0</arglist>
     </member>
     <member kind="slot" virtualness="pure">
       <type>virtual void</type>
-      <name>modifyButtonClicked</name>
+      <name>delButtonClicked</name>
       <anchor>i3</anchor>
       <arglist>()=0</arglist>
     </member>
     <member kind="slot" virtualness="pure">
       <type>virtual void</type>
-      <name>queryButtonClicked</name>
+      <name>modifyButtonClicked</name>
       <anchor>i4</anchor>
+      <arglist>()=0</arglist>
+    </member>
+    <member kind="slot" virtualness="pure">
+      <type>virtual void</type>
+      <name>queryButtonClicked</name>
+      <anchor>i5</anchor>
       <arglist>()=0</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
       <name>putItems</name>
-      <anchor>i5</anchor>
+      <anchor>i6</anchor>
       <arglist>(QStringList items)</arglist>
     </member>
     <member kind="slot" virtualness="virtual">
       <type>virtual void</type>
       <name>addItem</name>
-      <anchor>i6</anchor>
+      <anchor>i7</anchor>
       <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>slotSetFilterTimeout</name>
+      <anchor>i8</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>slotSetFilter</name>
+      <anchor>i9</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot" virtualness="virtual">
+      <type>virtual void</type>
+      <name>slotFilter</name>
+      <anchor>i10</anchor>
+      <arglist>(const QString &amp;filter)</arglist>
     </member>
     <member kind="signal" virtualness="virtual">
       <type>virtual void</type>
@@ -1703,7 +2633,7 @@
       <arglist>()=0</arglist>
     </member>
     <member kind="variable" protection="protected">
-      <type>KListView *</type>
+      <type>KLListView *</type>
       <name>m_listView</name>
       <anchor>p0</anchor>
       <arglist></arglist>
@@ -1721,7 +2651,7 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="protected">
-      <type>QXmlSimpleReader</type>
+      <type>KLXmlReader</type>
       <name>m_xmlreader</name>
       <anchor>p3</anchor>
       <arglist></arglist>
@@ -1730,6 +2660,12 @@
       <type>QXmlInputSource</type>
       <name>m_xmlsource</name>
       <anchor>p4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>QString</type>
+      <name>m_filterText</name>
+      <anchor>p5</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -1759,6 +2695,153 @@
       <name>setupTabs</name>
       <anchor>b0</anchor>
       <arglist>()=0</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>MatchGenerator</name>
+    <filename>classMatchGenerator.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>MatchGenerator</name>
+      <anchor>a1</anchor>
+      <arglist>(const MatchClientInfo &amp;mci, const QString &amp;tournament)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setMatchClientInfo</name>
+      <anchor>a3</anchor>
+      <arglist>(const MatchClientInfo &amp;mci, const QString &amp;tournament)</arglist>
+    </member>
+    <member kind="function">
+      <type>StringVector</type>
+      <name>generate</name>
+      <anchor>a4</anchor>
+      <arglist>(Type t)</arglist>
+    </member>
+    <member kind="function">
+      <type>StringVector</type>
+      <name>qstringlist2stringvector</name>
+      <anchor>a5</anchor>
+      <arglist>(const QStringList &amp;)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>verifyPairs</name>
+      <anchor>a6</anchor>
+      <arglist>(StringVector &amp;sv)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>int</type>
+      <name>parent</name>
+      <anchor>b0</anchor>
+      <arglist>(int i)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>int</type>
+      <name>left</name>
+      <anchor>b1</anchor>
+      <arglist>(int i)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>int</type>
+      <name>rigth</name>
+      <anchor>b2</anchor>
+      <arglist>(int i)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>void</type>
+      <name>maxHeapify</name>
+      <anchor>b3</anchor>
+      <arglist>(QStringList &amp;list, int i)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>void</type>
+      <name>buildMaxHeap</name>
+      <anchor>b4</anchor>
+      <arglist>(QStringList &amp;list)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>void</type>
+      <name>heapsort</name>
+      <anchor>b5</anchor>
+      <arglist>(QStringList &amp;list)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>void</type>
+      <name>swap</name>
+      <anchor>b6</anchor>
+      <arglist>(QStringList &amp;list, int i1, int i2)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>ParticipantsList</name>
+    <filename>classParticipantsList.html</filename>
+    <base>LTListView</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>fillList</name>
+      <anchor>i0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>getClickedItem</name>
+      <anchor>i1</anchor>
+      <arglist>(QListViewItem *item)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addButtonClicked</name>
+      <anchor>i2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>delButtonClicked</name>
+      <anchor>i3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>modifyButtonClicked</name>
+      <anchor>i4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>queryButtonClicked</name>
+      <anchor>i5</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addItem</name>
+      <anchor>i6</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>slotFilter</name>
+      <anchor>i7</anchor>
+      <arglist>(const QString &amp;filter)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>updateItem</name>
+      <anchor>i8</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>ParticipantsList</name>
+      <anchor>a0</anchor>
+      <arglist>(QWidget *parent=0, const char *name=0)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~ParticipantsList</name>
+      <anchor>a1</anchor>
+      <arglist>()</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -1807,6 +2890,71 @@
       <anchor>a2</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function">
+      <type>void</type>
+      <name>slotFilter</name>
+      <anchor>a3</anchor>
+      <arglist>(const QString &amp;filter)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addItem</name>
+      <anchor>a4</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>RoundList</name>
+    <filename>classRoundList.html</filename>
+    <base>LTListView</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>fillList</name>
+      <anchor>i0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>RoundList</name>
+      <anchor>a0</anchor>
+      <arglist>(QWidget *parent=0, const char *name=0)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addButtonClicked</name>
+      <anchor>a2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>delButtonClicked</name>
+      <anchor>a3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>getClickedItem</name>
+      <anchor>a4</anchor>
+      <arglist>(QListViewItem *item)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>modifyButtonClicked</name>
+      <anchor>a5</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>queryButtonClicked</name>
+      <anchor>a6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>tournamentFinished</name>
+      <anchor>a7</anchor>
+      <arglist>(const QString &amp;tname, int round)</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>TournamentActive</name>
@@ -1842,6 +2990,12 @@
       <anchor>i4</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>tournamentModified</name>
+      <anchor>l0</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>TournamentActive</name>
@@ -1853,6 +3007,18 @@
       <name>~TournamentActive</name>
       <anchor>a1</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addItem</name>
+      <anchor>a2</anchor>
+      <arglist>(const QString &amp;pkey)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>slotFilter</name>
+      <anchor>a3</anchor>
+      <arglist>(const QString &amp;filter)</arglist>
     </member>
     <member kind="function" protection="protected">
       <type>void</type>
@@ -1880,6 +3046,37 @@
   <compound kind="class">
     <name>TournamentOld</name>
     <filename>classTournamentOld.html</filename>
+    <base>LTListView</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>getClickedItem</name>
+      <anchor>i0</anchor>
+      <arglist>(QListViewItem *item)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>addButtonClicked</name>
+      <anchor>i1</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>delButtonClicked</name>
+      <anchor>i2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>modifyButtonClicked</name>
+      <anchor>i3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>queryButtonClicked</name>
+      <anchor>i4</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>TournamentOld</name>
@@ -1891,6 +3088,28 @@
       <name>~TournamentOld</name>
       <anchor>a1</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>fillList</name>
+      <anchor>a2</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>TournamentTabBar</name>
+    <filename>classTournamentTabBar.html</filename>
+    <member kind="slot">
+      <type>void</type>
+      <name>applyChangesToLists</name>
+      <anchor>i0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>TournamentTabBar</name>
+      <anchor>a0</anchor>
+      <arglist>(QWidget *parent=0, const char *name=0)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -1909,6 +3128,12 @@
       <anchor>a1</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function">
+      <type>ListLTListView</type>
+      <name>listViews</name>
+      <anchor>a2</anchor>
+      <arglist>()</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>ValidateUser</name>
@@ -1917,7 +3142,7 @@
       <type></type>
       <name>ValidateUser</name>
       <anchor>a0</anchor>
-      <arglist>(KLDatabase *db, QWidget *parent=0, const char *name=0)</arglist>
+      <arglist>(QWidget *parent=0, const char *name=0)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -1931,47 +3156,18 @@
       <anchor>a3</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
-      <name>string2perms</name>
-      <anchor>a4</anchor>
-      <arglist>(const QString &amp;str)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>activeAdminModule</name>
-      <anchor>a5</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>activeRentsModule</name>
-      <anchor>a6</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>activeTournamentModule</name>
-      <anchor>a7</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>activeClientsModule</name>
-      <anchor>a8</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>activeGamesModule</name>
-      <anchor>a9</anchor>
-      <arglist>()</arglist>
-    </member>
+  </compound>
+  <compound kind="page">
+    <name>Screenshoots</name>
+    <title></title>
+    <filename>Screenshoots</filename>
+    <docanchor file="Screenshoots">juegos</docanchor>
+    <docanchor file="Screenshoots">usuarios</docanchor>
   </compound>
   <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/src/admin-module/</name>
-    <path>/tmp/dcuadra/kludoteca/src/admin-module/</path>
-    <filename>dir_000004.html</filename>
+    <name>/home/krawek/Proyectos/kludoteca/src/admin-module/</name>
+    <path>/home/krawek/Proyectos/kludoteca/src/admin-module/</path>
+    <filename>dir_000002.html</filename>
     <file>admindatabase.cpp</file>
     <file>admindatabase.h</file>
     <file>adminusers.cpp</file>
@@ -1982,24 +3178,18 @@
     <file>formadminusers.h</file>
   </compound>
   <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/src/clients-module/</name>
-    <path>/tmp/dcuadra/kludoteca/src/clients-module/</path>
-    <filename>dir_000006.html</filename>
+    <name>/home/krawek/Proyectos/kludoteca/src/clients-module/</name>
+    <path>/home/krawek/Proyectos/kludoteca/src/clients-module/</path>
+    <filename>dir_000003.html</filename>
     <file>clientswidget.cpp</file>
     <file>clientswidget.h</file>
     <file>formadminclients.cpp</file>
     <file>formadminclients.h</file>
   </compound>
   <compound kind="dir">
-    <name>/tmp/dcuadra/</name>
-    <path>/tmp/dcuadra/</path>
-    <filename>dir_000001.html</filename>
-    <dir>/tmp/dcuadra/kludoteca/</dir>
-  </compound>
-  <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/src/games-module/</name>
-    <path>/tmp/dcuadra/kludoteca/src/games-module/</path>
-    <filename>dir_000007.html</filename>
+    <name>/home/krawek/Proyectos/kludoteca/src/games-module/</name>
+    <path>/home/krawek/Proyectos/kludoteca/src/games-module/</path>
+    <filename>dir_000005.html</filename>
     <file>formadmingame.cpp</file>
     <file>formadmingame.h</file>
     <file>gameslist.cpp</file>
@@ -2008,52 +3198,61 @@
     <file>gamesmodule.h</file>
   </compound>
   <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/</name>
-    <path>/tmp/dcuadra/kludoteca/</path>
-    <filename>dir_000002.html</filename>
-    <dir>/tmp/dcuadra/kludoteca/src/</dir>
+    <name>/home/krawek/Proyectos/kludoteca/</name>
+    <path>/home/krawek/Proyectos/kludoteca/</path>
+    <filename>dir_000000.html</filename>
+    <dir>/home/krawek/Proyectos/kludoteca/src/</dir>
     <file>config.h</file>
   </compound>
   <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/src/lib/</name>
-    <path>/tmp/dcuadra/kludoteca/src/lib/</path>
-    <filename>dir_000005.html</filename>
-    <file>bdconnection.cpp</file>
-    <file>bdconnection.h</file>
+    <name>/home/krawek/Proyectos/kludoteca/src/lib/</name>
+    <path>/home/krawek/Proyectos/kludoteca/src/lib/</path>
+    <filename>dir_000004.html</filename>
+    <file>createdatabase.cpp</file>
     <file>formbase.cpp</file>
     <file>formbase.h</file>
     <file>kldatabase.cpp</file>
     <file>kldatabase.h</file>
+    <file>kllogger.cpp</file>
+    <file>kllogger.h</file>
+    <file>klpermission.cpp</file>
+    <file>klpermission.h</file>
     <file>klquery.cpp</file>
     <file>klquery.h</file>
     <file>klresultset.cpp</file>
     <file>klresultset.h</file>
     <file>klresultsetinterpreter.cpp</file>
     <file>klresultsetinterpreter.h</file>
+    <file>kltable.cpp</file>
+    <file>kltable.h</file>
     <file>kludotecaiface.h</file>
     <file>kludotecaiface_skel.cpp</file>
+    <file>klxmlreader.cpp</file>
+    <file>klxmlreader.h</file>
     <file>ltlistview.cpp</file>
     <file>ltlistview.h</file>
     <file>lttoolbox.cpp</file>
     <file>lttoolbox.h</file>
   </compound>
   <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/src/rents-module/</name>
-    <path>/tmp/dcuadra/kludoteca/src/rents-module/</path>
-    <filename>dir_000009.html</filename>
+    <name>/home/krawek/Proyectos/kludoteca/src/rents-module/</name>
+    <path>/home/krawek/Proyectos/kludoteca/src/rents-module/</path>
+    <filename>dir_000006.html</filename>
+    <file>formadminrents.cpp</file>
+    <file>formadminrents.h</file>
     <file>rentswidget.cpp</file>
     <file>rentswidget.h</file>
   </compound>
   <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/src/</name>
-    <path>/tmp/dcuadra/kludoteca/src/</path>
-    <filename>dir_000003.html</filename>
-    <dir>/tmp/dcuadra/kludoteca/src/admin-module/</dir>
-    <dir>/tmp/dcuadra/kludoteca/src/clients-module/</dir>
-    <dir>/tmp/dcuadra/kludoteca/src/games-module/</dir>
-    <dir>/tmp/dcuadra/kludoteca/src/lib/</dir>
-    <dir>/tmp/dcuadra/kludoteca/src/rents-module/</dir>
-    <dir>/tmp/dcuadra/kludoteca/src/tournament-module/</dir>
+    <name>/home/krawek/Proyectos/kludoteca/src/</name>
+    <path>/home/krawek/Proyectos/kludoteca/src/</path>
+    <filename>dir_000001.html</filename>
+    <dir>/home/krawek/Proyectos/kludoteca/src/admin-module/</dir>
+    <dir>/home/krawek/Proyectos/kludoteca/src/clients-module/</dir>
+    <dir>/home/krawek/Proyectos/kludoteca/src/games-module/</dir>
+    <dir>/home/krawek/Proyectos/kludoteca/src/lib/</dir>
+    <dir>/home/krawek/Proyectos/kludoteca/src/rents-module/</dir>
+    <dir>/home/krawek/Proyectos/kludoteca/src/tournament-module/</dir>
     <file>crashhandler.cpp</file>
     <file>crashhandler.h</file>
     <file>klfirstdialog.cpp</file>
@@ -2074,23 +3273,31 @@
     <file>validateuser.h</file>
   </compound>
   <compound kind="dir">
-    <name>/tmp/</name>
-    <path>/tmp/</path>
-    <filename>dir_000000.html</filename>
-    <dir>/tmp/dcuadra/</dir>
-  </compound>
-  <compound kind="dir">
-    <name>/tmp/dcuadra/kludoteca/src/tournament-module/</name>
-    <path>/tmp/dcuadra/kludoteca/src/tournament-module/</path>
-    <filename>dir_000008.html</filename>
+    <name>/home/krawek/Proyectos/kludoteca/src/tournament-module/</name>
+    <path>/home/krawek/Proyectos/kludoteca/src/tournament-module/</path>
+    <filename>dir_000007.html</filename>
+    <file>formmatchorder.cpp</file>
+    <file>formmatchorder.h</file>
+    <file>formparticipants.cpp</file>
+    <file>formparticipants.h</file>
+    <file>formquerytournament.cpp</file>
+    <file>formquerytournament.h</file>
     <file>formtournament.cpp</file>
     <file>formtournament.h</file>
+    <file>matchgenerator.cpp</file>
+    <file>matchgenerator.h</file>
+    <file>participantslist.cpp</file>
+    <file>participantslist.h</file>
+    <file>roundlist.cpp</file>
+    <file>roundlist.h</file>
     <file>tournamentactive.cpp</file>
     <file>tournamentactive.h</file>
     <file>tournamentmodule.cpp</file>
     <file>tournamentmodule.h</file>
     <file>tournamentold.cpp</file>
     <file>tournamentold.h</file>
+    <file>tournamenttabbar.cpp</file>
+    <file>tournamenttabbar.h</file>
     <file>tournamentwidget.cpp</file>
     <file>tournamentwidget.h</file>
   </compound>

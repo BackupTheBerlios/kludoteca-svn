@@ -22,6 +22,7 @@
  
 #include "tournamentold.h"
 #include <klocale.h>
+#include "formquerytournament.h"
 
 TournamentOld::TournamentOld(QWidget *parent) : LTListView(QStringList() << i18n("Tournament name") << i18n("Game") << i18n("Date"), LTListView::ButtonQuery, LTListView::NoButton, LTListView::NoButton, LTListView::NoButton, parent = 0, "OldTournaments")
 {
@@ -50,12 +51,30 @@ void TournamentOld::queryButtonClicked()
 #if DEBUG_TOURNAMENTOLD
 	qDebug("TournamentOld: init addButtonClicked");
 #endif
-	KMdiChildView *view = new KMdiChildView(i18n("Tornamet Old"), this );
+	QListViewItem *current = m_listView->currentItem();
+	
+	if ( ! current )
+		return;
+	
+	QString tname = current->text(0);
+	
+	if( tname.isEmpty() || tname.isNull())
+		return;
+	
+	KMdiChildView *view = new KMdiChildView(i18n("Query tournament"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
+	
+	FormQueryTournament* formQueryTournament = new FormQueryTournament(tname ,scroll->viewport() );
+
+	formQueryTournament->setType( FormBase::Add);
+	connect(formQueryTournament, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formQueryTournament, SIGNAL(accepted()), view, SLOT(close()));
+
+	scroll->addChild(formQueryTournament);
 	
 	emit sendWidget(view); 
 #if DEBUG_TOURNAMENTOLD

@@ -1,0 +1,213 @@
+/**
+@mainpage
+
+@section intro Análisis del negocio
+
+A continuación se realizara el Análisis del negocio del proyecto KLudoteca, el cual
+es un sistema para el manejo de información de una ludoteca.
+
+Después de analizar el texto del proyecto hemos elaborado este Análisis, el cual ponemos a calificación de la persona que nos ha encargado hacer el proyecto.
+
+
+@section definition Definición del sistema
+
+El Centro Vacacional Juanambú es una ludoteca que desea llevar un seguimiento de la
+ información que maneja su establecimiento, sacar estadísticas de uso, y llevar un
+ control de los juegos y servicios que presta.
+
+A pesar de que el problema fue especificado inicialmente para una entidad
+ especifica, este proyecto se realizara para que pueda ser adaptado fácilmente a otras ludotecas u otro tipos de establecimientos similares que deseen hacer uso de
+ este sistema, para esto el sistema se programara siguiendo el estándar RUP y
+ programando en un nivel de abstracción alto, permitiendo una alta configurabilidad
+ del aplicativo.
+
+El sistema que se implementará sera manejado por un usuario administrador del
+ sistema, este usuario tiene la posibilidad de añadir mas usuarios, estos usuarios
+ serán las personas que atienden por horas el establecimiento, para cada usuario se
+ tendrá una cuenta especial con el fin de tener control sobre las actividades que realicen los mismos, esto permitirá al administrador tener claridad sobre los eventos del sistema y asignar una mas clara responsabilidad a los usuarios de la
+ aplicación, dentro de las actividades de los usuarios hemos separado la opción de
+ gestionar juegos, únicamente para el administrador (o para usuarios con permisos
+ de hacerlo), con esto nos aseguramos claridad en el manejo de los juegos.
+ 
+
+@section req REQUERIMIENTOS
+
+Este es un listado de los principales requerimientos y restricciones del sistema KLudoteca, estos requerimientos pueden estar sujetos a cambios en el tiempo.
+
+
+@subsection func Funcionalidad
+
+El sistema debe ser multiusuario, pero con un solo usuario por sesión.
+El sistema debe ser configurable
+El sistema debe manejar un sistema de permisos para usuarios.
+El sistema debe permitir un mecanismo de almacenamiento persistente. (Bases de datos).
+El usuario administrador debe gestionar usuarios.
+
+El administrador debe estar en capacidad de configurar la empresa.
+El administrador debe estar en capacidad de gestionar la base de datos: hacer mantenimientos, copias de seguridad, etc...
+El sistema debe ser modular
+El sistema debe tener básicamente los siguientes módulos, así mismo debe facilitar la integración de nuevos módulos a la aplicación.
+Modulo de prestamos
+Modulo de juegos
+Modulo de torneos
+Modulo de reportes
+Modulo de usuarios.
+El sistema debe permitir generar reportes estadísticos.
+El sistema debe permitir exportar reportes y/o resultados a formatos abiertos, tales como XML, HTML, PostScript, PDF.
+El sistema debe tener una entidad capaz de enviar reportes de errores a los desarrolladores.
+
+
+@subsection fac Facilidad de uso
+
+El sistema debe ofrecer una interfaz gráfica agradable y funcional.
+
+@subsection fia Fiabilidad
+
+El sistema debe ser capaz de almacenar información de los diversos sucesos que puedan ocurrir (?Logs?).
+El administrador debe estar en capacidad de gestionar ?logs?.
+El sistema debe ser seguro y confiable.
+El sistema no debe fallar, al menos haciendo cálculos y operaciones importantes para la empresa.
+
+@subsection red Rendimiento
+El sistema debe presentar un buen rendimiento, acorde con la capacidad de la maquina en la que se este trabajando.
+
+@subsection sop Soporte
+El sistema debe permitir su traducción a diversos idiomas.
+El sistema sera fácilmente adaptable a cualquier otra ludoteca o establecimiento similar.
+
+@subsection imp Implementación
+El sistema debe trabajar bajo GNU/Linux u otros saberes de Unix, con las librerías kdelibs, y el SMBD (Sistema Manejador de Bases de Datos) Postgresql 7.x
+El sistema debe utilizar al máximo la tecnología XML.
+El hardware requerido por la aplicación se lista a continuación:
+Procesador mayor a 600MHz
+Se requiere mínimo 128 megas de memoria y se recomienda 256 o más.
+Espacio en disco mínimo de 10 Megas.
+
+@subsection gui Interfaz
+El sistema tiene un mecanismo de comunicación entre procesos para que sea posible la comunicación con la aplicación y agentes externos a la misma, esta interfaz la proveerá dcop de kdelibs.
+
+Empaquetamiento
+El sistema se distribuira por codigo fuente
+El sistema permitirá construir paquetes para las diferentes distribuciones de GNU/Linux, en este proyecto se proveerá una paquete para la distribución Gentoo.
+
+@subsection leg Legales
+El sistema se distribuirá bajo las condiciones de la licencia GNU/GPL.
+
+
+@section actores Actores del sistema y sus objetivos
+
+Administrador: Dentro de nuestra definicion del problema, hemos decidido agregar un
+ usuario administrador al sistema, con el fin de repartir y especificar
+ responsabilidades, el Administrador es la persona encargada de inicializar el
+ sistema, administrar la base de datos, gestionar usuarios, sus principales
+ objetivos son los siguientes:
+ 
+Gestionar la base de datos, hacer copias de seguridad, mantenimientos, etc...
+Gestionar usuarios.
+Leer, analizar, configurar los archivos de logs.
+Configurar la empresa (Ludoteca).
+Añadir, actualiza o elimina juegos de la ludoteca, así como también puede modificar su estado.
+
+@verbatim
+Usuario: El usuario es la persona encargada de interactuar con el sistema, es la
+ persona que este de turno ateniendo la ludoteca, este usuario debe gestionar los
+ datos, sus objetivos principales son los siguientes: 
+ 
+Gestionar la información de los prestamos.
+Gestionar la información de los torneos.
+Visualizar el reporte estadístico de los juegos.
+@endverbatim
+
+@verbatim
+Gestor de errores: Tomamos esta aplicación como actor, porque es externa a la
+ aplicación, él mismo se encarga de enviar un reporte de errores a los
+ desarrolladores del proyecto, este actor, actúa cuando ocurre una falla grave en
+ el sistema.
+El objetivo de este actor de apoyo es enviar un reporte al correo ( o lista de
+ correo ) con el reporte de errores de la aplicación cuando estos ocurren. Este
+ actor será la aplicación drkonqi de kde.
+ 
+@endverbatim
+
+
+@section casos de uso Casos de uso del negocio
+A continuación se presentan los casos de uso y se hace una pequeña introducción del
+ caso de uso.
+
+@subsection admin Listado de casos de uso del Administrador
+
+Los siguientes casos de uso especifican las diferentes funcionalidades que el Administrador puede realizar con el sistema.
+
+@verbatim
+Inicializar el sistema
+Este caso de uso se presenta cuando el sistema queda listo para ser utilizado.
+
+Gestionar usuarios
+Este caso de uso se refiere a la gestión de usuarios, gestión de permisos, etc...
+
+Gestionar juegos
+En este caso de uso se añaden o modifican los diferentes juegos que tiene la
+ ludoteca.
+
+Gestionar logs
+Este caso se refiere al manejo de logs del sistema, en este caso se cobija, leer
+ logs, configurar logs, etc... 
+
+Gestionar la base de datos
+Este caso se uso se refiere al mantenimiento y creación de la base de datos. 
+
+Configurar ludoteca
+En este caso de uso especificamos el nombre de la empresa, valor de puntajes, NIT,
+ dirección, teléfono, contacto, etc...
+@endverbatim
+
+@subsection cliente Listado de casos de uso del Usuario
+Los siguientes casos de uso especifican las diferentes funcionalidades que el
+ Usuario puede realizar con el sistema. 
+
+@verbatim
+Gestionar prestamos
+Este caso de uso especifica las acciones referentes al préstamo de juegos de la ludoteca. 
+
+Gestionar torneos
+Este caso de uso agrupa las acciones que se requieren para hacer torneos, permitir
+ torneos, y en general, manipular toda la información de los torneos. 
+
+Exportar Reportes
+En este caso de uso el cliente tiene la posibilidad de exportar los reportes a
+ formatos abiertos, tales como HTML, PDF, etc...
+
+Imprimir reportes
+Este caso de uso se presenta con el animo de que el cliente pueda imprimir los
+ reportes, ya sea por pantalla o por impresora.
+
+
+Visualizar el reportes
+Este caso de uso agrupa la visualización de los reportes estadísticos e
+ informativos generados por el sistema, tales como los juegos mas alquilados, el
+ periodo con mas afluencia, la puntuación por jugadores, etc... 
+ 
+
+Configurar aplicación 
+En este caso de uso se presenta la posibilidad de configurar la aplicación.
+@endverbatim
+
+@subsection drkonq Listado de casos de uso del gestor de errores
+Los siguientes casos de uso especifican las diferentes funcionalidades que el
+ Gestor de errores puede realizar 
+
+@verbatim
+Enviar reporte de error
+Este caso de uso representa la posibilidad de tratar errores, enviando un reporte a
+ los desarrolladores para su corrección en futuras versiones.
+@endverbatim
+
+@section riezgos Análisis de riesgos
+En la presente seccion haremos un análisis de los posibles riesgos, el orden en que aparecen no implica ninguna clase de jerarquía.
+
+@li Los disturbios en la universidad pueden afectar de forma muy grave la exitosa culminación de este proyecto, ya que algunos de los miembros no tienen computador fijo en donde trabajar.
+@li Debido al reducido numero de miembros, una enfermedad o calamidad sobre algún miembro del equipo podría afectar la entrega.
+@li Una carga académica muy grande sobre los miembros también afectará la entrega del proyecto.
+@li Las condiciones de trabajo en las salas de la universidad no son ideales para la realización de este proyecto en su máxima plenitud.
+
+*/

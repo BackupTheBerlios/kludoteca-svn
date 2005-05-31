@@ -20,10 +20,11 @@
 #ifndef TOURNAMENTWIDGET_H
 #define TOURNAMENTWIDGET_H
 
+#include <kpushbutton.h>
+
 #include "lttoolbox.h"
 #include "tournamentactive.h"
 #include "tournamentold.h"
-#include <kpushbutton.h>
 #include "formtournament.h"
 #include "tournamenttabbar.h"
 

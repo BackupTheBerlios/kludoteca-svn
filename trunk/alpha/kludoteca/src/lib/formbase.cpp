@@ -60,10 +60,14 @@ FormBase::~FormBase()
 {
 }
 
-void FormBase::setTitle(QString newTitle)
+void FormBase::setTitle(QString newTitle, bool addEnterprise)
 {
-	// TODO: make a best title! with the kde's class for manipulate texts
-	m_labelTitle->setText(i18n("<h1><div align=\"center\">%1</dvi></h1>").arg(newTitle));
+	if ( addEnterprise )
+	{
+		newTitle = klenterprise->getName() + ": "+newTitle;
+	}
+
+	m_labelTitle->setText(i18n("<h1><div align=\"center\">%1</div></h1>").arg(newTitle));
 }
 
 void FormBase::setTitleFont(QString font, int fontsize)

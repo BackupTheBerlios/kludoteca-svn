@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                              	   *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,75 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FORMMATCHORDER_H
-#define FORMMATCHORDER_H
+#include "klenterprise.h"
 
-#include "formbase.h"
-#include "kltable.h"
-#include "matchgenerator.h"
-
-/**
- * Aqui tenemos las partidas de una ronda, con sus respectivos puntajes
- * @author David Cuadrado
-*/
-class FormMatchOrder : public FormBase
+KLEnterprise::KLEnterprise(QObject *parent, const char *name)
+ : QObject(parent, name)
 {
-	Q_OBJECT
-	public:
-		FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent = 0);
-		~FormMatchOrder();
+}
 
-		void setupForm();
 
-		void accept();
-		void cancel();
-		void clean();
-		void updateRanks(const QStringList &clients);
-		
-		QStringList getMatchResult(int number);
-		
-	private slots:
-		void fillTable();
-		
-	private:
-		MatchClientInfo getMatchClientInfo(const QStringList &sqlresults, int newpos);
-		
-	private:
-		QString m_tournament;
-		const int m_nround;
-		KLTable *m_table;
-		QStringList m_restParticipant;
-		MatchClientInfo m_clientList;
-};
+KLEnterprise::~KLEnterprise()
+{
+}
 
-#endif
+KLEnterprise *KLEnterprise::instance()
+{
+	static KLEnterprise *skdb = new KLEnterprise;
+	
+	return skdb;
+}
+
+
+void KLEnterprise::setName(const QString &t)
+{
+	m_name = t;
+}
+
+void KLEnterprise::setNit(const QString &t)
+{
+	m_nit = t;
+}
+
+void KLEnterprise::setPhone(const QString &t)
+{
+	m_phone = t;
+}
+
+void KLEnterprise::setAddress(const QString &t)
+{
+	m_address = t;
+}
+
+void KLEnterprise::setCity(const QString &t)
+{
+	m_city = t;
+}
+
+
+QString KLEnterprise::getName()
+{
+	return m_name;
+}
+
+QString KLEnterprise::getNit()
+{
+	return m_nit;
+}
+
+QString KLEnterprise::getPhone()
+{
+	return m_phone;
+}
+
+QString KLEnterprise::getAddress()
+{
+	return m_address;
+}
+
+QString KLEnterprise::getCity()
+{
+	return m_city;
+}
+
+#include "klenterprise.moc"

@@ -121,6 +121,8 @@ class KLDatabase : public QSqlDatabase
 		 */
 		bool isLastError();
 		
+		QString getLastError();
+		
 	signals:
 		/**
 		 *  Marca el progreso de una consulta
@@ -149,6 +151,7 @@ class KLDatabase : public QSqlDatabase
 		
 	private:
 		bool lastIsBad; 
+		QString m_lastError;
 };
 
 #define KLDM KLDatabase::instance()

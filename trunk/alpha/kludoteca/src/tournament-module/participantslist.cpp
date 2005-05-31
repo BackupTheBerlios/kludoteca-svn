@@ -43,6 +43,7 @@ void ParticipantsList::fillList()
 	m_listView->clear();
 	// SELECT codtournament from ldt_participates where codtournament in (select name from ldt_tournament );
 	KLSelect sqltour (QStringList()  << "name", QString("ldt_tournament"));
+	sqltour.setWhere("active");
 	
 	KLResultSet tourResults = KLDM->execQuery(&sqltour);
 	m_xmlsource.setData(tourResults.toString());
@@ -194,35 +195,35 @@ void ParticipantsList::modifyButtonClicked()
 #endif
 }
 
+#include "klreportwidget.h"
+
 void ParticipantsList::queryButtonClicked()
 {
-// 	QString quering = "";
-// 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
-// 	
-// 	quering += i18n("== query to user ") + itemp->text(2) + " == \n";
-// 	// select firstname,lastname,docident,address,phone,email,permissions from ldt_users,ldt_persons where ldt_persons.docIdent=ldt_users.docIdent and login='usuario'
-// 	KLSelect sqlquery(QStringList() << "firstname" << "lastname" << "ldt_users.docident" << "address" << "phone" << "email" << "permissions", QStringList() << "ldt_users" << "ldt_persons" );
-// 	sqlquery.setWhere("ldt_persons.docIdent=ldt_users.docIdent and login="+SQLSTR(m_listView->currentItem()->text(2)));
-// 	
-// 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
-// 	
-// 	m_xmlsource.setData(resultSet.toString());
-// 	
-// 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total ))
-// 	{
-// 		std::cout << "No se pudo analizar!!!" << std::endl;
-// 	}
-// 	
-// 	KLSqlResults results = m_xmlreader.results();
-// 	
-// 	quering += i18n("Real name: ") + results["firstname"] + " " + results["lastname"] + "\n";
-// 	quering += i18n("Identification: ") + results["ldt_users.docident"] + "\n";
-// 	quering += i18n("Address: ") + results["address"] + "\n";
-// 	quering += i18n("Phone: ") + results["phone"] + "\n";
-// 	quering += i18n("Email: ") + results["email"] + "\n";
-// 	quering += i18n("Permissions:") + results["permissions"] + "\n\n";
-// 	
-// 	emit message2osd(quering);
+	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+	
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+		
+	// Ejemplo
+	ElementVector elements;
+	QValueList<QColor> colors;
+	colors << Qt::red << Qt::blue << Qt::gray << Qt::green << Qt::cyan << Qt::magenta << Qt::black << Qt::red ;
+	for(uint i = 0; i < 8; i++)
+	{
+		elements.append( new KLReportElement((i+1)*30, colors[i], Qt::SolidPattern, QString("Val%1").arg(i)) );
+	}
+	
+	KLReportWidget *formParticipantsList = new KLReportWidget( elements, scroll->viewport() );
+
+	
+	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
+	
+	scroll->addChild(formParticipantsList);
+	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+		
+	emit sendWidget(view); 
 }
 
 void ParticipantsList::addItem(const QString &pkey)

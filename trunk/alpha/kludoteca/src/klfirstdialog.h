@@ -38,6 +38,7 @@
 class FDWelcome;
 class FDInitDatabase;
 class FDSetupAdmin;
+class FDSetupEnterprise;
 
 /**
  * Esta clase es utilizada para inicializar el sistema, se lanzara la primera vez que se ejecute la aplicación y permitira configurar todo el sistema.
@@ -75,6 +76,7 @@ class KLFirstDialog : public KWizard
 	private:
 		FDWelcome *m_welcome, *m_finish;
 		FDInitDatabase *m_initdb;
+		FDSetupEnterprise *m_enterprise;
 		FDSetupAdmin *m_setupAdmin;
 
 };
@@ -132,12 +134,6 @@ class FDInitDatabase : public QVBox
 		 */
 		~FDInitDatabase();
 		
-		/**
-		 * Retorna la conexion a la base de datos
-		 * @return 
-		 */
-		KLDatabase *getDatabaseConnection();
-		
 		bool checkAccount();
 		
 	public slots:
@@ -155,7 +151,31 @@ class FDInitDatabase : public QVBox
 		KLineEdit *m_server, *m_dbname, *m_login, *m_passwd;
 		KPushButton *m_createButton;
 		KProgress *m_pbar;
-		KLDatabase *m_db;
+};
+
+class FDSetupEnterprise : public QVBox
+{
+	Q_OBJECT
+	public:
+		/**
+		 * Constructor
+		 * @param parent 
+		 * @param name 
+		 * @return 
+		 */
+		FDSetupEnterprise(QWidget *parent = 0, const char *name = 0);
+		
+		/**
+		 * Destructor
+		 * @return 
+		 */
+		~FDSetupEnterprise();
+		
+		void addEnterprise();
+		
+	private:
+		QGroupBox *m_dataBox;
+		KLineEdit *m_name, *m_nit, *m_address, *m_phone, *m_city;
 };
 
 /**
@@ -184,7 +204,7 @@ class FDSetupAdmin : public QVBox
 		 * @param db 
 		 * @return 
 		 */
-		bool setAdministrator(KLDatabase *db);
+		bool setAdministrator();
 		
 	private:
 		QGroupBox *m_dataBox;

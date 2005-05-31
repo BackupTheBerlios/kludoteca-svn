@@ -46,7 +46,7 @@ class FormBase;
  * @author Juliana Davila - David Cuadrado
  * @TODO
  * - Verificar que la fecha de inicio sea al menos la actual
- * - Verificar que la fecha de fin sea obligatoriamente mayour que la de inicio
+ * - Verificar que la fecha de fin sea obligatoriamente mayor que la de inicio
  * - Verificar que el juego elegido este disponible
 */
 class FormTournament : public FormBase
@@ -66,10 +66,18 @@ class FormTournament : public FormBase
 		 * @return 
 		 */
 		~FormTournament();
+		
 		/**
 		 * Crea la forma
 		 */
 		void setupForm();
+		
+		
+		/**
+		 * Valida los campos del formulario
+		 * @return 
+		 */
+		bool validateFields();
 		
 		/**
 		 * Pone el nombre del torneo

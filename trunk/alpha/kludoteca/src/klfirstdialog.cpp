@@ -36,6 +36,9 @@ KLFirstDialog::KLFirstDialog(QWidget *parent, const char *name)
 	connect(m_initdb, SIGNAL(enableNext(QWidget*, bool )), this, SLOT(setNextEnabled(QWidget*, bool )));
 	connect(m_initdb, SIGNAL(gotoFinish()), this, SLOT(showFinish()));
 	
+	m_enterprise = new FDSetupEnterprise(this);
+	addPage(m_enterprise, i18n("Setup Enterprise"));
+	
 	m_setupAdmin = new FDSetupAdmin(this);
 	addPage(m_setupAdmin, i18n("Setup admin user"));
 	
@@ -72,11 +75,15 @@ void KLFirstDialog::next()
 	else if ( currentPage() == m_initdb )
 	{
 	}
+	else if (currentPage() == m_enterprise )
+	{
+		m_enterprise->addEnterprise();
+	}
 	else if ( currentPage() == m_setupAdmin)
 	{
-		if (! m_setupAdmin->setAdministrator(m_initdb->getDatabaseConnection()))
+		if (! m_setupAdmin->setAdministrator())
 		{
-			KMessageBox::error(this, i18n("I can't create the admin account\n The error was %1").arg( m_initdb->getDatabaseConnection()->lastError().text()), i18n("Error"));
+			KMessageBox::error(this, i18n("I can't create the admin account\n The error was %1").arg( KLDM->lastError().text()), i18n("Error"));
 			return;
 		}
 	}
@@ -87,9 +94,9 @@ void KLFirstDialog::finished()
 {
 	klapp->config()->writeEntry( "First Run", false );
 	
-	klapp->config("Connection")->writeEntry("Server", m_initdb->getDatabaseConnection()->hostName() );
-	klapp->config("Connection")->writeEntry("Database", m_initdb->getDatabaseConnection()->databaseName() );
-	klapp->config("Connection")->writeEntry("Login", m_initdb->getDatabaseConnection()->userName() );
+	klapp->config("Connection")->writeEntry("Server", KLDM->hostName() );
+	klapp->config("Connection")->writeEntry("Database",KLDM->databaseName() );
+	klapp->config("Connection")->writeEntry("Login",KLDM->userName() );
 	
 	klapp->config()->sync();
 }
@@ -159,7 +166,7 @@ FDInitDatabase::FDInitDatabase(QWidget *parent, const char *name) : QVBox(parent
 	
 	m_pbar = new KProgress(this);
 	
-	m_db = new KLDatabase();
+// 	KLDM = new KLDatabase();
 }
 
 FDInitDatabase::~ FDInitDatabase()
@@ -168,11 +175,11 @@ FDInitDatabase::~ FDInitDatabase()
 
 void FDInitDatabase::createDatabase()
 {
-	m_db->setHostName(m_server->text());
-	m_db->setDatabaseName("template1");
-	m_db->setUserName(m_login->text());
-	m_db->setPassword(m_passwd->text());
-	if ( m_db->open())
+	KLDM->setHostName(m_server->text());
+	KLDM->setDatabaseName("template1");
+	KLDM->setUserName(m_login->text());
+	KLDM->setPassword(m_passwd->text());
+	if ( KLDM->open())
 	{
 		if ( ! checkAccount() )
 		{
@@ -182,25 +189,25 @@ void FDInitDatabase::createDatabase()
 		
 		QSqlQuery q;
 		
-		q = m_db->exec("CREATE DATABASE "+m_dbname->text());
+		q = KLDM->exec("CREATE DATABASE "+m_dbname->text());
 		if ( ! q.isActive())
 		{
-			int opt = KMessageBox::questionYesNo(this, i18n("I can't create %1\n The error was %2\ntry remove it?").arg(m_dbname->text()).arg((m_db->lastError()).text()), i18n("Error"));
+			int opt = KMessageBox::questionYesNo(this, i18n("I can't create %1\n The error was %2\ntry remove it?").arg(m_dbname->text()).arg((KLDM->lastError()).text()), i18n("Error"));
 			
 			switch( opt )
 			{
 				case KMessageBox::Yes:
 				{
-					m_db->dropTables();
-					m_db->exec("DROP DATABASE "+m_dbname->text());
-					m_db->exec("CREATE DATABASE "+m_dbname->text()); 
-					m_db->dropTables();
+					KLDM->dropTables();
+					KLDM->exec("DROP DATABASE "+m_dbname->text());
+					KLDM->exec("CREATE DATABASE "+m_dbname->text()); 
+					KLDM->dropTables();
 				}
 				break;
 				case KMessageBox::No:
 				{
 					m_createButton->setEnabled(false);
-					m_db->setDatabaseName(m_dbname->text());
+					KLDM->setDatabaseName(m_dbname->text());
 					emit gotoFinish();
 					return;
 				}
@@ -208,18 +215,15 @@ void FDInitDatabase::createDatabase()
 			}
 		}
 		
-		m_db->close();
-		
-		m_db->setDatabaseName(m_dbname->text());
-		m_db->open();
+		KLDM->setDatabaseName(m_dbname->text());
 		
 		m_pbar->setTotalSteps(7);
-		connect(m_db, SIGNAL(progress(int)), m_pbar, SLOT(setProgress(int)));
+		connect(KLDM, SIGNAL(progress(int)), m_pbar, SLOT(setProgress(int)));
 		
-		if ( ! m_db->createTables() )
+		if ( ! KLDM->createTables() )
 		{
 			KMessageBox::error(this, i18n("I can't create (all) tables"), i18n("Error"));
-			//m_db->dropTables();
+			//KLDM->dropTables();
 		}
 		else
 		{
@@ -231,22 +235,22 @@ void FDInitDatabase::createDatabase()
 	else
 	{
 		KMessageBox::error(this, i18n("I can't open the database!\n"
-				"The error was %1").arg( (m_db->lastError()).text())  , i18n("Error"));
+				"The error was %1").arg( (KLDM->lastError()).text())  , i18n("Error"));
 	}
 	
-	if ( m_db->isOpen())
-		m_db->close();
+	if ( KLDM->isOpen())
+		KLDM->close();
 }
 
 bool FDInitDatabase::checkAccount()
 {
-	if ( ! m_db->isOpen() )
+	if ( ! KLDM->isOpen() )
 	{
-		m_db->open();
+		KLDM->open();
 	}
 	
-	m_db->exec("CREATE USER kltestuser");
-	QSqlQuery q = m_db->exec("DROP USER kltestuser");
+	KLDM->exec("CREATE USER kltestuser");
+	QSqlQuery q = KLDM->exec("DROP USER kltestuser");
 	
 	if ( q.isActive() )
 	{
@@ -258,10 +262,56 @@ bool FDInitDatabase::checkAccount()
 	}
 }
 
-KLDatabase *FDInitDatabase::getDatabaseConnection()
+// Class FDSetupEnterprise
+FDSetupEnterprise::FDSetupEnterprise(QWidget *parent, const char *name) : QVBox(parent, name)
 {
-	return m_db;
+	(new QLabel( i18n("<p>In this dialog, you must be fill the information in the fields, for setup your bussyness.</p>"), this))->setMargin(5);
+	m_dataBox = new QGroupBox(this);
+	
+	m_dataBox->setMargin(10);
+	QGridLayout *layout = new QGridLayout(m_dataBox, 4, 3,10);
+	
+	layout->addWidget(new QLabel(i18n("Name"), m_dataBox), 0, 0);
+	m_name = new KLineEdit(m_dataBox);
+	layout->addWidget(m_name, 0,1);
+	
+	layout->addWidget(new QLabel(i18n("NIT"), m_dataBox), 1,0);
+	m_nit = new KLineEdit(m_dataBox);
+	layout->addWidget(m_nit, 1,1);
+	
+	
+	layout->addWidget(new QLabel(i18n("City"), m_dataBox), 2,0);
+	m_city = new KLineEdit(m_dataBox);
+	layout->addWidget(m_city, 2,1);
+
+	layout->addWidget(new QLabel(i18n("Address"), m_dataBox),3,0);
+	m_address = new KLineEdit(m_dataBox);
+	layout->addWidget(m_address, 3,1);
+	
+	layout->addWidget(new QLabel(i18n("Phone"), m_dataBox), 4,0);
+	m_phone = new KLineEdit(m_dataBox);
+	m_phone->setText("");
+	layout->addWidget(m_phone, 4,1);
 }
+
+
+FDSetupEnterprise::~FDSetupEnterprise()
+{
+}
+
+void FDSetupEnterprise::addEnterprise()
+{
+	QStringList data = QStringList() << SQLSTR(m_nit->text()) << SQLSTR(m_address->text()) << SQLSTR(m_name->text()) << SQLSTR(m_phone->text()) << SQLSTR(m_city->text());
+	KLInsert sql("ldt_enterprise", data);
+	
+	KLDM->execQuery(&sql);
+	
+	if ( KLDM->isLastError() )
+	{
+		KMessageBox::detailedSorry (0, i18n("I create your enterprise :("), KLDM->getLastError() );
+	}
+}
+
 
 // Class FDSetupAdmin
 
@@ -312,26 +362,18 @@ FDSetupAdmin::~FDSetupAdmin()
 {
 }
 
-bool FDSetupAdmin::setAdministrator(KLDatabase *db)
+bool FDSetupAdmin::setAdministrator()
 {
-	Q_CHECK_PTR(db);
-
-	std::cout << db->databaseName() << std::endl;
-	
-	if ( ! db->isOpen() )
-	{
-		if ( ! db->open() )
-		{
-		}
-	}
+	std::cout << KLDM->databaseName() << std::endl;
 	
 	QString sex;
+	
 	if ( m_sexBox->selectedId() == 0)
 		sex = 'm';
 	else
 		sex = 'f';
 	
-	db->execQuery(new KLInsert( "ldt_persons", 
+	KLDM->execQuery(new KLInsert( "ldt_persons", 
 		      QStringList() << SQLSTR(m_docident->text()) 
 				      << SQLSTR(m_fname->text()) 
 				      << SQLSTR(m_lname->text()) 
@@ -341,9 +383,9 @@ bool FDSetupAdmin::setAdministrator(KLDatabase *db)
 				      << SQLSTR(m_address->text()) 
 				      << SQLSTR(sex)));
 	
-	db->execQuery(new KLInsert("ldt_users", QStringList()  << SQLSTR(m_docident->text()) << SQLSTR(db->userName()) << SQLSTR("11111")));
+	KLDM->execQuery(new KLInsert("ldt_users", QStringList()  << SQLSTR(m_docident->text()) << SQLSTR(KLDM->userName()) << SQLSTR("11111")));
 
-	if ( db->isLastError())
+	if ( KLDM->isLastError())
 	{
 		return false;
 	}

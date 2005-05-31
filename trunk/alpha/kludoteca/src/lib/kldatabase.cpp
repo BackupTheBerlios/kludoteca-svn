@@ -35,8 +35,8 @@ KLDatabase *KLDatabase::instance()
 {
 	static KLDatabase *skdb = new KLDatabase;
 	
-// 	if ( !skdb->isOpen() )
-// 		skdb->open();
+	if ( !skdb->isOpen() )
+		skdb->open();
 	
 	return skdb;
 }
@@ -75,6 +75,9 @@ KLResultSet KLDatabase::execQuery(const QString &strquery, QStringList fields)
 	}
 	
 	emit executed(!lastIsBad);
+	
+	if (isOpen())
+		close();
 	
 	return theResultSet;
 }
@@ -162,6 +165,11 @@ void KLDatabase::setupConnection(const QString &dbname, const QString & login, c
 bool KLDatabase::isLastError()
 {
 	return lastIsBad;
+}
+
+QString KLDatabase::getLastError()
+{
+	return lastError().text();
 }
 
 

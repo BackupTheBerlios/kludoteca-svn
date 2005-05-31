@@ -68,7 +68,7 @@ class LDTApp : public KApplication
 		 * Coloca los colores de la aplicacion
 		 */
 		void applyColors();
-		
+
 	private:
 		const QString APPNAME;
 		const QString APPVERSION;

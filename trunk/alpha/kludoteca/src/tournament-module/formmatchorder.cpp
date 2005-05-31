@@ -69,7 +69,7 @@ void FormMatchOrder::setupForm()
 QStringList FormMatchOrder::getMatchResult(int number)
 {
 	// Sacamos en una lista el resultado de la partida numero "number"
-	QStringList results;
+	QStringList results = QStringList();
 	QComboTableItem *itm = static_cast<QComboTableItem*>(m_table->item(number, 2));
 	
 	switch(itm->currentItem ())
@@ -91,6 +91,7 @@ QStringList FormMatchOrder::getMatchResult(int number)
 		}
 		break;
 	}
+	qDebug(QString("Tamño de la lista retornada: %1").arg(results.count()));
 	return results;
 }
 
@@ -112,8 +113,12 @@ void FormMatchOrder::accept()
 			for (uint i = 0; i < parts; i++)
 			{
 				QStringList results = this->getMatchResult(i);
-				QStringList values = QStringList() 
-						<< QString::number((m_nround-1)*results.count()+i)
+				
+// 				std::cout << i << "Ronda -1: " << (m_nround-1);
+// 				std::cout << " count " << results.count();
+				
+				QStringList values = QStringList()
+						<< QString::number((m_nround-1)*parts+i)
 						<< QString::number(m_nround)
 						<< SQLSTR(m_tournament)
 						<< SQLSTR(m_table->text(i, 0)) // Oponente 1

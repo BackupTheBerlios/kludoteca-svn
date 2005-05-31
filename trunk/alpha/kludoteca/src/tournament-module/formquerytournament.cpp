@@ -33,7 +33,10 @@ FormQueryTournament::FormQueryTournament(const QString &tournament, QWidget *par
 	setTitle(i18n("Query tournament %1").arg(tournament));
 	setExplanation(i18n("This is the ranking of the tournament"));
 	setupForm();
-	setupButtons(FormBase::AcceptButton, FormBase::CancelButton);
+	setupButtons(FormBase::AcceptButton, FormBase::NoButton);
+	
+	this->setTextAcceptButton(i18n("Accept"));
+// 	this->setTextCancelButton(i18n("Cancel"));
 	KPassivePopup::message( "Tournament", this );
 }
 
@@ -47,7 +50,7 @@ void FormQueryTournament::setupForm()
 {
 	setupTournamentInfo();
 	
-	new QLabel("<div align=center><h1>Results Table</h1></div>", this);/*->setAlignment(Qt::Qt::AlignHCenter*/
+	new QLabel("<div align=center><h1>Results Table</h1></div>", this);
 	
 	m_resultTable = new KLTable(0,5, this);
 	m_resultTable->setColumnLabels(QStringList() << i18n("Participant") << i18n("Win") << i18n("Draw") << i18n("Lost") << i18n("Total"));
@@ -135,6 +138,7 @@ void FormQueryTournament::fillTable()
 
 void FormQueryTournament::accept()
 {
+	emit accepted();
 }
 
 void FormQueryTournament::clean()

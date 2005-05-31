@@ -46,6 +46,7 @@
 #include <kstandarddirs.h>
 
 #include "klpermission.h"
+#include "klenterprise.h"
 
 KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_printer(0), m_childs(0), m_view(0), m_userValidator(0)
 {
@@ -118,6 +119,32 @@ void KLudoteca::setupActions()
 // 					this, SLOT(optionsPreferences()),
 // 					actionCollection(), "custom_action");
 	createGUI(0);
+}
+
+void KLudoteca::generateEnterpriseInfo()
+{
+	KLSelect sql(QStringList() <<   "nit" << "address"<< "name" << "phone" << "city", QString("ldt_enterprise"));
+	
+	KLResultSet resultSet = KLDM->execQuery(&sql);
+	
+	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
+	KLXmlReader xmlreader;
+	
+	if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		LOGGER->log(i18n("I can't generate enterprise information"), KLLogger::Err);
+		return;
+	}
+	
+	KLSqlResults results = xmlreader.results();
+	
+	klenterprise->setName(results["name"]);
+	klenterprise->setNit(results["nit"]);
+	klenterprise->setPhone(results["phone"]);
+	klenterprise->setCity(results["city"]);
+	
+	LOGGER->log(i18n("Open enterprise %1").arg(results["name"]), KLLogger::Inf);
 }
 
 void KLudoteca::addModulePage(KMdiChildView *view)
@@ -242,6 +269,7 @@ void KLudoteca::showValidateUser()
 	if ( m_userValidator->exec() == KDialog::Accepted )
 	{
 		setupToolWindows();
+		generateEnterpriseInfo();
 	}
 }
 

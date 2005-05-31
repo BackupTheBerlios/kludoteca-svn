@@ -88,9 +88,16 @@ void TournamentActive::modifyButtonClicked()
 
 void TournamentActive::queryButtonClicked()
 {
-	QString tname = m_listView->currentItem()->text(0);
-	if(tname.isEmpty())
+	QListViewItem *current = m_listView->currentItem();
+	
+	if ( ! current )
 		return;
+	
+	QString tname = current->text(0);
+	
+	if( tname.isEmpty() || tname.isNull())
+		return;
+	
 	KMdiChildView *view = new KMdiChildView(i18n("Query tournament"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 

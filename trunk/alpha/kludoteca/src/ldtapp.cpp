@@ -22,7 +22,7 @@
 #include <iostream>
 #include <klocale.h>
 
-LDTApp::LDTApp() : KApplication(), APPVERSION("0.2a") 
+LDTApp::LDTApp() : KApplication(), APPVERSION("0.2a")
 {
 	// Configuramos el logger
 // 	LOGGER->setupLogger(QDir::homeDirPath (), QString("logfile.txt") );

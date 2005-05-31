@@ -207,6 +207,11 @@ class KLudoteca : public KMdiMainFrm
 		 */
 		void setupOSD();
 		
+		/**
+		 * Genera informacion de la empresa
+		 */
+		void generateEnterpriseInfo();
+		
 	private:
 		KLudotecaView *m_view;
 				

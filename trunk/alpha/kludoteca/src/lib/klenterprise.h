@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                              	   *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FORMMATCHORDER_H
-#define FORMMATCHORDER_H
+#ifndef KLENTERPRISE_H
+#define KLENTERPRISE_H
 
-#include "formbase.h"
-#include "kltable.h"
-#include "matchgenerator.h"
+#include <qobject.h>
+
+class KLEnterprise;
 
 /**
- * Aqui tenemos las partidas de una ronda, con sus respectivos puntajes
- * @author David Cuadrado
+ * @author CetiSoft
 */
-class FormMatchOrder : public FormBase
+
+class KLEnterprise : public QObject
 {
 	Q_OBJECT
 	public:
-		FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent = 0);
-		~FormMatchOrder();
+		KLEnterprise(QObject *parent = 0, const char *name = 0);
+		~KLEnterprise();
+		
+		static KLEnterprise *instance();
+		void setName(const QString &);
+		void setNit(const QString &);
+		void setPhone(const QString &);
+		void setAddress(const QString &);
+		void setCity(const QString &);
+		
+		QString getName();
+		QString getNit();
+		QString getPhone();
+		QString getAddress();
+		QString getCity();
 
-		void setupForm();
-
-		void accept();
-		void cancel();
-		void clean();
-		void updateRanks(const QStringList &clients);
-		
-		QStringList getMatchResult(int number);
-		
-	private slots:
-		void fillTable();
-		
 	private:
-		MatchClientInfo getMatchClientInfo(const QStringList &sqlresults, int newpos);
-		
-	private:
-		QString m_tournament;
-		const int m_nround;
-		KLTable *m_table;
-		QStringList m_restParticipant;
-		MatchClientInfo m_clientList;
+		QString m_name, m_nit, m_phone, m_address, m_city;
 };
+
+#define klenterprise KLEnterprise::instance()
 
 #endif

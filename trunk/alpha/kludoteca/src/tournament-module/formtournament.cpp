@@ -20,6 +20,9 @@
 
 #include "formtournament.h"
 #include <klocale.h>
+#include <kmessagebox.h>
+#include <qregexp.h>
+#include <qvalidator.h>
 #include "klxmlreader.h"
 
 #define DEBUG_FORMTOUR 0
@@ -80,12 +83,16 @@ void FormTournament::setupForm()
 	QLabel *valueInscripLabel = new QLabel(i18n("Value for inscription"),m_form);
 	KLineEdit *valueInscrip = new KLineEdit(m_form);
 	m_lineEdits.insert("price", valueInscrip);
+	
+	valueInscrip->setValidator(new QRegExpValidator(QRegExp("[1-9]\\d{0,8}"), 0));
+	
 	m_grid->addWidget(valueInscripLabel, 4,0);
 	m_grid->addWidget(valueInscrip, 4,1);
 	
 	QLabel *discountLabel = new QLabel(i18n("Discount in the inscription"),m_form);
 	KLineEdit *discountInscrip = new KLineEdit(m_form);
 	m_lineEdits.insert("discount", discountInscrip);
+	discountInscrip->setValidator(new QRegExpValidator(QRegExp("[1-9]\\d{0,8}"),0));
 	m_grid->addWidget(discountLabel, 4,2);
 	m_grid->addWidget(discountInscrip, 4,3);
 	
@@ -143,6 +150,10 @@ QString FormTournament::gameName2code(const QString &gamename)
 
 void FormTournament::accept ()
 {
+	if ( !validateFields())
+	{
+		return;
+	}
 	switch(getType())
 	{
 		case Add:
@@ -185,6 +196,48 @@ void FormTournament::clean()
 	for( ; it.current(); ++it)
 		it.current()->setText("");
 }
+
+bool FormTournament::validateFields()
+{
+	QString errors = "";
+	bool conversion = false;
+	int inttmp;
+	
+	bool ok = true;
+	if ( this->getTournamentName().length() < 1)
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad name field</li>");
+	}
+	
+	inttmp = this->getRounds().toInt(&conversion);
+	if ( ! ( conversion && inttmp > 0 )  )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad rounds field</li>");
+	}
+	
+	inttmp = this->getRounds4pair().toInt(&conversion);
+	
+	if ( !(conversion && inttmp > 0) )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad rounds for pair field</li>");
+	}
+	
+	if ( m_dateTournament->date() > m_endDate->date() )
+	{	
+		ok = ok && false;
+		errors += i18n("<li>Bad end date field</li>");
+	}
+	
+	
+	if ( !ok )
+		KMessageBox::detailedSorry (0, i18n("I can't create this tournament!"), errors);//<br> %1 ").arg(errors));
+	
+	return ok;
+}
+
 
 void FormTournament::setTournamentName(const QString &name)
 {
