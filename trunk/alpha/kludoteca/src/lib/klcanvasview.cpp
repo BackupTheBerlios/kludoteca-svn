@@ -64,30 +64,13 @@ void KLCanvasView::initElements()
 		int z = ((i * 17) % 105) + 151;
 		m_elements[i] = KLReportElement( KLReportElement::INVALID, QColor( int(x), y, z, QColor::Hsv ) );
 	}
-	
-	m_elements[0]  = KLReportElement( KLReportElement::INVALID, red );
-	m_elements[1]  = KLReportElement( KLReportElement::INVALID, cyan );
-	m_elements[2]  = KLReportElement( KLReportElement::INVALID, blue );
-	m_elements[3]  = KLReportElement( KLReportElement::INVALID, yellow );
-	m_elements[4]  = KLReportElement( KLReportElement::INVALID, green );
-	m_elements[5]  = KLReportElement( KLReportElement::INVALID, magenta );
-	m_elements[6]  = KLReportElement( KLReportElement::INVALID, darkYellow );
-	m_elements[7]  = KLReportElement( KLReportElement::INVALID, darkRed );
-	m_elements[8]  = KLReportElement( KLReportElement::INVALID, darkCyan );
-	m_elements[9]  = KLReportElement( KLReportElement::INVALID, darkGreen );
-	m_elements[10] = KLReportElement( KLReportElement::INVALID, darkMagenta );
-	m_elements[11] = KLReportElement( KLReportElement::INVALID, darkBlue );
-	
-// 	double value = INVALID, QColor valueColor = Qt::gray,
-// 	int valuePattern = Qt::SolidPattern,
-// 	const QString& label = QString::null,
-// 	QColor labelColor = Qt::black 
-	for ( int i = 0; i < 12; ++i ) 
+}
+
+void KLCanvasView::setElements(const ElementVector &elements)
+{
+	for(uint i = 0; i < elements.count(); i++)
 	{
-		double x = (double(i) / MAX_ELEMENTS) * 360;
-		int y = (int(x * 256) % 105) + 151;
-		int z = ((i * 17) % 105) + 151;
-		m_elements[i] = KLReportElement( (i+1)*2, QColor( int(x), y, z, QColor::Hsv ),Qt::SolidPattern, "label" );
+		m_elements[i] = elements[i];
 	}
 }
 

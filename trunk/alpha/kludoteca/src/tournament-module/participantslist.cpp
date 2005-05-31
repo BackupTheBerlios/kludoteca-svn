@@ -205,11 +205,21 @@ void ParticipantsList::queryButtonClicked()
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
-		
-	// Ejemplo
-	
+
 	KLReportWidget *formParticipantsList = new KLReportWidget( scroll->viewport() );
 
+	ElementVector m_elements;
+	m_elements.resize(12);
+	
+	for ( int i = 0; i < 12; ++i )
+	{
+		double x = (double(i) / 100) * 360;
+		int y = (int(x * 256) % 105) + 151;
+		int z = ((i * 17) % 105) + 151;
+		m_elements[i] = KLReportElement( z, QColor( int(x), y, z, QColor::Hsv ) );
+	}
+	
+	formParticipantsList->getKLCanvasView()->setElements(m_elements);
 	
 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
 	

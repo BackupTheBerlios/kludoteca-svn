@@ -21,7 +21,6 @@
 #define PARTICIPANTSLIST_H
 
 #include <ltlistview.h>
-#include "klreportelement.h"
 #include "formparticipants.h"
 
 /**

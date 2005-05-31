@@ -23,19 +23,21 @@ class KLCanvasView : public QCanvasView
 		void contentsMousePressEvent( QMouseEvent *e );
 		void contentsMouseMoveEvent( QMouseEvent *e );
 		void initElements();
-		void drawElements();
 		
 	public:
+		void drawElements();
 		void drawPieChart( const double scales[], double total, int );
 		void drawVerticalBarChart(const double scales[], double total, int count );
 		void drawHorizontalBarChart(const double scales[], double total, int count );
 		QString valueLabel(const QString& label, double value, double total );
-		void setChartType(ChartType t);
-		void addValues(AddValuesType av);
-		void setDecimalPlaces(uint dp);
 		
 		void setBackgroundPixmap(const QPixmap &bg);
 		void setBackgroundColor ( const QColor & c );
+
+		void setElements(const ElementVector &elements);
+		void setChartType(ChartType t);
+		void addValues(AddValuesType av);
+		void setDecimalPlaces(uint dp);
 
 	private:
 		QCanvasItem *m_movingItem;

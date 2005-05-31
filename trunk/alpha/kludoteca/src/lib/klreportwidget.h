@@ -34,9 +34,15 @@ class KLReportWidget : public FormBase
 			
 	private:
 		KLCanvasView *m_view;
-		KToolBar *actionPanel;
+		KToolBar *m_actionPanel;
 		ElementVector m_elements;
 		void initElements();
+		
+	private slots:
+		void setPieChart();
+		void setHorizChart();
+		void setVertChart();
+		void toggleValues();
 		
 	public:
 		KLReportWidget(QWidget *parent = 0, const char *name = 0);
@@ -46,6 +52,9 @@ class KLReportWidget : public FormBase
 		void setupForm();
 		void accept();
 		void clean();
+		
+		void setElements(const ElementVector &vect);
+		KLCanvasView *getKLCanvasView();
 };
 
 #endif
