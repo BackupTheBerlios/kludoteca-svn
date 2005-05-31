@@ -117,7 +117,7 @@ void FormAdminClients::setupBox()
 	
 	
 
-	QStringList FriendLabels = QStringList() << i18n("Friend Id")
+	QStringList FriendLabels = QStringList() << i18n("Friend Identification")
 						<< i18n("Friend Name") 
 						<< i18n("Friend Last name")
 						<< i18n("Friend Phone")
@@ -130,7 +130,7 @@ void FormAdminClients::setupBox()
 	QStringList persondbFields = QStringList() << "firstname" 
 						<< "lastname"
 						<< "phone"
-						<< "celullar"
+						<< "cellular"
 						<< "email"
 						<< "address" ;
 	
@@ -138,7 +138,7 @@ void FormAdminClients::setupBox()
 						<< "firstname" 
 						<< "lastname"
 						<< "phone"
-						<< "celullar"
+						<< "cellular"
 						<< "email"
 						<< "address" ;
 						
@@ -194,7 +194,7 @@ QString FormAdminClients::getClientPhone()
 
 QString FormAdminClients::getClientCellular()
 {
-	return m_hashPerson["celullar"]->text();
+	return m_hashPerson["cellular"]->text();
 }
 
 QString FormAdminClients::getClientState()
@@ -237,7 +237,7 @@ void FormAdminClients::setClientPhone(const QString &phone)
 
 void FormAdminClients::setClientCellular(const QString &cell)
 {
-	m_hashPerson["celullar"]->setText(cell);
+	m_hashPerson["cellular"]->setText(cell);
 }
 
 
@@ -301,7 +301,7 @@ QString FormAdminClients::getFriendPhone()
 
 QString FormAdminClients::getFriendCellular()
 {
-	return m_hashFriend["celullar"]->text();
+	return m_hashFriend["cellular"]->text();
 }
 
 QString FormAdminClients::getFriendAddress()
@@ -354,7 +354,7 @@ void FormAdminClients::setFriendPhone(const QString &phone)
 
 void FormAdminClients::setFriendCellular(const QString &cell)
 {
-	m_hashFriend["celullar"]->setText(cell);
+	m_hashFriend["cellular"]->setText(cell);
 }
 
 
@@ -425,8 +425,15 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getFriendEmail() )
 							<< SQLSTR( this->getFriendAddress() )
 							<< SQLSTR( this->getFriendSex() ) );
-				emit sendQuery(queryFrd);
-				
+				//emit sendQuery(queryFrd);
+				KLResultSet resultSet = KLDM->execQuery(queryFrd);
+				m_xmlsource.setData(resultSet.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
+	
 				KLInsert *queryClt2Person = new KLInsert("ldt_persons", QStringList()
 							<< SQLSTR( this->getClientId() )
 							<< SQLSTR( this->getClientName() )
@@ -437,14 +444,28 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getClientAddress() )
 							<< SQLSTR( this->getClientSex() ) );
 				
-				emit sendQuery(queryClt2Person);
+				//emit sendQuery(queryClt2Person);
+				KLResultSet resultSetClt2Person = KLDM->execQuery(queryClt2Person);
+				m_xmlsource.setData(resultSetClt2Person.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
 				
 				KLInsert *cliente = new KLInsert("ldt_clients", QStringList()
 										<< SQLSTR( this->getClientId() )
 										<< SQLSTR( this->getSystemDate() )
 										<< SQLSTR( this->getClientState() ) 
 										<< SQLSTR( this->getFriendId() ) );
-				emit sendQuery(cliente);
+				//emit sendQuery(cliente);
+				KLResultSet resultSetcliente = KLDM->execQuery(cliente);
+				m_xmlsource.setData(resultSetcliente.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
 				
 				if ( this->lastQueryWasGood() )
 				{
@@ -467,15 +488,28 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getClientAddress() )
 							<< SQLSTR( this->getClientSex() ) );
 				
-				emit sendQuery(queryClt2Person);
+				//emit sendQuery(queryClt2Person);
+				KLResultSet resultSetClt2Person = KLDM->execQuery(queryClt2Person);
+				m_xmlsource.setData(resultSetClt2Person.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
 				
 				KLInsert *cliente = new KLInsert("ldt_clients", QStringList()
 										<< SQLSTR( this->getClientId() )
 										<< SQLSTR( this->getSystemDate() )
 										<< SQLSTR( this->getClientState() ) 
 										<< SQLSTR( this->getFriendId() ) );
-				emit sendQuery(cliente);
-				
+				//emit sendQuery(cliente);
+				KLResultSet resultSetcliente = KLDM->execQuery(cliente);
+				m_xmlsource.setData(resultSetcliente.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
 				if ( this->lastQueryWasGood() )
 				{
 					emit accepted();
@@ -547,7 +581,14 @@ void FormAdminClients::accept()
 				KLUpdate sqlup("ldt_persons", fieldsFriend, valuesFriend);
 				sqlup.setWhere("docident="+SQLSTR(m_fpkey) );
 				cout <<"TRY QUERY FRIEND" << endl;
-				emit sendQuery(&sqlup);
+				//emit sendQuery(&sqlup);
+				KLResultSet resultSet = KLDM->execQuery(&sqlup);
+				m_xmlsource.setData(resultSet.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
 				/*
 				if ( this->lastQueryWasGood() )  AKI NO NECESITAMOS MOSTRAS LOS NUEVOS
 								NUEVOS VALORES EN EL LISTVIEW
@@ -563,7 +604,14 @@ void FormAdminClients::accept()
 				KLUpdate sqlup("ldt_persons", fieldsPerson, valuesPerson);
 				sqlup.setWhere("docident="+SQLSTR(m_pkey));
 				cout <<"TRY QUERY PERSON" << endl;
-				emit sendQuery(&sqlup);
+				//emit sendQuery(&sqlup);
+				KLResultSet resultSet = KLDM->execQuery(&sqlup);
+				m_xmlsource.setData(resultSet.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
 				if ( this->lastQueryWasGood() )
 				{
 					emit inserted(m_pkey);
@@ -587,8 +635,21 @@ void FormAdminClients::accept()
 				KLUpdate sqlup("ldt_clients", fieldsClte, valuesClte);
 				sqlup.setWhere("docident="+SQLSTR( m_pkey ));
 				cout <<"TRY QUERY CLIENT: " << m_pkey << endl;
-				emit sendQuery(&sqlup);
+				//emit sendQuery(&sqlup);
+				KLResultSet resultSet = KLDM->execQuery(&sqlup);
+				m_xmlsource.setData(resultSet.toString());
+				if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+				{
+					std::cerr << "No se puede analizar" << std::endl;
+					return;
+				}
 				
+				
+				if ( this->lastQueryWasGood() )
+				{
+					emit inserted(m_pkey);
+					
+				}
 				if ( this->lastQueryWasGood() )
 				{
 					emit inserted(m_pkey);

@@ -94,14 +94,25 @@ void ClientsWidget::addButtonClicked()
 void ClientsWidget::delButtonClicked()
 {
 	cout << "del button clicked" << std::endl;
+	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
+	
+	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the Client ")+itemp->text(2)+ " ?");
+	
+	if (opt == KMessageBox::Yes )
+	{
+		KLDM->execRawQuery("delete from ldt_clients where docident="+ SQLSTR(itemp->text(1)));
+		
+		delete itemp;
+		
+		emit message2osd(i18n("The Client has been deleted!!"));
+	}
 }
 
 void ClientsWidget::modifyButtonClicked()
 {
 	
-#if DEBUG_ADMINUSERS
-	qDebug("init addButtonClicked");
-#endif
+
+	qDebug("init modifyButtonClicked");
 	
 	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
