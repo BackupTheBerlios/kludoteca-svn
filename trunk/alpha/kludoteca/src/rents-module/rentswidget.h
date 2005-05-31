@@ -48,7 +48,7 @@ class RentsWidget : public LTListView
 		
 		void slotFilter(const QString &filter);
 		
-		void addItem(const QString &pkey);
+		
 		
 	public slots:
 		/**
@@ -75,6 +75,8 @@ class RentsWidget : public LTListView
 		 * Esta funcion debe sobreescribirse con la accion que se debe ejecutar cuando se presiona el boton de consultar
 		 */
 		void queryButtonClicked();
+		void addItem(const QStringList &pkey);
+		void updateItem(const QStringList &pkey);
 };
 
 #endif

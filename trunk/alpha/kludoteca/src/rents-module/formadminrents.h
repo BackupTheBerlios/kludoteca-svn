@@ -35,6 +35,7 @@
 #include "kltable.h"
 #include <knuminput.h>
 #include "klquery.h"
+#include <qslider.h>
 
 
 /**
@@ -65,15 +66,19 @@ class FormAdminRents : public FormBase
 		 * Limpia el formulario
 		 */
 		void clean();
-		void idTextEdit(int id);
 		void setCltTable(const QString &pkey);	
 		void setGameTable(const QString &pkey);
+		void clickedItemClte(int row, int col);
+		void clickedItemGame(int row, int col);
+		void setHourValue(int value);
+		void setAddHourValue(int value);
 		
 	signals:
 		void message2osd(const QString &msg);
 		void changedTextEdit(int id);
+		void inserted(const QStringList &qsl);
 		
-	private:
+	public:
 		/**
 		 * Crea los botones
 		 */
@@ -88,23 +93,63 @@ class FormAdminRents : public FormBase
 		 * Crea la caja de permisos
 		 */
 		void setupPermissionsBox();
+		QString getSystemDateTime();
+		
+		QString getCltName(); 
+		QString getCltId(); 
+		QString getHourValue();
+		QString getAddHourValue(); 
+		QString	getGameSerial(); 
+		QString getGameName();
+		QString getActiveValue();
+		
+		void setCltName(const QString &name); 
+		void setCltId(const QString &id); 
+		void setHourValue(const QString &value);
+		void setAddHourValue(const QString &value); 
+		void setGameSerial(const QString &serial); 
+		void setGameName(const QString &gamename);
+		void setActiveValue(const QString &value);
+		void rentDate(const QString &date);
+		void rentHour(const QString &hour);
+		
 		
 	private:
 		
 		QScrollView *m_scrollView;
 		QGridLayout *m_layout;
 		QFrame *m_container;
-		KComboBox *m_comboClte, *m_comboGame;
-		KCompletion *m_compClte, *m_compGame;
-		KLResultSetInterpreter *m_rsinterpreter;
-		KLXmlReader m_xmlreader;
-		QXmlInputSource m_xmlsource;
-		QVGroupBox *m_cltgb, *m_gamegb;
-		QGroupBox *m_rentInfogb;
-		KLTable *m_cltTable,*m_gameTable;
-		KIntSpinBox *m_hour, *m_min, *m_seg;
-		KLineEdit *m_cltName, *m_cltId;
+		KComboBox 	*m_comboClte,
+				*m_comboGame;
 		
+		KCompletion 	*m_compClte, 
+				*m_compGame;
+		
+		KLResultSetInterpreter *m_rsinterpreter;
+		
+		KLXmlReader m_xmlreader;
+		
+		QXmlInputSource m_xmlsource;
+		
+		QVGroupBox 	*m_cltgb, 
+				*m_gamegb;
+		QGroupBox *m_rentInfogb;
+		
+		KLTable *m_cltTable,
+			*m_gameTable;
+		
+		QSlider *m_timeUnits, 
+			*m_addTimeUnits;
+		
+		KLineEdit 	*m_cltName, 
+				*m_cltId, 
+				*m_hourValue,
+				*m_addHourValue, 
+				*m_gameSerial, 
+				*m_gameName,
+				*m_active;
+		QString m_time,m_setGameSerial,m_rentDate,m_rentHour;
+		HashLineEdit m_hashRentFields;
 		
 		
 };
