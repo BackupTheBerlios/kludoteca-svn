@@ -71,14 +71,16 @@ void FormAdminClients::setupButtonsBox()
 	m_selectFaceClte->resize(64, 64);
 	m_layout->addWidget(vboxClient, 0 , 1);
 
-	m_comboClte = new KComboBox(true,m_container, "m_combo");
-	m_comboClte->insertItem(i18n("Active"), -1);
-	m_comboClte->insertItem(i18n("Inactive"), -2);
-	m_comboClte->insertItem(i18n("Banned"), -3);
+	QHBox *comboHbox = new QHBox(m_container);
+	QLabel *banned = new QLabel(i18n("Banned"),comboHbox);
+	m_comboClte = new KComboBox(true,comboHbox, "m_combo");
+	m_comboClte->insertItem(i18n("no"), -1);
+	m_comboClte->insertItem(i18n("si"), -2);
+	
 	
 	m_compClte = m_comboClte->completionObject();
 	connect(m_comboClte,SIGNAL(returnPressed(const QString&)),m_compClte,SLOT(addItem(const QString&)));
-	m_layout->addWidget(m_comboClte,1,1);
+	m_layout->addWidget(comboHbox,1,1);
 
 /***************** REFERENCE *********************************/
 
@@ -89,19 +91,20 @@ void FormAdminClients::setupButtonsBox()
 	m_femaleFrd->setChecked(true);
 	
 	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
-	m_selectFaceFrd = new KPushButton("", vboxFriend );
-	m_selectFaceFrd->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png" )) );
-	m_selectFaceFrd->resize(64, 64);
+// 	m_selectFaceFrd = new KPushButton("", vboxFriend );
+// 	m_selectFaceFrd->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png" )) );
+	//m_selectFaceFrd->resize(64, 64);
 	m_layout->addWidget(vboxFriend, 0 , 3);
 
-	m_comboFrd = new KComboBox(true,m_container, "m_comboFrd");
-	m_comboFrd->insertItem(i18n("Active"), -1);
-	m_comboFrd->insertItem(i18n("Inactive"), -2);
-	m_comboFrd->insertItem(i18n("Banned"), -3);
-	
+	QHBox *comboFrd = new QHBox(m_container);
+	QLabel *bannedFrd = new QLabel(i18n("Banned"),comboFrd);
+	m_comboFrd = new KComboBox(true,comboFrd, "m_comboFrd");
+	m_comboFrd->insertItem(i18n("no"), -1);
+	m_comboFrd->insertItem(i18n("si"), -2);
+		
 	m_compFrd = m_comboFrd->completionObject();
 	connect(m_comboFrd,SIGNAL(returnPressed(const QString&)),m_compFrd,SLOT(addItem(const QString&)));
-	m_layout->addWidget(m_comboFrd,1,3);
+	m_layout->addWidget(comboFrd,1,3);
 }
 
 void FormAdminClients::setupBox()
@@ -113,7 +116,8 @@ void FormAdminClients::setupBox()
 						<< i18n("Phone")
 						<< i18n("Cellular")
 						<< i18n("Email")
-						<< i18n("Address");
+						<< i18n("Address")
+						<< i18n("Comment");
 	
 	
 
@@ -124,6 +128,7 @@ void FormAdminClients::setupBox()
 						<< i18n("Friend Cellular")
 						<< i18n("Friend Email")
 						<< i18n("Friend Address");
+						//<< i18n("Comment");
 	
 	QStringList clientdbFields = QStringList() << "docident";
 	
@@ -132,7 +137,8 @@ void FormAdminClients::setupBox()
 						<< "phone"
 						<< "cellular"
 						<< "email"
-						<< "address" ;
+						<< "address" 
+						<< "comment";
 	
 	QStringList friendDbFields = QStringList() << "docident"
 						<< "firstname" 
@@ -141,6 +147,7 @@ void FormAdminClients::setupBox()
 						<< "cellular"
 						<< "email"
 						<< "address" ;
+						//<< "comment";
 						
 	QWidget *box1 = new QWidget(m_container);
 	QWidget *box2 = new QWidget(m_container);
@@ -199,8 +206,10 @@ QString FormAdminClients::getClientCellular()
 
 QString FormAdminClients::getClientState()
 {
-	/*hacer el combobox*/
-	return i18n( m_comboClte->currentText() );
+	if (i18n( m_comboClte->currentText() ) == i18n("si"))
+		return QString("t");
+	else
+		return QString("f");
 }
 
 QString FormAdminClients::getClientEmail()
@@ -211,6 +220,11 @@ QString FormAdminClients::getClientEmail()
 QString FormAdminClients::getClientAddress()
 {
 	return m_hashPerson["address"]->text();
+}
+
+QString FormAdminClients::getClientComment()
+{
+	return m_hashPerson["comment"]->text();
 }
 
 void FormAdminClients::setClientId(const QString &id)
@@ -275,6 +289,10 @@ void FormAdminClients::setClientAddress(const QString &address)
 	m_hashPerson["address"]->setText(address);
 }
 
+void FormAdminClients::setClientComment(const QString &comment)
+{
+	m_hashPerson["comment"]->setText(comment);
+}
 
 /******************************************************************************************
 ***************************INFO DE REFERENCIA *********************************************
@@ -311,7 +329,11 @@ QString FormAdminClients::getFriendAddress()
 
 QString FormAdminClients::getFriendState()
 {
-	return i18n(m_comboFrd->currentText());
+	if (i18n( m_comboFrd->currentText() ) == i18n("si"))
+		return QString("t");
+	else
+		return QString("f");
+	
 }
 
 QString FormAdminClients::getFriendEmail()
@@ -329,6 +351,7 @@ QString FormAdminClients::getFriendSex()
 	else if (sexo == QString(i18n("female")) )
 		return QString("f");
 }
+
 
 void FormAdminClients::setFriendId(const QString &id)
 {
@@ -387,6 +410,7 @@ void FormAdminClients::setFriendAddress(const QString &address)
 {
 	m_hashFriend["address"]->setText(address);
 }
+
 /*
 * Este metodo toma los valores de los klineedits a traves de dos tablas hash (m_hashPerson y m_hashFriend)
 */
@@ -456,7 +480,8 @@ void FormAdminClients::accept()
 				KLInsert *cliente = new KLInsert("ldt_clients", QStringList()
 										<< SQLSTR( this->getClientId() )
 										<< SQLSTR( this->getSystemDate() )
-										<< SQLSTR( this->getClientState() ) 
+										<< SQLSTR( this->getClientComment())
+										<< SQLSTR("f") 
 										<< SQLSTR( this->getFriendId() ) );
 				//emit sendQuery(cliente);
 				KLResultSet resultSetcliente = KLDM->execQuery(cliente);
@@ -482,7 +507,7 @@ void FormAdminClients::accept()
 							<< SQLSTR( this->getClientId() )
 							<< SQLSTR( this->getClientName() )
 							<< SQLSTR( this->getClientLastName() )
-							<< SQLSTR( this->getClientPhone() )					
+							<< SQLSTR( this->getClientPhone() )			
 							<< SQLSTR( this->getClientCellular() )
 							<< SQLSTR( this->getClientEmail() )
 							<< SQLSTR( this->getClientAddress() )
@@ -500,7 +525,8 @@ void FormAdminClients::accept()
 				KLInsert *cliente = new KLInsert("ldt_clients", QStringList()
 										<< SQLSTR( this->getClientId() )
 										<< SQLSTR( this->getSystemDate() )
-										<< SQLSTR( this->getClientState() ) 
+										<< SQLSTR( this->getClientComment() )
+										<< SQLSTR( this->getClientState())
 										<< SQLSTR( this->getFriendId() ) );
 				//emit sendQuery(cliente);
 				KLResultSet resultSetcliente = KLDM->execQuery(cliente);
@@ -626,7 +652,7 @@ void FormAdminClients::accept()
 			}
 			if(cltStateChanged)
 			{
-				fieldsClte << "state";
+				fieldsClte << "banned";
 				valuesClte << SQLSTR(this->getClientState());
 			}
 			

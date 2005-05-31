@@ -81,6 +81,7 @@ class FormAdminClients : public FormBase
 		QString getClientEmail();
 		QString getClientSex();
 		QString getClientAddress();
+		QString getClientComment();
 		
 		QString getFriendId();
 		QString getFriendLastName();
@@ -92,6 +93,7 @@ class FormAdminClients : public FormBase
 		QString getFriendEmail();
 		QString getFriendSex();
 		
+		
 		void setClientId(const QString &id);
 		void setClientName(const QString &name);
 		void setClientLastName(const QString &lastname);
@@ -101,6 +103,7 @@ class FormAdminClients : public FormBase
 		void setClientEmail(const QString &email);
 		void setClientSex(QString &sex);
 		void setClientAddress(const QString &address);
+		void setClientComment(const QString &comment);
 
 		void setFriendId(const QString &id);
 		void setFriendName(const QString &name);
@@ -111,6 +114,7 @@ class FormAdminClients : public FormBase
 		void setFriendEmail(const QString &email);
 		void setFriendSex(QString &sex);
 		void setFriendAddress(const QString &address);
+		
 // 		
 		//void setFriendLineEdits(QStringList &fields,KLSqlResults &result);
 		

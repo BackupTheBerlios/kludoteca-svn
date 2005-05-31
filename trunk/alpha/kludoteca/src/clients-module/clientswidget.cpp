@@ -183,7 +183,8 @@ void ClientsWidget::modifyButtonClicked()
 	formAdminClients->setClientEmail(resultsClte["email"]);
 	formAdminClients->setClientAddress(resultsClte["address"]);
 	formAdminClients->setClientSex(resultsClte["genre"]);
-	formAdminClients->setClientState(resultsClte["ldt_clients.comment"]);
+	formAdminClients->setClientComment(resultsClte["ldt_clients.comment"]);
+	formAdminClients->setClientState(resultsClte["ldt_clients.banned"]);
 	
 	formAdminClients->setFriendId(resultsRef["docident"]);
 	formAdminClients->setFriendName(resultsRef["firstname"]);
@@ -193,6 +194,7 @@ void ClientsWidget::modifyButtonClicked()
 	formAdminClients->setFriendEmail(resultsRef["email"]);
 	formAdminClients->setFriendAddress(resultsRef["address"]);
 	formAdminClients->setFriendSex(resultsRef["genre"]);
+	
 
 	//formAdminClients->setFriendLineEdits(friendFields,resultsRef);
 	
