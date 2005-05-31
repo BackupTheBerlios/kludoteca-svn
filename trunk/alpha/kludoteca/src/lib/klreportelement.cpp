@@ -7,6 +7,68 @@ const char FIELD_SEP = ':';
 const char PROPOINT_SEP = ';';
 const char XY_SEP = ',';
 
+KLReportElement::KLReportElement( double value, QColor valueColor,int valuePattern,const QString& label,QColor labelColor )
+{
+	init( value, valueColor, valuePattern, label, labelColor );
+	for ( int i = 0; i < MAX_PROPOINTS * 2; ++i )
+		m_propoints[i] = NO_PROPORTION;
+}
+
+KLReportElement::~KLReportElement()
+{
+}
+//
+bool KLReportElement::isValid() const 
+{ 
+	return m_value > EPSILON; 
+}
+
+double KLReportElement::value() const 
+{ 
+	return m_value; 
+}
+QColor KLReportElement::valueColor() const 
+{ 
+	return m_valueColor; 
+}
+
+int KLReportElement::valuePattern() const 
+{ 
+	return m_valuePattern; 
+}
+QString KLReportElement::label() const 
+{ 
+	return m_label; 
+}
+QColor KLReportElement::labelColor() const 
+{ 
+	return m_labelColor; 
+}
+
+void KLReportElement::set( double value , QColor valueColor,int valuePattern,const QString& label,QColor labelColor = Qt::black )
+{
+	init( value, valueColor, valuePattern, label, labelColor );
+}
+
+void KLReportElement::setValue( double value ) 
+{ 
+	m_value = value; 
+}
+void KLReportElement::setValueColor( QColor valueColor ) 
+{ 
+	m_valueColor = valueColor; 
+}
+
+void KLReportElement::setLabel( const QString& label ) 
+{ 
+	m_label = label; 
+}
+void KLReportElement::setLabelColor( QColor labelColor ) 
+{ 
+	m_labelColor = labelColor; 
+}
+
+////
 
 void KLReportElement::init( double value, QColor valueColor, int valuePattern,
 		    const QString& label, QColor labelColor )

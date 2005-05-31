@@ -56,13 +56,38 @@ KLCanvasView::~ KLCanvasView()
 }
 
 void KLCanvasView::initElements()
-{	
+{
 	for ( int i = 0; i < MAX_ELEMENTS; ++i )
 	{
 		double x = (double(i) / MAX_ELEMENTS) * 360;
 		int y = (int(x * 256) % 105) + 151;
 		int z = ((i * 17) % 105) + 151;
 		m_elements[i] = KLReportElement( KLReportElement::INVALID, QColor( int(x), y, z, QColor::Hsv ) );
+	}
+	
+	m_elements[0]  = KLReportElement( KLReportElement::INVALID, red );
+	m_elements[1]  = KLReportElement( KLReportElement::INVALID, cyan );
+	m_elements[2]  = KLReportElement( KLReportElement::INVALID, blue );
+	m_elements[3]  = KLReportElement( KLReportElement::INVALID, yellow );
+	m_elements[4]  = KLReportElement( KLReportElement::INVALID, green );
+	m_elements[5]  = KLReportElement( KLReportElement::INVALID, magenta );
+	m_elements[6]  = KLReportElement( KLReportElement::INVALID, darkYellow );
+	m_elements[7]  = KLReportElement( KLReportElement::INVALID, darkRed );
+	m_elements[8]  = KLReportElement( KLReportElement::INVALID, darkCyan );
+	m_elements[9]  = KLReportElement( KLReportElement::INVALID, darkGreen );
+	m_elements[10] = KLReportElement( KLReportElement::INVALID, darkMagenta );
+	m_elements[11] = KLReportElement( KLReportElement::INVALID, darkBlue );
+	
+// 	double value = INVALID, QColor valueColor = Qt::gray,
+// 	int valuePattern = Qt::SolidPattern,
+// 	const QString& label = QString::null,
+// 	QColor labelColor = Qt::black 
+	for ( int i = 0; i < 12; ++i ) 
+	{
+		double x = (double(i) / MAX_ELEMENTS) * 360;
+		int y = (int(x * 256) % 105) + 151;
+		int z = ((i * 17) % 105) + 151;
+		m_elements[i] = KLReportElement( (i+1)*2, QColor( int(x), y, z, QColor::Hsv ),Qt::SolidPattern, "label" );
 	}
 }
 
@@ -93,9 +118,8 @@ void KLCanvasView::setBackgroundColor ( const QColor & c )
 	
 void KLCanvasView::viewportResizeEvent( QResizeEvent *e )
 {
-	qDebug("resize "+QString::number(m_elements.count()));
 	canvas()->resize( e->size().width(), e->size().height() );
-// 	drawElements();
+	drawElements();
 }
 
 
@@ -117,7 +141,7 @@ void KLCanvasView::contentsMousePressEvent( QMouseEvent *e )
 
 void KLCanvasView::contentsMouseMoveEvent( QMouseEvent *e )
 {
-    if ( m_movingItem ) 
+    if ( m_movingItem )
     {
 	QPoint offset = e->pos() - m_pos;
 	m_movingItem->moveBy( offset.x(), offset.y() );
@@ -133,10 +157,8 @@ void KLCanvasView::contentsMouseMoveEvent( QMouseEvent *e )
     }
 }
 
-/**/
 void KLCanvasView::drawElements()
 {
-	
 	QCanvasItemList list = m_canvas->allItems();
 	for ( QCanvasItemList::iterator it = list.begin(); it != list.end(); ++it )
 		delete *it;
@@ -144,22 +166,17 @@ void KLCanvasView::drawElements()
 	// 360 * 16 for pies; Qt works with 16ths of degrees
     	int scaleFactor = m_chartType == PIE ? 5760 :
 			m_chartType == VERTICAL_BAR ? m_canvas->height() :
-		    m_canvas->width();
+			m_canvas->width();
 	
 	double biggest = 0.0;
 	int count = 0;
 	double total = 0.0;
 	static double scales[MAX_ELEMENTS];
 
-	std::cout << "ACA" << std::endl;
-//	m_elements.clear();
-	std::cout << "Count: " << m_elements.count()<< std::endl;
 	for ( int i = 0; i < MAX_ELEMENTS; ++i )
 	{
-		std::cout << "LA I : " << i << std::endl;
-		if ( i < m_elements.count() )
+		if ( m_elements[i].isValid() )
 		{
-			std::cout << i << std::endl;
 			double value = m_elements[i].value();
 			count++;
 			total += value;
@@ -168,15 +185,14 @@ void KLCanvasView::drawElements()
 			scales[i] = m_elements[i].value() * scaleFactor;
 		}
 	}
-	std::cout << "qui" << std::endl;
-	std::cout << "Count: " << m_elements.count()<< std::endl;
-	if ( count ) {
+
+	if ( count ) 
+	{
 	    // 2nd loop because of total and biggest
 		for ( int i = 0; i < MAX_ELEMENTS; ++i )
 		{
-			if ( i < m_elements.count() )
+			if ( m_elements[i].isValid() )
 			{
-				std::cout << i << std::endl;
 				if ( m_chartType == PIE )
 					scales[i] = (m_elements[i].value() * scaleFactor) / total;
 				else
@@ -184,7 +200,6 @@ void KLCanvasView::drawElements()
 			}
 		}
 
-		std::cout << "fdas" << std::endl;
 		switch ( m_chartType ) 
 		{
 			case PIE:
@@ -197,12 +212,11 @@ void KLCanvasView::drawElements()
 				drawHorizontalBarChart( scales, total, count );
 				break;
 		}
+		m_canvas->update();
 	}
 
 	m_canvas->update();
-	qDebug("termina");
 }
-
 
 void KLCanvasView::drawPieChart( const double scales[], double total, int )
 {
@@ -260,7 +274,6 @@ void KLCanvasView::drawPieChart( const double scales[], double total, int )
 void KLCanvasView::drawVerticalBarChart(
 		const double scales[], double total, int count )
 {
-	qDebug("Vertical");
 	double width = m_canvas->width();
 	double height = m_canvas->height();
 	int prowidth = int(width / count);
@@ -268,10 +281,8 @@ void KLCanvasView::drawVerticalBarChart(
 	QPen pen;
 	pen.setStyle( NoPen );
 
-	for ( int i = 0; i < MAX_ELEMENTS; ++i ) 
-	{
-		if ( i < m_elements.count() )
-		{
+	for ( int i = 0; i < MAX_ELEMENTS; ++i ) {
+		if ( m_elements[i].isValid() ) {
 			int extent = int(scales[i]);
 			int y = int(height - extent);
 			QCanvasRectangle *rect = new QCanvasRectangle(
@@ -282,13 +293,10 @@ void KLCanvasView::drawVerticalBarChart(
 			rect->setZ( 0 );
 			rect->show();
 			QString label = m_elements[i].label();
-			
-			if ( !label.isEmpty() || m_addValues != NO ) 
-			{
+			if ( !label.isEmpty() || m_addValues != NO ) {
 				double proX = m_elements[i].proX( VERTICAL_BAR );
 				double proY = m_elements[i].proY( VERTICAL_BAR );
-				if ( proX < 0 || proY < 0 ) 
-				{
+				if ( proX < 0 || proY < 0 ) {
 					proX = x / width;
 					proY = y / height;
 				}
