@@ -207,15 +207,8 @@ void ParticipantsList::queryButtonClicked()
 	scroll->setMargin(10);
 		
 	// Ejemplo
-	ElementVector elements;
-	QValueList<QColor> colors;
-	colors << Qt::red << Qt::blue << Qt::gray << Qt::green << Qt::cyan << Qt::magenta << Qt::black << Qt::red ;
-	for(uint i = 0; i < 8; i++)
-	{
-		elements.append( new KLReportElement((i+1)*30, colors[i], Qt::SolidPattern, QString("Val%1").arg(i)) );
-	}
 	
-	KLReportWidget *formParticipantsList = new KLReportWidget( elements, scroll->viewport() );
+	KLReportWidget *formParticipantsList = new KLReportWidget( scroll->viewport() );
 
 	
 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));

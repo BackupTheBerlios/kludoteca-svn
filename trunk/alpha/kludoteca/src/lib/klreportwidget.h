@@ -35,9 +35,11 @@ class KLReportWidget : public FormBase
 	private:
 		KLCanvasView *m_view;
 		KToolBar *actionPanel;
+		ElementVector m_elements;
+		void initElements();
 		
 	public:
-		KLReportWidget(ElementVector elements, QWidget *parent = 0, const char *name = 0);
+		KLReportWidget(QWidget *parent = 0, const char *name = 0);
 
 		~KLReportWidget();
 

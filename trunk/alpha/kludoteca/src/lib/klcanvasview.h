@@ -15,12 +15,14 @@ class KLCanvasView : public QCanvasView
 		enum ChartType { PIE, VERTICAL_BAR, HORIZONTAL_BAR };
 		enum AddValuesType { NO, YES, AS_PERCENTAGE };
 		
-		KLCanvasView( ElementVector elements, QWidget* parent = 0, const char* name = "KLCanvasView", WFlags f = 0 );
+		KLCanvasView( QWidget* parent = 0, const char* name = "KLCanvasView", WFlags f = 0 );
+		~KLCanvasView();
 
 	protected:
 		void viewportResizeEvent( QResizeEvent *e );
 		void contentsMousePressEvent( QMouseEvent *e );
 		void contentsMouseMoveEvent( QMouseEvent *e );
+		void initElements();
 		void drawElements();
 		
 	public:
@@ -38,7 +40,7 @@ class KLCanvasView : public QCanvasView
 	private:
 		QCanvasItem *m_movingItem;
 		QPoint m_pos;
-		const ElementVector *m_elements;
+		ElementVector m_elements;
 		QFont m_font;
 		QCanvas *m_canvas;
 		ChartType m_chartType;

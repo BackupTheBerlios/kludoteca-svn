@@ -24,28 +24,16 @@
 #include "klreportwidget.h"
 #include "klenterprise.h"
 
-KLReportWidget::KLReportWidget(ElementVector elements, QWidget *parent, const char *name) : FormBase(FormBase::Query, parent, name)
+KLReportWidget::KLReportWidget(QWidget *parent, const char *name) : FormBase(FormBase::Query, parent, name)
 {
 	QString title = i18n("<h1/><h3><div align=center>%1</div>"
 			"<div align=center>NIT. %2</div>"
 			"<div align=center>Phone. %3</div>"
-			"<div align=center>%4</div></h3><h1>").arg(klenterprise->getName()).arg(klenterprise->getNit()).arg(klenterprise->getPhone()).arg(QDate::currentDate().toString(Qt::ISODate));;
+			"<div align=center>%4</div></h3><h1>").arg(klenterprise->getName()).arg(klenterprise->getNit()).arg(klenterprise->getPhone()).arg(QDate::currentDate().toString(Qt::ISODate));
 	
 	setTitle(title, false);
 	
-	ElementVector elements2;
-	elements2.clear();
-	QValueList<QColor> colors;
-	colors << Qt::red << Qt::blue << Qt::gray << Qt::green << Qt::cyan << Qt::magenta << Qt::black << Qt::red ;
-	for(uint i = 0; i < 5; i++)
-	{
-		elements2.append( new KLReportElement((i+1)*30, colors[i], Qt::SolidPattern, QString("Val%1").arg(i)) );
-		std::cout << "Append value: " << i << std::endl;
-	}
-	
-	std::cout << "my co: " << elements2.count() << std::endl;
-	
-	m_view = new KLCanvasView(elements2, this);
+	m_view = new KLCanvasView( this);
 	m_view->setBackgroundColor( backgroundColor() );
 	
 	setupForm();
@@ -55,7 +43,6 @@ KLReportWidget::KLReportWidget(ElementVector elements, QWidget *parent, const ch
 KLReportWidget::~KLReportWidget()
 {
 }
-
 
 void KLReportWidget::setupForm()
 {

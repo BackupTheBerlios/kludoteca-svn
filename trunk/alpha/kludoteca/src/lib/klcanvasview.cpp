@@ -37,15 +37,33 @@ class KLCanvasView::CanvasText : public QCanvasText
 		int m_index;
 };
 
-KLCanvasView::KLCanvasView( ElementVector elements, QWidget* parent , const char* name, WFlags f) : QCanvasView( parent, name, f ), m_movingItem(0), m_elements( &elements ), m_chartType(VERTICAL_BAR), m_addValues(YES), m_decimalPlaces(0)
+KLCanvasView::KLCanvasView( QWidget* parent , const char* name, WFlags f) : QCanvasView( parent, name, f ), m_movingItem(0), m_chartType(VERTICAL_BAR), m_addValues(YES), m_decimalPlaces(0)
 {
 // 	std::cout << "interno: " << elements->count() << std::endl;
-// 	std::cout << "interno: " << m_elements->count() << std::endl;
+// 	std::cout << "interno: " << m_elements.count() << std::endl;
 	m_canvas = new QCanvas(300, 300);
 	setCanvas (m_canvas);
+	
+	m_elements.resize(MAX_ELEMENTS);
 	m_font = font();
+	initElements();
 	drawElements();
 // 	show();
+}
+
+KLCanvasView::~ KLCanvasView()
+{
+}
+
+void KLCanvasView::initElements()
+{	
+	for ( int i = 0; i < MAX_ELEMENTS; ++i )
+	{
+		double x = (double(i) / MAX_ELEMENTS) * 360;
+		int y = (int(x * 256) % 105) + 151;
+		int z = ((i * 17) % 105) + 151;
+		m_elements[i] = KLReportElement( KLReportElement::INVALID, QColor( int(x), y, z, QColor::Hsv ) );
+	}
 }
 
 void KLCanvasView::setChartType(ChartType t)
@@ -75,7 +93,7 @@ void KLCanvasView::setBackgroundColor ( const QColor & c )
 	
 void KLCanvasView::viewportResizeEvent( QResizeEvent *e )
 {
-	qDebug("resize "+QString::number(m_elements->count()));
+	qDebug("resize "+QString::number(m_elements.count()));
 	canvas()->resize( e->size().width(), e->size().height() );
 // 	drawElements();
 }
@@ -108,8 +126,8 @@ void KLCanvasView::contentsMouseMoveEvent( QMouseEvent *e )
 	CanvasText *item = (CanvasText*)m_movingItem;
 	int i = item->index();
 
-	(*m_elements)[i]->setProX( m_chartType, item->x() / canvas()->width() );
-	(*m_elements)[i]->setProY( m_chartType, item->y() / canvas()->height() );
+	m_elements[i].setProX( m_chartType, item->x() / canvas()->width() );
+	m_elements[i].setProY( m_chartType, item->y() / canvas()->height() );
 
 	canvas()->update();
     }
@@ -134,35 +152,35 @@ void KLCanvasView::drawElements()
 	static double scales[MAX_ELEMENTS];
 
 	std::cout << "ACA" << std::endl;
-//	m_elements->clear();
-	std::cout << "Count: " << m_elements->count()<< std::endl;
+//	m_elements.clear();
+	std::cout << "Count: " << m_elements.count()<< std::endl;
 	for ( int i = 0; i < MAX_ELEMENTS; ++i )
 	{
 		std::cout << "LA I : " << i << std::endl;
-		if ( i < m_elements->count() && (*m_elements)[i] )
+		if ( i < m_elements.count() )
 		{
 			std::cout << i << std::endl;
-			double value = (*m_elements)[i]->value();
+			double value = m_elements[i].value();
 			count++;
 			total += value;
 			if ( value > biggest )
 				biggest = value;
-			scales[i] = (*m_elements)[i]->value() * scaleFactor;
+			scales[i] = m_elements[i].value() * scaleFactor;
 		}
 	}
 	std::cout << "qui" << std::endl;
-	std::cout << "Count: " << m_elements->count()<< std::endl;
+	std::cout << "Count: " << m_elements.count()<< std::endl;
 	if ( count ) {
 	    // 2nd loop because of total and biggest
 		for ( int i = 0; i < MAX_ELEMENTS; ++i )
 		{
-			if ( i < m_elements->count() && (*m_elements)[i] )
+			if ( i < m_elements.count() )
 			{
 				std::cout << i << std::endl;
 				if ( m_chartType == PIE )
-					scales[i] = ((*m_elements)[i]->value() * scaleFactor) / total;
+					scales[i] = (m_elements[i].value() * scaleFactor) / total;
 				else
-					scales[i] = ((*m_elements)[i]->value() * scaleFactor) / biggest;
+					scales[i] = (m_elements[i].value() * scaleFactor) / biggest;
 			}
 		}
 
@@ -196,23 +214,23 @@ void KLCanvasView::drawPieChart( const double scales[], double total, int )
 	int angle = 0;
 
 	for ( int i = 0; i < MAX_ELEMENTS; ++i ) {
-		if ( (*m_elements)[i] ) {
+		if ( m_elements[i].isValid() ) {
 			int extent = int(scales[i]);
 			QCanvasEllipse *arc = new QCanvasEllipse(
 					size, size, angle, extent, m_canvas );
 			arc->setX( x );
 			arc->setY( y );
 			arc->setZ( 0 );
-			arc->setBrush( QBrush( (*m_elements)[i]->valueColor(),
-				       BrushStyle((*m_elements)[i]->valuePattern()) ) );
+			arc->setBrush( QBrush( m_elements[i].valueColor(),
+				       BrushStyle(m_elements[i].valuePattern()) ) );
 			arc->show();
 			angle += extent;
-			QString label = (*m_elements)[i]->label();
+			QString label = m_elements[i].label();
 			if ( !label.isEmpty() || m_addValues != NO ) {
-				label = valueLabel( label, (*m_elements)[i]->value(), total );
+				label = valueLabel( label, m_elements[i].value(), total );
 				CanvasText *text = new CanvasText( i, label, m_font, m_canvas );
-				double proX = (*m_elements)[i]->proX( PIE );
-				double proY = (*m_elements)[i]->proY( PIE );
+				double proX = m_elements[i].proX( PIE );
+				double proY = m_elements[i].proY( PIE );
 				if ( proX < 0 || proY < 0 ) {
 		    // Find the centre of the pie segment
 					QRect rect = arc->boundingRect();
@@ -226,13 +244,13 @@ void KLCanvasView::drawPieChart( const double scales[], double total, int )
 					proX /= width;
 					proY /= height;
 				}
-				text->setColor( (*m_elements)[i]->labelColor() );
+				text->setColor( m_elements[i].labelColor() );
 				text->setX( proX * width );
 				text->setY( proY * height );
 				text->setZ( 1 );
 				text->show();
-				(*m_elements)[i]->setProX( PIE, proX );
-				(*m_elements)[i]->setProY( PIE, proY );
+				m_elements[i].setProX( PIE, proX );
+				m_elements[i].setProY( PIE, proY );
 			}
 		}
 	}
@@ -252,37 +270,37 @@ void KLCanvasView::drawVerticalBarChart(
 
 	for ( int i = 0; i < MAX_ELEMENTS; ++i ) 
 	{
-		if ( i < m_elements->count() &&(*m_elements)[i] )
+		if ( i < m_elements.count() )
 		{
 			int extent = int(scales[i]);
 			int y = int(height - extent);
 			QCanvasRectangle *rect = new QCanvasRectangle(
 					x, y, prowidth, extent, m_canvas );
-			rect->setBrush( QBrush( (*m_elements)[i]->valueColor(),
-					BrushStyle((*m_elements)[i]->valuePattern()) ) );
+			rect->setBrush( QBrush( m_elements[i].valueColor(),
+					BrushStyle(m_elements[i].valuePattern()) ) );
 			rect->setPen( pen );
 			rect->setZ( 0 );
 			rect->show();
-			QString label = (*m_elements)[i]->label();
+			QString label = m_elements[i].label();
 			
 			if ( !label.isEmpty() || m_addValues != NO ) 
 			{
-				double proX = (*m_elements)[i]->proX( VERTICAL_BAR );
-				double proY = (*m_elements)[i]->proY( VERTICAL_BAR );
+				double proX = m_elements[i].proX( VERTICAL_BAR );
+				double proY = m_elements[i].proY( VERTICAL_BAR );
 				if ( proX < 0 || proY < 0 ) 
 				{
 					proX = x / width;
 					proY = y / height;
 				}
-				label = valueLabel( label, (*m_elements)[i]->value(), total );
+				label = valueLabel( label, m_elements[i].value(), total );
 				CanvasText *text = new CanvasText( i, label, m_font, m_canvas );
-				text->setColor( (*m_elements)[i]->labelColor() );
+				text->setColor( m_elements[i].labelColor() );
 				text->setX( proX * width );
 				text->setY( proY * height );
 				text->setZ( 1 );
 				text->show();
-				(*m_elements)[i]->setProX( VERTICAL_BAR, proX );
-				(*m_elements)[i]->setProY( VERTICAL_BAR, proY );
+				m_elements[i].setProX( VERTICAL_BAR, proX );
+				m_elements[i].setProY( VERTICAL_BAR, proY );
 			}
 			x += prowidth;
 		}
@@ -301,32 +319,32 @@ void KLCanvasView::drawHorizontalBarChart(
 	pen.setStyle( NoPen );
 
 	for ( int i = 0; i < MAX_ELEMENTS; ++i ) {
-		if ( (*m_elements)[i] ) {
+		if ( m_elements[i].isValid() ) {
 			int extent = int(scales[i]);
 			QCanvasRectangle *rect = new QCanvasRectangle(
 					0, y, extent, proheight, m_canvas );
-			rect->setBrush( QBrush( (*m_elements)[i]->valueColor(),
-					BrushStyle((*m_elements)[i]->valuePattern()) ) );
+			rect->setBrush( QBrush( m_elements[i].valueColor(),
+					BrushStyle(m_elements[i].valuePattern()) ) );
 			rect->setPen( pen );
 			rect->setZ( 0 );
 			rect->show();
-			QString label = (*m_elements)[i]->label();
+			QString label = m_elements[i].label();
 			if ( !label.isEmpty() || m_addValues != NO ) {
-				double proX = (*m_elements)[i]->proX( HORIZONTAL_BAR );
-				double proY = (*m_elements)[i]->proY( HORIZONTAL_BAR );
+				double proX = m_elements[i].proX( HORIZONTAL_BAR );
+				double proY = m_elements[i].proY( HORIZONTAL_BAR );
 				if ( proX < 0 || proY < 0 ) {
 					proX = 0;
 					proY = y / height;
 				}
-				label = valueLabel( label, (*m_elements)[i]->value(), total );
+				label = valueLabel( label, m_elements[i].value(), total );
 				CanvasText *text = new CanvasText( i, label, m_font, m_canvas );
-				text->setColor( (*m_elements)[i]->labelColor() );
+				text->setColor( m_elements[i].labelColor() );
 				text->setX( proX * width );
 				text->setY( proY * height );
 				text->setZ( 1 );
 				text->show();
-				(*m_elements)[i]->setProX( HORIZONTAL_BAR, proX );
-				(*m_elements)[i]->setProY( HORIZONTAL_BAR, proY );
+				m_elements[i].setProX( HORIZONTAL_BAR, proX );
+				m_elements[i].setProY( HORIZONTAL_BAR, proY );
 			}
 			y += proheight;
 		}

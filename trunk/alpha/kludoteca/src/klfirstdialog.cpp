@@ -179,7 +179,7 @@ void FDInitDatabase::createDatabase()
 	KLDM->setDatabaseName("template1");
 	KLDM->setUserName(m_login->text());
 	KLDM->setPassword(m_passwd->text());
-	if ( KLDM->open())
+	if ( KLDM->open() )
 	{
 		if ( ! checkAccount() )
 		{
@@ -190,7 +190,7 @@ void FDInitDatabase::createDatabase()
 		QSqlQuery q;
 		
 		q = KLDM->exec("CREATE DATABASE "+m_dbname->text());
-		if ( ! q.isActive())
+		if ( ! q.isActive() )
 		{
 			int opt = KMessageBox::questionYesNo(this, i18n("I can't create %1\n The error was %2\ntry remove it?").arg(m_dbname->text()).arg((KLDM->lastError()).text()), i18n("Error"));
 			
@@ -217,17 +217,24 @@ void FDInitDatabase::createDatabase()
 		
 		KLDM->setDatabaseName(m_dbname->text());
 		
+		KLDM->close();
+	
+		if ( ! KLDM->open() )
+		{
+			qDebug("I can't open database: "+m_dbname->text());
+		}
+		
 		m_pbar->setTotalSteps(7);
 		connect(KLDM, SIGNAL(progress(int)), m_pbar, SLOT(setProgress(int)));
 		
 		if ( ! KLDM->createTables() )
 		{
-			KMessageBox::error(this, i18n("I can't create (all) tables"), i18n("Error"));
+			KMessageBox::error(this, i18n("I can't create (all) tables in database %1").arg(KLDM->databaseName()), i18n("Error"));
 			//KLDM->dropTables();
 		}
 		else
 		{
-			KMessageBox::information(this, i18n("The database was create succesfully!\n")+	i18n("You can continue to next step"));
+			KMessageBox::information(this, i18n("The database %1 was create succesfully!\n").arg(KLDM->databaseName())+	i18n("You can continue to next step"));
 			m_createButton->setEnabled(false);
 			emit enableNext(this, true);
 		}
@@ -238,8 +245,8 @@ void FDInitDatabase::createDatabase()
 				"The error was %1").arg( (KLDM->lastError()).text())  , i18n("Error"));
 	}
 	
-	if ( KLDM->isOpen())
-		KLDM->close();
+// 	if ( KLDM->isOpen())
+// 		KLDM->close();
 }
 
 bool FDInitDatabase::checkAccount()

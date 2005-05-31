@@ -22,6 +22,12 @@
 
 bool KLDatabase::createTables()
 {
+	qDebug(QString("Creating tables in database: %1").arg(databaseName()));
+// 	return true;;
+	
+	if ( ! isOpen() )
+		open();
+	
 	QSqlQuery q;
 	bool wasgood = true;
 	int p = 1;
