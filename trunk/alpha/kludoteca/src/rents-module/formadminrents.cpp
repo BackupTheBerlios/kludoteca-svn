@@ -363,8 +363,12 @@ void FormAdminRents::clickedItemGame(int row,int col)
 {
 		QTableItem *itemId = m_gameTable->item(row,0);
 		QTableItem *itemName = m_gameTable->item(row,1);
-		m_gameSerial->setText((QString)itemId->text());
-		m_gameName->setText((QString)itemName->text());
+		
+		if(itemId)
+			m_gameSerial->setText((QString)itemId->text());
+		
+		if(itemName)
+			m_gameName->setText((QString)itemName->text());
 		
 }	
 
