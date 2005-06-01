@@ -183,9 +183,16 @@ void FormAdminRents::setupBox()
 	connect( m_cltTable, SIGNAL( clicked(int,int,int,const QPoint&)  ) , this , SLOT(clickedItemClte(int, int) ) );
 	connect( m_gameTable, SIGNAL( clicked(int,int,int,const QPoint&)  ) , this , SLOT(clickedItemGame(int, int) ) );
 	
-	QHBox *activeInfo = new QHBox(m_rentInfogb);
-	QLabel *active = new QLabel(i18n("Active"),activeInfo);
-	m_active = new KLineEdit(activeInfo);
+ 	QHBox *activeInfo = new QHBox(m_rentInfogb);
+// 	QLabel *active = new QLabel(i18n("Active"),activeInfo);
+// 	m_active = new KLineEdit(activeInfo);
+	(new QLabel(i18n("Active"),activeInfo));
+	QVBox *vboxRButton = new QVBox(activeInfo);
+	
+	m_radioButtons = new QHButtonGroup(vboxRButton);
+	m_rbNotBanned = new QRadioButton(i18n("not"), m_radioButtons);
+	m_rbBanned = new QRadioButton(i18n("yes"), m_radioButtons);
+	m_rbNotBanned ->setChecked(true);
 	
 	m_layout->addWidget(m_gamegb,0,0);
 	m_layout->addWidget(m_cltgb,1,0);
@@ -250,8 +257,15 @@ void FormAdminRents::accept()
 				}
 			}
 			
+			if (m_actValueChanged)
+			{
+				fields << "active";
+				values << SQLSTR(this->getActiveValue());
+			}
+				
 			if ( fields.count() == values.count() && fields.count() > 0 )
 			{
+				
 				KLUpdate sqlup("ldt_rents", fields, values);
 				sqlup.setWhere( "ldt_rents.gameserialreference="+SQLSTR(m_setGameSerial)+
 						" and ldt_rents.date="+SQLSTR(m_rentDate)+
@@ -278,7 +292,7 @@ void FormAdminRents::cancel()
 
 void FormAdminRents::clean()
 {
-	m_active->setText("");
+	
 	m_gameSerial->setText("");
 	m_cltName->setText(QString(""));
 	
@@ -435,7 +449,12 @@ QString FormAdminRents::getSystemDateTime()
 
 QString FormAdminRents::getActiveValue()
 {
-	return (QString)m_active->text();
+	QString active = m_radioButtons->selected()->text();
+	active.remove('&');
+	if (active == i18n("yes"))
+		return QString("t");
+	else if (active == i18n("not"))
+		return QString("f");
 }
 
 /***********FUNCIONES SET***************************/
@@ -472,7 +491,17 @@ void FormAdminRents::setGameName(const QString &gamename)
 
 void FormAdminRents::setActiveValue(const QString &value)
 {
-	m_active->setText(value);
+	cout << "Active Value: " << value << endl;
+	
+	m_actValueChanged = TRUE;
+	if( value == "true")
+	{
+		(static_cast<QRadioButton *>(m_radioButtons->find(1)))->setChecked(true);
+	}
+	else
+	{
+		(static_cast<QRadioButton *>(m_radioButtons->find(0)))->setChecked(true);
+	}
 }
 
 void FormAdminRents::rentDate(const QString &date)

@@ -146,11 +146,12 @@ class FormAdminRents : public FormBase
 				*m_hourValue,
 				*m_addHourValue, 
 				*m_gameSerial, 
-				*m_gameName,
-				*m_active;
+				*m_gameName;
 		QString m_time,m_setGameSerial,m_rentDate,m_rentHour;
 		HashLineEdit m_hashRentFields;
-		
+		QHButtonGroup *m_radioButtons;
+		QRadioButton *m_rbNotBanned, *m_rbBanned;
+		bool m_actValueChanged;
 		
 };
 
