@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                        	           *
+ *   krawek@gmail.com                                           	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,31 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef KLXMLREADER_H
-#define KLXMLREADER_H
 
-#include "klresultsetinterpreter.h"
-#include <qxml.h>
+#ifndef KLXMLREPORT_H
+#define KLXMLREPORT_H
+
+#include <qdom.h>
+#include <qcolor.h>
+#include <qstring.h>
 
 /**
- * Lector XML
  * @author David Cuadrado
 */
 
-class KLXmlReader : public QXmlSimpleReader
+class KLXmlReport : public QDomDocument
 {
 	public:
-		KLXmlReader();
-		~KLXmlReader();
-		bool analizeXml(const QXmlInputSource * input,  KLResultSetInterpreter::Type t);
-		KLSqlResults results();
-		QStringList getResultsList();
-		
-		bool parse(const QXmlInputSource * input, bool incremental);
-		bool parse (const QXmlInputSource *input);
+		enum ChartType { PIE, VERTICAL_BAR, HORIZONTAL_BAR };
+		KLXmlReport(ChartType t = PIE);
+		~KLXmlReport();
+		void createReportElement(double value, const QString &label, const QColor &color, Qt::BrushStyle t = Qt::SolidPattern);
 
-	private:
-		KLResultSetInterpreter *m_interpreter;
 };
 
 #endif

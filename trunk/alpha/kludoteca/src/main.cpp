@@ -18,6 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+// 	QFile f("ejemplo2.xml");
+// 	QString xmldoc = "";
+// 	
+// 	if ( f.open( IO_ReadOnly ) )
+// 	{
+// 		QTextStream stream( &f );
+// 		while ( !stream.atEnd() ) {
+// 			xmldoc += stream.readLine() + "\n";
+// 		}
+// 		xmldoc += "\n";
+// 	}
+// 	
+// 	
+// 	RTK::Report aReport;
+// 	if ( aReport.readXmlStr ( xmldoc) ) {
+// 		RTK::OutputHtml o( "salida.html" );
+// 		aReport.print ( o );
+// 	}
+ 
 #include "kludoteca.h"
 #include "ldtapp.h"
 #include <dcopclient.h>
@@ -50,27 +69,10 @@ static KCmdLineOptions options[] =
 	{ 0, 0, 0 }
 };
 
+#include "klxmlreport.h"
+
 int main(int argc, char **argv)
 {	
-// 	QFile f("ejemplo2.xml");
-// 	QString xmldoc = "";
-// 	
-// 	if ( f.open( IO_ReadOnly ) )
-// 	{
-// 		QTextStream stream( &f );
-// 		while ( !stream.atEnd() ) {
-// 			xmldoc += stream.readLine() + "\n";
-// 		}
-// 		xmldoc += "\n";
-// 	}
-// 	
-// 	
-// 	RTK::Report aReport;
-// 	if ( aReport.readXmlStr ( xmldoc) ) {
-// 		RTK::OutputHtml o( "salida.html" );
-// 		aReport.print ( o );
-// 	}
-	
 	KAboutData about( /*<NOCAMBIE>*/"kludoteca" /*</NOCAMBIE>*/,
 			      I18N_NOOP( "KLudoteca" ), version,
 			      I18N_NOOP( "System for administer a game store."), KAboutData::License_GPL,

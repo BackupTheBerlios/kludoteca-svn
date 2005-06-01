@@ -2,6 +2,7 @@
 #define CANVASVIEW_H
 
 #include "klreportelement.h"
+
 #include <qcanvas.h>
 
 

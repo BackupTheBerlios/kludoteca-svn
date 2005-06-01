@@ -47,7 +47,7 @@ rc_DATA = kludotecaui.rc
 
 
 SUBDIRS = games-module admin-module tournament-module clients-module \
-	rents-module lib
+		rents-module lib klreports
 kldiconsdir = $(kde_datadir)/kludoteca/icons
 kldicons_DATA = adminicon.png clientsicon.png gamesicon.png tournamenticon.png \
 		klicon.png rentsicon.png
