@@ -28,7 +28,7 @@
       <terminal>false</terminal>
       <directoryradio>executable</directoryradio>
       <runarguments>
-        <kludoteca/>
+        <kludoteca></kludoteca>
       </runarguments>
       <customdirectory>/</customdirectory>
       <programargs/>
@@ -152,15 +152,15 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
-      <programargs></programargs>
-      <gdbpath></gdbpath>
+      <programargs/>
+      <gdbpath/>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
-      <configGdbScript></configGdbScript>
-      <runShellScript></runShellScript>
-      <runGdbScript></runGdbScript>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
     </general>
     <display>
       <staticmembers>false</staticmembers>

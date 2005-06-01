@@ -69,8 +69,6 @@ static KCmdLineOptions options[] =
 	{ 0, 0, 0 }
 };
 
-#include "klxmlreport.h"
-
 int main(int argc, char **argv)
 {	
 	KAboutData about( /*<NOCAMBIE>*/"kludoteca" /*</NOCAMBIE>*/,

@@ -74,9 +74,23 @@ void KLCanvasView::setElements(const ElementVector &elements)
 	}
 }
 
-void KLCanvasView::setChartType(ChartType t)
+void KLCanvasView::setChartType(int t)
 {
-	m_chartType = t;
+	switch(t)
+	{
+		case PIE:
+			m_chartType = PIE;
+			break;
+		case VERTICAL_BAR:
+			m_chartType = VERTICAL_BAR;
+			break;
+		case HORIZONTAL_BAR:
+			m_chartType = HORIZONTAL_BAR;
+			
+		default:
+			qDebug(QString("\"%1\" is not ChartType").arg(t));;
+			break;
+	}
 }
 
 void KLCanvasView::addValues(AddValuesType av)

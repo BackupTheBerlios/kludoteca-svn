@@ -36,7 +36,7 @@ class KLCanvasView : public QCanvasView
 		void setBackgroundColor ( const QColor & c );
 
 		void setElements(const ElementVector &elements);
-		void setChartType(ChartType t);
+		void setChartType(int t);
 		void addValues(AddValuesType av);
 		void setDecimalPlaces(uint dp);
 

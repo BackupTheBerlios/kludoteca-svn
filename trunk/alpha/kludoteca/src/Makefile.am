@@ -16,8 +16,8 @@ kludoteca_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 kludoteca_LDADD = $(top_builddir)/src/clients-module/libclients-module.a \
 	$(top_builddir)/src/games-module/libgames-module.a $(top_builddir)/src/tournament-module/libtournament-module.a \
 	$(top_builddir)/src/admin-module/libadmin-module.a $(top_builddir)/src/lib/lib.a \
-	$(top_builddir)/src/rents-module/librents-library.a $(top_builddir)/rtklib/librtklib.a $(LIB_KFILE) $(LIB_KDEPRINT) \
-	$(LIB_KDECORE) -lkmdi -lkhtml
+	$(top_builddir)/src/rents-module/librents-library.a $(top_builddir)/rtklib/librtklib.a \
+	$(top_builddir)/src/klreports/libklreport.a $(LIB_KFILE) $(LIB_KDEPRINT) $(LIB_KDECORE) -lkmdi -lkhtml
 
 # which sources should be compiled for kludoteca
 kludoteca_SOURCES = main.cpp kludoteca.cpp kludotecaview.cpp pref.cpp osd.cpp \
@@ -46,8 +46,8 @@ rcdir = $(kde_datadir)/kludoteca
 rc_DATA = kludotecaui.rc
 
 
-SUBDIRS = games-module admin-module tournament-module clients-module \
-		rents-module lib klreports
+SUBDIRS = lib klreports games-module admin-module tournament-module \
+	clients-module rents-module
 kldiconsdir = $(kde_datadir)/kludoteca/icons
 kldicons_DATA = adminicon.png clientsicon.png gamesicon.png tournamenticon.png \
 		klicon.png rentsicon.png

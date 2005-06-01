@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2005 by David Cuadrado                                  *
- *   krawek@gmail.com                                           	   *
+ *   krawek@gmail.com                                            	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,25 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef KLXMLREPORT_H
-#define KLXMLREPORT_H
+#ifndef KLEXPORTREPORT_H
+#define KLEXPORTREPORT_H
 
-#include <qdom.h>
-#include <qcolor.h>
 #include <qstring.h>
+#include <qfile.h>
+#include <qtextstream.h>
+
+#include "klxmlreportparser.h"
+#include "klxmlreport.h"
+
 
 /**
  * @author David Cuadrado
 */
 
-class KLXmlReport : public QDomDocument
+class KLExportReport
 {
 	public:
-		enum ChartType { PIE, VERTICAL_BAR, HORIZONTAL_BAR };
-		KLXmlReport(ChartType t = PIE);
-		~KLXmlReport();
-		void createReportElement(double value, const QString &label, const QColor &color, Qt::BrushStyle t = Qt::SolidPattern);
-
+		enum Type { HTML = 0 };
+		KLExportReport(const KLXmlReport &report, const QString file, int t);
+		KLExportReport(const QString file, int t);
+		~KLExportReport();
+		void exportToHtml(const KLXmlReport &report);
+		
+	private:
+		QString m_file;
+		int m_type;
 };
 
 #endif

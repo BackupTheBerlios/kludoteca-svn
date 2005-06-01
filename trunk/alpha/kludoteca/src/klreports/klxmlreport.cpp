@@ -20,16 +20,22 @@
 
 #include "klxmlreport.h"
 
-KLXmlReport::KLXmlReport(ChartType t) : QDomDocument("KLReport03")
+KLXmlReport::KLXmlReport(const QString &title, const QString &enterprise, const QString &nit, ChartType t) : QDomDocument("KLReport03")
 {
 	QDomProcessingInstruction header = this->createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
 	this->appendChild(header);
 	
 	QDomElement root = this->createElement( "KLReport" );
+	root.setAttribute("title", title);
 	
 	QDomElement graphic = createElement("Graphic");
 	graphic.setAttribute("type", t);
 	root.appendChild(graphic);
+	
+	QDomElement element = createElement("KLEnterprise");
+	element.setAttribute("name", enterprise);
+	element.setAttribute("nit", nit );
+	root.appendChild(element);
 	
 	this->appendChild( root );
 }
@@ -37,7 +43,6 @@ KLXmlReport::KLXmlReport(ChartType t) : QDomDocument("KLReport03")
 
 KLXmlReport::~KLXmlReport()
 {
-// 	delete m_graphic;
 }
 
 void KLXmlReport::createReportElement(double value, const QString &label, const QColor &color, Qt::BrushStyle t)
@@ -53,18 +58,3 @@ void KLXmlReport::createReportElement(double value, const QString &label, const 
 
 	documentElement().firstChild().appendChild(element);
 }
-
-// void KLResultSet::setRecord(QStringList &fields, QStringList &results)
-// {
-// 	QDomElement recordElement = this->createElement("record");
-// 	
-// 	for (uint i = 0; i < results.count(); i++)
-// 	{
-// 		QDomElement fieldElement = this->createElement(fields[i].remove('(').remove(')'));
-// 		QDomText resultText = this->createTextNode(results[i]);
-// 		fieldElement.appendChild(resultText);
-// 		recordElement.appendChild(fieldElement);
-// 	}
-// 	
-// 	documentElement().appendChild(recordElement);
-// }

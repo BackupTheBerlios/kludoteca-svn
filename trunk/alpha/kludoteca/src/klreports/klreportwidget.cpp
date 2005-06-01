@@ -20,9 +20,12 @@
 
 #include <klocale.h>
 #include <kaction.h>
- 
+#include <kiconloader.h>
+#include <kfiledialog.h>
+
 #include "klreportwidget.h"
 #include "klenterprise.h"
+#include "klexportreport.h"
 
 static const char *options_piechart[] = {
 "20 20 6 1",
@@ -137,6 +140,29 @@ KLReportWidget::KLReportWidget(QWidget *parent, const char *name) : FormBase(For
 	setupForm();
 }
 
+KLReportWidget::KLReportWidget(const KLXmlReport &report, QWidget *parent, const char *name): FormBase(FormBase::Query, parent, name)
+{
+	QString title = i18n("<h1/><h3><div align=center>%1</div>"
+			"<div align=center>NIT. %2</div>"
+			"<div align=center>Phone. %3</div>"
+			"<div align=center>%4</div></h3><h1>").arg(klenterprise->getName()).arg(klenterprise->getNit()).arg(klenterprise->getPhone()).arg(QDate::currentDate().toString(Qt::ISODate));
+	
+	setTitle(title, false);
+	
+	m_view = new KLCanvasView( this, "Reporter");
+	setFrameStyle(QFrame::GroupBoxPanel | QFrame::Raised);
+	setLineWidth( 2 );
+	setMidLineWidth ( 2 ) ;
+	
+	m_view->setBackgroundColor( backgroundColor() );
+	
+	setXmlReport(report);
+	
+	m_view->show();
+	
+	setupForm();
+}
+
 
 KLReportWidget::~KLReportWidget()
 {
@@ -147,15 +173,25 @@ KLCanvasView *KLReportWidget::getKLCanvasView()
 	return m_view;
 }
 
-void KLReportWidget::setElements(const ElementVector &vect)
-{
-	m_view->setElements(vect);
-// 	m_view->drawElements();
-}
-
 void KLReportWidget::setupForm()
 {
 	m_actionPanel = new KToolBar(this);
+	
+	KAction *saveAct = new KAction(this);
+	saveAct->setToolTip(i18n("Save this report"));
+	saveAct->plug(m_actionPanel);
+	saveAct->setIconSet(SmallIconSet( "filesave" ) );
+	
+	connect(saveAct, SIGNAL(activated()), this, SLOT(saveReport()));
+	
+	KAction *exportAct = new KAction(this);
+	exportAct->setToolTip(i18n("Export this report"));
+	exportAct->plug(m_actionPanel);
+	exportAct->setIconSet(SmallIconSet( "document" ) );
+	
+	connect(exportAct, SIGNAL(activated()), this, SLOT(exportReport()));
+	
+	m_actionPanel->addSeparator();
 	
 	KAction *pieAct = new KAction(this);
 	pieAct->plug(m_actionPanel);
@@ -198,12 +234,53 @@ void KLReportWidget::toggleValues()
 {
 }
 
+void KLReportWidget::saveReport()
+{
+	QString filepath = KFileDialog::getSaveFileName(QString::null, "*.klr|KLudoteca report", this, i18n("Save report") );
+	
+	QFile file(filepath);
+	if ( file.open(IO_WriteOnly) )
+	{
+		QTextStream stream( &file );
+		stream << m_report.toString() << endl;
+	}
+}
+
+void KLReportWidget::exportReport()
+{
+	QString filepath = KFileDialog::getSaveFileName(QString::null, "*.html", this, i18n("Export report") );
+	
+	KLExportReport(m_report, filepath, KLExportReport::HTML);
+}
+
+void KLReportWidget::setXmlReport(const KLXmlReport &report)
+{
+	m_report = report;
+	QXmlInputSource source;
+	source.setData(report.toString() );
+	
+	KLXmlReportParser parser;
+	QXmlSimpleReader reader;
+	reader.setContentHandler(&parser);
+	
+	if ( ! reader.parse(&source ) )
+	{
+		qDebug("I can't analice this report, sorry!");
+		return;
+	}
+	
+	m_view->setElements( parser.getElements()  );
+	m_view->setChartType(parser.getGraphicType());
+	m_view->drawElements();
+}
+
 void KLReportWidget::accept()
 {
 }
 
 void KLReportWidget::clean()
 {
+	emit cancelled();
 }
 
 

@@ -208,18 +208,22 @@ void ParticipantsList::queryButtonClicked()
 
 	KLReportWidget *formParticipantsList = new KLReportWidget( scroll->viewport() );
 
-	ElementVector m_elements;
-	m_elements.resize(12);
+// 	ElementVector m_elements;
+// 	m_elements.resize(12);
+	
+	KLXmlReport xmlreport("Reporte de prueba", "Empresa", "123456", KLXmlReport::PIE );
 	
 	for ( int i = 0; i < 12; ++i )
 	{
 		double x = (double(i) / 100) * 360;
 		int y = (int(x * 256) % 105) + 151;
 		int z = ((i * 17) % 105) + 151;
-		m_elements[i] = KLReportElement( z, QColor( int(x), y, z, QColor::Hsv ) );
+// 		m_elements[i] = KLReportElement( z, QColor( int(x), y, z, QColor::Hsv ) );
+		xmlreport.createReportElement(z, "label", QColor( int(x), y, z, QColor::Hsv ));
 	}
 	
-	formParticipantsList->getKLCanvasView()->setElements(m_elements);
+// 	formParticipantsList->getKLCanvasView()->setElements(m_elements);
+	formParticipantsList->setXmlReport(xmlreport);
 	
 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
 	
