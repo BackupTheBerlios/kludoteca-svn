@@ -37,7 +37,7 @@ class RentsWidget : public LTListView
 		 * @param button3 
 		 * @param button4 
 		 * @param parent 
-		 * @return 
+		 * @return 0
 		 */
 		RentsWidget(Button button1 = NoButton, Button button2 = NoButton, Button button3 = NoButton, Button button4 = NoButton, QWidget *parent = 0);
     		~RentsWidget();
@@ -45,6 +45,7 @@ class RentsWidget : public LTListView
 		 * Reimplementado de LTListView, sirve para llenar la lista
 		 */
 		void fillList();
+		
 		
 		void slotFilter(const QString &filter);
 		
