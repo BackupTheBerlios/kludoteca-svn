@@ -28,7 +28,7 @@
       <terminal>false</terminal>
       <directoryradio>executable</directoryradio>
       <runarguments>
-        <kludoteca></kludoteca>
+        <kludoteca/>
       </runarguments>
       <customdirectory>/</customdirectory>
       <programargs/>

@@ -59,12 +59,22 @@ void KLExportReport::exportToHtml(const KLXmlReport &report)
 	
 	QFile file(m_file);
 	
-	QString header = "<html><head><title>"+parser.getTitle() +"</title></head><body>"
+	QString style = "<style type=\"text/css\">"
+			"TD {"
+			"text-align:center;"
+			"font-family:\"Verdana\",\"Courier New\";"
+			"font-size: 12px: }"
+			"TD.title {"
+			"font-size:20px;"
+			"font-weight:bold;"
+			"color:orange; } </style>";
+	
+	QString header = "<html><head><title>"+parser.getTitle() +"</title></head><body><center>"
 	"<div align=center><h1>"+parser.getTitle()+"</h1></div>"
 	"<div align=center><h4>"+parser.getEnterprise()+"</h4></div>"
 	"<div align=center><h4>Nit. "+parser.getNit()+"</h4></div><br><br>";	
 	
-	QString footer = i18n("<br><br><div align=center><emphasis>Date:")+QDate::currentDate().toString(Qt::ISODate)+"</emphasis></div></body>";
+	QString footer = i18n("<br><br><div align=center><emphasis>Date:")+QDate::currentDate().toString(Qt::ISODate)+"</emphasis></div></center></body>";
 	
 	
 	ElementVector elements = parser.getElements();
@@ -75,23 +85,57 @@ void KLExportReport::exportToHtml(const KLXmlReport &report)
 		// Escribir el html
 		
 		stream << header << endl;
-		stream << "<div align=center><table border><caption align=\"bottom\">REPORTS<caption>  ";
+		stream << style << endl;
+// 		stream << "<div align=center><table border><caption align=\"bottom\">REPORTS<caption>  ";
 		
-		stream << "<tr>";
+// 		stream << "<tr>";
+// 		for(uint i = 0; i < elements.count(); i++)
+// 		{
+// 			stream << "<th>" << elements[i].label() << "</th>";
+// 		}
+// 		stream << "</tr>";
+// 		
+// 		stream << "<tr>";
+// 		for(uint i = 0; i < elements.count(); i++)
+// 		{
+// 			stream << "<td>" << elements[i].value() << "</td>" << endl;
+// 		}
+// 		stream << "</tr>";
+// 		
+// 		stream << "</table></div>";
+		
+		// Dibuja la grafica
+		stream << "<table border=0>";
+		stream << "<tr><td class='title'>" << parser.getTitle() << "</td></tr><tr><td></td></tr>" ;
+		
+		stream << "<tr><td><div>" << endl;
+		
+		QString columnwidth = "30";
+		
 		for(uint i = 0; i < elements.count(); i++)
 		{
-			stream << "<th>" << elements[i].label() << "</th>";
+			stream << "<span style='";
+			stream << "width:" << elements[i].label().length()*4 << "; ";
+			stream << "height:"<< elements[i].value() << "; ";
+			stream << "background-color:" << elements[i].valueColor().name() << ";";
+			stream << "'>"<< elements[i].value() << "</span> " << endl;
+// 			stream << "<tr><td><div><br>" << endl;
 		}
-		stream << "</tr>";
 		
-		stream << "<tr>";
+		stream << "</div></td></tr>" << endl;
+		stream << "<tr><td><hr></td></tr>" << endl;
+		stream << "<tr><td class='label' >";
+		stream << "<div>" << endl;
+		
 		for(uint i = 0; i < elements.count(); i++)
 		{
-			stream << "<td>" << elements[i].value() << "</td>" << endl;
+			stream << "<span style='";
+			stream << "width: " << elements[i].label().length()*4 << ";'>";
+			stream << elements[i].label() << "</span>" << endl;
 		}
-		stream << "</tr>";
 		
-		stream << "</table></div>";
+		stream << "</div></td></tr></table><br>";
+		
 		stream << footer << endl;
 	}
 }
