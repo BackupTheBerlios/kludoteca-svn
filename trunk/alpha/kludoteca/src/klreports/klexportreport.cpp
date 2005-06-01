@@ -59,6 +59,10 @@ void KLExportReport::exportToHtml(const KLXmlReport &report)
 	
 	QFile file(m_file);
 	
+// 	QString doctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
+	QString header = "<html><head><title>"+parser.getTitle() +"</title>";
+	
+	
 	QString style = "<style type=\"text/css\">"
 			"TD {"
 			"text-align:center;"
@@ -67,14 +71,14 @@ void KLExportReport::exportToHtml(const KLXmlReport &report)
 			"TD.title {"
 			"font-size:20px;"
 			"font-weight:bold;"
-			"color:orange; } </style>";
+			"color:orange; } </style></head>";
 	
-	QString header = "<html><head><title>"+parser.getTitle() +"</title></head><body><center>"
+	QString body = "<body><center>"
 	"<div align=center><h1>"+parser.getTitle()+"</h1></div>"
 	"<div align=center><h4>"+parser.getEnterprise()+"</h4></div>"
 	"<div align=center><h4>Nit. "+parser.getNit()+"</h4></div><br><br>";	
 	
-	QString footer = i18n("<br><br><div align=center><emphasis>Date:")+QDate::currentDate().toString(Qt::ISODate)+"</emphasis></div></center></body>";
+	QString footer = i18n("<br><br><div align=center><em>Date:")+QDate::currentDate().toString(Qt::ISODate)+"</em></div></center></body>";
 	
 	
 	ElementVector elements = parser.getElements();
@@ -83,9 +87,10 @@ void KLExportReport::exportToHtml(const KLXmlReport &report)
 	{
 		QTextStream stream( &file );
 		// Escribir el html
-		
+// 		stream << doctype << endl;
 		stream << header << endl;
 		stream << style << endl;
+		stream << body;
 // 		stream << "<div align=center><table border><caption align=\"bottom\">REPORTS<caption>  ";
 		
 // 		stream << "<tr>";
@@ -115,7 +120,7 @@ void KLExportReport::exportToHtml(const KLXmlReport &report)
 		for(uint i = 0; i < elements.count(); i++)
 		{
 			stream << "<span style='";
-			stream << "width:" << elements[i].label().length()*4 << "; ";
+			stream << "width:" << elements[i].label().length()*10 << "; ";
 			stream << "height:"<< elements[i].value() << "; ";
 			stream << "background-color:" << elements[i].valueColor().name() << ";";
 			stream << "'>"<< elements[i].value() << "</span> " << endl;
@@ -130,7 +135,7 @@ void KLExportReport::exportToHtml(const KLXmlReport &report)
 		for(uint i = 0; i < elements.count(); i++)
 		{
 			stream << "<span style='";
-			stream << "width: " << elements[i].label().length()*4 << ";'>";
+			stream << "width: " << elements[i].label().length()*10 << ";'>";
 			stream << elements[i].label() << "</span>" << endl;
 		}
 		
