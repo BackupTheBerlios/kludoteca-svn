@@ -200,8 +200,7 @@ void RentsWidget::queryButtonClicked()
 
 void RentsWidget::addItem(const QStringList &pkey)
 {
-	//std::cout << "Adicionando item con pkey: " << pkey << std::endl;
-	
+	//std::cout << "Adicionando item con pkey: " << pkey << std::endl;	
 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
 					<< "ldt_rents.clientdocident"				
 					<< "ldt_rents_view.gamename"
