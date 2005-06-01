@@ -172,10 +172,10 @@ void FormAdminRents::setupBox()
 	m_addHourValue = new KLineEdit(m_rentInfogb,"addunits");
 	
 	QLabel *gameSerial = new QLabel(i18n("Game Serial"),m_rentInfogb);
-	m_gameSerial = new KLineEdit(m_rentInfogb,"gameserialreference");
+	m_gameSerial = new KLineEdit(m_rentInfogb);
 	
 	QLabel *gameName = new QLabel(i18n("Game Name"),m_rentInfogb);
-	m_gameName = new KLineEdit(m_rentInfogb,"gamename");
+	m_gameName = new KLineEdit(m_rentInfogb);
 	
 	connect( m_timeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setHourValue(int))  );
 	connect( m_addTimeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setAddHourValue(int))  );
@@ -278,7 +278,22 @@ void FormAdminRents::cancel()
 
 void FormAdminRents::clean()
 {
-    
+	m_active->setText("");
+	m_gameSerial->setText("");
+	m_cltName->setText(QString(""));
+	
+	m_comboGame->removeItem(m_comboGame->currentItem());
+	
+	QDictIterator<KLineEdit> it( m_hashRentFields);
+	for( ; it.current(); ++it)
+	{
+		it.current()->setText("");
+	}
+		
+	m_gameTable->redimensionTable(0);
+	m_cltTable->redimensionTable(0);
+	
+		
 }
 
 void FormAdminRents::setCltTable(const QString &pkey)
@@ -469,5 +484,6 @@ void FormAdminRents::rentHour(const QString &hour)
 {
 	m_rentHour = hour;	
 }
+
 
 #include "formadminrents.moc"
