@@ -74,8 +74,8 @@ void FormAdminClients::setupButtonsBox()
 	QHBox *comboHbox = new QHBox(m_container);
 	QLabel *banned = new QLabel(i18n("Banned"),comboHbox);
 	m_comboClte = new KComboBox(true,comboHbox, "m_combo");
-	m_comboClte->insertItem(i18n("no"), -1);
-	m_comboClte->insertItem(i18n("si"), -2);
+	m_comboClte->insertItem(i18n("not"), -1);
+	m_comboClte->insertItem(i18n("yes"), -2);
 	
 	
 	m_compClte = m_comboClte->completionObject();
@@ -90,21 +90,17 @@ void FormAdminClients::setupButtonsBox()
 	m_femaleFrd = new QRadioButton(i18n("female"), m_radioButtonFrd);
 	m_femaleFrd->setChecked(true);
 	
-	// TODO: dar la opcion de colocar otra figura en el boton al presionarlo!.
-// 	m_selectFaceFrd = new KPushButton("", vboxFriend );
-// 	m_selectFaceFrd->setPixmap( QPixmap( locate("data", "kludoteca/clients-module/icons/default3.png" )) );
-	//m_selectFaceFrd->resize(64, 64);
 	m_layout->addWidget(vboxFriend, 0 , 3);
 
-	QHBox *comboFrd = new QHBox(m_container);
-	QLabel *bannedFrd = new QLabel(i18n("Banned"),comboFrd);
-	m_comboFrd = new KComboBox(true,comboFrd, "m_comboFrd");
-	m_comboFrd->insertItem(i18n("no"), -1);
-	m_comboFrd->insertItem(i18n("si"), -2);
-		
-	m_compFrd = m_comboFrd->completionObject();
-	connect(m_comboFrd,SIGNAL(returnPressed(const QString&)),m_compFrd,SLOT(addItem(const QString&)));
-	m_layout->addWidget(comboFrd,1,3);
+// 	QHBox *comboFrd = new QHBox(m_container);
+// 	QLabel *bannedFrd = new QLabel(i18n("Banned"),comboFrd);
+// 	m_comboFrd = new KComboBox(true,comboFrd, "m_comboFrd");
+// 	m_comboFrd->insertItem(i18n("not"), -1);
+// 	m_comboFrd->insertItem(i18n("yes"), -2);
+// 		
+// 	m_compFrd = m_comboFrd->completionObject();
+// 	connect(m_comboFrd,SIGNAL(returnPressed(const QString&)),m_compFrd,SLOT(addItem(const QString&)));
+// 	m_layout->addWidget(comboFrd,1,3);
 }
 
 void FormAdminClients::setupBox()
@@ -206,7 +202,7 @@ QString FormAdminClients::getClientCellular()
 
 QString FormAdminClients::getClientState()
 {
-	if (i18n( m_comboClte->currentText() ) == i18n("si"))
+	if (i18n( m_comboClte->currentText() ) == i18n("yes"))
 		return QString("t");
 	else
 		return QString("f");
@@ -259,8 +255,11 @@ void FormAdminClients::setClientCellular(const QString &cell)
 void FormAdminClients::setClientState(const QString &state)
 {
 	cltStateChanged = TRUE;
-	cout << "state: " << state << endl;
-	m_comboClte->setCurrentItem(state);
+	cout << "banned: " << state << endl;
+	if (state == "true")
+		m_comboClte->setCurrentItem("yes",false,1);
+	else
+		m_comboClte->setCurrentItem("not",false,1);
 	
 	
 }
@@ -329,7 +328,7 @@ QString FormAdminClients::getFriendAddress()
 
 QString FormAdminClients::getFriendState()
 {
-	if (i18n( m_comboFrd->currentText() ) == i18n("si"))
+	if (i18n( m_comboFrd->currentText() ) == i18n("yes"))
 		return QString("t");
 	else
 		return QString("f");
@@ -481,7 +480,7 @@ void FormAdminClients::accept()
 										<< SQLSTR( this->getClientId() )
 										<< SQLSTR( this->getSystemDate() )
 										<< SQLSTR( this->getClientComment())
-										<< SQLSTR("f") 
+										<< SQLSTR(this->getClientState()) 
 										<< SQLSTR( this->getFriendId() ) );
 				//emit sendQuery(cliente);
 				KLResultSet resultSetcliente = KLDM->execQuery(cliente);
@@ -676,11 +675,7 @@ void FormAdminClients::accept()
 					emit inserted(m_pkey);
 					
 				}
-				if ( this->lastQueryWasGood() )
-				{
-					emit inserted(m_pkey);
-					
-				}			
+							
 			}
 			
 		}

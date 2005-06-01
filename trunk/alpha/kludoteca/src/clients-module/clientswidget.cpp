@@ -133,7 +133,8 @@ void ClientsWidget::modifyButtonClicked()
 			<< "address"
 			<< "genre"
 			<< "ldt_clients.idreferenceperson"
-			<< "ldt_clients.comment";
+			<< "ldt_clients.comment"
+			<< "ldt_clients.banned";
 			
 	KLSelect queryClte(clientFields, 
 			  QStringList() << "ldt_clients" 
