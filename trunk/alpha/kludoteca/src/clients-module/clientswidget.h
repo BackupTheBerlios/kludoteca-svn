@@ -32,7 +32,7 @@
 */
 class ClientsWidget : public LTListView
 {
-	Q_OBJECT
+	Q_OBJECT	
 	public:
 		/**
 		 * Constructor
