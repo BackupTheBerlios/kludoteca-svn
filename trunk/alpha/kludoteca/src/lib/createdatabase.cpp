@@ -167,6 +167,7 @@ bool KLDatabase::createTables()
 			"units int NOT NULL,"
 			"addunits int,"
 			"date date NOT NULL,"
+			"totalcost real NOT NULL,"
 			"active boolean default 't' NOT NULL,"
 			"primary key (gameSerialReference, date, rentHour),"
 			"foreign key (clientDocIdent) references ldt_clients(docIdent) on delete cascade on update cascade,"
