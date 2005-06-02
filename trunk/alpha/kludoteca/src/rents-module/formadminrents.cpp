@@ -159,7 +159,7 @@ void FormAdminRents::setupBox()
 	
 		
 	QLabel *cltName = new QLabel(i18n("Client Name"),m_rentInfogb);
-	m_cltName = new KLineEdit(m_rentInfogb);
+	m_cltName = new KLineEdit(m_rentInfogb,"firstname");
 	cltName->setBuddy(m_cltName);
 	m_cltName->setMinimumWidth(100);
 	
@@ -171,12 +171,11 @@ void FormAdminRents::setupBox()
 	m_addTimeUnits->setOrientation(Qt::Horizontal);
 	m_addHourValue = new KLineEdit(m_rentInfogb,"addunits");
 	
-	QLabel *gameSerial = new QLabel(i18n("Game Serial"),m_rentInfogb);
-	m_gameSerial = new KLineEdit(m_rentInfogb);
-	
 	QLabel *gameName = new QLabel(i18n("Game Name"),m_rentInfogb);
-	m_gameName = new KLineEdit(m_rentInfogb);
+	m_gameName = new KLineEdit(m_rentInfogb,"gamename");
 	
+	QLabel *gameSerial = new QLabel(i18n("Game Serial"),m_rentInfogb);
+	m_gameSerial = new KLineEdit(m_rentInfogb,"gameserialreference");
 	connect( m_timeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setHourValue(int))  );
 	connect( m_addTimeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setAddHourValue(int))  );
 	

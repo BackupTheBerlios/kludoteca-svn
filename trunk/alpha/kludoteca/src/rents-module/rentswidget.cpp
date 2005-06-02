@@ -211,8 +211,10 @@ void RentsWidget::addItem(const QStringList &pkey)
 					, QStringList() << "ldt_rents_view"<< "ldt_rents");
 	
 	// WHERE ldt_persons.docident in 
-	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+" and ldt_rents.renthour="+SQLSTR(pkey[2])+" and ldt_rents_view.gameserialreference="+SQLSTR(pkey[0]));
-
+	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+
+			" and ldt_rents.renthour="+SQLSTR(pkey[2])+" and ldt_rents_view.gameserialreference="+SQLSTR(pkey[0]));
+	
+// 	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+" and ldt_rents.renthour="+SQLSTR(pkey[2]));
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 
 	m_xmlsource.setData(resultSet.toString());
