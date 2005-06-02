@@ -200,21 +200,39 @@ void RentsWidget::queryButtonClicked()
 
 void RentsWidget::addItem(const QStringList &pkey)
 {
-	//std::cout << "Adicionando item con pkey: " << pkey << std::endl;	
+// 	//std::cout << "Adicionando item con pkey: " << pkey << std::endl;	
+// 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
+// 					<< "ldt_rents.clientdocident"				
+// 					<< "ldt_rents_view.gamename"
+// 					<< "ldt_rents.date"
+// 					<< "ldt_rents.renthour"
+// 					<< "ldt_rents.units"
+// 					<< "ldt_rents.addunits"
+// 					, QStringList() << "ldt_rents_view"<< "ldt_rents" << "ldt_persons" << "ldt_games");
+// 	
+// 	// WHERE ldt_persons.docident in 
+// 	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+
+// 			" and ldt_rents.renthour="+SQLSTR(pkey[2])+" and ldt_games.serialreference=ldt_rents.gameserialreference and ldt_persons.docident=ldt_rents.clientdocident");
+// 	
+// // 	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+" and ldt_rents.renthour="+SQLSTR(pkey[2]));
+	
 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
-					<< "ldt_rents.clientdocident"				
-					<< "ldt_rents_view.gamename"
-					<< "ldt_rents.date"
-					<< "ldt_rents.renthour"
-					<< "ldt_rents.units"
-					<< "ldt_rents.addunits"
-					, QStringList() << "ldt_rents_view"<< "ldt_rents");
+			<< "ldt_rents.clientdocident"
+			<< "ldt_games.gamename"
+			<< "ldt_rents.date"
+			<< "ldt_rents.renthour"
+			<< "ldt_rents.units"
+			<< "ldt_rents.addunits"
+			, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
+	sqlquery.setWhere("");				
+	sqlquery.setCondition("ldt_persons.docident");
+	KLSelect subQuery1(QStringList() << "ldt_rents.clientdocident" ,QStringList() << "ldt_persons");
+	sqlquery.addSubConsult("in",subQuery1);
 	
-	// WHERE ldt_persons.docident in 
-	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+
-			" and ldt_rents.renthour="+SQLSTR(pkey[2])+" and ldt_rents_view.gameserialreference="+SQLSTR(pkey[0]));
+	KLSelect subQuery2(QStringList() << "ldt_rents.gameserialreference" ,QStringList() << "ldt_games");
+	sqlquery.addSubConsult("and ldt_games.serialreference in",subQuery2);
 	
-// 	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+" and ldt_rents.renthour="+SQLSTR(pkey[2]));
+	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 
 	m_xmlsource.setData(resultSet.toString());
@@ -226,7 +244,8 @@ void RentsWidget::addItem(const QStringList &pkey)
 
 void RentsWidget::updateItem(const QStringList &pkey)
 {
-	delete m_listView->currentItem();
+	//delete m_listView->currentItem();
+	m_listView->clear();		
 	addItem(pkey);
 }
 
