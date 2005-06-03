@@ -228,14 +228,31 @@ void KLudoteca::setupToolWindows()
 	// Add rents module
 	if ( klperm->activeRentsModule() )
 	{
-		m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
-		m_rentsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
-// 		m_rentsWidget->setDatabase(KLDM);
-		m_rentsWidget->fillList();
+// 		m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
+// 		m_rentsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
+// // 		m_rentsWidget->setDatabase(KLDM);
+// 		m_rentsWidget->fillList();
+// 		
+// 		connect(m_rentsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+// 		
+// 		m_toolWindows << addToolWindow( m_rentsWidget, KDockWidget::DockLeft, getMainDockWidget() );
+		m_rentsModule = new RentsModule(this);
+		connect(m_rentsModule, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		m_rentsModule->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
+		m_toolWindows << addToolWindow( m_rentsModule, KDockWidget::DockLeft, getMainDockWidget() );
 		
-		connect(m_rentsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		ListLTListView listViews = m_rentsModule->listViews();
 		
-		m_toolWindows << addToolWindow( m_rentsWidget, KDockWidget::DockLeft, getMainDockWidget() );
+		for (uint i = 0; i < listViews.count(); i++)
+		{
+			LTListView *ltlv = static_cast<LTListView *>( listViews.at(i) );
+			
+			connect(ltlv, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		
+			connect(ltlv,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
+		
+			ltlv->fillList();
+		}
 	}
 	
 	
