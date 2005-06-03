@@ -22,8 +22,7 @@
 
 #include "ltlistview.h"
 #include "formadminrents.h"
-//#include "klxmlreport.h"
-#include "klreportwidget.h"
+
 /**
  * Esta clase contiene el widget principal del modulo de prestamos
  * @author David Cuadrado
