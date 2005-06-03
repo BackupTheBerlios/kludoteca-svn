@@ -49,6 +49,7 @@
 #include "adminwidget.h"
 #include "clientswidget.h"
 #include "rentswidget.h"
+#include "rentsmodule.h"
 #include "ldtapp.h"
 
 #include "kldatabase.h"
@@ -226,7 +227,8 @@ class KLudoteca : public KMdiMainFrm
 		TournamentWidget *m_tournamentWidget;
 		AdminWidget *m_adminWidget;
 		ClientsWidget *m_clientsWidget;
-		RentsWidget *m_rentsWidget;
+		//RentsWidget *m_rentsWidget;
+		RentsModule *m_rentsModule;
 		
 		OSDWidget *m_osd;
 		QValueList<KMdiToolViewAccessor*> m_toolWindows;
