@@ -65,7 +65,7 @@ class FormAdminClients : public FormBase
 		~FormAdminClients();
 		
 		/**
-		 * Crea la forma
+		 * Crea la forma/
 		 */
 		void setupForm();
 		/**
