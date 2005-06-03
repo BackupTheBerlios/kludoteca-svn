@@ -21,11 +21,12 @@
 #include <klocale.h>
 #include <iostream>
 
+#include "klreportwidget.h"
 #define DEBUG_RENTS 1
 
 using std::cout;
 
-RentsWidget::RentsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(QStringList() << i18n("Game Code") << i18n("Client")<< i18n("Game") << i18n("Rent Date") << i18n("Rent Hour") << i18n("Time Units") << i18n("Aditional Time"), button1, button2, button3, button4, parent, "Rents-module")
+RentsWidget::RentsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(QStringList() << i18n("Game Code") << i18n("Client")<< i18n("Game") << i18n("Time Units") << i18n("Aditional Time") << i18n("Cost of Rent"), button1, button2, button3, button4, parent, "Rents-module")
 {
 #if DEBUG_RENTS
 qDebug("[Initializing RentsWidget]");
@@ -48,10 +49,11 @@ qDebug("RentsWidget: filling List");
 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
 					<< "ldt_rents.clientdocident"
 					<< "ldt_games.gamename"
-					<< "ldt_rents.date"
-					<< "ldt_rents.renthour"
+					//<< "ldt_rents.date"
+					//<< "ldt_rents.renthour"
 					<< "ldt_rents.units"
 					<< "ldt_rents.addunits"
+					<< "ldt_rents.costrent"
 					, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquery.setWhere("");				
 	sqlquery.setCondition("ldt_persons.docident");
@@ -147,6 +149,8 @@ void RentsWidget::modifyButtonClicked()
 					<< "ldt_rents.active" 
 					<< "ldt_rents.date"
 					<< "ldt_rents.renthour"
+					<< "ldt_games.costforunit"
+					<< "ldt_games.costforunitadd"
 					, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquerym.setWhere("ldt_persons.docident="+SQLSTR(m_listView->currentItem()->text(1)));
 // 	sqlquery.setWhere("");				
@@ -182,7 +186,10 @@ void RentsWidget::modifyButtonClicked()
 	formAdminRents->setAddHourValue(results["ldt_rents.addunits"]);
 	formAdminRents->rentDate(results["ldt_rents.date"]);
 	formAdminRents->rentHour(results["ldt_rents.renthour"]);
-			
+	formAdminRents->costUnit(results["ldt_games.costforunit"]);
+	formAdminRents->costUnitAdd(results["ldt_games.costforunitadd"]);		
+	
+	
 	scroll->addChild(formAdminRents);
 	formAdminRents->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminRents->setTextAcceptButton(i18n("Modify"));
@@ -196,33 +203,51 @@ void RentsWidget::modifyButtonClicked()
 void RentsWidget::queryButtonClicked()
 {
 	cout << "query button clicked" << std::endl;
+	
+	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+	
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+
+	KLReportWidget *formParticipantsList = new KLReportWidget( scroll->viewport() );
+
+// 	ElementVector m_elements;
+// 	m_elements.resize(12);
+	
+	KLXmlReport xmlreport("Reporte de prueba", "Empresa", "123456", KLXmlReport::PIE );
+	
+	for ( int i = 0; i < 12; ++i )
+	{
+		double x = (double(i) / 100) * 360;
+		int y = (int(x * 256) % 105) + 151;
+		int z = ((i * 17) % 105) + 151;
+// 		m_elements[i] = KLReportElement( z, QColor( int(x), y, z, QColor::Hsv ) );
+		xmlreport.createReportElement(z, "label", QColor( int(x), y, z, QColor::Hsv ));
+	}
+	
+// 	formParticipantsList->getKLCanvasView()->setElements(m_elements);
+	formParticipantsList->setXmlReport(xmlreport);
+	
+	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
+	
+	scroll->addChild(formParticipantsList);
+	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+		
+	emit sendWidget(view); 
 }
 
 void RentsWidget::addItem(const QStringList &pkey)
 {
-// 	//std::cout << "Adicionando item con pkey: " << pkey << std::endl;	
-// 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
-// 					<< "ldt_rents.clientdocident"				
-// 					<< "ldt_rents_view.gamename"
-// 					<< "ldt_rents.date"
-// 					<< "ldt_rents.renthour"
-// 					<< "ldt_rents.units"
-// 					<< "ldt_rents.addunits"
-// 					, QStringList() << "ldt_rents_view"<< "ldt_rents" << "ldt_persons" << "ldt_games");
-// 	
-// 	// WHERE ldt_persons.docident in 
-// 	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+
-// 			" and ldt_rents.renthour="+SQLSTR(pkey[2])+" and ldt_games.serialreference=ldt_rents.gameserialreference and ldt_persons.docident=ldt_rents.clientdocident");
-// 	
-// // 	sqlquery.setWhere("ldt_rents.gameserialreference="+SQLSTR(pkey[0])+" and ldt_rents.date="+SQLSTR(pkey[1])+" and ldt_rents.renthour="+SQLSTR(pkey[2]));
-	
 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
 			<< "ldt_rents.clientdocident"
 			<< "ldt_games.gamename"
-			<< "ldt_rents.date"
-			<< "ldt_rents.renthour"
+			//<< "ldt_rents.date"
+			//<< "ldt_rents.renthour"
 			<< "ldt_rents.units"
 			<< "ldt_rents.addunits"
+			<< "ldt_rents.costrent"
 			, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquery.setWhere("");				
 	sqlquery.setCondition("ldt_persons.docident");

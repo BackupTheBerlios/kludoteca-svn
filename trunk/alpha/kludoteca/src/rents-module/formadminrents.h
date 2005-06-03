@@ -36,6 +36,7 @@
 #include <knuminput.h>
 #include "klquery.h"
 #include <qslider.h>
+#include "klcalc.h"
 
 
 /**
@@ -70,8 +71,10 @@ class FormAdminRents : public FormBase
 		void setGameTable(const QString &pkey);
 		void clickedItemClte(int row, int col);
 		void clickedItemGame(int row, int col);
-		void setHourValue(int value);
-		void setAddHourValue(int value);
+		void setUnits(int value);
+		void setAddUnits(int value);
+		void setHourValue(const QString &value);
+		void setAddHourValue(const QString &value);
 		
 	signals:
 		void message2osd(const QString &msg);
@@ -92,6 +95,7 @@ class FormAdminRents : public FormBase
 		/**
 		 * Crea la caja de permisos
 		 */
+		
 		void setupPermissionsBox();
 		QString getSystemDateTime();
 		
@@ -102,16 +106,19 @@ class FormAdminRents : public FormBase
 		QString	getGameSerial(); 
 		QString getGameName();
 		QString getActiveValue();
+		QString getCostOfRent();
 		
 		void setCltName(const QString &name); 
 		void setCltId(const QString &id); 
-		void setHourValue(const QString &value);
-		void setAddHourValue(const QString &value); 
+		 
 		void setGameSerial(const QString &serial); 
 		void setGameName(const QString &gamename);
 		void setActiveValue(const QString &value);
+		void setCostOfRent(const QString &cost);
 		void rentDate(const QString &date);
 		void rentHour(const QString &hour);
+		void costUnit(const QString &cost);
+		void costUnitAdd(const QString &cost);
 		
 		
 	private:
@@ -146,12 +153,20 @@ class FormAdminRents : public FormBase
 				*m_hourValue,
 				*m_addHourValue, 
 				*m_gameSerial, 
-				*m_gameName;
-		QString m_time,m_setGameSerial,m_rentDate,m_rentHour;
+				*m_gameName,
+				*m_costRent;
+		QString m_time,
+			m_setGameSerial,
+			m_rentDate,
+			m_rentHour,
+			m_costForUnit,
+			m_costForUnitAdd;
+		
 		HashLineEdit m_hashRentFields;
 		QHButtonGroup *m_radioButtons;
 		QRadioButton *m_rbNotBanned, *m_rbBanned;
-		bool m_actValueChanged;
+		bool m_actValueChanged, m_costRentChanged;
+		KLCalc m_calc;
 		
 };
 

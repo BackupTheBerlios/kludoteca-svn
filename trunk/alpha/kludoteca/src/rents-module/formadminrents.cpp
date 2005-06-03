@@ -176,9 +176,12 @@ void FormAdminRents::setupBox()
 	
 	QLabel *gameSerial = new QLabel(i18n("Game Serial"),m_rentInfogb);
 	m_gameSerial = new KLineEdit(m_rentInfogb,"gameserialreference");
-	connect( m_timeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setHourValue(int))  );
-	connect( m_addTimeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setAddHourValue(int))  );
 	
+	connect( m_timeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setUnits(int))  );
+	connect( m_addTimeUnits,SIGNAL(sliderMoved ( int ) ), this, SLOT(setAddUnits(int))  );
+	
+	connect( m_hourValue,SIGNAL(textChanged(const QString&)),this,SLOT(setHourValue(const QString&)) );
+	connect( m_addHourValue,SIGNAL(textChanged(const QString&)),this,SLOT(setAddHourValue(const QString&)));
 	connect( m_cltTable, SIGNAL( clicked(int,int,int,const QPoint&)  ) , this , SLOT(clickedItemClte(int, int) ) );
 	connect( m_gameTable, SIGNAL( clicked(int,int,int,const QPoint&)  ) , this , SLOT(clickedItemGame(int, int) ) );
 	
@@ -193,6 +196,9 @@ void FormAdminRents::setupBox()
 	m_rbBanned = new QRadioButton(i18n("yes"), m_radioButtons);
 	m_rbNotBanned ->setChecked(true);
 	
+	(new QLabel(i18n("Cost of Rent"),m_rentInfogb));
+	m_costRent= new KLineEdit(m_rentInfogb,"costrent");
+	
 	m_layout->addWidget(m_gamegb,0,0);
 	m_layout->addWidget(m_cltgb,1,0);
 	m_layout->addWidget(m_rentInfogb, 2,0);
@@ -202,7 +208,7 @@ void FormAdminRents::setupBox()
 	m_hashRentFields.insert("units",m_hourValue);
 	m_hashRentFields.insert("addunits",m_addHourValue);
 	m_hashRentFields.insert("gamename",m_gameName);
-	
+	m_hashRentFields.insert("costrent",m_costRent);
 	
 	
 }
@@ -224,7 +230,8 @@ void FormAdminRents::accept()
 									<< SQLSTR(getHourValue())
 									<< SQLSTR(getAddHourValue())
 									<< SQLSTR(getSystemDate())
-									<< SQLSTR(getActiveValue()));
+									<< SQLSTR(getActiveValue())
+									<< SQLSTR(getCostOfRent()) );
 			KLResultSet resultSet = KLDM->execQuery(&insertQuery);
 			m_xmlsource.setData(resultSet.toString());
 			if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
@@ -260,6 +267,12 @@ void FormAdminRents::accept()
 			{
 				fields << "active";
 				values << SQLSTR(this->getActiveValue());
+			}
+			
+			if (m_costRentChanged)
+			{
+				fields << "costrent";
+				values << SQLSTR(this->getCostOfRent());
 			}
 				
 			if ( fields.count() == values.count() && fields.count() > 0 )
@@ -382,8 +395,13 @@ void FormAdminRents::clickedItemClte(int row,int col)
 {
 		QTableItem *itemId = m_cltTable->item(row,0);
 		QTableItem *itemName = m_cltTable->item(row,1);
-		m_cltId->setText((QString)itemId->text());
-		m_cltName->setText((QString)itemName->text());
+		
+		
+		if(itemId)
+			m_cltId->setText((QString)itemId->text());
+		
+		if(itemName)
+			m_cltName->setText((QString)itemName->text());
 		
 }	
 
@@ -391,6 +409,15 @@ void FormAdminRents::clickedItemGame(int row,int col)
 {
 		QTableItem *itemId = m_gameTable->item(row,0);
 		QTableItem *itemName = m_gameTable->item(row,1);
+		
+		QTableItem *costforunit = m_gameTable->item(row,7);
+		QTableItem *costforunitadd = m_gameTable->item(row,8);
+		
+		if(costforunit)
+			m_costForUnit = (QString)costforunit->text();
+		
+		if(costforunit)
+			m_costForUnitAdd = (QString)costforunitadd->text();
 		
 		if(itemId)
 			m_gameSerial->setText((QString)itemId->text());
@@ -401,18 +428,27 @@ void FormAdminRents::clickedItemGame(int row,int col)
 }	
 
 
-void FormAdminRents::setHourValue(int value)
+void FormAdminRents::setUnits(int value)
 {
 	QString v;
 	v = QString::number(value);
 	m_hourValue->setText(v);
+	bool ok = 0;
+	int cost = m_costForUnit.toInt(&ok,10);
+	cout << "COSTO RENTA: " << cost  << endl;
+	setCostOfRent(QString::number(m_calc.costRent(cost,value)));
 }
 
-void FormAdminRents::setAddHourValue(int value)
+void FormAdminRents::setAddUnits(int value)
 {
 	QString v;
 	v = QString::number(value);
 	m_addHourValue->setText(v);
+	bool ok = 0;
+	int cost = m_costForUnitAdd.toInt(&ok,10);
+	cout << "COSTO RENTA unidad adicional: " << cost  << endl;
+	setCostOfRent(QString::number(m_calc.costAddTime(cost,value)));
+	
 }
 
 QString FormAdminRents::getCltId()
@@ -456,6 +492,11 @@ QString FormAdminRents::getActiveValue()
 		return QString("f");
 }
 
+QString FormAdminRents::getCostOfRent()
+{
+	return (QString) m_costRent->text();
+}
+
 /***********FUNCIONES SET***************************/
 void FormAdminRents::setCltName(const QString &name)
 {
@@ -469,11 +510,13 @@ void FormAdminRents::setCltId(const QString &id)
 
 void FormAdminRents::setHourValue(const QString &value)
 {
+	
 	m_hourValue->setText(value);
 }
 
 void FormAdminRents::setAddHourValue(const QString &value)
 {
+	
 	m_addHourValue->setText(value);
 }
 
@@ -503,6 +546,11 @@ void FormAdminRents::setActiveValue(const QString &value)
 	}
 }
 
+void FormAdminRents::setCostOfRent(const QString &cost)
+{
+	m_costRentChanged = TRUE;
+	m_costRent->setText(cost);
+}
 void FormAdminRents::rentDate(const QString &date)
 {
 	m_rentDate = date;
@@ -513,5 +561,15 @@ void FormAdminRents::rentHour(const QString &hour)
 	m_rentHour = hour;	
 }
 
+void FormAdminRents::costUnit(const QString &cost)
+{
+	m_costForUnit = cost;
+}
 
+void FormAdminRents::costUnitAdd(const QString &cost)
+{
+	m_costForUnitAdd = cost;
+}
+		
+		
 #include "formadminrents.moc"
