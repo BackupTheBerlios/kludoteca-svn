@@ -32,6 +32,10 @@ RentsWidget::RentsWidget(Button button1, Button button2, Button button3, Button 
 qDebug("[Initializing RentsWidget]");
 #endif
 	setCaption(i18n("Rents"));
+	m_timer = new QTimer(this);
+	
+	connect( m_timer,SIGNAL(timeout()),this,SLOT(slotTimer())  ); 
+	m_timer->start( 15000, FALSE );
 }
 
 
@@ -53,7 +57,7 @@ qDebug("RentsWidget: filling List");
 					//<< "ldt_rents.renthour"
 					<< "ldt_rents.units"
 					<< "ldt_rents.addunits"
-					<< "ldt_rents.costrent"
+					<< "ldt_rents.totalcost"
 					, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquery.setWhere("");				
 	sqlquery.setCondition("ldt_persons.docident");
@@ -151,6 +155,7 @@ void RentsWidget::modifyButtonClicked()
 					<< "ldt_rents.renthour"
 					<< "ldt_games.costforunit"
 					<< "ldt_games.costforunitadd"
+					<< "ldt_rents.totalcost"
 					, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquerym.setWhere("ldt_persons.docident="+SQLSTR(m_listView->currentItem()->text(1)));
 // 	sqlquery.setWhere("");				
@@ -187,7 +192,8 @@ void RentsWidget::modifyButtonClicked()
 	formAdminRents->rentDate(results["ldt_rents.date"]);
 	formAdminRents->rentHour(results["ldt_rents.renthour"]);
 	formAdminRents->costUnit(results["ldt_games.costforunit"]);
-	formAdminRents->costUnitAdd(results["ldt_games.costforunitadd"]);		
+	formAdminRents->costUnitAdd(results["ldt_games.costforunitadd"]);
+	formAdminRents->setCostOfRent(results["ldt_rents.totalcost"]);		
 	
 	
 	scroll->addChild(formAdminRents);
@@ -247,7 +253,7 @@ void RentsWidget::addItem(const QStringList &pkey)
 			//<< "ldt_rents.renthour"
 			<< "ldt_rents.units"
 			<< "ldt_rents.addunits"
-			<< "ldt_rents.costrent"
+			<< "ldt_rents.totalcost"
 			, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquery.setWhere("");				
 	sqlquery.setCondition("ldt_persons.docident");
@@ -297,5 +303,22 @@ void RentsWidget::slotFilter(const QString &filter)
 		}
 	}
 }
+
+void RentsWidget::slotTimer()
+{
+	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+	
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	/**
+	 * TODO: meter un objeto de la clase RentsDebt
+	 *
+	 */
+	emit sendWidget(view);
+}
+
 
 #include "rentswidget.moc"

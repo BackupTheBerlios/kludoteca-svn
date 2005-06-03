@@ -197,7 +197,7 @@ void FormAdminRents::setupBox()
 	m_rbNotBanned ->setChecked(true);
 	
 	(new QLabel(i18n("Cost of Rent"),m_rentInfogb));
-	m_costRent= new KLineEdit(m_rentInfogb,"costrent");
+	m_costRent= new KLineEdit(m_rentInfogb,"totalcost");
 	
 	m_layout->addWidget(m_gamegb,0,0);
 	m_layout->addWidget(m_cltgb,1,0);
@@ -208,7 +208,7 @@ void FormAdminRents::setupBox()
 	m_hashRentFields.insert("units",m_hourValue);
 	m_hashRentFields.insert("addunits",m_addHourValue);
 	m_hashRentFields.insert("gamename",m_gameName);
-	m_hashRentFields.insert("costrent",m_costRent);
+	m_hashRentFields.insert("totalcost",m_costRent);
 	
 	
 }
@@ -230,8 +230,8 @@ void FormAdminRents::accept()
 									<< SQLSTR(getHourValue())
 									<< SQLSTR(getAddHourValue())
 									<< SQLSTR(getSystemDate())
-									<< SQLSTR(getActiveValue())
-									<< SQLSTR(getCostOfRent()) );
+									<< SQLSTR(getCostOfRent())
+									<< SQLSTR(getActiveValue()) );
 			KLResultSet resultSet = KLDM->execQuery(&insertQuery);
 			m_xmlsource.setData(resultSet.toString());
 			if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
@@ -271,7 +271,7 @@ void FormAdminRents::accept()
 			
 			if (m_costRentChanged)
 			{
-				fields << "costrent";
+				fields << "totalcost";
 				values << SQLSTR(this->getCostOfRent());
 			}
 				

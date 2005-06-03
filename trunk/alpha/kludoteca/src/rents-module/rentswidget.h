@@ -22,6 +22,7 @@
 
 #include "ltlistview.h"
 #include "formadminrents.h"
+#include <qtimer.h>
 
 /**
  * Esta clase contiene el widget principal del modulo de prestamos
@@ -79,6 +80,10 @@ class RentsWidget : public LTListView
 		void queryButtonClicked();
 		void addItem(const QStringList &pkey);
 		void updateItem(const QStringList &pkey);
+		void slotTimer();
+	private:
+		
+		QTimer *m_timer;
 };
 
 #endif
