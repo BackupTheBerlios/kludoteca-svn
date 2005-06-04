@@ -35,7 +35,13 @@ qDebug("[Initializing RentsWidget]");
 	m_timer = new QTimer(this);
 	
 	connect( m_timer,SIGNAL(timeout()),this,SLOT(slotTimer())  ); 
-	m_timer->start( 15000, FALSE );
+	/**
+	 *  TIMER PARA REPORTE DE MOROSOS. VER SLOTTIMER()
+	 */
+	
+	//m_timer->start( 15000, FALSE );
+	
+	
 }
 
 

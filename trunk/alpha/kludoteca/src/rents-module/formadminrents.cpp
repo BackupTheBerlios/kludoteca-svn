@@ -157,6 +157,7 @@ void FormAdminRents::setupBox()
 	m_timeUnits->setOrientation(Qt::Horizontal);
 	m_hourValue = new KLineEdit(m_rentInfogb,"units");
 	
+	
 		
 	QLabel *cltName = new QLabel(i18n("Client Name"),m_rentInfogb);
 	m_cltName = new KLineEdit(m_rentInfogb,"firstname");
@@ -251,6 +252,10 @@ void FormAdminRents::accept()
 		break;
 		case FormBase::Edit:
 		{
+			
+			m_hashRentFields["units"]->setReadOnly(true);
+			m_hourValue->setReadOnly(true);
+			
 			QStringList fields, values;
 			QDictIterator<KLineEdit> it( m_hashRentFields);
 			for( ; it.current(); ++it)
