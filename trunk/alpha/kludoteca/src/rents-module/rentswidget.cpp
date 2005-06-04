@@ -313,11 +313,20 @@ void RentsWidget::slotTimer()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
+	FormRentsDebts *formRentsDebts = new FormRentsDebts(FormBase::Add,scroll->viewport());
+	
+	formRentsDebts->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
 	/**
 	 * TODO: meter un objeto de la clase RentsDebt
 	 *
 	 */
 	emit sendWidget(view);
+
+	/** JUEGO MAS ALKILADO EN UN DIA
+	*
+	* SELECT max(gameserialreference) as game,count(gameserialreference) as veces from ldt_rents where date='2005-05-25' group by gameserialreference having count(gameserialreference) > 1;
+	*/
+	
 }
 
 

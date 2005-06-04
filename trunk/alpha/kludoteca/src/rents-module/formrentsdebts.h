@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FORMADMINRENTS_H
-#define FORMADMINRENTS_H
+#ifndef FORMRENTSDEBTS_H
+#define FORMRENTSDEBTS_H
 
 #include "formbase.h"
 #include <qradiobutton.h>
@@ -38,43 +38,19 @@
 #include <qslider.h>
 #include "klcalc.h"
 
-
 /**
-clase para el manejo de los torneos
-
-@author Daniel Valencia - David Cuadrado
-@mail dafevara@gmail.com
+@author Daniel Valencia
 */
-class FormAdminRents : public FormBase
+class FormRentsDebts : public FormBase
 {
 	Q_OBJECT
 	public:
-		FormAdminRents(FormBase::Type t, QWidget* parent = 0);
-		~FormAdminRents();
-		void setupForm();
-		QString getSystemDateTime();
-		QString getCltName(); 
-		QString getCltId(); 
-		QString getHourValue();
-		QString getAddHourValue(); 
-		QString	getGameSerial(); 
-		QString getGameName();
-		QString getActiveValue();
-		QString getCostOfRent();
+		FormRentsDebts(FormBase::Type t,QWidget* parent=0, const char* name=0);
 		
-		void setCltName(const QString &name); 
-		void setCltId(const QString &id); 
-		 
-		void setGameSerial(const QString &serial); 
-		void setGameName(const QString &gamename);
-		void setActiveValue(const QString &value);
-		void setCostOfRent(const QString &cost);
-		void rentDate(const QString &date);
-		void rentHour(const QString &hour);
-		void costUnit(const QString &cost);
-		void costUnitAdd(const QString &cost);
-		
-	public slots: 
+		~FormRentsDebts();
+		void setupBox();
+		void setupButtonsBox();
+	public slots:
 		/**
 	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar
 		 */
@@ -88,77 +64,17 @@ class FormAdminRents : public FormBase
 		 * Limpia el formulario
 		 */
 		void clean();
-		void setCltTable(const QString &pkey);	
-		void setGameTable(const QString &pkey);
-		void clickedItemClte(int row, int col);
-		void clickedItemGame(int row, int col);
-		void setUnits(int value);
-		void setAddUnits(int value);
-		void setHourValue(const QString &value);
-		void setAddHourValue(const QString &value);
-		
 	signals:
 		void message2osd(const QString &msg);
-		void changedTextEdit(int id);
-		void inserted(const QStringList &qsl);
 		
+	private:	
+		void setupForm();
 	private:
-		/**
-		 * Crea los botones
-		 */
-		void setupButtonsBox();
-		
-		/**
-		 * Crea la caja principal
-		 */
-		void setupBox();
-	private:
-		
 		QScrollView *m_scrollView;
 		QGridLayout *m_layout;
 		QFrame *m_container;
-		KComboBox 	*m_comboClte,
-				*m_comboGame;
-		
-		KCompletion 	*m_compClte, 
-				*m_compGame;
-		
-		KLResultSetInterpreter *m_rsinterpreter;
-		
-		KLXmlReader m_xmlreader;
-		
-		QXmlInputSource m_xmlsource;
-		
-		QVGroupBox 	*m_cltgb, 
-				*m_gamegb;
-		QGroupBox *m_rentInfogb;
-		
-		KLTable *m_cltTable,
-			*m_gameTable;
-		
-		QSlider *m_timeUnits, 
-			*m_addTimeUnits;
-		
-		KLineEdit 	*m_cltName, 
-				*m_cltId, 
-				*m_hourValue,
-				*m_addHourValue, 
-				*m_gameSerial, 
-				*m_gameName,
-				*m_costRent;
-		QString m_time,
-			m_setGameSerial,
-			m_rentDate,
-			m_rentHour,
-			m_costForUnit,
-			m_costForUnitAdd;
-		
-		HashLineEdit m_hashRentFields;
-		QHButtonGroup *m_radioButtons;
-		QRadioButton *m_rbNotBanned, *m_rbBanned;
-		bool m_actValueChanged, m_costRentChanged;
-		KLCalc m_calc;
-		
+		KLTable *m_table;
+	
 };
 
 #endif
