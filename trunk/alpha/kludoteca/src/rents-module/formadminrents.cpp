@@ -51,9 +51,10 @@ void FormAdminRents::setupForm()
 	
 	setupButtonsBox();
 	setupBox();
-
-	connect(m_comboClte,SIGNAL(activated(const QString&)),this,SLOT( setCltTable(const QString&)) );
-	connect(m_comboGame,SIGNAL(activated(const QString&)),this,SLOT( setGameTable(const QString&)) );
+	setCltTable();
+	setGameTable();
+	//connect(m_comboClte,SIGNAL(activated(const QString&)),this,SLOT( setCltTable(const QString&)) );
+	//connect(m_comboGame,SIGNAL(activated(const QString&)),this,SLOT( setGameTable(const QString&)) );
 }
 
 void FormAdminRents::setupBox()	
@@ -93,9 +94,7 @@ void FormAdminRents::setupBox()
 	m_gamegb = new QVGroupBox(i18n("Game's Info"),m_container);
 	QHBox *gameBox = new QHBox(m_gamegb);
 	QLabel *games = new QLabel(i18n("Available Games"),gameBox);
-	m_comboGame = new KComboBox(true,gameBox,"game_combo");
-	m_comboGame->setDuplicatesEnabled ( FALSE); 
-	games->setBuddy(m_comboGame);
+	
 	m_gameTable = new KLTable(0,9,m_gamegb);
 	m_gameTable->setReadOnly(true);
 	m_gameTable->setColumnLabels(QStringList() << i18n("Reference")
@@ -113,31 +112,12 @@ void FormAdminRents::setupBox()
 	m_cltgb = new QVGroupBox(i18n("Client's Info"),m_container);
 	QHBox *cltBox = new QHBox(m_cltgb);
 	QLabel *client = new QLabel(i18n("Available Clients"),cltBox);
-	m_comboClte = new KComboBox(true,cltBox,"game_combo");
-	m_comboClte->setDuplicatesEnabled ( FALSE); 
-	client->setBuddy(m_comboClte);
-	m_cltTable= new KLTable(0,4,m_cltgb);
+	m_cltTable= new KLTable(0,3,m_cltgb);
 	m_cltTable->setReadOnly(true);
-	m_cltTable->setColumnLabels(QStringList() << i18n("Identification")
-			<< i18n("Name")
-			<< i18n("Last Name")
-			<< i18n("Mail"));
+	m_cltTable->setColumnLabels(QStringList() << i18n("Identification") << i18n("Name") << i18n("Last Name"));
 	
 	/******************************************************************************/
-	QStringList::Iterator it;
-	uint i = 0;
 	
-        for ( it = resultsClte.begin(); it != resultsClte.end(); ++it) 
-	{
-		++i ;
-	       	m_comboClte->insertItem(i18n(*it), i*(-1));    
-        }
-	
-	for ( it = resultsGame.begin(); it != resultsGame.end(); ++it) 
-	{
-		++i ;
-	       	m_comboGame->insertItem(i18n(*it), i*(-1));    
-        }
 	/********************************************************************************/
 	
 	
@@ -155,7 +135,8 @@ void FormAdminRents::setupBox()
 	m_timeUnits->setTickmarks(QSlider::Above);
 	m_timeUnits->setTickInterval(2);
 	m_timeUnits->setOrientation(Qt::Horizontal);
-	m_hourValue = new KLineEdit(m_rentInfogb,"units");
+	m_timeUnits->setValue(0);
+	m_hourValue = new KLineEdit("0",m_rentInfogb,"units");
 	
 	
 		
@@ -170,7 +151,8 @@ void FormAdminRents::setupBox()
 	m_addTimeUnits->setTickmarks(QSlider::Above);
 	m_addTimeUnits->setTickInterval(2);
 	m_addTimeUnits->setOrientation(Qt::Horizontal);
-	m_addHourValue = new KLineEdit(m_rentInfogb,"addunits");
+	m_addTimeUnits->setValue(0);
+	m_addHourValue = new KLineEdit("0",m_rentInfogb,"addunits");
 	
 	QLabel *gameName = new QLabel(i18n("Game Name"),m_rentInfogb);
 	m_gameName = new KLineEdit(m_rentInfogb,"gamename");
@@ -279,7 +261,13 @@ void FormAdminRents::accept()
 				fields << "totalcost";
 				values << SQLSTR(this->getCostOfRent());
 			}
-				
+			
+			if(m_addedUnits)
+			{
+				fields << "addunits";
+				values << SQLSTR(this->getAddHourValue());
+			}	
+					
 			if ( fields.count() == values.count() && fields.count() > 0 )
 			{
 				
@@ -304,7 +292,7 @@ void FormAdminRents::accept()
 
 void FormAdminRents::cancel()
 {	
-    
+	emit cancelled();
 }
 
 void FormAdminRents::clean()
@@ -313,28 +301,24 @@ void FormAdminRents::clean()
 	m_gameSerial->setText("");
 	m_cltName->setText(QString(""));
 	
-	m_comboGame->removeItem(m_comboGame->currentItem());
-	
 	QDictIterator<KLineEdit> it( m_hashRentFields);
 	for( ; it.current(); ++it)
 	{
 		it.current()->setText("");
 	}
-		
-	m_gameTable->redimensionTable(0);
-	m_cltTable->redimensionTable(0);
 	
-		
+	m_gameTable->removeRow(selectedClteRow);
+	
+			
 }
 
-void FormAdminRents::setCltTable(const QString &pkey)
+void FormAdminRents::setCltTable()
 {
-	KLSelect query(QStringList() << "ldt_persons.docident"
-					<< "ldt_persons.firstname"
-					<< "ldt_persons.lastname"
-					<< "ldt_persons.email"
-					,QStringList() << "ldt_persons");
-	query.setWhere("ldt_persons.docident="+SQLSTR(pkey));
+	KLSelect query(QStringList() << "docident"
+					<< "firstname"
+					<< "lastname"
+					,QStringList() << "ldt_clients_view");
+
 	KLResultSet resultSet = KLDM->execQuery(&query);	
 	
 	m_xmlsource.setData(resultSet.toString());
@@ -347,14 +331,14 @@ void FormAdminRents::setCltTable(const QString &pkey)
 	QStringList results = m_xmlreader.getResultsList();
 	
 	int count = 0;
-	for(uint i = 0; i < results.count() / 4; i++)
+	for(uint i = 0; i < results.count() / 3; i++)
 	{
-		QStringList data = QStringList() << results[count++] << results[count++]<< results[count++] << results[count++];
+		QStringList data = QStringList() << results[count++] << results[count++]<< results[count++];
 		m_cltTable->insertRowData(data);
 	}
 }
 	
-void FormAdminRents::setGameTable(const QString &pkey)
+void FormAdminRents::setGameTable()
 {
 	KLSelect query(QStringList() << "serialreference"
 					<<"gamename"
@@ -366,11 +350,11 @@ void FormAdminRents::setGameTable(const QString &pkey)
 					<< "costforunit"
 					<< "costforunitadd"
 			,QStringList() << "ldt_games");
-	query.setWhere("ldt_games.serialreference="+SQLSTR(pkey));
+	query.setWhere("available='t'");
 	KLResultSet resultSet = KLDM->execQuery(&query);	
 	
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
 	{
 		std::cerr << "No se puede analizar" << std::endl;
 		return;
@@ -398,6 +382,7 @@ void FormAdminRents::setGameTable(const QString &pkey)
 
 void FormAdminRents::clickedItemClte(int row,int col)
 {
+		selectedClteRow = row;
 		QTableItem *itemId = m_cltTable->item(row,0);
 		QTableItem *itemName = m_cltTable->item(row,1);
 		
@@ -412,6 +397,7 @@ void FormAdminRents::clickedItemClte(int row,int col)
 
 void FormAdminRents::clickedItemGame(int row,int col)
 {
+		selectedGameRow = row;
 		QTableItem *itemId = m_gameTable->item(row,0);
 		QTableItem *itemName = m_gameTable->item(row,1);
 		
@@ -446,6 +432,7 @@ void FormAdminRents::setUnits(int value)
 
 void FormAdminRents::setAddUnits(int value)
 {
+	m_addedUnits = TRUE;
 	QString v;
 	v = QString::number(value);
 	m_addHourValue->setText(v);

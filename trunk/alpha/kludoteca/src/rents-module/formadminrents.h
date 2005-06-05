@@ -73,7 +73,8 @@ class FormAdminRents : public FormBase
 		void rentHour(const QString &hour);
 		void costUnit(const QString &cost);
 		void costUnitAdd(const QString &cost);
-		
+		void setCltTable();	
+		void setGameTable();
 	public slots: 
 		/**
 	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar
@@ -88,8 +89,7 @@ class FormAdminRents : public FormBase
 		 * Limpia el formulario
 		 */
 		void clean();
-		void setCltTable(const QString &pkey);	
-		void setGameTable(const QString &pkey);
+		
 		void clickedItemClte(int row, int col);
 		void clickedItemGame(int row, int col);
 		void setUnits(int value);
@@ -117,8 +117,6 @@ class FormAdminRents : public FormBase
 		QScrollView *m_scrollView;
 		QGridLayout *m_layout;
 		QFrame *m_container;
-		KComboBox 	*m_comboClte,
-				*m_comboGame;
 		
 		KCompletion 	*m_compClte, 
 				*m_compGame;
@@ -156,8 +154,9 @@ class FormAdminRents : public FormBase
 		HashLineEdit m_hashRentFields;
 		QHButtonGroup *m_radioButtons;
 		QRadioButton *m_rbNotBanned, *m_rbBanned;
-		bool m_actValueChanged, m_costRentChanged;
+		bool m_actValueChanged, m_costRentChanged, m_addedUnits;;
 		KLCalc m_calc;
+		int selectedClteRow, selectedGameRow;
 		
 };
 

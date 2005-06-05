@@ -26,7 +26,7 @@
 
 using std::cout;
 
-RentsWidget::RentsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(QStringList() << i18n("Game Code") << i18n("Client")<< i18n("Game") << i18n("Time Units") << i18n("Aditional Time") << i18n("Cost of Rent"), button1, button2, button3, button4, parent, "Rents-module")
+RentsWidget::RentsWidget(Button button1, Button button2, Button button3, Button button4,QWidget *parent) : LTListView(QStringList() << i18n("Game Serial") << i18n("Client")<< i18n("Rent Date") << i18n("Rent Hour"), button1, button2, button3, button4, parent, "Rents-module")
 {
 #if DEBUG_RENTS
 qDebug("[Initializing RentsWidget]");
@@ -41,7 +41,8 @@ qDebug("[Initializing RentsWidget]");
 	
 	//m_timer->start( 15000, FALSE );
 	
-	
+	m_listView->setTitle(i18n("Active Rents"));
+	m_listView->setExplain(i18n("Please click in the \"Add\" button for create a new Rent"));
 }
 
 
@@ -58,11 +59,11 @@ qDebug("RentsWidget: filling List");
 	
 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
 					<< "ldt_rents.clientdocident"
-					<< "ldt_games.gamename"
-					//<< "ldt_rents.date"
-					//<< "ldt_rents.renthour"
-					<< "ldt_rents.units"
-					<< "ldt_rents.addunits"
+					//<< "ldt_games.gamename"
+					<< "ldt_rents.date"
+					<< "ldt_rents.renthour"
+// 					<< "ldt_rents.units"
+// 					<< "ldt_rents.addunits"
 					<< "ldt_rents.totalcost"
 					, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquery.setWhere("");				
@@ -128,7 +129,8 @@ void RentsWidget::delButtonClicked()
 	
 	if (opt == KMessageBox::Yes )
 	{
-		KLDM->execRawQuery("delete from ldt_rents where ="+ SQLSTR(itemp->text(1)));
+		KLDM->execRawQuery("delete from ldt_rents where gameserialreference="
+				+ SQLSTR(itemp->text(0))+" and date="+SQLSTR(itemp->text(2))+" and renthour="+SQLSTR(itemp->text(3)) );
 		
 		delete itemp;
 		
@@ -164,8 +166,7 @@ void RentsWidget::modifyButtonClicked()
 					<< "ldt_rents.totalcost"
 					, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
 	sqlquerym.setWhere("ldt_persons.docident="+SQLSTR(m_listView->currentItem()->text(1)));
-// 	sqlquery.setWhere("");				
- 	sqlquerym.setCondition("and ldt_games.serialreference=ldt_rents.gameserialreference and ldt_rents.gameserialreference="+SQLSTR(m_listView->currentItem()->text(0)));
+	sqlquerym.setCondition("and ldt_games.serialreference=ldt_rents.gameserialreference and ldt_rents.gameserialreference="+SQLSTR(m_listView->currentItem()->text(0)));
 // 	KLSelect subQuery1(QStringList() << "ldt_rents.clientdocident" ,QStringList() << "ldt_persons");
 // 	sqlquery.addSubConsult("in",subQuery1);
 // 	
@@ -214,7 +215,7 @@ void RentsWidget::modifyButtonClicked()
 
 void RentsWidget::queryButtonClicked()
 {
-	cout << "query button clicked" << std::endl;
+/*	cout << "query button clicked" << std::endl;
 	
 	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
@@ -247,11 +248,17 @@ void RentsWidget::queryButtonClicked()
 	scroll->addChild(formParticipantsList);
 	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 		
-	emit sendWidget(view); 
+	emit sendWidget(view);*/ 
+	
+	QString quering = "";
+	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
+	
+	quering += i18n("== query to user ") + itemp->text(2) + " == \n";
+	
 }
 
 void RentsWidget::addItem(const QStringList &pkey)
-{
+{/*
 	KLSelect sqlquery(QStringList() << "ldt_rents.gameserialreference"
 			<< "ldt_rents.clientdocident"
 			<< "ldt_games.gamename"
@@ -273,17 +280,21 @@ void RentsWidget::addItem(const QStringList &pkey)
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 
 	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Partial) )
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
-	}
+	}*/
+	m_listView->clear();		
+	//addItem(pkey);
+	this->fillList();
 }
 
 void RentsWidget::updateItem(const QStringList &pkey)
 {
-	//delete m_listView->currentItem();
+	delete m_listView->currentItem();
 	m_listView->clear();		
-	addItem(pkey);
+	//addItem(pkey);
+	this->fillList();
 }
 
 void RentsWidget::slotFilter(const QString &filter)
