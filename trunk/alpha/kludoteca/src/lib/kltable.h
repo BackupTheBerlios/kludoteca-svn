@@ -80,6 +80,8 @@ class KLTable : public QTable
 		void paintRow(int row, const QColor &color);
 		
 		void paintCell ( QPainter * p, int row, int col, const QRect & cr, bool selected, const QColorGroup & cg);
+		
+		QString getColumnTextHeader(int column);
 				
 	public slots:
 		/**

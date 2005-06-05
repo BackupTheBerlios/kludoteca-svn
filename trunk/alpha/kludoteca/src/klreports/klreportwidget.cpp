@@ -22,6 +22,7 @@
 #include <kaction.h>
 #include <kiconloader.h>
 #include <kfiledialog.h>
+#include <kcolordialog.h>
 
 #include "klreportwidget.h"
 #include "klenterprise.h"
@@ -168,14 +169,32 @@ KLReportWidget::~KLReportWidget()
 {
 }
 
-void KLReportWidget::print( QPainter *p )
+void KLReportWidget::print( QPainter *painter , KPrinter &printer)
 {
 	qDebug("Printing report");
 	
-	p->drawText( m_view->canvas()->width() / 2, m_view->canvas()->height(), "KLudoteca Report" );
+// 	p->drawText( m_view->canvas()->width() / 2, 10, "KLudoteca Report" );
 	
-	m_view->canvas()->drawArea(QRect(0,0,m_view->canvas()->width(),m_view->canvas()->height()), p,FALSE);
-
+// 	QRect rect(0,0,m_view->canvas()->width(),m_view->canvas()->height());
+	
+// 	m_view->canvas()->drawArea( rect, p,FALSE);
+	
+	QRect rect = painter->viewport();
+	QSize size = m_view->canvas()->size();
+	size.scale(rect.size(), QSize::ScaleMin);
+	painter->setViewport(rect.x(), rect.y(),
+			    size.width(), size.height());
+	painter->setWindow(m_view->canvas()->rect());
+	painter->drawRect(painter->window());
+	painter->setClipRect(painter->viewport());
+	QCanvasItemList items = m_view->canvas()->collisions(m_view->canvas()->rect());
+	QCanvasItemList::const_iterator it = items.end();
+	
+	while (it != items.begin()) 
+	{
+		--it;
+		(*it)->draw(*painter);
+	}
 }
 
 KLCanvasView *KLReportWidget::getKLCanvasView()
@@ -220,6 +239,12 @@ void KLReportWidget::setupForm()
 	horAct->setIconSet( QIconSet(QPixmap(options_horizontalbarchart)));
 	
 	connect(horAct, SIGNAL(activated()), this, SLOT(setHorizChart()));
+	
+	KAction *bgAct = new KAction(this);
+	bgAct->plug(m_actionPanel);
+	bgAct->setIconSet( SmallIconSet( "colorpicker" )  );
+	
+	connect(bgAct, SIGNAL(activated()), this, SLOT(changeBackground()));
 }
 
 void KLReportWidget::setPieChart()
@@ -244,15 +269,28 @@ void KLReportWidget::toggleValues()
 {
 }
 
+void KLReportWidget::changeBackground()
+{
+	QColor myColor;
+	int result = KColorDialog::getColor( myColor );
+	if ( result == KColorDialog::Accepted )
+	{
+		m_view->setBackgroundColor(myColor);
+	}
+}
+
 void KLReportWidget::saveReport()
 {
 	QString filepath = KFileDialog::getSaveFileName(QString::null, "*.klr|KLudoteca report", this, i18n("Save report") );
 	
-	QFile file(filepath);
-	if ( file.open(IO_WriteOnly) )
+	if ( ! filepath.isEmpty() )
 	{
-		QTextStream stream( &file );
-		stream << m_report.toString() << endl;
+		QFile file(filepath);
+		if ( file.open(IO_WriteOnly) )
+		{
+			QTextStream stream( &file );
+			stream << m_report.toString() << endl;
+		}
 	}
 }
 
@@ -260,7 +298,8 @@ void KLReportWidget::exportReport()
 {
 	QString filepath = KFileDialog::getSaveFileName(QString::null, "*.html", this, i18n("Export report") );
 	
-	KLExportReport(m_report, filepath, KLExportReport::HTML);
+	if ( !filepath.isEmpty() )
+		KLExportReport(m_report, filepath, KLExportReport::HTML);
 }
 
 void KLReportWidget::setXmlReport(const KLXmlReport &report)

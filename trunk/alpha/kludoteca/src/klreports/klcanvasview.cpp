@@ -86,9 +86,9 @@ void KLCanvasView::setChartType(int t)
 			break;
 		case HORIZONTAL_BAR:
 			m_chartType = HORIZONTAL_BAR;
-			
+			break;
 		default:
-			qDebug(QString("\"%1\" is not ChartType").arg(t));;
+			qDebug(QString("\"%1\" is not ChartType").arg(t));
 			break;
 	}
 }

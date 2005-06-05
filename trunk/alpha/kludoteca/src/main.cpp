@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 	
 	about.addCredit( "Lila-theme Team", I18N_NOOP( "Thanks for your artwork!"));
 	about.addCredit( "Amarok Team", I18N_NOOP("The best media player on the world ;)"));
-	about.addCredit( "Konqueror", I18N_NOOP("Your about page rules!"));
+	about.addCredit( "Konqueror Team", I18N_NOOP("Your about page rules!"));
 	
 	about.addCredit( "GNU Community", I18N_NOOP("Many thanks to all GNU community!!"));
 	
@@ -110,7 +110,14 @@ int main(int argc, char **argv)
 	
 	QString splashPath = ::locate("data", "kludoteca/pics/klsplash-0.3.png" );;
 	
-	QSplashScreen *splash = new QSplashScreen(QPixmap(splashPath));
+	QSplashScreen *splash = 0;
+	
+	if ( ! splashPath.isEmpty() )
+		splash = new QSplashScreen(QPixmap(splashPath));
+	else
+	{
+		splash = new QSplashScreen();
+	}
 	splash->show();
 	
 	splash->message(i18n("Initializing application") );

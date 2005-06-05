@@ -370,7 +370,7 @@ void KLudoteca::filePrint()
 			{
 				if ( o )
 				{
-					static_cast<FormBase*>(o)->print(&p);
+					static_cast<FormBase*>(o)->print(&p, *m_printer);
 				}
 			}
 			delete list;

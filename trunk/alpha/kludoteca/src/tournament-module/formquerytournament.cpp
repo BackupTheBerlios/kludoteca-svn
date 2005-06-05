@@ -23,6 +23,9 @@
 #include <kpassivepopup.h>
 #include <qpainter.h>
 #include <qsimplerichtext.h>
+#include <qapplication.h>
+#include <qstylesheet.h>
+#include <qpaintdevicemetrics.h>
 
 #include "klxmlreader.h"
 #include "formquerytournament.h"
@@ -43,6 +46,108 @@ FormQueryTournament::FormQueryTournament(const QString &tournament, QWidget *par
 
 FormQueryTournament::~FormQueryTournament()
 {
+}
+
+void FormQueryTournament::print(QPainter *painter, KPrinter &printer)
+{
+	qDebug("Printing tournament state");
+	
+	QPaintDeviceMetrics metrics(&printer);
+	int LargeGap = metrics.logicalDpiY() / 2;
+	
+	QString str = QString(
+			"<div align=center>"
+			"<h3>"+m_tournament+"</h3></div>"+
+			"<p>"+
+			i18n("<br>Init date: ")+  m_tournamentInfo["initdate"] +
+			i18n("<br>End date: ")+  m_tournamentInfo["enddate"] +
+			i18n("<br>Rounds: ")+  m_tournamentInfo["rounds"] +
+			i18n("<br>Game: ")+  m_tournamentInfo["gamename"] +
+			i18n("<br>Price: ")+  m_tournamentInfo["price"] +
+			"</p>" );
+	
+// 	t.setWidth( width() - 50 );
+// 	
+// 	const uint w = t.width() + 20;
+// 	const uint h = t.height() + 20;
+	
+	//p->setBrush( colorGroup().background() );
+//  	painter->drawRoundRect( 15, 15, w, h, (8*200)/w, (8*200)/h );
+// 	t.draw( painter, 20, 20, QRect(), colorGroup() );
+	
+	str += "<table width=\"100%\" border=1 cellspacing=0>\n"
+			"<caption align=bottom>" + i18n("Results Table") + "</caption>\n";
+
+	// Encabezados
+	str += "<tr>";
+	str += "<th>"+i18n("Rank")+"</th>";
+	for(uint col = 0; col < m_resultTable->numCols(); col++)
+	{
+		QString header = QStyleSheet::escape(m_resultTable->getColumnTextHeader(col) );
+		str += "<th>"+header+"</th>";
+	}
+	str += "</tr>\n";
+	
+	// Cuerpo
+	for(uint row = 0; row < m_resultTable->numRows(); row++)
+	{
+		str += "<tr>\n";
+		QString rank = QString::number(row+1);
+		QString participant = QStyleSheet::escape(m_resultTable->text(row, 0));
+		QString nwin = QStyleSheet::escape(m_resultTable->text(row, 1));
+		QString ndraw = QStyleSheet::escape(m_resultTable->text(row, 2));
+		QString nlost = QStyleSheet::escape(m_resultTable->text(row, 3));
+		QString ntotal = QStyleSheet::escape(m_resultTable->text(row, 4));
+		
+		str += "\t<td>"+rank+"</td>\n";
+		str += "\t<td>"+participant+"</td>\n";
+		str += "\t<td>"+nwin+"</td>\n";
+		str += "\t<td>"+ndraw+"</td>\n";
+		str += "\t<td>"+nlost+"</td>\n";
+		str += "\t<td>"+ntotal+"</td>\n";
+		
+		str += "</tr>\n";
+	}
+	
+	str += "\n</table>\n<br>\n";
+	
+	
+	int pageHeight = painter->window().height() - 2 * LargeGap;
+	QSimpleRichText richText(str, QApplication::font(), "", 0, 0, pageHeight);
+	
+	richText.setWidth( painter, painter->window().width() );
+
+	
+	int numPages = (int)ceil((double)richText.height() / pageHeight);
+	int index;
+	
+	for (int i = 0; i < (int)printer.numCopies(); ++i)
+	{
+		for (int j = 0; j < numPages; ++j)
+		{
+			if (i > 0 || j > 0)
+				printer.newPage();
+			if (printer.pageOrder() == KPrinter::LastPageFirst)
+			{
+				index = numPages - j - 1;
+			}
+			else 
+			{
+				index = j;
+			}
+			
+			QRect rect(0, index * pageHeight + LargeGap, richText.width(), pageHeight);
+			painter->saveWorldMatrix();
+			painter->translate(0, -rect.y());
+			
+			richText.draw(painter, 0, LargeGap, QRect(), QColorGroup() );
+			
+			painter->restoreWorldMatrix();
+			painter->setFont(QApplication::font());
+			painter->drawText(painter->window(), AlignHCenter | AlignBottom, QString::number(index + 1));
+		}
+	}
+	
 }
 
 
@@ -77,7 +182,7 @@ void FormQueryTournament::setupTournamentInfo()
 		std::cerr << "No se puede analizar" << std::endl;
 	}
 	
-	KLSqlResults results = xmlreader.results();
+	m_tournamentInfo = xmlreader.results();
 	
 	
 	QGridLayout *layout = new QGridLayout(box, 7, 2, 5,2);
@@ -86,19 +191,19 @@ void FormQueryTournament::setupTournamentInfo()
 	layout->addWidget((new QLabel(m_tournament, box)), 0, 1);
 	
 	layout->addWidget(new QLabel(i18n("Init date:"), box), 1,0);
-	layout->addWidget((new QLabel(results["initdate"], box)), 1, 1);
+	layout->addWidget((new QLabel(m_tournamentInfo["initdate"], box)), 1, 1);
 	
 	layout->addWidget(new QLabel(i18n("End date:"), box), 2,0);
-	layout->addWidget((new QLabel(results["enddate"], box)), 2, 1);
+	layout->addWidget((new QLabel(m_tournamentInfo["enddate"], box)), 2, 1);
 	
 	layout->addWidget(new QLabel(i18n("Rounds:"), box), 3,0);
-	layout->addWidget((new QLabel(results["rounds"], box)), 3, 1);
+	layout->addWidget((new QLabel(m_tournamentInfo["rounds"], box)), 3, 1);
 	
 	layout->addWidget(new QLabel(i18n("Game:"), box), 4,0);
-	layout->addWidget((new QLabel(results["gamename"], box)), 4, 1);
+	layout->addWidget((new QLabel(m_tournamentInfo["gamename"], box)), 4, 1);
 	
 	layout->addWidget(new QLabel(i18n("Price:"), box), 5,0);
-	layout->addWidget((new QLabel(results["price"], box)), 5, 1);
+	layout->addWidget((new QLabel(m_tournamentInfo["price"], box)), 5, 1);
 }
 
 void FormQueryTournament::fillTable()

@@ -40,12 +40,15 @@ class FormQueryTournament : public FormBase
 		void clean();
 		void fillTable();
 		
+		void print(QPainter *p, KPrinter &printer);
+		
 	private:
 		void setupTournamentInfo();
 		
 	private:
 		QString m_tournament;
 		KLTable *m_resultTable;
+		KLSqlResults m_tournamentInfo;
 };
 
 #endif

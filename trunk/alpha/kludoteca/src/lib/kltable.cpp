@@ -177,4 +177,9 @@ void KLTable::paintCell ( QPainter * p, int row, int col, const QRect & cr, bool
 	}
 }
 
+QString KLTable::getColumnTextHeader(int column)
+{
+	return horizontalHeader()->label(column);
+}
+
 #include "kltable.moc"

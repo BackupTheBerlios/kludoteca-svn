@@ -50,6 +50,7 @@ class KLReportWidget : public FormBase // TODO: Tratar de remover esta dependenc
 		void toggleValues();
 		void saveReport();
 		void exportReport();
+		void changeBackground();
 		
 	public:
 		KLReportWidget(QWidget *parent = 0, const char *name = 0);
@@ -64,7 +65,7 @@ class KLReportWidget : public FormBase // TODO: Tratar de remover esta dependenc
 		KLCanvasView *getKLCanvasView();
 		void setXmlReport(const KLXmlReport &report);
 		
-		void print(QPainter *p);
+		void print(QPainter *p, KPrinter &printer);
 };
 
 #endif

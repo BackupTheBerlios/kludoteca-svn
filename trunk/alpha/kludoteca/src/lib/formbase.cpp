@@ -60,7 +60,7 @@ FormBase::~FormBase()
 {
 }
 
-void FormBase::print(QPainter *p)
+void FormBase::print(QPainter *p, KPrinter &printer)
 {
 }
 

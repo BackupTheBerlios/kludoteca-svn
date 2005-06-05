@@ -36,6 +36,8 @@
 #include <qdatetime.h>
 #include <qpainter.h>
 
+#include "kprinter.h"
+
 #include "kldatabase.h"
 #include "klenterprise.h"
 
@@ -168,7 +170,7 @@ class FormBase : public QVBox
 		
 		virtual QString getSystemDate();
 		
-		virtual void print(QPainter *p);
+		virtual void print(QPainter *p, KPrinter &printer);
 		
 		
 	public slots:
