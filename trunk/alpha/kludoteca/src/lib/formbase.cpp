@@ -60,6 +60,10 @@ FormBase::~FormBase()
 {
 }
 
+void FormBase::print(QPainter *p)
+{
+}
+
 void FormBase::setTitle(QString newTitle, bool addEnterprise)
 {
 	if ( addEnterprise )

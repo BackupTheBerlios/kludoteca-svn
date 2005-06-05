@@ -63,6 +63,8 @@ class KLReportWidget : public FormBase // TODO: Tratar de remover esta dependenc
 
 		KLCanvasView *getKLCanvasView();
 		void setXmlReport(const KLXmlReport &report);
+		
+		void print(QPainter *p);
 };
 
 #endif

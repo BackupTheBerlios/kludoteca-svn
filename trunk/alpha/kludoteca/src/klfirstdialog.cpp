@@ -242,7 +242,7 @@ void FDInitDatabase::createDatabase()
 	else
 	{
 		KMessageBox::error(this, i18n("I can't open the database!\n"
-				"The error was %1").arg( (KLDM->lastError()).text())  , i18n("Error"));
+				"The error was %1").arg((KLDM->lastError()).text())  , i18n("Error"));
 	}
 	
 // 	if ( KLDM->isOpen())

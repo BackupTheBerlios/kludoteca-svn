@@ -107,7 +107,7 @@ void GamesList::delButtonClicked()
 	
 	if (opt == KMessageBox::Yes )
 	{
-		KLDM->execRawQuery("delete from ldt_games where serialreference="+ SQLSTR(itemp->text(0)));
+		KLDM->execRawQuery("delete from ldt_games where serialreference="+ SQLSTR(itemp->text(0))); // FIXME: Usar KLDelete y KLDM
 		
 		
 		

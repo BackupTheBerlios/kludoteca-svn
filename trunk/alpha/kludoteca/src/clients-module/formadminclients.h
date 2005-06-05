@@ -133,6 +133,12 @@ class FormAdminClients : public FormBase
 		 * Limpia el formulario
 		 */
 		void clean();
+		
+		/**
+		 * Llena la informacion del amigo
+		 */
+		void fillFriendInformation();
+		
 	signals:
 		void message2osd(const QString &msg);
 		
@@ -162,6 +168,12 @@ class FormAdminClients : public FormBase
 		 * Crea la caja principal
 		 */
 		void setupBox();
+		
+		
+		/**
+		 * Busca las personas que existan y las coloca en el line edit para dar la posibilidad de elegirlas
+		 */
+		void setupFriendCompletation();
 };
 
 #endif

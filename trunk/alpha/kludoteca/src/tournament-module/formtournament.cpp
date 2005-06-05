@@ -31,6 +31,17 @@ FormTournament::FormTournament(Type t, QWidget *parent) : FormBase(t, parent, "F
 {
 	setupForm();
  	this->setupButtons(FormBase::AcceptButton, FormBase::CancelButton);
+
+	if(t == Add )
+	{
+		setTitle(i18n("Add a tournament"));
+		setExplanation(i18n("Fill the fields with the tournament information"));
+	}
+	else if ( t == Edit )
+	{
+		setTitle(i18n("Edit a tournament"));
+		setExplanation(i18n("Fill the fields with the update tournament information"));
+	}
 }
 
 
@@ -100,6 +111,35 @@ void FormTournament::setupForm()
 	connect (m_round, SIGNAL(valueChanged ( int )), m_gamesPair, SLOT(setValue(int)));
 }
 
+void FormTournament::fillFormulate( const QString &tname )
+{
+	KLSelect sqlquery(QStringList() << "name" << "gameserialreference" << "initdate" << "enddate" << "roundsforpair" << "rounds" << "price" << "discount" << "active", QStringList() << "ldt_tournament" );
+	
+	sqlquery.setWhere("ldt_tournament.name="+SQLSTR(tname) );
+	
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+	
+	KLXmlReader xmlreader;
+	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
+	
+	if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
+	}
+	
+	KLSqlResults results = xmlreader.results();
+	
+	setDiscount(results["discount"]);
+	setEndDate(QDate::fromString(results["enddate"], Qt::ISODate ));
+	setInitDate(QDate::fromString(results["initdate"], Qt::ISODate ));
+	setPrice(results["price"]);
+	setRounds(results["price"]);
+	setRounds4pair(results["roundsforpair"]);
+	setTournamentName(tname);
+	
+}
+
 void FormTournament::initDateChanged(QDate date)
 {
 	m_endDate->setDate(date);
@@ -107,7 +147,7 @@ void FormTournament::initDateChanged(QDate date)
 
 void FormTournament::setupGames()
 {
-	// TODO: Consultar la base de datos para sacar los nombres de los juegos
+	qDebug("Setup Games");
 	QLabel *nameGameLabel = new QLabel(i18n("Name of game"),m_form);
 	
 	m_nameGame = new KComboBox(m_form);
@@ -239,6 +279,8 @@ bool FormTournament::validateFields()
 }
 
 
+
+
 void FormTournament::setTournamentName(const QString &name)
 {
 #if DEBUG_FORMTOUR
@@ -350,6 +392,16 @@ QString FormTournament::getEndDate()
 std::cout << "Obteniendo enddate" << std::endl;
 #endif
 	return m_endDate->date().toString(Qt::ISODate);
+}
+
+void FormTournament::setGame(const QString &game)
+{
+	m_nameGame->setCurrentItem(game, true);
+}
+
+QString FormTournament::getGame()
+{
+	m_nameGame->currentText();
 }
 
 #include "formtournament.moc"

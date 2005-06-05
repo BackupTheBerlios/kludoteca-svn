@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef TOURNAMENTTABBAR_H
 #define TOURNAMENTTABBAR_H
 
@@ -29,7 +30,7 @@
 
 /**
  * Este es el tab bar con la informacion del torneo
- * @author CetiSoft
+ * @author David Cuadrado
 */
 class TournamentTabBar : public KTabWidget
 {

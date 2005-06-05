@@ -168,6 +168,16 @@ KLReportWidget::~KLReportWidget()
 {
 }
 
+void KLReportWidget::print( QPainter *p )
+{
+	qDebug("Printing report");
+	
+	p->drawText( m_view->canvas()->width() / 2, m_view->canvas()->height(), "KLudoteca Report" );
+	
+	m_view->canvas()->drawArea(QRect(0,0,m_view->canvas()->width(),m_view->canvas()->height()), p,FALSE);
+
+}
+
 KLCanvasView *KLReportWidget::getKLCanvasView()
 {
 	return m_view;

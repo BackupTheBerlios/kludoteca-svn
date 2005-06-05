@@ -21,7 +21,7 @@
 #include "ltlistview.h" 
 #include <klocale.h>
 #include <kapplication.h>
-#include <klineedit.h>
+#include "clicklineedit.h"
 #include <ktoolbarbutton.h>
 #include <qpainter.h>
 #include <qsimplerichtext.h>
@@ -37,7 +37,7 @@ LTListView::LTListView(QStringList colsText, Button button1, Button button2, But
 	KToolBar *searchToolBar = new KToolBar( this );
 	
 	KToolBarButton *button = new KToolBarButton( "locationbar_erase", 0, searchToolBar );
-	m_searchEdit = new KLineEdit(m_filterText, searchToolBar );
+	m_searchEdit = new ClickLineEdit(m_filterText, searchToolBar );
 	searchToolBar->setStretchableWidget( m_searchEdit );
 	m_searchEdit->setFrame( QFrame::Sunken );
 	
@@ -266,7 +266,16 @@ void LTListView::putItems(QStringList items)
 	KListViewItem *itemp = new KListViewItem(m_listView);
 	for (uint i = 0; i < items.count(); i++)
 	{
-		itemp->setText(i, items[i]);
+		if( items[i] == "true")
+		{
+			itemp->setText(i, i18n("yes"));
+		}
+		else if (items[i] == "false")
+		{
+			itemp->setText(i, i18n("no"));
+		}
+		else
+			itemp->setText(i, items[i]);
 	}
 	m_listView->insertItem(itemp);
 }
@@ -355,6 +364,11 @@ void KLListView::viewportPaintEvent(QPaintEvent *e)
 			t.draw( &p, 20, 20, QRect(), colorGroup() );
 		}
 	}
+}
+
+QString KLListView::getText(int col)
+{
+	currentItem()->text(col);
 }
 
 // LTListVIewItem

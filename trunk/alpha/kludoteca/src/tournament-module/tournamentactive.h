@@ -38,6 +38,7 @@ class TournamentActive : public LTListView
 		 * Constructor por defecto
 		 */
     		TournamentActive(QWidget *parent = 0);
+		
 		/**
 		 * Destructor por defecto
 		 */

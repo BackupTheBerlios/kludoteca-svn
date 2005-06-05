@@ -138,7 +138,7 @@ void FormQueryTournament::fillTable()
 
 void FormQueryTournament::accept()
 {
-	emit accepted();
+	emit cancelled();
 }
 
 void FormQueryTournament::clean()

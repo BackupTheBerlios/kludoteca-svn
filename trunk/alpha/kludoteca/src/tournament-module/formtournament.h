@@ -44,10 +44,6 @@ class FormBase;
 /**
  * Esta clase representa el formulario de torneos
  * @author Juliana Davila - David Cuadrado
- * @TODO
- * - Verificar que la fecha de inicio sea al menos la actual
- * - Verificar que la fecha de fin sea obligatoriamente mayor que la de inicio
- * - Verificar que el juego elegido este disponible
 */
 class FormTournament : public FormBase
 {	
@@ -68,6 +64,12 @@ class FormTournament : public FormBase
 		~FormTournament();
 		
 		/**
+		 * Llena el formulario
+		 * @param tname 
+		 */
+		void fillFormulate(const QString &tname);
+		
+		/**
 		 * Crea la forma
 		 */
 		void setupForm();
@@ -84,16 +86,19 @@ class FormTournament : public FormBase
 		 * @param name 
 		 */
 		void setTournamentName(const QString &name);
+		
 		/**
 		 * Pone el numero de rondas
 		 * @param rounds 
 		 */
 		void setRounds(const QString &rounds);
+		
 		/**
 		 * Pone las rondas por pareja
 		 * @param rounds 
 		 */
 		void setRounds4pair(const QString &rounds);
+		
 		/**
 		 * Pone el precio del inscripcion
 		 * @param price 
@@ -114,6 +119,19 @@ class FormTournament : public FormBase
 		 * @param date 
 		 */
 		void setEndDate(const QDate &date);
+		
+		/**
+		 * Pone el juego del troneo
+		 * @param game 
+		 */
+		void setGame(const QString &game);
+		
+		
+		/**
+		 * Obtiene el juego del torneo
+		 * @return 
+		 */
+		QString getGame();
 		
 		/**
 		 * Obtiene el nombre del torneo

@@ -45,6 +45,8 @@
 #include <kstdaction.h>
 #include <kstandarddirs.h>
 
+#include <qobjectlist.h>
+
 #include "klpermission.h"
 #include "klenterprise.h"
 
@@ -360,10 +362,23 @@ void KLudoteca::filePrint()
 		// or paper
 		QPainter p;
 		p.begin(m_printer);
+		
+		if( m_pCurrentWindow )
+		{
+			QObjectList* const list = m_pCurrentWindow->queryList("FormBase");
+			for( QObject *o = list->first(); o; o = list->next() )
+			{
+				if ( o )
+				{
+					static_cast<FormBase*>(o)->print(&p);
+				}
+			}
+			delete list;
+		}
 	
 		// we let our view do the actual printing
-		QPaintDeviceMetrics metrics(m_printer);
-		m_view->print(&p, metrics.height(), metrics.width());
+// 		QPaintDeviceMetrics metrics(m_printer);
+// 		m_view->print(&p, metrics.height(), metrics.width());
 	
 		// and send the result to the printer
 		p.end();

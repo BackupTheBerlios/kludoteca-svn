@@ -34,6 +34,8 @@
 #include <qscrollview.h>
 #include <qdict.h>
 #include <qdatetime.h>
+#include <qpainter.h>
+
 #include "kldatabase.h"
 #include "klenterprise.h"
 
@@ -165,6 +167,8 @@ class FormBase : public QVBox
 		bool lastQueryWasGood();
 		
 		virtual QString getSystemDate();
+		
+		virtual void print(QPainter *p);
 		
 		
 	public slots:

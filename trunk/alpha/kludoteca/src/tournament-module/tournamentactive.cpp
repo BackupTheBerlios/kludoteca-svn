@@ -28,7 +28,7 @@ TournamentActive::TournamentActive(QWidget *parent) : LTListView(QStringList() <
 {
 	setCaption(i18n("Tournament"));
 	m_listView->setTitle(i18n("Active Tournaments"));
-	m_listView->setExplain(i18n("Please click in the \"Add\" button for added a tournament"));
+	m_listView->setExplain(i18n("Please click in the \"Add\" button for add a tournament"));
 }
 
 TournamentActive::~TournamentActive()
@@ -55,9 +55,6 @@ void TournamentActive::addButtonClicked()
 	connect(formTournament, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 
 	scroll->addChild(formTournament);
-
-	formTournament->setTitle(i18n("Add a tournament"));
-	formTournament->setExplanation(i18n("Fill the fields with the tournament information"));
 	
 	emit sendWidget(view); 
 #if DEBUG_TOURNAMENT
@@ -75,15 +72,44 @@ void TournamentActive::delButtonClicked()
 	{
 		KLDM->execRawQuery("delete from ldt_tournament where name="+ SQLSTR(itemp->text(0)));
 		
-		delete itemp;
-		
-		emit message2osd(i18n("The tournament has been deleted!!"));
-		emit tournamentModified();
+		if ( KLDM->isLastError() )
+		{
+			delete itemp;
+			
+			emit message2osd(i18n("The tournament has been deleted!!"));
+			emit tournamentModified();
+		}
+		else
+		{
+			KMessageBox::error(this, i18n("I can't delete this tournament!\n"
+					"The error was %1").arg((KLDM->lastError()).text())  , i18n("Error"));
+		}
 	}
 }
 
 void TournamentActive::modifyButtonClicked()
 {
+	KMdiChildView *view = new KMdiChildView(i18n("Add tournament"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	QScrollView *scroll = new QScrollView(view);
+	scroll->setResizePolicy(QScrollView::AutoOneFit);
+	scroll->setMargin(10);
+	
+	FormTournament* formTournament = new FormTournament(FormBase::Edit, scroll->viewport() );
+	connect(formTournament, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+	
+	formTournament->fillFormulate( m_listView->currentItem()->text(0));
+	formTournament->setGame( m_listView->currentItem()->text(1));
+
+
+	connect(formTournament, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formTournament, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
+
+	scroll->addChild(formTournament);
+	
+	
+	emit sendWidget(view); 
 }
 
 void TournamentActive::queryButtonClicked()

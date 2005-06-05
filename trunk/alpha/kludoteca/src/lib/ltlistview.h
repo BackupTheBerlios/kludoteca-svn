@@ -39,6 +39,8 @@ class LTListView;
 class LTListViewItem;
 class KLListView;
 
+class ClickLineEdit;
+
 /**
  * Esta clase es la base para crear un widget con una lista y un panel de botones para el manejo de la misma, de esta clase se deben sobreescribir varios metodos, los cuales son:
  * 
@@ -189,6 +191,7 @@ class KLListView : public KListView
 		void viewportPaintEvent( QPaintEvent* );
 		void setTitle(const QString &t);
 		void setExplain(const QString &exp);
+		QString getText(int col);
 		
 	private:
 		QString m_title;
@@ -203,5 +206,7 @@ class LTListViewItem : public KListViewItem
 		~LTListViewItem();
 		int compare ( QListViewItem * i, int col, bool ascending );
 };
+
+
 
 #endif

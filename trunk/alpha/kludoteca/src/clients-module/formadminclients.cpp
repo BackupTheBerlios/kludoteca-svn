@@ -17,12 +17,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "formadminclients.h"
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <iostream>
 #include <qdatetime.h>
 
+#include <kcompletion.h>
 
 using namespace std;
 
@@ -61,6 +63,7 @@ void FormAdminClients::setupButtonsBox()
 /****************** CLIENT *****************************************************/
 	QVBox *vboxClient = new QVBox(m_container);
 	m_radioButtonClte = new QHButtonGroup(vboxClient);
+	m_radioButtonClte->setLineWidth(0);
 	m_maleClte = new QRadioButton(i18n("male"), m_radioButtonClte);
 	m_femaleClte = new QRadioButton(i18n("female"), m_radioButtonClte);
 	m_femaleClte->setChecked(true);
@@ -73,19 +76,20 @@ void FormAdminClients::setupButtonsBox()
 
 	QHBox *comboHbox = new QHBox(m_container);
 	QLabel *banned = new QLabel(i18n("Banned"),comboHbox);
-	m_comboClte = new KComboBox(true,comboHbox, "m_combo");
-	m_comboClte->insertItem(i18n("not"), -1);
-	m_comboClte->insertItem(i18n("yes"), -2);
+	m_comboClte = new KComboBox(false,comboHbox, "m_combo");
+	m_comboClte->insertItem(i18n("not"));
+	m_comboClte->insertItem(i18n("yes"));
+	m_comboClte->setInsertionPolicy(KComboBox::NoInsertion);
 	
-	
-	m_compClte = m_comboClte->completionObject();
-	connect(m_comboClte,SIGNAL(returnPressed(const QString&)),m_compClte,SLOT(addItem(const QString&)));
+// 	m_compClte = m_comboClte->completionObject();
+// 	connect(m_comboClte,SIGNAL(returnPressed(const QString&)),m_compClte,SLOT(addItem(const QString&)));
 	m_layout->addWidget(comboHbox,1,1);
 
 /***************** REFERENCE *********************************/
 
 	QVBox *vboxFriend = new QVBox(m_container);
 	m_radioButtonFrd = new QHButtonGroup(vboxFriend);
+	m_radioButtonFrd->setLineWidth(0);
 	m_maleFrd = new QRadioButton(i18n("male"), m_radioButtonFrd);
 	m_femaleFrd = new QRadioButton(i18n("female"), m_radioButtonFrd);
 	m_femaleFrd->setChecked(true);
@@ -154,9 +158,61 @@ void FormAdminClients::setupBox()
 	
 	m_hashFriend = this->setupGridLineEdit(box2, FriendLabels, 300, friendDbFields);
 	
+	setupFriendCompletation();
+	
 	m_layout->addWidget(box1, 0, 0);
  	m_layout->addWidget(box2, 0, 2);
 
+}
+
+void FormAdminClients::setupFriendCompletation()
+{
+	KLineEdit *ftmp = m_hashFriend["docident"];
+	if (!ftmp)
+		return;
+	
+	KCompletion *comp = ftmp->completionObject();
+	
+	KLSelect query(QStringList() << "docident", QStringList() << "ldt_persons" );
+	
+	KLResultSet resultSet = KLDM->execQuery(&query);
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
+	}
+	
+	comp->setItems(m_xmlreader.getResultsList());
+	
+	connect(ftmp, SIGNAL(returnPressed()), this, SLOT(fillFriendInformation() ));
+}
+
+void FormAdminClients::fillFriendInformation()
+{
+	QString strfriend = m_hashFriend["docident"]->text();
+	
+	KLSelect query(QStringList() << "firstname" << "lastname" << "phone" << "cellular" << "email" << "address" << "genre", QStringList() << "ldt_persons" );
+	query.setWhere("docident="+SQLSTR(strfriend));
+	
+	KLResultSet resultSet = KLDM->execQuery(&query);
+	m_xmlsource.setData(resultSet.toString());
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+		return;
+	}
+	
+	KLSqlResults results = m_xmlreader.results();
+	
+	setFriendAddress(results["address"]);
+	setFriendCellular(results["cellular"]);
+	setFriendEmail(results["email"]);
+	setFriendId(strfriend);
+	setFriendLastName(results["lastname"]);
+	setFriendName(results["firstname"]);
+	setFriendPhone(results["phone"]);
+	setFriendSex(results["genre"]);
 }
 
 QString FormAdminClients::getClientId()
@@ -227,7 +283,7 @@ void FormAdminClients::setClientId(const QString &id)
 {
 	m_pkey = id;
 	m_hashClient["docident"]->setText(id);
-	m_hashClient["docident"]->setReadOnly(true);
+	// 	m_hashClient["docident"]->setReadOnly(true); // FIXME: No tiene porque estar aqui
 }
 
 void FormAdminClients::setClientName(const QString &name)
@@ -259,9 +315,7 @@ void FormAdminClients::setClientState(const QString &state)
 	if (state == "true")
 		m_comboClte->setCurrentItem("yes",false,1);
 	else
-		m_comboClte->setCurrentItem("not",false,1);
-	
-	
+		m_comboClte->setCurrentItem("no",false,1);
 }
 
 void FormAdminClients::setClientEmail(const QString &email)
@@ -347,8 +401,8 @@ QString FormAdminClients::getFriendSex()
 	cout << "sexo refe: "<< QString(i18n("male")) << endl;
 	if (sexo == QString(i18n("male")) )
 		return QString("m");
-	else if (sexo == QString(i18n("female")) )
-		return QString("f");
+// 	else if (sexo == QString(i18n("female")) )
+	return QString("f");
 }
 
 
@@ -356,7 +410,7 @@ void FormAdminClients::setFriendId(const QString &id)
 {
 	m_fpkey = id;
 	m_hashFriend["docident"]->setText(id);
-	m_hashFriend["docident"]->setReadOnly(true);
+	// 	m_hashFriend["docident"]->setReadOnly(true); // FIXME: NO!
 }
 
 void FormAdminClients::setFriendName(const QString &name)

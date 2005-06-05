@@ -17,6 +17,7 @@
     <description>Herramienta para la gestion de información de una ludoteca.</description>
     <ignoreparts/>
     <secondaryLanguages/>
+    <versioncontrol>kdevsubversion</versioncontrol>
   </general>
   <kdevautoproject>
     <general>
@@ -111,6 +112,7 @@
     <tree>
       <hidenonprojectfiles>false</hidenonprojectfiles>
       <hidepatterns>*.o,*.lo,CVS</hidepatterns>
+      <showvcsfields>false</showvcsfields>
     </tree>
   </kdevfileview>
   <kdevdoctreeview>
@@ -232,7 +234,10 @@
       <argumentsHintDelay>400</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
-    <references/>
+    <references>
+      <pcs>Qt</pcs>
+      <pcs>KDElibs</pcs>
+    </references>
     <creategettersetter>
       <prefixGet>get</prefixGet>
       <prefixSet>set</prefixSet>

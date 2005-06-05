@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado    juliana Davila                                   *
- *   krawek@gmail.com      julianad@univalle.edu.co                                  	   *
+ *   Copyright (C) 2005 by David Cuadrado    Juliana Davila                *
+ *   krawek@gmail.com      julianad@univalle.edu.co                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -69,11 +69,11 @@ void FormAdminGame::setupForm()
 	
 	//m_labelStateGame = new QLabel(i18n(), form);
 	//hboxState = new QVBox(this);
-	m_radioButtonState = new QVButtonGroup("State of game",this, "State" );
+	m_radioButtonState = new QVButtonGroup("State of game",form, "State" );
 	m_stateAvaible = new QRadioButton(i18n("Available"), m_radioButtonState,"available");
 	m_stateNoAvaible = new QRadioButton(i18n("Not available"), m_radioButtonState, "Not available");
 	m_stateAvaible->setChecked(true);
-	m_grid->addWidget(m_radioButtonState, 2,2);
+	m_grid->addWidget(m_radioButtonState, 0,3);
 	//m_grid->addWidget(m_radioButtonState, 2,3);
 	
 			
@@ -164,16 +164,23 @@ void FormAdminGame::accept ()
 							<< SQLSTR(this->getTimeUnit()) 
 							<< QString::number(this->getCostUnitTime()) 
 							<< QString::number(this->getCostTimeAdditional()) 
-							<< SQLSTR(QString("1")) 
+							<< SQLSTR(QString("1")) // FIXME. Como asi?
 							<< SQLSTR( this->getStateGame()));
 	
 					std::cout << "Consulta: " << sqlquery.getQuery() << std::endl;
-					emit sendQuery(&sqlquery); // No importa si puede o no
-					emit message2osd(i18n("The action was make successful"));
-					emit inserted(getReferenceGame());
+					KLDM->execQuery(&sqlquery); // TODO: Si importa!!!
 					
-					
-					clean();
+					if ( ! KLDM->isLastError() )
+					{
+						emit message2osd(i18n("The action was make successful"));
+						emit inserted(getReferenceGame());
+						clean();
+					}
+					else
+					{
+						KMessageBox::error(this, i18n("I can't add this game!\n"
+								"The error was %1").arg((KLDM->lastError()).text())  , i18n("Error"));
+					}
 				}
 				else 
 				{
@@ -200,7 +207,7 @@ void FormAdminGame::accept ()
 				KLUpdate sqlup("ldt_games", fields, values);
 				sqlup.setWhere("serialreference ="+SQLSTR(game));
 				
-				emit sendQuery(&sqlup);
+				KLDM->execQuery(&sqlup); // HACE RATO DIJO NO MAS SENDQUERY
 				
 			}
 			else 
@@ -210,15 +217,20 @@ void FormAdminGame::accept ()
 				KLUpdate sqlup("ldt_games", fields, values);
 				sqlup.setWhere("serialreference ="+SQLSTR(game));
 				
-				emit sendQuery(&sqlup);
+				KLDM->execQuery(&sqlup);
 			}
-			if ( this->lastQueryWasGood() )
+			if ( ! KLDM->isLastError() )
 			{
 					emit inserted(game);
+				emit message2osd(i18n("The changes to " + getGameName() + " was taken"));
+				clean();
+				cancel();
 			}
-			emit message2osd(i18n("The changes to " + getGameName() + " was taken"));
-			clean();
-			cancel();
+			else
+			{
+				KMessageBox::error(this, i18n("I can't modify this game!\n"
+						"The error was %1").arg((KLDM->lastError()).text()), i18n("Error"));
+			}
 		}
 		break;
 		
@@ -290,25 +302,29 @@ void FormAdminGame::formModify(const QString &idGame)
 	
 	available = results["timeunit"]; 
 	
-	if(i18n("minutes") == available)
+	if(i18n("m") == available )
 	{
 		index = 0;
+		available = i18n("minutes");
 	}
-	if(i18n("hours") == available)
+	else if(i18n("h") == available )
 	{
 		index = 1;
+		available = i18n("hours");
 	}
 	setTimeUnit(available, index );
 
 	available = results["timeunitadd"]; 
 	
-	if(i18n("minutes") == available)
+	if(i18n("m") == available)
 	{
 		index = 0;
+		available = i18n("minutes");
 	}
-	if(i18n("hours") == available)
+	else if(i18n("h") == available)
 	{
 		index = 1;
+		available = i18n("hours");
 	}
 	setUnitTimeAdd(available, index );
 	bool ok;
@@ -349,11 +365,11 @@ QString FormAdminGame::getTypeGame()
 
 QString FormAdminGame::getStateGame()
 {
-	QString state = m_radioButtonState->selected()->text();
-	if (state == i18n("Available"))
+	int state = m_radioButtonState->selectedId();
+	if (state == 0)
 		return QString("t");
-	else if (state == i18n("Not available"))
-		return QString("f");
+
+	return QString("f");
 	
 }
 
@@ -365,14 +381,14 @@ QString FormAdminGame::getReferenceGame()
 QString FormAdminGame::getTimeUnit()
 {
 	if( m_unitTime->currentText() == "hours")
-	return "h";
+		return "h";
 	return "m";
 }
 
 QString FormAdminGame::getTimeUnitAdd()
 {
 	if( m_unitTimeAdd->currentText() == "hours")
-	return "h";
+		return "h";
 	return "m";
 }
 
@@ -413,9 +429,9 @@ void FormAdminGame::setRulesGame(const QString &rules)
 
 void FormAdminGame::setStateGame(const QString &available)
 {
-	if (available == i18n("t"))
+	if (available == i18n("true") )
 		m_stateAvaible->setChecked(true);
-	else if (available == i18n("f"))
+	else if (available == i18n("false"))
 		m_stateNoAvaible->setChecked(true);;
 }
 
@@ -512,7 +528,5 @@ bool FormAdminGame::verification(const QString &code)
 	
 	return false;
 }
-
-
 
 #include "formadmingame.moc"
