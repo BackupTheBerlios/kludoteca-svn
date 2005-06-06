@@ -66,7 +66,7 @@ qDebug("RentsWidget: filling List");
 // 					<< "ldt_rents.addunits"
 					<< "ldt_rents.totalcost"
 					, QStringList() << "ldt_persons"<< "ldt_rents"<<"ldt_games");
-	sqlquery.setWhere("");				
+	sqlquery.setWhere("ldt_rents.active and");				
 	sqlquery.setCondition("ldt_persons.docident");
 	KLSelect subQuery1(QStringList() << "ldt_rents.clientdocident" ,QStringList() << "ldt_persons");
 	sqlquery.addSubConsult("in",subQuery1);
@@ -189,6 +189,7 @@ void RentsWidget::modifyButtonClicked()
 	connect(formAdminRents, SIGNAL(cancelled()), view, SLOT(close()));
 	connect(formAdminRents, SIGNAL(inserted(const QStringList& )), this, SLOT(updateItem(const QStringList &)));
 	
+	formAdminRents->disabledSlider(true);
 	formAdminRents->setCltId(results["ldt_rents.clientdocident"]);
 	formAdminRents->setCltName(results["ldt_persons.firstname"]+" "+results["ldt_persons.lastname"]);
 	formAdminRents->setGameName(results["ldt_games.gamename"]);
@@ -200,7 +201,8 @@ void RentsWidget::modifyButtonClicked()
 	formAdminRents->rentHour(results["ldt_rents.renthour"]);
 	formAdminRents->costUnit(results["ldt_games.costforunit"]);
 	formAdminRents->costUnitAdd(results["ldt_games.costforunitadd"]);
-	formAdminRents->setCostOfRent(results["ldt_rents.totalcost"]);		
+	formAdminRents->setCostOfRent(results["ldt_rents.totalcost"]);
+	formAdminRents->totalCostOfRent(results["ldt_rents.totalcost"]);		
 	
 	
 	scroll->addChild(formAdminRents);

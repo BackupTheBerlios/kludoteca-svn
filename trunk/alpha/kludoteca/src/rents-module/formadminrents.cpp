@@ -53,14 +53,13 @@ void FormAdminRents::setupForm()
 	setupBox();
 	setCltTable();
 	setGameTable();
-	//connect(m_comboClte,SIGNAL(activated(const QString&)),this,SLOT( setCltTable(const QString&)) );
-	//connect(m_comboGame,SIGNAL(activated(const QString&)),this,SLOT( setGameTable(const QString&)) );
+
 }
 
 void FormAdminRents::setupBox()	
 {
 	KLSelect queryClte(QStringList() <<"docident",QStringList() << "ldt_clients");
-	queryClte.setWhere("banned='f'");
+	queryClte.setWhere("not banned");
 	
 	KLResultSet resultSetClte = KLDM->execQuery(&queryClte);	
 	
@@ -192,8 +191,7 @@ void FormAdminRents::setupBox()
 	m_hashRentFields.insert("addunits",m_addHourValue);
 	m_hashRentFields.insert("gamename",m_gameName);
 	m_hashRentFields.insert("totalcost",m_costRent);
-	
-	
+		
 }
 
 void FormAdminRents::setupButtonsBox()
@@ -235,9 +233,10 @@ void FormAdminRents::accept()
 		case FormBase::Edit:
 		{
 			
-			m_hashRentFields["units"]->setReadOnly(true);
-			m_hourValue->setReadOnly(true);
-			
+			/*disconnect(m_hourValue,0,0,0);
+			disconnect(m_timeUnits,0,0,0);
+			disconnect(m_timeUnits,SIGNAL(sliderMoved(int)),this,0);*/
+			m_timeUnits->setLineStep(20);
 			QStringList fields, values;
 			QDictIterator<KLineEdit> it( m_hashRentFields);
 			for( ; it.current(); ++it)
@@ -423,23 +422,58 @@ void FormAdminRents::setUnits(int value)
 {
 	QString v;
 	v = QString::number(value);
-	m_hourValue->setText(v);
-	bool ok = 0;
-	int cost = m_costForUnit.toInt(&ok,10);
-	cout << "COSTO RENTA: " << cost  << endl;
-	setCostOfRent(QString::number(m_calc.costRent(cost,value)));
+	
+	switch (getType())
+	{
+		case FormBase::Add:
+		{
+			m_hourValue->setText(v);
+			bool ok = 0;
+			int cost = m_costForUnit.toInt(&ok,10);
+			cout << "COSTO RENTA: " << cost  << endl;
+			setCostOfRent(QString::number(cost*value));
+			m_totalCost = (cost*value);
+		}
+		break;
+		
+		case FormBase::Edit:
+		{
+			return;	
+		}
+	}
+	
 }
 
 void FormAdminRents::setAddUnits(int value)
 {
+	sliderCount++;
 	m_addedUnits = TRUE;
 	QString v;
 	v = QString::number(value);
 	m_addHourValue->setText(v);
-	bool ok = 0;
-	int cost = m_costForUnitAdd.toInt(&ok,10);
-	cout << "COSTO RENTA unidad adicional: " << cost  << endl;
-	setCostOfRent(QString::number(m_calc.costAddTime(cost,value)));
+/*	
+	switch(getType())
+	{
+			
+		case FormBase::Add:
+		{*/
+	
+	if (sliderCount >= 1)
+	{
+		bool ok = 0;
+		int cost = m_costForUnitAdd.toInt(&ok,10);
+		value = (m_addHourValue->text()).toInt(&ok,10)  ;
+		cout << "COSTO RENTA unidad adicional: " << cost  << endl;
+		setCostOfRent(QString::number(m_totalCost+(cost*value) ));
+	}
+	else
+	{
+		bool ok = 0;
+		int cost = m_costForUnitAdd.toInt(&ok,10);
+		value = (m_addHourValue->text()).toInt(&ok,10)  ;
+		cout << "COSTO RENTA unidad adicional: " << cost  << endl;
+		setCostOfRent(QString::number(m_totalCost+=(cost*value) ));
+	}
 	
 }
 
@@ -502,14 +536,13 @@ void FormAdminRents::setCltId(const QString &id)
 
 void FormAdminRents::setHourValue(const QString &value)
 {
-	
-	m_hourValue->setText(value);
+
+		m_hourValue->setText(value);
 }
 
 void FormAdminRents::setAddHourValue(const QString &value)
 {
-	
-	m_addHourValue->setText(value);
+	m_addHourValue->setText(value);	
 }
 
 void FormAdminRents::setGameSerial(const QString &serial)
@@ -541,7 +574,9 @@ void FormAdminRents::setActiveValue(const QString &value)
 void FormAdminRents::setCostOfRent(const QString &cost)
 {
 	m_costRentChanged = TRUE;
+	bool ok = 0;
 	m_costRent->setText(cost);
+	
 }
 void FormAdminRents::rentDate(const QString &date)
 {
@@ -562,6 +597,17 @@ void FormAdminRents::costUnitAdd(const QString &cost)
 {
 	m_costForUnitAdd = cost;
 }
-		
+
+void FormAdminRents::disabledSlider(bool value)
+{
+	disableSlider = value;
+}
+
+int FormAdminRents::totalCostOfRent(const QString &cost)
+{
+	bool ok = 0;
+	m_totalCost = cost.toInt(&ok,10);
+	return m_totalCost;
+}		
 		
 #include "formadminrents.moc"

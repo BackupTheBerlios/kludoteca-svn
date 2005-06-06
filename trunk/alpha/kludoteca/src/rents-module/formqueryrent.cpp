@@ -17,26 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "klcalc.h"
-
-KLCalc::KLCalc()
-{
-	m_costRent = 0;
-}
+#include "formqueryrent.h"
+#include <klocale.h>
+#include "klxmlreader.h"
 
 
-KLCalc::~KLCalc()
+FormQueryRent::FormQueryRent(const QString &serial, const QString &date, const QString &hour, QWidget *parent,const char* name): FormBase(FormBase::Query,parent),m_serial(serial), m_date(date),m_hour(hour)
 {
 }
 
-int KLCalc::costRent(int costUnit,int units)
+
+FormQueryRent::~FormQueryRent()
 {
-	m_costRent = (costUnit * units);
-	return m_costRent;
 }
 
-int KLCalc::costAddTime(int costAddTime,int addunits)
+void FormQueryRent::setupForm()
 {
-	m_costRent += (costAddTime * addunits);
-	return m_costRent;	
+	setupRentInfo();
+	
+	new QLabel("<div align=center><h1>Results Table</h1></div>", this);
+	
+	m_resultTable = new KLTable(0,5, this);
+	m_resultTable->setColumnLabels(QStringList() << i18n("Game") << i18n("Elapsed Time") << i18n("Remain Time") << i18n("Cost"));
+	fillTable();
 }
+
+void FormQueryRent::setupRentInfo()
+{
+
+}
+
+

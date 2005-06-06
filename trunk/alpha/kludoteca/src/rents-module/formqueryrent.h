@@ -17,26 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "klcalc.h"
+#ifndef FORMQUERYRENT_H
+#define FORMQUERYRENT_H
 
-KLCalc::KLCalc()
+#include "formbase.h"
+#include "kltable.h"
+//#include <klsqlresults.h>
+#include "klresultsetinterpreter.h"
+/**
+@author Daniel Valencia.
+*/
+class FormQueryRent : public FormBase
 {
-	m_costRent = 0;
-}
+	Q_OBJECT
+	public:
+		FormQueryRent(const QString &serial, const QString &date, const QString &hour, QWidget* parent, const char* name);
+		~FormQueryRent();
+		void setupForm();
 
+		void accept();
+		void clean();
+		void fillTable();
 
-KLCalc::~KLCalc()
-{
-}
+		void print(QPainter *p, KPrinter &printer);
 
-int KLCalc::costRent(int costUnit,int units)
-{
-	m_costRent = (costUnit * units);
-	return m_costRent;
-}
+	private:
+		void setupRentInfo();
 
-int KLCalc::costAddTime(int costAddTime,int addunits)
-{
-	m_costRent += (costAddTime * addunits);
-	return m_costRent;	
-}
+	private:
+		QString m_serial,m_date,m_hour;
+		KLTable *m_resultTable;
+		KLSqlResults m_rentInfo;
+
+};
+
+#endif

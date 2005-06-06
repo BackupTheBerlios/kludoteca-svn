@@ -75,6 +75,8 @@ class FormAdminRents : public FormBase
 		void costUnitAdd(const QString &cost);
 		void setCltTable();	
 		void setGameTable();
+		void disabledSlider(bool value);
+		int totalCostOfRent(const QString &cost);
 	public slots: 
 		/**
 	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar
@@ -154,9 +156,10 @@ class FormAdminRents : public FormBase
 		HashLineEdit m_hashRentFields;
 		QHButtonGroup *m_radioButtons;
 		QRadioButton *m_rbNotBanned, *m_rbBanned;
-		bool m_actValueChanged, m_costRentChanged, m_addedUnits;;
+		bool m_actValueChanged, m_costRentChanged, m_addedUnits, disableSlider;
 		KLCalc m_calc;
-		int selectedClteRow, selectedGameRow;
+		int selectedClteRow, selectedGameRow, sliderCount;
+		int m_totalCost;
 		
 };
 
