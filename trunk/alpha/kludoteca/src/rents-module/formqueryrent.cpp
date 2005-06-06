@@ -57,7 +57,7 @@ void FormQueryRent::setupForm()
 	;
 	m_layout->addWidget(m_box,2,0);
 	m_resultTable = new KLTable(0,4, m_container);
-	m_resultTable->setColumnLabels(QStringList() << i18n("Game") << i18n("Elapsed Time") << i18n("Remain Time") << i18n("Cost"));
+	
 	m_layout->addWidget((new QLabel("<div align=center><h1>Results Table</h1></div>", m_container)),0,0);
 	m_layout->addWidget(m_resultTable,1,0);
 	
@@ -87,6 +87,8 @@ void FormQueryRent::setupRentInfo()
 					<< "renthour"
 					<< "units"
 					<< "addunits"
+					<< "timeunitadd"
+					<< "timeunit"
 				,QStringList() << "ldt_clients");
 	query.setWhere("gameserialreference="+SQLSTR(m_serial)+
 			" and date="+SQLSTR(m_date)+" and renthour="+SQLSTR(m_hour));
@@ -164,6 +166,13 @@ void FormQueryRent::fillTable()
 		return;
 	bool ok = 0;
 	QString costo;
+	
+	if (m_rentInfo["timeunit"] == "h")
+		m_resultTable->setColumnLabels(QStringList() << i18n("Game") << i18n("Elapsed Time in Hours") << i18n("Remain Time in Hours") << i18n("Cost"));
+	if (m_rentInfo["timeunit"] == "m")
+		m_resultTable->setColumnLabels(QStringList() << i18n("Game") << i18n("Elapsed Time in Minutes") << i18n("Remain Time in Minutes") << i18n("Cost"));
+	
+	
 	if (this->remainTime() <= 0)
 	{
 		int au = QString(m_rentInfo["addunits"]).toInt(&ok,10);
@@ -195,14 +204,27 @@ int FormQueryRent::elapsedTime()
 	//time = time.addSecs(  (QString(m_rentInfo["units"]).toInt(&ok,10))*60*60   );
 	int test = time.secsTo( QDateTime::currentDateTime(Qt::LocalTime) );
 	int hour;
-	
-	if ((test/60)%60 <= 0)
-		hour = 1;	
+	if(m_rentInfo["timeunits"] == "h")
+	{
+		if ((test/60)%60 <= 0)
+			hour = 1;	
+		else
+		{
+			hour = (test/60)/60;   //horas transcurridas
+			return hour;
+		}
+	}
 	else
 	{
-		hour = (test/60)/60;   //horas transcurridas
-		return hour;
+		if ((test)%60 <= 0)
+			hour = 1;	
+		else
+		{
+			hour = (test/60);   //horas transcurridas
+			return hour;
+		}
 	}
+	
 }
 
 int FormQueryRent::remainTime()
@@ -213,14 +235,27 @@ int FormQueryRent::remainTime()
 	int current = time.secsTo( QDateTime::currentDateTime(Qt::LocalTime) );
 	int hour = esperada - current;
 	int hourOk;
-	if ((hour/60)%60 <= 0)
-		hourOk = 1;	
+	
+	if(m_rentInfo["timeunits"] == "h")
+	{
+		if ((hour/60)%60 <= 0)
+			hourOk = 1;	
+		else
+		{
+			hourOk = (hour/60)/60;   //horas transcurridas
+			return hourOk;
+		}
+	}
 	else
 	{
-		hourOk = (hour/60)/60;   //horas transcurridas
-		return hourOk;
+		if ((hour)%60 <= 0)
+			hourOk = 1;	
+		else
+		{
+			hourOk = (hour)/60;   //horas transcurridas
+			return hourOk;
+		}
 	}
-	
 	//cout << hourOk << endl;
 }
 //#include "formqueryrent.moc"

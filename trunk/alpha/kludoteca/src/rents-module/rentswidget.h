@@ -24,6 +24,7 @@
 #include "formadminrents.h"
 #include <qtimer.h>
 #include "formrentsdebts.h"
+#include "rentstimer.h"
 
 /**
  * Esta clase contiene el widget principal del modulo de prestamos
@@ -51,8 +52,8 @@ class RentsWidget : public LTListView
 		
 		
 		void slotFilter(const QString &filter);
-		
-		
+	signals:
+		void sendTimer(RentsTimer *);
 		
 	public slots:
 		/**
@@ -82,6 +83,8 @@ class RentsWidget : public LTListView
 		void addItem(const QStringList &pkey);
 		void updateItem(const QStringList &pkey);
 		void slotTimer();
+		void addRentsTimer(RentsTimer *rt);
+		
 	private:
 		
 		QTimer *m_timer;

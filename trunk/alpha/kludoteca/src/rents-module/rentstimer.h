@@ -17,39 +17,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "rentstbar.h"
-#include <klocale.h>
+#ifndef RENTSTIMER_H
+#define RENTSTIMER_H
 
-RentsTBar::RentsTBar(QWidget *parent, const char *name): KTabWidget(parent,name)
+#include <qtimer.h>
+#include <qobject.h>
+#include <qstringlist.h>
+#include <qstring.h>
+#include <qdatetime.h>
+#include "klquery.h"
+#include "klxmlreader.h"
+#include "klresultsetinterpreter.h"
+#include <klresultset.h>
+#include "kldatabase.h"
+
+
+/**
+@author Daniel Valencia dafevara@gmail.com
+*/
+class RentsTimer : public QTimer
 {
-	setupTabs();
-}
+	Q_OBJECT
+	public:
+		enum TimeUnit { Days = 0,Hour, Min};
+		RentsTimer(const QStringList &id,int units, TimeUnit tu);
+		~RentsTimer();
+		QStringList getId();
+		
+		
+	private:
+		QStringList m_id;
+		QXmlInputSource m_xmlsource;
+		KLXmlReader m_xmlreader;
+		KLSqlResults m_timerResults;
+};
 
-
-RentsTBar::~RentsTBar()
-{
-}
-
-void RentsTBar::setupTabs()
-{
-	m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, 
-					LTListView::ButtonDel, 
-					LTListView::ButtonModify, 
-					LTListView::ButtonQuery, 
-					this);
-	insertTab(m_rentsWidget, i18n("Rents"));
-	
-	m_controlist = new RentsControlList(this);
-	insertTab(m_controlist, i18n("Active Rents"));
-	
-	connect(m_rentsWidget, SIGNAL(sendTimer(RentsTimer* )), m_controlist, SLOT(addRentsTimer(RentsTimer* )));
-
-}
-
-void RentsTBar::applyChangesToLists()
-{
-	m_rentsWidget->fillList();
-}
-
-
-#include "rentstbar.moc"
+#endif

@@ -20,6 +20,7 @@
 #include "formadminrents.h"
 #include <klocale.h>
 #include <iostream>
+#include "rentstimer.h"
 
 using namespace std;
 
@@ -130,7 +131,7 @@ void FormAdminRents::setupBox()
 	
 	QLabel *timeUnits= new QLabel(i18n("Time Units"),m_rentInfogb);
 	m_timeUnits = new QSlider(m_rentInfogb);
-	m_timeUnits->setRange (00,24);
+	m_timeUnits->setRange (00,100);
 	m_timeUnits->setTickmarks(QSlider::Above);
 	m_timeUnits->setTickInterval(2);
 	m_timeUnits->setOrientation(Qt::Horizontal);
@@ -146,7 +147,7 @@ void FormAdminRents::setupBox()
 	
 	QLabel *addTimeUnits = new QLabel(i18n("Additional Time"),m_rentInfogb);
 	m_addTimeUnits = new QSlider(m_rentInfogb);
-	m_addTimeUnits->setRange (00,24);
+	m_addTimeUnits->setRange (00,100);
 	m_addTimeUnits->setTickmarks(QSlider::Above);
 	m_addTimeUnits->setTickInterval(2);
 	m_addTimeUnits->setOrientation(Qt::Horizontal);
@@ -228,6 +229,19 @@ void FormAdminRents::accept()
 				clean();
 			}
 			
+			/**
+			 * A CONTINUACION SE PROCEDERIA A CREAR EL RENTSTIMER Y MANDARSELO A RENTSWIDGET
+			 * 
+			 */
+			bool ok = 0;
+			RentsTimer *rt = new RentsTimer(QStringList() << SQLSTR(getGameSerial() )
+									<< SQLSTR(getSystemDate())
+									<< SQLSTR(getSystemDateTime()),
+// 									getHourValue().toInt(&ok,10),
+									30000,
+									RentsTimer::Hour);
+			rt->start(30000,FALSE);
+			emit sendTimer(rt);
 		}
 		break;
 		case FormBase::Edit:

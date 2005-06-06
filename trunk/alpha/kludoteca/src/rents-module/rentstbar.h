@@ -22,7 +22,8 @@
 
 #include <ktabwidget.h>
 #include "rentswidget.h"
-
+#include "rentstimer.h"
+#include "rentscontrollist.h"
 
 
 /**
@@ -36,11 +37,11 @@ class RentsTBar : public KTabWidget
 		~RentsTBar();
 	public slots:
 		void applyChangesToLists();
-		
 	private:
 		void setupTabs();
 	private:
 		RentsWidget *m_rentsWidget;
+		RentsControlList *m_controlist;
 			
 
 };

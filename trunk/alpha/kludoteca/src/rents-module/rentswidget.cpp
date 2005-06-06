@@ -115,7 +115,7 @@ void RentsWidget::addButtonClicked()
 		
 	connect(formAdminRents, SIGNAL(cancelled()), view, SLOT(close()));
 	connect(formAdminRents, SIGNAL(inserted(const QStringList& )), this, SLOT(addItem( const QStringList& )));
-	
+	connect( formAdminRents, SIGNAL( sendTimer(RentsTimer* )), this ,SLOT( addRentsTimer(RentsTimer* ) ) );
 	
 	
 	emit sendWidget( view );
@@ -358,5 +358,9 @@ void RentsWidget::slotTimer()
 	
 }
 
+void RentsWidget::addRentsTimer(RentsTimer *tr)
+{
+	emit sendTimer(tr);
+}
 
 #include "rentswidget.moc"

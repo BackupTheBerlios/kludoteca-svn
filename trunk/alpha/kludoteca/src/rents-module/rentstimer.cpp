@@ -17,39 +17,66 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "rentstbar.h"
-#include <klocale.h>
+#include "rentstimer.h"
 
-RentsTBar::RentsTBar(QWidget *parent, const char *name): KTabWidget(parent,name)
+RentsTimer::RentsTimer(const QStringList &id,int units,TimeUnit tu): QTimer(),m_id(id)
 {
-	setupTabs();
-}
-
-
-RentsTBar::~RentsTBar()
-{
-}
-
-void RentsTBar::setupTabs()
-{
-	m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, 
-					LTListView::ButtonDel, 
-					LTListView::ButtonModify, 
-					LTListView::ButtonQuery, 
-					this);
-	insertTab(m_rentsWidget, i18n("Rents"));
+	switch (tu)
+	{
+		case RentsTimer::Days:
+		{
+			int msec = units*24*60*60*1000;
+			this->start(msec,FALSE);
+		}
+		break;
+		case RentsTimer::Hour:
+		{
+			int msec = units*60*60*1000;
+			this->start(msec,FALSE);
+		}
+		break;
+		case RentsTimer::Min:
+		{
+			int msec = units*60*1000;
+			this->start(msec,FALSE);
+		}	
+			
+	}
 	
-	m_controlist = new RentsControlList(this);
-	insertTab(m_controlist, i18n("Active Rents"));
 	
-	connect(m_rentsWidget, SIGNAL(sendTimer(RentsTimer* )), m_controlist, SLOT(addRentsTimer(RentsTimer* )));
-
 }
 
-void RentsTBar::applyChangesToLists()
+
+RentsTimer::~RentsTimer()
 {
-	m_rentsWidget->fillList();
 }
 
+QStringList RentsTimer::getId()
+{
+	return m_id;
+}
 
-#include "rentstbar.moc"
+/*
+*	KLSelect query(QStringList() <<"clientdocident"
+			<< "gameserialreference"
+			<< "totalcost"
+			<< "date"
+			<< "renthour"
+			<< "units"
+			<< "addunits"
+			<< "active"
+			,QStringList() << "ldt_rents");
+	query.setWhere("gamerserialreference="+SQLSTR(id[0])+" and" );
+	query.setCondition("date="+SQLSTR(id[1])+" and renthour="+SQLSTR(id[2])+"and active" );
+	
+	KLResultSet resultSet = KLDM->execQuery(&query);
+	m_xmlsource.setData(resultSet.toString());
+		
+	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+{
+		std::cerr << "No se puede analizar" << std::endl;
+}
+	
+	m_timerResults = m_xmlreader.results();
+*
+*/

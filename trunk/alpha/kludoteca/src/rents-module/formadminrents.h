@@ -37,6 +37,8 @@
 #include "klquery.h"
 #include <qslider.h>
 #include "klcalc.h"
+#include "rentstimer.h"
+#include "rentlist.h"
 
 
 /**
@@ -103,6 +105,8 @@ class FormAdminRents : public FormBase
 		void message2osd(const QString &msg);
 		void changedTextEdit(int id);
 		void inserted(const QStringList &qsl);
+		void sendTimer(RentsTimer *rt);
+		
 		
 	private:
 		/**
@@ -123,7 +127,7 @@ class FormAdminRents : public FormBase
 		KCompletion 	*m_compClte, 
 				*m_compGame;
 		
-		KLResultSetInterpreter *m_rsinterpreter;
+		//KLResultSetInterpreter *m_rsinterpreter;
 		
 		KLXmlReader m_xmlreader;
 		
