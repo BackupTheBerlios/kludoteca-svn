@@ -22,6 +22,7 @@
 #include <iostream>
 
 #include "klreportwidget.h"
+#include "formqueryrent.h"
 #define DEBUG_RENTS 1
 
 using std::cout;
@@ -217,7 +218,7 @@ void RentsWidget::modifyButtonClicked()
 
 void RentsWidget::queryButtonClicked()
 {
-/*	cout << "query button clicked" << std::endl;
+	cout << "query button clicked" << std::endl;
 	
 	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
@@ -225,7 +226,8 @@ void RentsWidget::queryButtonClicked()
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
-
+	
+/*
 	KLReportWidget *formParticipantsList = new KLReportWidget( scroll->viewport() );
 
 // 	ElementVector m_elements;
@@ -250,12 +252,20 @@ void RentsWidget::queryButtonClicked()
 	scroll->addChild(formParticipantsList);
 	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 		
-	emit sendWidget(view);*/ 
+	*/ 
 	
 	QString quering = "";
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
 	
-	quering += i18n("== query to user ") + itemp->text(2) + " == \n";
+	quering += i18n("== query to Rent") + " == \n";
+	
+	FormQueryRent *queryRent = new FormQueryRent(itemp->text(0),
+						itemp->text(2),
+						itemp->text(3),
+						scroll->viewport() );
+	
+	scroll->addChild(queryRent);
+	emit sendWidget(view);
 	
 }
 

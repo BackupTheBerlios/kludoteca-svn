@@ -233,10 +233,6 @@ void FormAdminRents::accept()
 		case FormBase::Edit:
 		{
 			
-			/*disconnect(m_hourValue,0,0,0);
-			disconnect(m_timeUnits,0,0,0);
-			disconnect(m_timeUnits,SIGNAL(sliderMoved(int)),this,0);*/
-			m_timeUnits->setLineStep(20);
 			QStringList fields, values;
 			QDictIterator<KLineEdit> it( m_hashRentFields);
 			for( ; it.current(); ++it)

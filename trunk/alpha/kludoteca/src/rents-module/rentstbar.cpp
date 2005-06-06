@@ -38,6 +38,8 @@ void RentsTBar::setupTabs()
 					LTListView::ButtonQuery, 
 					this);
 	insertTab(m_rentsWidget, i18n("Rents"));
+	
+	
 	//connect(m_tactive, SIGNAL(tournamentModified()), this, SLOT(applyChangesToLists()));	
 }
 

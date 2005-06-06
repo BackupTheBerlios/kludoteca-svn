@@ -20,6 +20,9 @@
 #ifndef KLCALC_H
 #define KLCALC_H
 
+#include <qstring.h>
+
+
 /**
 @author CetiSoft
 */
@@ -32,6 +35,9 @@ class KLCalc
 		
 		int costRent(int unitCost,int units);
 		int costAddTime(int unitCost,int addunits);
+		int hourToSec(int hour);
+		QString secToDate(int sec);
+	
 	private:
 		int m_costRent;
 

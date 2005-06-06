@@ -18,6 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "klcalc.h"
+#include <iostream>
+
+using namespace std;
 
 KLCalc::KLCalc()
 {
@@ -39,4 +42,30 @@ int KLCalc::costAddTime(int costAddTime,int addunits)
 {
 	m_costRent += (costAddTime * addunits);
 	return m_costRent;	
+}
+
+QString KLCalc::secToDate(int sec)
+{
+	int seg,min,hour;
+	
+	
+	
+	while(sec - 60 >= 1)
+	{
+		if(sec <= 59)
+			seg = sec;
+		
+		min++;
+		
+		if (min >= 60)
+			hour++;		
+	}
+		
+	cout << hour << ":" << min << ":" << seg << endl;		
+		
+}
+
+int KLCalc::hourToSec(int hour)
+{
+	
 }

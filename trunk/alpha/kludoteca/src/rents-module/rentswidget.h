@@ -85,7 +85,7 @@ class RentsWidget : public LTListView
 	private:
 		
 		QTimer *m_timer;
-		//FormRentsDebts *m_debts;
+		//FormQueryRent *m_queryRent;
 		
 };
 

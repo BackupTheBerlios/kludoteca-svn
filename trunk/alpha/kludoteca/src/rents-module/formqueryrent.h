@@ -22,8 +22,9 @@
 
 #include "formbase.h"
 #include "kltable.h"
-//#include <klsqlresults.h>
 #include "klresultsetinterpreter.h"
+#include <qvgroupbox.h>
+#include <qscrollview.h>
 /**
 @author Daniel Valencia.
 */
@@ -31,11 +32,15 @@ class FormQueryRent : public FormBase
 {
 	Q_OBJECT
 	public:
-		FormQueryRent(const QString &serial, const QString &date, const QString &hour, QWidget* parent, const char* name);
+		FormQueryRent(const QString &serial, 
+				const QString &date, 
+				const QString &hour, 
+				QWidget *parent = 0, const char *name = 0);
 		~FormQueryRent();
 		void setupForm();
 
 		void accept();
+		void cancel();
 		void clean();
 		void fillTable();
 
@@ -43,11 +48,17 @@ class FormQueryRent : public FormBase
 
 	private:
 		void setupRentInfo();
+		int elapsedTime();
+		int remainTime();
 
 	private:
 		QString m_serial,m_date,m_hour;
 		KLTable *m_resultTable;
 		KLSqlResults m_rentInfo;
+		QScrollView *m_scrollView;
+		QGridLayout *m_layout;
+		QFrame *m_container;
+		QGroupBox *m_box;
 
 };
 

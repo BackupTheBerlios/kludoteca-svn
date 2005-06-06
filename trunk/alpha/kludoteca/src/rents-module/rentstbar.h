@@ -23,8 +23,10 @@
 #include <ktabwidget.h>
 #include "rentswidget.h"
 
+
+
 /**
-@author CetiSoft
+@author Daniel Valencia
 */
 class RentsTBar : public KTabWidget
 {
