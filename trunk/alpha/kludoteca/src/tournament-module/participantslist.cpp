@@ -228,7 +228,7 @@ void ParticipantsList::queryButtonClicked()
 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
 	
 	scroll->addChild(formParticipantsList);
-	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
+	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::NoButton );
 		
 	emit sendWidget(view); 
 }

@@ -22,18 +22,19 @@
 #include <qvaluevector.h>
 #include <iostream>
 #include <klxmlreader.h>
-#include <kldatabase.h>
+
 
 MatchGenerator::MatchGenerator()
-	: QObject(), heapsize(0)
+	: QObject()
 {
-	
+	qDebug("[Initializing MatchGenerator]");
 }
 
-MatchGenerator::MatchGenerator(const MatchClientInfo &mci, const QString &tournament)
-	: QObject(), m_mci(mci), heapsize(0), m_tournament(tournament)
+MatchGenerator::MatchGenerator(const QStringList &mci, const QString &tournament)
+	: QObject(), m_mci(mci), m_tournament(tournament)
 {
-	
+	qDebug("[Initializing MatchGenerator]");
+	getTournamentInfo();
 }
 
 
@@ -41,83 +42,78 @@ MatchGenerator::~MatchGenerator()
 {
 }
 
-void MatchGenerator::setMatchClientInfo(const MatchClientInfo &mci, const QString &tournament)
+void MatchGenerator::setMatchClientInfo(const QStringList &mci, const QString &tournament)
 {
 	m_mci = mci;
 	m_tournament = tournament;
 }
 
-StringVector MatchGenerator::generate(Type t)
+QStringList MatchGenerator::generate(int nround, Type t)
 {
-	StringVector res(m_mci.count());
+	std::cout << "Generating pairs for round " << nround << std::endl;
+	
+	if( nround == 0 )
+	{
+		t = Random;
+	}
 	
 	switch(t)
 	{
 		case Random:
 		{
-			return qstringlist2stringvector(m_mci.keys());
+			std::cout << "RANDOM" << std::endl;
+			return m_mci;
 		}
 		break;
 		case Ascending:
 		{
 			// Ordenamos por puesto y enfrentamos en ese orden
 			// TODO: Verificar que los jugadores no hayan jugado en este mismo orden!!
-			QValueList<int> values = m_mci.values();
 			
-			qHeapSort(values);
-			MatchClientInfo::const_iterator it;
-			
-			for(uint i = 0; i < values.count(); i++)
-			{
-				QString key = m_mci.keys()[i];
-				int index = values.findIndex(m_mci[key]);
-				res[index] = key;
-				values[index] = -1;
-			}
-			
-			verifyPairs(res);
+			verifyPairs(nround);
 		}
 		break;
 	}
-	return res;
+	return m_mci;
 }
 
-void MatchGenerator::verifyPairs(StringVector &sv)
+void MatchGenerator::verifyPairs(int nround)
 {
-	int r4p = this->rounds4pair();
+	std::cout << "Verifing pairs" << " vect: " << m_mci.count() << std::endl;
 	QValueList<int> imps;
-	for(uint i = 0; i < sv.count(); i+=2)
+	for(uint i = 0; i < m_mci.count(); i+=2 )
 	{
-		if( whatTimes(sv[i], sv[i+1]) > r4p)
+		std::cout << "FOR" << std::endl;
+		if( ! findOrder(i, i+1, nround) )
 		{
-			if ( whatTimes(sv[i+1], sv[i]) > r4p )
-			{
-				imps << i << i+1;
-			}
-			else
-			{
-				// swap
-				QString sv1 = sv[i];
-				QString sv2 = sv[i+1];
-				sv[i] = sv2;
-				sv[i+1] = sv1;
-			}
+			imps << i << i+1;
 		}
 	}
 	
 	for(uint i = 0; i < imps.count(); i++)
 	{
-		std::cout << "No puedo elegir: " << sv[imps[i]] << std::endl;
+		std::cout << "*******************************************" << std::endl;
+		std::cout << "NO PUEDO ENCONTRAR ORDEN: " << m_mci[imps[i]] << std::endl;
+		std::cout << "*******************************************" << std::endl;
 	}
 }
 
-int MatchGenerator::whatTimes(const QString &opp1, const QString &opp2)
+bool MatchGenerator::findOrder(int first, int sec, int nround)
 {
 	//SELECT count(number) from ldt_match where opponent1='002' and opponent2='004';
-	KLSelect sqlquery(QStringList() << "count(opponent1)", QString("ldt_match"));
-	sqlquery.setWhere("codtournament="+SQLSTR(m_tournament));
-	sqlquery.setCondition(QString("and opponent1='%1' and opponent2='%2'").arg(opp1).arg(opp2));
+	std::cout << "INIT " << first << " " << sec << std::endl;
 	
+	QString opp1 = m_mci[first];
+	QString opp2 = m_mci[sec];
+	
+	std::cout << "Finding order for " << m_mci[first] << " and " << m_mci[sec] << std::endl;
+	
+	KLSelect sqlquery(QStringList() << "count(opponent1)", QString("ldt_match"));
+	
+	sqlquery.setWhere("codtournament="+SQLSTR(m_tournament));
+
+	sqlquery.setCondition(QString("and opponent1='%1' and opponent2='%2'").arg(opp1).arg(opp2));
+
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
 	KLXmlReader xmlreader;
@@ -129,22 +125,38 @@ int MatchGenerator::whatTimes(const QString &opp1, const QString &opp2)
 	
 	KLSqlResults results = xmlreader.results();
 	
-	return results["countopponent1"].toInt();
-}
-
-StringVector MatchGenerator::qstringlist2stringvector(const QStringList &list)
-{
-	StringVector vec(list.count());
-	for(uint i = 0; i < list.count(); i++)
+	std::cout << "HERE" << std::endl;
+	std::cout << "Count: " << results["countopponent1"] << std::endl;
+	
+	if ( results["countopponent1"].toInt() < m_tournamentInfo["roundsforpair"].toInt() && results["countopponent1"].toInt() / nround <= m_tournamentInfo["rounds"].toInt() )
 	{
-		vec[i] = list[i];
+		std::cout << "*******************************************" << std::endl;
+		std::cout << "Find order: " << opp1 << " " << opp2 << std::endl;
+		std::cout << "*******************************************" << std::endl;
+		return true;
 	}
-	return vec;
+	else
+	{
+		if ( findOrder(sec, first, nround ) )
+		{
+			std::cout << "swapping" << std::endl;
+			
+			swap(m_mci, first, sec);
+			
+			std::cout << "Next" << std::endl;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
-int MatchGenerator::rounds4pair()
+void MatchGenerator::getTournamentInfo()
 {
-	KLSelect sqlquery(QStringList() << "roundsforpair", QString("ldt_tournament"));
+	KLSelect sqlquery(QStringList() << "rounds" << "roundsforpair", QString("ldt_tournament"));
+	
 	sqlquery.setWhere("name="+SQLSTR(m_tournament));
 	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
@@ -156,72 +168,7 @@ int MatchGenerator::rounds4pair()
 		std::cerr << "No se puede analizar" << std::endl;
 	}
 	
-	KLSqlResults results = xmlreader.results();
-	
-	return results["roundsforpair"].toInt();
-}
-
-// HEAPSORT
-
-/**
-Funcion auxiliar del procedimiento heapsort, esta funcion nos retorna un padre
- */
-int MatchGenerator::parent(int i)
-{
-	return (int) floor((i-1)/2);
-}
-
-/**
-Funcion auxiliar del procedimiento heapsort, esta funcion nos retorna la poscicion a la izquierda del nodo i en el arbol del heap.
- */
-int MatchGenerator::rigth(int i)
-{
-	return 2*i+2;
-}
-
-/**
-Funcion auxiliar del procedimiento heapsort, esta funcion nos retorna la poscicion a la derecha del nodo i en el arbol del heap.
- */
-int MatchGenerator::left(int i)
-{
-	return 2*i+1;
-}
-
-/**
-Funcion auxiliar del procedimiento heapsort, esta funcion mantiene la propiedad de heap para un nodo i.
- */
-void MatchGenerator::maxHeapify(QStringList &list, int i)
-{
-	int l = left(i);
-	int r = rigth(i);
-
-	int max = 0;
-
-	if ( l <= heapsize && m_mci[list[l]] > m_mci[list[i]] )
-		max = l;
-	else
-		max = i;
-
-	if (r <= heapsize && m_mci[list[r]] > m_mci[list[max]])
-		max = r;
-	
-	if (max != i)
-	{
-		swap(list, max, i);
-		maxHeapify(list, max);
-	}
-}
-
-/**
-Funcion auxiliar del procedimiento heapsort, esta funcion construye el heap.
- */
-void MatchGenerator::buildMaxHeap(QStringList &list)
-{
-	heapsize = list.count()-1;
-	for(int i = (int) floor((list.count()-1)/2); i >= 0; i--)
-	{
-		maxHeapify(list, i);
-	}
+	m_tournamentInfo = xmlreader.results();
 }
 
 /**
@@ -233,20 +180,6 @@ void MatchGenerator::swap(QStringList &list, int i1, int i2)
 	QString s2 = list[i2];
 	list[i1] = s2;
 	list[i2] = s1;
-}
-
-/**
-Funcion muy conocida de ordenamiento, su complejidad es O(nlgn), en esta implementacion organiza una lista de procesos depediendo del campo, por ejemplo se puede ordenar por campo 0 (tiempo inicial).
- */
-void MatchGenerator::heapsort(QStringList &list)
-{
-	buildMaxHeap(list);
-	for(int i = list.count()-1; i >= 1; i--)
-	{
-		swap(list, i, 0);
-		heapsize--;
-		maxHeapify(list, 0);
-	}
 }
 
 

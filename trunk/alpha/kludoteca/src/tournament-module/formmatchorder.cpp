@@ -29,6 +29,7 @@
 FormMatchOrder::FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent)
 	: FormBase(t, parent, "FormMatchOrder"), m_tournament(tournament) ,m_nround(nround)
 {
+	qDebug("[Initializing FormMatchOrder]");
 	switch(t)
 	{
 		case Add:
@@ -132,12 +133,18 @@ void FormMatchOrder::accept()
 			
 			if ( ! m_restParticipant.isEmpty() )
 			{
+// 				KLUpdate update("ldt_match", QStringList() << "rest", QStringList() << SQLSTR("t") );
+// 				update.setWhere(QString("nround=%1 and codtournament=%2 and opponent1=%3").arg(SQLSTR(m_nround)).arg(SQLSTR(m_tournament)).arg(SQLSTR(lastOdd)) );
+// 				KLDM->execQuery(&update);
+				
 				QStringList values = QStringList()
-						<< QString::number((m_nround-1)*m_table->numRows()*2+m_table->numRows()-1)
+				<< QString::number((m_nround-1)*m_table->numRows()*2+m_table->numRows()-1)
 					<< QString::number(m_nround)
 					<< SQLSTR(m_tournament)
 					<< SQLSTR(m_table->text(m_table->numRows()-1, 0))
-					<< "1";
+					<< "1"
+					<< SQLSTR("") << SQLSTR("")
+						<< SQLSTR("t");
 				KLInsert sqlins("ldt_match", values);
 				KLDM->execQuery(&sqlins);
 			
@@ -166,7 +173,7 @@ void FormMatchOrder::accept()
 		}
 		break;
 	}
-	updateRanks(m_clientList.keys());
+	updateRanks(m_clientList);
 	emit accepted();
 	qDebug("End accept");
 }
@@ -188,6 +195,7 @@ void FormMatchOrder::fillTable()
 	sqlquery.setCondition("and clientdocident");
 	KLSelect subquery(QStringList() << "docIdent", QString("ldt_participates"));
 	sqlquery.addSubConsult("in", subquery);
+	sqlquery.setOrderBy("rank", KLSelect::Asc);
 	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
@@ -198,22 +206,13 @@ void FormMatchOrder::fillTable()
 		std::cerr << "No se puede analizar" << std::endl;
 	}
 	
-	m_clientList = getMatchClientInfo(xmlreader.getResultsList(), 4);
+ 	m_clientList = getMatchClientInfo(xmlreader.getResultsList(), 4);
 	
 	if(getType() == Add)
 	{
 		MatchGenerator mg(m_clientList, m_tournament);
 		
-		StringVector results(m_clientList.count());
-		
-		if ( m_nround == 1) // Generar aleatoramente
-		{
-			results = mg.generate(MatchGenerator::Random);
-		}
-		else // Generar al estilo que se quiera, en este caso ascendente
-		{
-			results = mg.generate(MatchGenerator::Ascending);
-		}
+		QStringList results = mg.generate(m_nround, MatchGenerator::Ascending);
 		
 		for(uint i = 0; i < results.count(); i++)
 		{
@@ -331,14 +330,14 @@ void FormMatchOrder::updateRanks(const QStringList &clients)
 	}
 }
 
-MatchClientInfo FormMatchOrder::getMatchClientInfo(const QStringList &sqlresults, int newpos)
+QStringList FormMatchOrder::getMatchClientInfo(const QStringList &results, int pos)
 {
-	MatchClientInfo mci;
-	for (uint i = 0; i < sqlresults.count(); i+=newpos)
+	QStringList tmp;
+	for(uint i = 0; i < results.count(); i+= pos)
 	{
-		mci.insert(sqlresults[i], sqlresults[i+newpos-1].toInt());
+		tmp << results[i];
 	}
-	return mci;
+	return tmp;
 }
 
 #include "formmatchorder.moc"

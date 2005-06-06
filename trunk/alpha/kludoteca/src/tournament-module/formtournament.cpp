@@ -52,63 +52,69 @@ FormTournament::~FormTournament()
 void FormTournament::setupForm()
 {
 	m_form = new QFrame(this);
+	m_form->setMargin(60);
 	m_form->setLineWidth(3);
-	m_form->setFrameShape(QFrame::Box);
-	m_grid = new QGridLayout(m_form,7,4,10);
+	m_form->setFrameStyle(QFrame::Box | QFrame::Raised);
+// 	m_grid = new QGridLayout(m_form,7,4,10);
+	m_hbox = new QHBox(this);
 	
-	QLabel *nameTourLabel = new QLabel(i18n("Name of tournament"),m_form);
-	KLineEdit *nameTournament = new KLineEdit(m_form);
+	m_hbox->setMargin(60);
+	m_hbox->setLineWidth(3);
+	m_hbox->setFrameStyle(QFrame::Box | QFrame::Raised);
+	
+	
+	m_vboxtinfo = new QVBox(m_hbox);
+	m_vboxtinfo->setMargin(10);
+	
+	QLabel *nameTourLabel = new QLabel(i18n("Name of tournament"),m_vboxtinfo);
+	KLineEdit *nameTournament = new KLineEdit(m_vboxtinfo);
 	m_lineEdits.insert("name", nameTournament);
 	
-	m_grid->addWidget(nameTourLabel, 0,0);
-	m_grid->addWidget(nameTournament, 0,1);
+	QVBox *vboxDateBegin = new QVBox(m_hbox);
+	vboxDateBegin->setMargin(10);
+	QLabel *dateBegin = new QLabel(i18n("Date of begin of the tournament"),vboxDateBegin);
 	
-	QLabel *dateBegin = new QLabel(i18n("Date of begin of the tournament"),m_form);
+	m_dateTournament = new KDatePicker(vboxDateBegin, QDate::currentDate());
 	
-	m_grid->addWidget(dateBegin, 0,3);
-	m_dateTournament = new KDatePicker(m_form, QDate::currentDate());
-	
-	m_grid->addWidget(m_dateTournament, 1,3);
+// 	m_grid->addWidget(vboxDateBegin, 0,1);
 	
 	setupGames();
 	
-	QLabel *dateEnd = new QLabel(i18n("Date end of the tournament"),m_form);
-	m_grid->addWidget(dateEnd,2, 3);
-	m_endDate = new KDateWidget(m_form);
-	m_endDate->setDate(QDate::currentDate ());
-	m_grid->addWidget(m_endDate, 3,3);
+// 	m_grid->addWidget(vboxDateEnd, 1,1);
 	
-	m_round = new KIntSpinBox(m_form);
+// 	m_round = new KIntSpinBox(m_form);
 
-	QLabel *roundsGame = new QLabel(i18n("Rounds for players"),m_form);
-	m_grid->addWidget(roundsGame, 2, 0);
-	m_grid->addWidget(m_round, 2,1);
+// 	QLabel *roundsGame = new QLabel(i18n("Rounds for players"),m_form);
+// 	m_grid->addWidget(roundsGame, 2, 0);
+// 	m_grid->addWidget(m_round, 2,1);
 	
-	m_gamesPair = new KIntSpinBox(m_form);
-	QLabel *gamesPlayers = new QLabel(i18n("Games for pairs"),m_form);
-	m_grid->addWidget(gamesPlayers, 3, 0);
-	m_grid->addWidget(m_gamesPair, 3,1);
+	QLabel *gamesPlayers = new QLabel(i18n("Games for pairs"),m_vboxtinfo);
+	m_gamesPair = new KIntSpinBox(m_vboxtinfo);
+// 	m_grid->addWidget(gamesPlayers, 3, 0);
+// 	m_grid->addWidget(m_gamesPair, 3,1);
 	
 	
 	
-	QLabel *valueInscripLabel = new QLabel(i18n("Value for inscription"),m_form);
-	KLineEdit *valueInscrip = new KLineEdit(m_form);
+	QLabel *valueInscripLabel = new QLabel(i18n("Value for inscription"),m_vboxtinfo);
+	KLineEdit *valueInscrip = new KLineEdit(m_vboxtinfo);
 	m_lineEdits.insert("price", valueInscrip);
 	
 	valueInscrip->setValidator(new QRegExpValidator(QRegExp("[1-9]\\d{0,8}"), 0));
 	
-	m_grid->addWidget(valueInscripLabel, 4,0);
-	m_grid->addWidget(valueInscrip, 4,1);
+// 	QLabel *discountLabel = new QLabel(i18n("Discount in the inscription"),m_vboxtinfo);
+// 	KLineEdit *discountInscrip = new KLineEdit(m_vboxtinfo);
+// 	m_lineEdits.insert("discount", discountInscrip);
+// 	discountInscrip->setValidator(new QRegExpValidator(QRegExp("[1-9]\\d{0,8}"),0));
 	
-	QLabel *discountLabel = new QLabel(i18n("Discount in the inscription"),m_form);
-	KLineEdit *discountInscrip = new KLineEdit(m_form);
-	m_lineEdits.insert("discount", discountInscrip);
-	discountInscrip->setValidator(new QRegExpValidator(QRegExp("[1-9]\\d{0,8}"),0));
-	m_grid->addWidget(discountLabel, 4,2);
-	m_grid->addWidget(discountInscrip, 4,3);
+	QLabel *dateEnd = new QLabel(i18n("Date end of the tournament"),m_vboxtinfo);
+	m_endDate = new KDateWidget(m_vboxtinfo);
+	m_endDate->setDate(QDate::currentDate ());
+	
+	
+// 	m_grid->addWidget(m_vboxtinfo, 0,0);
 	
 	connect(m_dateTournament, SIGNAL(dateChanged (QDate)), this, SLOT(initDateChanged(QDate)));
-	connect (m_round, SIGNAL(valueChanged ( int )), m_gamesPair, SLOT(setValue(int)));
+// 	connect (m_round, SIGNAL(valueChanged ( int )), m_gamesPair, SLOT(setValue(int)));
 }
 
 void FormTournament::fillFormulate( const QString &tname )
@@ -130,12 +136,12 @@ void FormTournament::fillFormulate( const QString &tname )
 	
 	KLSqlResults results = xmlreader.results();
 	
-	setDiscount(results["discount"]);
+// 	setDiscount(results["discount"]);
 	setEndDate(QDate::fromString(results["enddate"], Qt::ISODate ));
 	setInitDate(QDate::fromString(results["initdate"], Qt::ISODate ));
 	setPrice(results["price"]);
-	setRounds(results["price"]);
-	setRounds4pair(results["roundsforpair"]);
+// 	setRounds(results["price"]);
+	setGames4pair(results["roundsforpair"]);
 	setTournamentName(tname);
 	
 }
@@ -148,9 +154,9 @@ void FormTournament::initDateChanged(QDate date)
 void FormTournament::setupGames()
 {
 	qDebug("Setup Games");
-	QLabel *nameGameLabel = new QLabel(i18n("Name of game"),m_form);
+	QLabel *nameGameLabel = new QLabel(i18n("Name of game"),m_vboxtinfo);
 	
-	m_nameGame = new KComboBox(m_form);
+	m_nameGame = new KComboBox(m_vboxtinfo);
 	
 	KLSelect sqlquery(QStringList() << "gamename", QString("ldt_games"));
 	sqlquery.setWhere("available");
@@ -167,8 +173,8 @@ void FormTournament::setupGames()
 	
 	m_nameGame->insertStringList(xmlreader.getResultsList());
 	
-	m_grid->addWidget(nameGameLabel, 1,0);
-	m_grid->addWidget(m_nameGame, 1,1);
+// 	m_grid->addWidget(nameGameLabel, 3,0);
+// 	m_grid->addWidget(m_nameGame, 4,0);
 }
 
 QString FormTournament::gameName2code(const QString &gamename)
@@ -203,10 +209,10 @@ void FormTournament::accept ()
 				<< SQLSTR( gameName2code(m_nameGame->currentText() ))
 				<< SQLSTR( this->getInitDate() )
 				<< SQLSTR( this->getEndDate() )
-				<< SQLSTR( getRounds4pair() )
-				<< SQLSTR( getRounds() )
+				<< SQLSTR( this->getGames4pair() )
+				<< SQLSTR( 0 )
 				<< SQLSTR( getPrice() )
-				<< SQLSTR( getDiscount() )
+				<< SQLSTR( 0 )
 				<< SQLSTR( "t" ));
 			
 			m_nameGame->removeItem(m_nameGame->currentItem ());
@@ -250,14 +256,14 @@ bool FormTournament::validateFields()
 		errors += i18n("<li>Bad name field</li>");
 	}
 	
-	inttmp = this->getRounds().toInt(&conversion);
-	if ( ! ( conversion && inttmp > 0 )  )
-	{
-		ok = ok && false;
-		errors += i18n("<li>Bad rounds field</li>");
-	}
+// 	inttmp = this->getRounds().toInt(&conversion);
+// 	if ( ! ( conversion && inttmp > 0 )  )
+// 	{
+// 		ok = ok && false;
+// 		errors += i18n("<li>Bad rounds field</li>");
+// 	}
 	
-	inttmp = this->getRounds4pair().toInt(&conversion);
+	inttmp = this->getGames4pair().toInt(&conversion);
 	
 	if ( !(conversion && inttmp > 0) )
 	{
@@ -289,15 +295,15 @@ std::cout << "Poniendo nombre" << std::endl;
 	m_lineEdits["name"]->setText(name);
 }
 
-void FormTournament::setRounds(const QString &rounds)
-{
-#if DEBUG_FORMTOUR
-std::cout << "Poniendo rondas" << std::endl;
-#endif
-	m_round->setValue(rounds.toInt());
-}
-
-void FormTournament::setRounds4pair(const QString &rounds)
+// // // void FormTournament::setRounds(const QString &rounds)
+// // // {
+// // // #if DEBUG_FORMTOUR
+// // // std::cout << "Poniendo rondas" << std::endl;
+// // // #endif
+// // // 	m_round->setValue(rounds.toInt());
+// // // }
+// // // 
+void FormTournament::setGames4pair(const QString &rounds)
 {
 #if DEBUG_FORMTOUR
 std::cout << "Poniendo rounds4pair" << std::endl;
@@ -312,14 +318,14 @@ std::cout << "Poniendo price" << std::endl;
 #endif
 	m_lineEdits["price"]->setText(price);
 }
-
+/*
 void FormTournament::setDiscount(const QString &discount)
 {
 #if DEBUG_FORMTOUR
 std::cout << "Poniendo discount" << std::endl;
 #endif
 	m_lineEdits["discount"]->setText(discount);
-}
+}*/
 
 void FormTournament::setInitDate(const QDate &date)
 {
@@ -346,15 +352,15 @@ std::cout << "Obteniendo nombre " << m_lineEdits.count() << std::endl;
 	return m_lineEdits["name"]->text();
 }
 
-QString FormTournament::getRounds()
-{
-#if DEBUG_FORMTOUR
-std::cout << "Obteniendo rounds" << std::endl;
-#endif
-	return QString::number(m_round->value());
-}
-
-QString FormTournament::getRounds4pair()
+// QString FormTournament::getRounds()
+// {
+// #if DEBUG_FORMTOUR
+// std::cout << "Obteniendo rounds" << std::endl;
+// #endif
+// 	return QString::number(m_round->value());
+// }
+// 
+QString FormTournament::getGames4pair()
 {
 #if DEBUG_FORMTOUR
 std::cout << "Obteniendo rounds4pair" << std::endl;
@@ -370,13 +376,13 @@ std::cout << "Obteniendo price" << std::endl;
 	return m_lineEdits["price"]->text();	
 }
 
-QString FormTournament::getDiscount()
-{
-#if DEBUG_FORMTOUR
-std::cout << "Obteniendo discount" << std::endl;
-#endif
-	return m_lineEdits["discount"]->text();
-}
+// QString FormTournament::getDiscount()
+// {
+// #if DEBUG_FORMTOUR
+// std::cout << "Obteniendo discount" << std::endl;
+// #endif
+// 	return m_lineEdits["discount"]->text();
+// }
 
 QString FormTournament::getInitDate()
 {

@@ -188,6 +188,31 @@ CREATE TRIGGER ldt_delTournamentTrigger before delete on ldt_tournament for row 
 
 CREATE TRIGGER ldt_delRentTrigger before delete on ldt_rents for row execute procedure ldt_releaseGame();
 
+CREATE FUNCTION ldt_updateParticipants() returns trigger as
+'declare 
+	participants RECORD;
+	ways RECORD;
+begin 
+	select into ways roundsforpair from ldt_tournament where name=NEW.codtournament;
+	
+	select into participants count(clientdocident)-1 as total from ldt_participates where codtournament=NEW.codtournament; 
+	
+	if ( (participants.total+1) % 2 = 0 )
+	then
+		participants.total := (participants.total)*ways.roundsforpair;
+	else
+		participants.total := (participants.total+1)*ways.roundsforpair;
+	end if;
+	
+	update ldt_tournament set rounds=participants.total where name=NEW.codtournament;
+	
+	return NEW;
+end;
+'language plpgsql;
+
+CREATE TRIGGER ldt_triggerparticipants after insert on ldt_participates for  row execute procedure ldt_updateParticipants();
+
+
 -- VISTA DE RESULTADOS
 drop view ldt_resultstable_view;
 create or replace view ldt_resultstable_view as select codtournament as tournament, opponent1 as participant, win, draw,lost, total from

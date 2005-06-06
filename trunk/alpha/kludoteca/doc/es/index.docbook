@@ -83,7 +83,7 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para>
-&kludoteca; es una aplicacion especialmente diseÃ±ada para administrar una ludoteca.
+&kludoteca; es una aplicacion especialmente diseÃÂÃÂ±ada para administrar una ludoteca.
 </para>
 </abstract>
 
@@ -111,7 +111,7 @@ discretion. Other chapters should not be left out in order to maintain a
 consistent documentation style across all KDE apps. -->
 
 <chapter id="introduccion">
-<title>Introduction</title>
+<title>Introduccion</title>
 
 <!-- The introduction chapter contains a brief introduction for the
 application that explains what it does and where to report
@@ -150,7 +150,7 @@ patent issues. -->
 
 
 <sect1 id="kludoteca-features">
-<title>More &kludoteca; features</title>
+<title>Mas caracteristicas de &kludoteca; </title>
 
 <para>It slices! It dices! and it comes with a free toaster!</para>
 <para>
@@ -169,7 +169,7 @@ the &kludoteca; main window.
 </chapter>
 
 <chapter id="commands">
-<title>Command Reference</title>
+<title>Referencia a comandos</title>
 
 <!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
 application windows and their menubar and toolbar commands for easy reference.
@@ -178,10 +178,10 @@ menus or toolbars. This may not be necessary for small apps or apps with no tool
 or menu bars. -->
 
 <sect1 id="kludoteca-mainwindow">
-<title>The main &kludoteca; window</title>
+<title>La ventana principal de &kludoteca;</title>
 
 <sect2>
-<title>The File Menu</title>
+<title>El menu archivo</title>
 <para>
 <variablelist>
 <varlistentry>
@@ -189,30 +189,30 @@ or menu bars. -->
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
 </shortcut>
-<guimenu>File</guimenu>
-<guimenuitem>New</guimenuitem>
+<guimenu>Archivo</guimenu>
+<guimenuitem>Nuevo</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Creates a new document</action></para></listitem>
+<listitem><para><action>Crear un nuevo documento</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
 </shortcut>
-<guimenu>File</guimenu>
-<guimenuitem>Save</guimenuitem>
+<guimenu>Archivo</guimenu>
+<guimenuitem>Guardar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Saves the document</action></para></listitem>
+<listitem><para><action>Guardar el documento</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
 </shortcut>
-<guimenu>File</guimenu>
-<guimenuitem>Quit</guimenuitem>
+<guimenu>Archivo</guimenu>
+<guimenuitem>Salir</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Quits</action> &kludoteca;</para></listitem>
+<listitem><para><action>Salir</action> &kludoteca;</para></listitem>
 </varlistentry>
 </variablelist>
 </para>
@@ -220,7 +220,7 @@ or menu bars. -->
 </sect2>
 
 <sect2>
-<title>The <guimenu>Help</guimenu> Menu</title>
+<title>El <guimenu>Menu</guimenu> Ayuda</title>
 
 <!-- Assuming you have a standard help menu (help, what's this, about -->
 <!-- &kludoteca;, about KDE) then the documentation is already written. -->
@@ -235,7 +235,7 @@ or menu bars. -->
 </chapter>
 
 <chapter id="developers">
-<title>Developer's Guide to &kludoteca;</title>
+<title>Guia de desarrolladores de &kludoteca;</title>
 
 <!-- (OPTIONAL) A Programming/Scripting reference chapter should be
 used for apps that use plugins or that provide their own scripting hooks
@@ -276,7 +276,7 @@ void XtUnmanageChildren(<replaceable class="parameter">children</replaceable>, <
 </synopsis>
 
 <refsect2 id="r2-1007-unmanagechildren-1">
-<title>Inputs</title>
+<title>Entradas</title>
 <variablelist>
 <varlistentry>
 <term><replaceable class="parameter">children</replaceable>
@@ -299,7 +299,7 @@ class RectObj or any subclass thereof.
 </refsect2></refsynopsisdiv>
 
 <refsect1 id="r1-1007-unmanagechildren-1">
-<title>Description
+<title>Descripcion
 </title>
 <para><function>XtUnmanageChildren()</function> unmaps the specified widgets
 and removes them from their parent's geometry management.
@@ -316,7 +316,7 @@ widget unmanagement procedure.
 </refsect1>
 
 <refsect1 id="r1-1007-unmanagechildren-2">
-<title>Usage</title>
+<title>Uso</title>
 <para>Unmanaging widgets is the usual method for temporarily
 making them invisible.  They can be re-managed with
 <function>XtManageChildren()</function>.
@@ -423,7 +423,7 @@ contributors here. The license for your software should then be included below
 the credits with a reference to the appropriate license file included in the KDE
 distribution. -->
 
-<title>Credits and License</title>
+<title>Creditos y licencia</title>
 
 <para>
 &kludoteca;
@@ -462,10 +462,10 @@ Documentation copyright 2005 David Cuadrado <email>krawek@gmail.com</email>
 </chapter>
 
 <appendix id="installation">
-<title>Installation</title>
+<title>Instalacion</title>
 
 <sect1 id="getting-kludoteca">
-<title>How to obtain &kludoteca;</title>
+<title>Como obtener &kludoteca;</title>
 
 <!-- This first entity contains boiler plate for applications that are
 part of KDE CVS.  You should remove it if you are releasing your
@@ -473,12 +473,12 @@ application -->
 
 <!-- &install.intro.documentation; -->
 <para>
-You can get the source code in http://developer.berlios.de
+Puedes obtener el codigo fuente en http://developer.berlios.de
 </para>
 </sect1>
 
 <sect1 id="requirements">
-<title>Requirements</title>
+<title>Requerimientos</title>
 
 <!--
 List any special requirements for your application here. This should include:
@@ -492,10 +492,7 @@ information here.
 -->
 
 <para>
-In order to successfully use &kludoteca;, you need &kde; 1.1. Foobar.lib is
-required in order to support the advanced &kludoteca; features. &kludoteca; uses
-about 5 megs of memory to run, but this may vary depending on your
-platform and configuration.
+Para usar &kludoteca; solo necesitas las librerias de KDE
 </para>
 
 <para>
@@ -507,27 +504,28 @@ on <ulink url="ftp://ftp.kludoteca.org">The &kludoteca; home page</ulink>.
 or the ChangeLog file, or ... -->
 <para>
 You can find a list of changes at <ulink
-url="http://apps.kde.org/kludoteca">http://apps.kde.org/kludoteca</ulink>.
+url="http://developer.berlios.de/projects/kludoteca">http://developer.berlios.de/projects/kludoteca</ulink>.
 </para>
 </sect1>
 
 <sect1 id="compilation">
-<title>Compilation and Installation</title>
+<title>Compilacion e instalacion</title>
 
 <!-- This entity contains the boilerplate text for standard -->
 <!-- compilation instructions.  If your application requires any -->
 <!-- special handling, remove it, and replace with your own text. -->
 
 <para>
+primero
 ./configure --prefix=`kde-config --prefix`
 make
-and last
+y por ultimo
 make install
 </para>
 </sect1>
 
 <sect1 id="configuration">
-<title>Configuration</title>
+<title>Configuracion</title>
 
 <para>Don't forget to tell your system to start the <filename>dtd</filename>
 dicer-toaster daemon first, or &kludoteca; won't work !</para>

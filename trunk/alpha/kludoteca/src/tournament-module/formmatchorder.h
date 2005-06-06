@@ -48,14 +48,14 @@ class FormMatchOrder : public FormBase
 		void fillTable();
 		
 	private:
-		MatchClientInfo getMatchClientInfo(const QStringList &sqlresults, int newpos);
+		QStringList getMatchClientInfo(const QStringList &sqlresults, int newpos);
 		
 	private:
 		QString m_tournament;
 		const int m_nround;
 		KLTable *m_table;
 		QStringList m_restParticipant;
-		MatchClientInfo m_clientList;
+		QStringList m_clientList;
 };
 
 #endif

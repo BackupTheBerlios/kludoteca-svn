@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "roundlist.h"
-#include "formmatchorder.h"s
+#include "formmatchorder.h"
 #include <klocale.h>
 
 RoundList::RoundList(QWidget *parent, const char *name)
@@ -84,6 +84,7 @@ void RoundList::fillList()
 
 void RoundList::addButtonClicked()
 {
+	qDebug("Adding a round");
 	LTListViewItem *le = static_cast<LTListViewItem*>(m_listView->currentItem());
 	if ( !le )
 		return;

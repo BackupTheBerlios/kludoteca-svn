@@ -91,13 +91,13 @@ class FormTournament : public FormBase
 		 * Pone el numero de rondas
 		 * @param rounds 
 		 */
-		void setRounds(const QString &rounds);
+// 		void setRounds(const QString &rounds);
 		
 		/**
 		 * Pone las rondas por pareja
 		 * @param rounds 
 		 */
-		void setRounds4pair(const QString &rounds);
+		void setGames4pair(const QString &rounds);
 		
 		/**
 		 * Pone el precio del inscripcion
@@ -108,7 +108,7 @@ class FormTournament : public FormBase
 		 * Pone el posible descuento
 		 * @param discount 
 		 */
-		void setDiscount(const QString &discount);
+// 		void setDiscount(const QString &discount);
 		/**
 		 * Pone la fecha de inicio del torneo
 		 * @param date 
@@ -142,12 +142,12 @@ class FormTournament : public FormBase
 		 * Obtiene las rondas
 		 * @return 
 		 */
-		QString getRounds();
+// 		QString getRounds();
 		/**
 		 * Obtiene las rondas por pareja
 		 * @return 
 		 */
-		QString getRounds4pair();
+		QString getGames4pair();
 		/**
 		 * Obtiene el precio del incripcion
 		 * @return 
@@ -157,7 +157,7 @@ class FormTournament : public FormBase
 		 * Obtiene el posible descuento
 		 * @return 
 		 */
-		QString getDiscount();
+// 		QString getDiscount();
 		/**
 		 * Obtiene la fecha de inicio del torneo
 		 * @return 
@@ -202,15 +202,18 @@ class FormTournament : public FormBase
 	private:
 		QFrame *m_form;
 		QGridLayout *m_grid;
+		QHBox *m_hbox;
 		
 		QGridLayout	*m_maingridLayout;
 		KComboBox	*m_combox, *m_nameGame;
 		
-		KIntSpinBox *m_round, *m_gamesPair;//partidas por pareja
+ 		KIntSpinBox *m_gamesPair;//partidas por pareja
 		KDatePicker *m_dateTournament;
 		KDateWidget *m_endDate;
 		
 		HashLineEdit m_lineEdits;
+		
+		QVBox *m_vboxtinfo;
 		
 	private:		
 		/**

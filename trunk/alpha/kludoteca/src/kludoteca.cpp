@@ -43,6 +43,7 @@
 #include <kstdaccel.h>
 #include <kaction.h>
 #include <kstdaction.h>
+#include <ktoolbarbutton.h>
 #include <kstandarddirs.h>
 
 #include <qobjectlist.h>
@@ -75,6 +76,17 @@ KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_
 	m_userValidator = new ValidateUser(this, "UserValidator");
 	
 	LOGGER->log(i18n("Application initialized"));
+	
+// 	setTabWidgetVisibility (KMdi::AlwaysShowTabs );
+	
+	KToolBar *bar = new KToolBar(tabWidget());
+	KAction *closeCurrentTab = new KAction(bar);
+	closeCurrentTab->setIconSet(SmallIcon("tab_remove"));
+	closeCurrentTab->plug(bar);
+	
+	tabWidget()->setCornerWidget( bar, KToolBarButton::TopRight);
+	tabWidget()->show();
+	connect(closeCurrentTab, SIGNAL(activated()), SLOT(closeCurrent()));
 }
 
 KLudoteca::~KLudoteca()

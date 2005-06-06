@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef MATCHGENERATOR_H
 #define MATCHGENERATOR_H
 
@@ -26,8 +27,8 @@
 #include <qstringlist.h>
 #include <qvaluevector.h>
 
-typedef QMap<QString, int> MatchClientInfo;
-typedef QValueVector<QString> StringVector;
+#include "kldatabase.h"
+#include "klxmlreader.h"
 		
 /**
  * Esta clase se encarga de hacer el pareo de torneos, se intentara tener varios metodos para hacer pareos
@@ -38,35 +39,38 @@ class MatchGenerator : public QObject
 {
 	Q_OBJECT
 	public:
-		enum Type { Random = 0, Ascending }; // Podemos añadir mas metodos
+		enum Type { Any = -1, Random = 0, Ascending }; // Podemos añadir mas metodos de pareo
 		
 		MatchGenerator();
-		MatchGenerator(const MatchClientInfo &mci, const QString &tournament);
+		MatchGenerator(const QStringList &mci, const QString &tournament);
 		~MatchGenerator();
-		void setMatchClientInfo(const MatchClientInfo &mci, const QString &tournament);
-		StringVector generate(Type t);
-		StringVector qstringlist2stringvector(const QStringList &);
-		void verifyPairs(StringVector &sv);
+		void setMatchClientInfo(const QStringList &list, const QString &tournament);
+		QStringList generate(int nround, Type t);
+
+		void verifyPairs(int nround);
 		
 	private:
-		int rounds4pair();
-		int whatTimes(const QString &opp1, const QString &opp2);
+		/**
+		 * Obtiene la informacion del torneo
+		 * @return 
+		 */
+		void getTournamentInfo();
 		
-	protected:
-		// <heapsort>
-		inline int parent(int i);
-		inline int left(int i);
-		inline int rigth(int i);
-		void maxHeapify(QStringList &list, int i);
-		void buildMaxHeap(QStringList &list);
-		void heapsort(QStringList &list);
-		void swap(QStringList &list, int i1, int i2);
-		// </heapsort>
+		
+		/**
+		 * Encuentra un orden para enfrentar las parejas, retorna true si pudo encontrarlo y false sino
+		 * @param opp1 
+		 * @param opp2 
+		 * @return 
+		 */
+		bool findOrder(int first, int sec , int nround);
+		
+		void swap(QStringList &list, int, int);
 		
 	private:
-		MatchClientInfo m_mci;
-		int heapsize;
+		QStringList m_mci;
 		QString m_tournament;
+		KLSqlResults m_tournamentInfo;
 };
 
 #endif

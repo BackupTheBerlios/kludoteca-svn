@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by CetiSoft                                        *
- *   cetis@univalle.edu.co                                        	   *
+ *   Copyright (C) 2005 by David Cuadrado                                  *
+ *   krawek@gmail.com                                           	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -304,6 +304,32 @@ bool KLDatabase::createTables()
 		exec("CREATE TRIGGER ldt_delTournamentTrigger before delete on ldt_tournament for row execute procedure ldt_releaseGame();");
 		
 		exec("CREATE TRIGGER ldt_delRentTrigger before delete on ldt_rents for row execute procedure ldt_releaseGame();");
+		
+		
+		
+		// Participantes de torneos
+		
+		exec("CREATE FUNCTION ldt_updateParticipants() returns trigger as "
+				"'declare "
+				"participants RECORD; "
+		"ways RECORD; "
+		"begin "
+				"select into ways roundsforpair from ldt_tournament where name=NEW.codtournament; "
+		"select into participants count(clientdocident)-1 as total from ldt_participates where codtournament=NEW.codtournament; "
+		"if ( (participants.total+1) % 2 = 0 ) "
+			"then "
+					"participants.total := (participants.total)*ways.roundsforpair; "
+		"else "
+			"participants.total := (participants.total+1)*ways.roundsforpair; "
+		"end if; "
+	
+		"update ldt_tournament set rounds=participants.total where name=NEW.codtournament; "
+	
+		"return NEW; "
+		"end; "
+		"'language plpgsql");
+		
+		exec("CREATE TRIGGER ldt_triggerparticipants after insert on ldt_participates for  row execute procedure ldt_updateParticipants()");
 	}
 	return wasgood;
 }

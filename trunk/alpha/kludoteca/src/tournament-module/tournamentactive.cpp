@@ -70,9 +70,12 @@ void TournamentActive::delButtonClicked()
 	
 	if (opt == KMessageBox::Yes )
 	{
-		KLDM->execRawQuery("delete from ldt_tournament where name="+ SQLSTR(itemp->text(0)));
+		KLDelete del("ldt_tournament");
+		del.setWhere("name="+SQLSTR(itemp->text(0)));
 		
-		if ( KLDM->isLastError() )
+		KLDM->execQuery(&del);
+		
+		if ( ! KLDM->isLastError() )
 		{
 			delete itemp;
 			
@@ -82,13 +85,16 @@ void TournamentActive::delButtonClicked()
 		else
 		{
 			KMessageBox::error(this, i18n("I can't delete this tournament!\n"
-					"The error was %1").arg((KLDM->lastError()).text())  , i18n("Error"));
+					"The error was %1").arg(KLDM->lastError().text())  , i18n("Error"));
 		}
 	}
 }
 
 void TournamentActive::modifyButtonClicked()
 {
+	if( ! m_listView->currentItem() )
+		return;
+	
 	KMdiChildView *view = new KMdiChildView(i18n("Add tournament"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
