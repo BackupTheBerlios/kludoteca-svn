@@ -38,7 +38,7 @@
 #include <qslider.h>
 #include "klcalc.h"
 #include "rentstimer.h"
-#include "rentlist.h"
+
 
 
 /**
