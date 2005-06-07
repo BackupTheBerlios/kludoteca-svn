@@ -28,6 +28,7 @@
 #include "klxmlreader.h"
 #include "klresultsetinterpreter.h"
 #include <klresultset.h>
+
 #include "klreportwidget.h"
 #include <kcombobox.h>	
 

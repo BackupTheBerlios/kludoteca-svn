@@ -6,8 +6,9 @@ bin_PROGRAMS = kludoteca
 
 # set the include path for X, qt and KDE
 INCLUDES = -I$(top_srcdir)/rtklib -I$(top_srcdir)/src/admin-module \
-	-I$(top_srcdir)/src/clients-module -I$(top_srcdir)/src/games-module -I$(top_srcdir)/src/lib \
-	-I$(top_srcdir)/src/rents-module -I$(top_srcdir)/src/tournament-module $(all_includes)
+	-I$(top_srcdir)/src/clients-module -I$(top_srcdir)/src/games-module -I$(top_srcdir)/src/klreports \
+	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src/rents-module -I$(top_srcdir)/src/tournament-module \
+	$(all_includes)
 
 # the library search path. 
 kludoteca_LDFLAGS = $(KDE_RPATH) $(all_libraries)
