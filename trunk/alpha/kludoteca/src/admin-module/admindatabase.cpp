@@ -63,6 +63,7 @@ void AdminDatabase::setupDatabaseTools()
 	{
 		kdDebug() << "Command psql find it = )" << endl;
 		m_havePsql = true;
+		proc.tryTerminate();
 	}
 
 	proc.clearArguments();
@@ -77,6 +78,7 @@ void AdminDatabase::setupDatabaseTools()
 	{
 		m_havePgDump = true;
 		kdDebug() << "Command pg_dump find it = )" << endl;
+		proc.tryTerminate();
 	}
 	
 }
