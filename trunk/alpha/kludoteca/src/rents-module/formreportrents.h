@@ -17,47 +17,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "rentstbar.h"
-#include <klocale.h>
+#ifndef FORMREPORTRENTS_H
+#define FORMREPORTRENTS_H
 
-#define DEBUG_RENTSTBAR 1
-RentsTBar::RentsTBar(QWidget *parent, const char *name): KTabWidget(parent,name)
+#include <formbase.h>
+#include <kcombobox.h>
+#include <qscrollview.h>
+#include <kcombobox.h>
+#include "klxmlreader.h"
+#include "klresultsetinterpreter.h"
+#include "klxmlreport.h"
+#include "klxmlreportparser.h"
+#include "klreportwidget.h"
+
+/**
+@author Daniel Valencia dafevara@gmail.com
+*/
+class FormReportRents : public FormBase
 {
-	setupTabs();
-}
+	Q_OBJECT
+	public:
+		FormReportRents(FormBase::Type t ,QWidget* parent= 0);
+		~FormReportRents();
+		void setupForm();
+		
+		void setupButtonsBox();
+		void setupBox();
+	signals:
+		void checkDate(const QString &d);
+	public slots:
+		void showReport(const QString &d);
+		void accept();
+		void cancel();
+		void clean();		
+	private:
+		QScrollView *m_scrollView;
+		QGridLayout *m_layout;
+		QFrame *m_container;
+		KLResultSetInterpreter *m_rsinterpreter;
+		KLXmlReader m_xmlreader;
+		QXmlInputSource m_xmlsource;
+		KComboBox *m_comboY,*m_comboM,*m_comboD;
 
+};
 
-RentsTBar::~RentsTBar()
-{
-}
-
-void RentsTBar::setupTabs()
-{
-	m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, 
-					LTListView::ButtonDel, 
-					LTListView::ButtonModify, 
-					LTListView::ButtonQuery, 
-					this);
-	insertTab(m_rentsWidget, i18n("Rents"));
-	
-	m_controlist = new RentsControlList(LTListView::ButtonAdd, 
-					    LTListView::ButtonDel, 
-					    LTListView::ButtonModify, 
-					    LTListView::ButtonQuery,
-					    this);
-	insertTab(m_controlist, i18n("Active Rents"));
-	
-	connect(m_rentsWidget, SIGNAL(sendTimer(RentsTimer* )), m_controlist, SLOT(addRentsTimer(RentsTimer* )));
-	connect(m_rentsWidget, SIGNAL( rentModified()),this, SLOT(applyChangesToLists())  );
-	m_controlist->fillList();
-
-}
-
-void RentsTBar::applyChangesToLists()
-{
-	m_rentsWidget->fillList();
-	m_controlist->fillList();
-}
-
-
-#include "rentstbar.moc"
+#endif

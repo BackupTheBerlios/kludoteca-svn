@@ -33,14 +33,6 @@ RentsWidget::RentsWidget(Button button1, Button button2, Button button3, Button 
 qDebug("[Initializing RentsWidget]");
 #endif
 	setCaption(i18n("Rents"));
-	m_timer = new QTimer(this);
-	
-	connect( m_timer,SIGNAL(timeout()),this,SLOT(slotTimer())  ); 
-	/**
-	 *  TIMER PARA REPORTE DE MOROSOS. VER SLOTTIMER()
-	 */
-	
-	//m_timer->start( 15000, FALSE );
 	
 	m_listView->setTitle(i18n("Active Rents"));
 	m_listView->setExplain(i18n("Please click in the \"Add\" button for create a new Rent"));
@@ -136,6 +128,7 @@ void RentsWidget::delButtonClicked()
 		delete itemp;
 		
 		emit message2osd(i18n("The Rent has been deleted!!"));
+		emit rentModified();
 	}
 }
 
@@ -227,32 +220,6 @@ void RentsWidget::queryButtonClicked()
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
-/*
-	KLReportWidget *formParticipantsList = new KLReportWidget( scroll->viewport() );
-
-// 	ElementVector m_elements;
-// 	m_elements.resize(12);
-	
-	KLXmlReport xmlreport("Reporte de prueba", "Empresa", "123456", KLXmlReport::PIE );
-	
-	for ( int i = 0; i < 12; ++i )
-	{
-		double x = (double(i) / 100) * 360;
-		int y = (int(x * 256) % 105) + 151;
-		int z = ((i * 17) % 105) + 151;
-// 		m_elements[i] = KLReportElement( z, QColor( int(x), y, z, QColor::Hsv ) );
-		xmlreport.createReportElement(z, "label", QColor( int(x), y, z, QColor::Hsv ));
-	}
-	
-// 	formParticipantsList->getKLCanvasView()->setElements(m_elements);
-	formParticipantsList->setXmlReport(xmlreport);
-	
-	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
-	
-	scroll->addChild(formParticipantsList);
-	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-		
-	*/ 
 	
 	QString quering = "";
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
@@ -299,6 +266,7 @@ void RentsWidget::addItem(const QStringList &pkey)
 	m_listView->clear();		
 	//addItem(pkey);
 	this->fillList();
+	
 }
 
 void RentsWidget::updateItem(const QStringList &pkey)
@@ -307,6 +275,7 @@ void RentsWidget::updateItem(const QStringList &pkey)
 	m_listView->clear();		
 	//addItem(pkey);
 	this->fillList();
+	
 }
 
 void RentsWidget::slotFilter(const QString &filter)

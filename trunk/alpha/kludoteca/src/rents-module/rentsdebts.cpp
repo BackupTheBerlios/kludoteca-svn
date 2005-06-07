@@ -17,47 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "rentstbar.h"
-#include <klocale.h>
+#include "rentsdebts.h"
 
-#define DEBUG_RENTSTBAR 1
-RentsTBar::RentsTBar(QWidget *parent, const char *name): KTabWidget(parent,name)
-{
-	setupTabs();
-}
-
-
-RentsTBar::~RentsTBar()
+RentsDebts::RentsDebts(Button button1, Button button2, QWidget* parent, const char* name): FormBase(button1, button2, parent, name)
 {
 }
 
-void RentsTBar::setupTabs()
-{
-	m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, 
-					LTListView::ButtonDel, 
-					LTListView::ButtonModify, 
-					LTListView::ButtonQuery, 
-					this);
-	insertTab(m_rentsWidget, i18n("Rents"));
-	
-	m_controlist = new RentsControlList(LTListView::ButtonAdd, 
-					    LTListView::ButtonDel, 
-					    LTListView::ButtonModify, 
-					    LTListView::ButtonQuery,
-					    this);
-	insertTab(m_controlist, i18n("Active Rents"));
-	
-	connect(m_rentsWidget, SIGNAL(sendTimer(RentsTimer* )), m_controlist, SLOT(addRentsTimer(RentsTimer* )));
-	connect(m_rentsWidget, SIGNAL( rentModified()),this, SLOT(applyChangesToLists())  );
-	m_controlist->fillList();
 
-}
-
-void RentsTBar::applyChangesToLists()
+RentsDebts::~RentsDebts()
 {
-	m_rentsWidget->fillList();
-	m_controlist->fillList();
 }
 
 
-#include "rentstbar.moc"

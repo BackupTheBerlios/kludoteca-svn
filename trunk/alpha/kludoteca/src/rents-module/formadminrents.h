@@ -79,6 +79,7 @@ class FormAdminRents : public FormBase
 		void setGameTable();
 		void disabledSlider(bool value);
 		int totalCostOfRent(const QString &cost);
+		bool validateFields();
 	public slots: 
 		/**
 	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar

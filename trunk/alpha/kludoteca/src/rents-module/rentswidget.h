@@ -54,6 +54,7 @@ class RentsWidget : public LTListView
 		void slotFilter(const QString &filter);
 	signals:
 		void sendTimer(RentsTimer *);
+		void rentModified();
 		
 	public slots:
 		/**

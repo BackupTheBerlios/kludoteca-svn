@@ -28,6 +28,8 @@
 #include "klxmlreader.h"
 #include "klresultsetinterpreter.h"
 #include <klresultset.h>
+#include "klreportwidget.h"
+#include <kcombobox.h>	
 
 /**
 @author Daniel Valencia 
@@ -40,7 +42,7 @@ class RentsControlList : public LTListView
 {
 	Q_OBJECT
 	public:
-		RentsControlList(QWidget* parent = 0, const char* name = 0);
+		RentsControlList(Button button1 = NoButton, Button button2 = NoButton, Button button3 = NoButton, Button button4 = NoButton,QWidget* parent = 0);
 		~RentsControlList();
 		void fillList();
 		void queryButtonClicked();
@@ -48,7 +50,8 @@ class RentsControlList : public LTListView
 		void delButtonClicked();
 		void modifyButtonClicked();
 		void getClickedItem(QListViewItem *item);
-		//RentsTimer *findRentsTimer()
+		void addItem(const QStringList &l);
+		void makeButtons(Button b1,Button b2,Button b3,Button b4);
 	
 			
 	public slots:
@@ -60,6 +63,19 @@ class RentsControlList : public LTListView
 		KLXmlReader m_xmlreader;		
 		QXmlInputSource m_xmlsource;
 		KLSqlResults m_timerResults;
+		KComboBox *m_comboY,*m_comboM,*m_comboD,
+			*m_comboYB,*m_comboMB,
+			*m_comboDB,*m_comboDE,
+			*m_comboGames;
+                QHButtonGroup *m_buttons;
+
+                KPushButton *m_buttonAdd;
+                KPushButton *m_buttonDel;
+                KPushButton *m_buttonModify;
+                KPushButton *m_buttonQuery;
+
+                KLineEdit *m_searchEdit;
+                QTimer *m_timer;
 };
 
 #endif

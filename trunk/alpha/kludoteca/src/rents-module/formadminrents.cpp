@@ -21,7 +21,7 @@
 #include <klocale.h>
 #include <iostream>
 #include "rentstimer.h"
-
+#include <kmessagebox.h>
 using namespace std;
 
 FormAdminRents::FormAdminRents(FormBase::Type t, QWidget* parent): FormBase(t, parent)
@@ -200,7 +200,12 @@ void FormAdminRents::setupButtonsBox()
 }
 
 void FormAdminRents::accept()
-{
+{ 
+	if ( !validateFields()) 
+        {                       
+                return;         
+        }
+	
 	switch( getType() )
 	{
 		case FormBase::Add:
@@ -233,15 +238,15 @@ void FormAdminRents::accept()
 			 * A CONTINUACION SE PROCEDERIA A CREAR EL RENTSTIMER Y MANDARSELO A RENTSWIDGET
 			 * 
 			 */
-			bool ok = 0;
-			RentsTimer *rt = new RentsTimer(QStringList() << SQLSTR(getGameSerial() )
-									<< SQLSTR(getSystemDate())
-									<< SQLSTR(getSystemDateTime()),
-// 									getHourValue().toInt(&ok,10),
-									30000,
-									RentsTimer::Hour);
-			rt->start(30000,FALSE);
-			emit sendTimer(rt);
+// 			bool ok = 0;
+// 			RentsTimer *rt = new RentsTimer(QStringList() << getGameSerial() 
+// 									<< getSystemDate()
+// 									<<getSystemDateTime(),
+// 							//		getHourValue().toInt(&ok,10),
+// 									30000,
+// 									RentsTimer::Hour);
+// 			rt->start(30000,FALSE);
+// 			emit sendTimer(rt);
 		}
 		break;
 		case FormBase::Edit:
@@ -315,7 +320,9 @@ void FormAdminRents::clean()
 	{
 		it.current()->setText("");
 	}
-	
+	m_hourValue->setText("0");
+	m_addHourValue->setText("0");
+	cout << "fila borrar: " << selectedClteRow << endl;
 	m_gameTable->removeRow(selectedClteRow);
 	
 			
@@ -619,5 +626,63 @@ int FormAdminRents::totalCostOfRent(const QString &cost)
 	m_totalCost = cost.toInt(&ok,10);
 	return m_totalCost;
 }		
-		
+
+bool FormAdminRents::validateFields()
+{
+	QString errors = "";
+	bool ok = true;
+	
+	if ( getGameName().length() <= 1 )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad name field</li>");
+	} 
+	
+	
+	if ( getGameSerial().length() <= 1 )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad name field</li>");
+	} 
+	
+	bool convertion = false;
+	getCltId().toInt(&convertion);
+	ok = ok && convertion;
+	if ( !convertion)
+	{
+		errors += i18n("<li>Bad client identification field</li>");
+	}
+	if ( getCltId().isEmpty()  )
+	{
+		ok = ok && false;
+		errors += i18n("<li>Bad id field</li>");
+	}
+	
+	
+	getHourValue().toInt(&convertion);
+	ok = ok && convertion;
+	if ( !convertion)
+	{
+		errors += i18n("<li>Bad units field</li>");
+	}
+	
+	getGameSerial().toInt(&convertion);
+	ok = ok && convertion;
+	
+	if ( !convertion)
+	{
+		errors += i18n("<li>Bad game serial field</li>");
+	}
+	
+	getCostOfRent().toInt(&convertion);
+	if ( !convertion)
+	{
+		errors += i18n("<li>Bad total cost field</li>");
+	}
+	
+	if ( !ok )
+		KMessageBox::detailedSorry (0, i18n("I can't insert or modify this Rent!"), errors);//<br> %1 ").arg(errors));
+	
+	return ok;
+}		
 #include "formadminrents.moc"
