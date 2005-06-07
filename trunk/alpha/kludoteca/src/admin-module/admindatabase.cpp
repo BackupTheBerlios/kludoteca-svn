@@ -22,11 +22,19 @@
 #include "admindatabase.h"
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <kmessagebox.h>
 #include <kdebug.h>
+#include <kprocess.h>
+
+
+#include "ldtapp.h"
 
 #include <iostream>
 
-AdminDatabase::AdminDatabase(QWidget *parent) : LTListView(QStringList() << i18n("Dump Name") << i18n("Database Name") << i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonModify,LTListView::ButtonDel, LTListView::NoButton, parent, "AdminDatabase")
+#include <ktrader.h>
+#include <klibloader.h>
+
+AdminDatabase::AdminDatabase(QWidget *parent) : LTListView(QStringList() << i18n("Dump Name") << i18n("Database Name") << i18n("Date"), LTListView::ButtonAdd, LTListView::ButtonModify,LTListView::ButtonQuery, LTListView::ButtonDel, parent, "AdminDatabase")
 {
 	setupDatabaseTools();
 	
@@ -34,6 +42,7 @@ AdminDatabase::AdminDatabase(QWidget *parent) : LTListView(QStringList() << i18n
 	setButtonText(LTListView::ButtonAdd, i18n("Backup"));
 	setButtonText(LTListView::ButtonDel, i18n("Delete"));
 	setButtonText(LTListView::ButtonModify, i18n("Restore"));
+	setButtonText(LTListView::ButtonQuery, i18n("See file"));
 }
 
 
@@ -101,22 +110,151 @@ void AdminDatabase::fillList()
 
 void AdminDatabase::addButtonClicked()
 {
+	// pg_dump -h localhost -U kladmin kludoteca
+	std::cout << "Making backup..." << std::endl;
+	if ( m_havePgDump )
+	{
+		KProcess *proc = new KProcess(this);
+		
+		*proc << "pg_dump";
+		*proc << "-h" << klapp->config("Connection")->readEntry("Server", "localhost");
+		*proc << "-U" << klapp->config("Connection")->readEntry("Login");
+		*proc << klapp->config("Connection")->readEntry("Database");
+		
+		connect(proc, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(makeDump(KProcess *, char *, int ) ));
+		connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(saveBackup(KProcess *)));
+		
+		LOGGER->log(i18n("Making backup"), KLLogger::Inf);
+		
+		proc->start(KProcess::NotifyOnExit , KProcess::Stdout);
+	}
+	else
+	{
+		QString error = "";
+		if ( ! m_havePgDump )
+			error += "You doesn't have the command pg_dump\n";
+// 		if ( !m_havePsql)
+// 			error += "You doesn't have the command psql\n";
+		
+		KMessageBox::detailedSorry (0, i18n("I can't backup the database!"), error);
+	}
+}
+
+void AdminDatabase::makeDump(KProcess *p, char *b, int fd)
+{
+// 	std::cout << "Leido: " << b << std::endl;
+	m_backup += QString(b);
+}
+
+void AdminDatabase::saveBackup(KProcess *proc)
+{
+	if (proc->normalExit() )
+	{
+		QFile file(m_dumpDir->absPath()+"/"+"backup-"+QDate::currentDate().toString(Qt::ISODate)+".sql");
+		
+		if ( file.open(IO_WriteOnly) )
+		{
+			QTextStream stream( &file );
+			
+			stream << "-- KLudoteca-"+QDate::currentDate().toString(Qt::ISODate) << endl;
+			stream << m_backup;
+			
+			file.close();
+			
+			fillList();
+		}
+	}
+	else
+	{
+		LOGGER->log(i18n("Error making backup"),KLLogger::Err);
+	}
 }
 
 void AdminDatabase::delButtonClicked()
 {
+	if ( ! m_listView->currentItem() )
+		return;
+	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete this file ?"));
+	
+	if (opt == KMessageBox::Yes )
+	{
+		if ( m_dumpDir->remove(m_listView->getText(0)+".sql") )
+			delete m_listView->currentItem();
+		else
+		{
+			KMessageBox::error(this, i18n("I can't delete this file!\n"));;
+		}
+	}
 }
 
 void AdminDatabase::getClickedItem(QListViewItem *item)
 {
+	queryButtonClicked();
 }
 
-void AdminDatabase::modifyButtonClicked()
+void AdminDatabase::modifyButtonClicked() // RESTORE
 {
+	std::cout << "Restoring backup..." << std::endl;
+	if ( m_havePsql )
+	{
+		KProcess *proc = new KProcess(this);
+		
+		*proc << "psql";
+		*proc << "-h" << klapp->config("Connection")->readEntry("Server", "localhost");
+		*proc << "-U" << klapp->config("Connection")->readEntry("Login");
+		*proc << klapp->config("Connection")->readEntry("Database");
+		*proc << "-f" << m_dumpDir->absPath()+"/"+"backup-"+QDate::currentDate().toString(Qt::ISODate)+".sql"; // TODO: Cambiar esto
+		
+// 		connect(proc, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(makeDump(KProcess *, char *, int ) ));
+// 		connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(saveBackup(KProcess *)));
+		
+		LOGGER->log(i18n("Making backup"), KLLogger::Inf);
+		
+		proc->start(/*KProcess::NotifyOnExit , KProcess::Stdout*/);
+	}
+	else
+	{
+		QString error = "";
+		if ( ! m_havePsql )
+			error += "You doesn't have the command psql\n";
+// 		if ( !m_havePsql)
+// 			error += "You doesn't have the command psql\n";
+		
+		KMessageBox::detailedSorry (0, i18n("I can't restore the database!"), error);
+	}
 }
 
 void AdminDatabase::queryButtonClicked()
 {
+	if ( ! m_listView->currentItem() )
+		return;
+	KMdiChildView *view = new KMdiChildView(i18n("View dump"), this );
+	( new QVBoxLayout( view ) )->setAutoAdd( true );
+
+	KTrader::OfferList offers = KTrader::self()->query("text/plain", "'KParts/ReadOnlyPart' in ServiceTypes");
+	
+	KLibFactory *factory = 0;
+
+	KTrader::OfferList::Iterator it(offers.begin());
+	for( ; it != offers.end(); ++it)
+	{
+		KService::Ptr ptr = (*it);
+		factory = KLibLoader::self()->factory( ptr->library() );
+		if (factory)
+		{
+			m_part = static_cast<KParts::ReadOnlyPart *>(factory->create(view, ptr->name(), "KParts::ReadOnlyPart"));
+			m_part->openURL("file://"+m_dumpDir->absPath()+"/"+m_listView->getText(0)+".sql");
+			break;
+		}
+	}
+	
+	if (!factory)
+	{
+		KMessageBox::error(this, i18n("Could not find a suitable  component"));
+		return;
+	}
+	
+	emit sendWidget(view); 
 }
 
 void AdminDatabase::addItem(const QString &pkey)

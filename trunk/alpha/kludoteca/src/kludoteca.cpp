@@ -202,14 +202,19 @@ void KLudoteca::setupToolWindows()
 		m_adminWidget->setIcon( QPixmap( locate("data", "kludoteca/icons/adminicon.png" )) );
 		m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
 		
-		LTListView *adminuser = static_cast<LTListView*>(m_adminWidget->currentItem());
 		
-		connect(adminuser, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
-		
-		connect(adminuser,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
-		
-// 		adminuser->setDatabase( KLDM );
-		adminuser->fillList();
+		QObjectList* const list = m_adminWidget->queryList("LTListView");
+		for( QObject *o = list->first(); o; o = list->next() )
+		{
+			if ( o )
+			{
+				LTListView *itempTmp = static_cast<LTListView*>(o);
+				connect(itempTmp, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+				connect(itempTmp,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
+				itempTmp->fillList();
+			}
+		}
+		delete list;
 	}
 	
 	// Add the clients module

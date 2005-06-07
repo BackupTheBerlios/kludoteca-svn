@@ -26,6 +26,10 @@
 #include <qprocess.h>
 #include <qdir.h>
 
+#include <kparts/part.h>
+
+class KProcess;
+
 /**
 Esta clase nos sirve para administrar la base de datos
 
@@ -100,12 +104,19 @@ class AdminDatabase : public LTListView
 		 */
 		void updateItem(const QString &pkey);
 		
+		
+	private slots:
+		void makeDump(KProcess *, char *, int );
+		void saveBackup(KProcess *);
+		
 	private:
 		KLSelect *m_sqlquery;
 		bool m_havePsql;
 		bool m_havePgDump;
 		QDir *m_dumpDir;
+		KParts::ReadOnlyPart *m_part;
 		
+		QString m_backup;
 };
 
 #endif

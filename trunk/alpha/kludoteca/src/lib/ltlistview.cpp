@@ -368,7 +368,10 @@ void KLListView::viewportPaintEvent(QPaintEvent *e)
 
 QString KLListView::getText(int col)
 {
-	currentItem()->text(col);
+	QString text = "";
+	if ( currentItem() )
+		text = currentItem()->text(col);
+	return text;
 }
 
 // LTListVIewItem

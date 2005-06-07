@@ -83,7 +83,7 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para>
-&kludoteca; es una aplicacion especialmente diseÃÂÃÂ±ada para administrar una ludoteca.
+&kludoteca; no solo esta diseñada para administrar una ludoteca, esta aplicacion es extendible y puede adaptarse a varios tipos de establecimientos.
 </para>
 </abstract>
 
@@ -148,25 +148,99 @@ patent issues. -->
 </screenshot>
 </para>
 
-
 <sect1 id="kludoteca-features">
-<title>Mas caracteristicas de &kludoteca; </title>
-
-<para>It slices! It dices! and it comes with a free toaster!</para>
+<title>Crear clientes &kludoteca; </title>
+<para>...</para>
 <para>
-The add client functionability <guiicon><inlinemediaobject>
+La funcionabilidad crear cliente <guiicon><inlinemediaobject>
 	  <imageobject>
 	    <imagedata fileref="addclient.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase>AddClient</phrase>
 	  </textobject>
-</inlinemediaobject></guiicon> is used to add a new client in
-the &kludoteca; main window.
+</inlinemediaobject></guiicon> es usado para crear un nuevo cliente en la ventana principal de &kludoteca;.
 </para>
 
 </sect1>
 </chapter>
+
+<!--
+<sect2>
+<title>Crear usuarios &kludoteca; </title>
+
+<para>
+La funcionabilidad crear usuarios <guiicon><inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="adduser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>AddClient</phrase>
+	  </textobject>
+</inlinemediaobject></guiicon> es usado para crear un nuevo usuario en la ventana principal de &kludoteca;.
+</para>
+</sect2>
+
+<sect3>
+<title>Crear alquileres &kludoteca; </title>
+<para>...</para>
+<para>
+La funcionabilidad crear alquiler <guiicon><inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="addrent.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>AddClient</phrase>
+	  </textobject>
+</inlinemediaobject></guiicon> es usado para crear un nuevo alquiler en la ventana principal de &kludoteca;.
+</para>
+</sect3>
+
+<sect4>
+<title>Crear juegos &kludoteca; </title>
+
+<para>
+La funcionabilidad crear juegos <guiicon><inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="addgame.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>AddJuego</phrase>
+	  </textobject>
+</inlinemediaobject></guiicon> es usado para crear un nuevo juego en la ventana principal de &kludoteca;.
+</para>
+</sect4>
+
+<sect5>
+<title>Crear torneos &kludoteca; </title>
+<para>
+La funcionabilidad crear torneo <guiicon><inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="addtournaments.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>AddClient</phrase>
+	  </textobject>
+</inlinemediaobject></guiicon> es usado para crear un nuevo torneo en la ventana principal de &kludoteca;.
+</para>
+</sect5>-->
+
+<!--<sect6>
+<title>Crear clientes &kludoteca; </title>
+
+<para>KLudoteca te permite visitar paginas web y abrir tus archivos de texto en él</para>
+<para>
+La funcionabilidad crear cliente <guiicon><inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="addclient.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>AddClient</phrase>
+	  </textobject>
+</inlinemediaobject></guiicon> es usado para crear un nuevo cliente en la ventana principal de &kludoteca;.
+</para>
+
+</sect6>-->
 
 <chapter id="commands">
 <title>Referencia a comandos</title>
@@ -379,7 +453,7 @@ by unmapping it.
 </chapter>
 
 <chapter id="faq">
-<title>Questions and Answers</title>
+<title>Preguntas y respuestas</title>
 
 <!-- (OPTIONAL but recommended) This chapter should include all of the silly
 (and not-so-silly) newbie questions that fill up your mailbox. This chapter
@@ -397,20 +471,18 @@ application work. -->
 <qandaset id="faqlist">
 <qandaentry>
 <question>
-<para>My Mouse doesn't work. How do I quit &kludoteca;?</para>
+<para>Mi mouse no funciona, como puedo salir de &kludoteca;?</para>
 </question>
 <answer>
-<para>You silly goose! Check out the <link linkend="commands">Commands
-Section</link> for the answer.</para>
+<para>Presiona Alt+F4.</para>
 </answer>
 </qandaentry>
 <qandaentry>
 <question>
-<para>Why can't I twiddle my documents?</para>
+<para>Como esta licenciado &kludoteca;?</para>
 </question>
 <answer>
-<para>You can only twiddle your documents if you have the foobar.lib
-installed.</para>
+<para>Se libera con licencia GNU/GPL</para>
 </answer>
 </qandaentry>
 </qandaset>
@@ -527,8 +599,7 @@ make install
 <sect1 id="configuration">
 <title>Configuracion</title>
 
-<para>Don't forget to tell your system to start the <filename>dtd</filename>
-dicer-toaster daemon first, or &kludoteca; won't work !</para>
+<para>El sistema es de facil configuracion</para>
 
 </sect1>
 
