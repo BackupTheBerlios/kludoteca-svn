@@ -23,7 +23,7 @@
 #include <qobject.h>
 #include <qstringlist.h>
 
-#define SQLSTR(s) QString("'%1'").arg(s)
+#define SQLSTR(s) QString("\'"+((QString("%1").arg(s)).replace('\'', "\\\'"))+"\'")
 
 class KLSelect;
 

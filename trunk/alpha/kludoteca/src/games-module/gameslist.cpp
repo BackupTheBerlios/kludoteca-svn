@@ -91,7 +91,8 @@ void GamesList::addButtonClicked()
 	connect(formAdminGame, SIGNAL(inserted(const QString& )), this, SLOT(addItem(const QString &)));
 	connect(formAdminGame, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	emit sendWidget(view);
-	addItem( formAdminGame->getReferenceGame() );	
+	
+// 	addItem( formAdminGame->getReferenceGame() );	
 	
 #if DEBUG_GAMESLIST
 	qDebug("end addButtonClicked");
