@@ -44,6 +44,11 @@ class FormMatchOrder : public FormBase
 		
 		QStringList getMatchResult(int number);
 		
+		void print(QPainter *p, KPrinter &printer);
+		
+	signals:
+		void message2osd(const QString &);
+		
 	private slots:
 		void fillTable();
 		

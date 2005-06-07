@@ -77,7 +77,7 @@ void FormParticipants::setupForm()
 	m_table->setReadOnly(true);
 	m_table->setColumnLabels(QStringList() << i18n("Identification") << i18n("Name") << i18n("Rank") );
 	
-	m_table->setViewportText(i18n("ADD PARTICIPANTS"));
+	m_table->setViewportText(i18n("Add here"));
 	
 	m_clientIdent->clearEdit();
 }
@@ -147,7 +147,12 @@ void FormParticipants::accept()
 	
 	m_delList.clear();
 	added.clear();
+	
+	emit message2osd(i18n("The participants has been added"));
+	
 	emit accepted();
+	
+	emit cancelled();
 }
 
 void FormParticipants::cancel()

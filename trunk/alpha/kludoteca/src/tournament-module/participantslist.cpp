@@ -63,6 +63,7 @@ void ParticipantsList::fillList()
 		
 		KLSelect sqlquery(QStringList() << "clientdocident" << "rank", QStringList() << "ldt_participates");
 		sqlquery.setWhere("codtournament="+SQLSTR(tournaments[i]));
+		sqlquery.setOrderBy("rank", KLSelect::Asc);
 	
 		KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	
@@ -77,6 +78,7 @@ void ParticipantsList::fillList()
 		for (uint j = 0; j < participants.count(); j+=2)
 		{
 			std::cout << "Adicionando: " << participants[j] << std::endl;
+			m_participants << participants[j];
 			KListViewItem *parttemp = new KListViewItem(tourtemp);
 
 			parttemp->setText(1, participants[j]);
@@ -88,10 +90,6 @@ void ParticipantsList::fillList()
 
 void ParticipantsList::addButtonClicked()
 {
-#if DEBUG_PARTICIPANTS
-	qDebug("init addButtonClicked");
-#endif
-
 	QListViewItem *le = m_listView->currentItem();
 	if ( !le )
 		return;
@@ -116,7 +114,7 @@ void ParticipantsList::addButtonClicked()
 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
-	connect(formParticipantsList, SIGNAL(accepted()), this, SLOT(fillList()));
+	connect(formParticipantsList, SIGNAL(accepted()), this, SIGNAL(tournamentModified()));
 
 	scroll->addChild(formParticipantsList);
 	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
@@ -125,27 +123,10 @@ void ParticipantsList::addButtonClicked()
 	formParticipantsList->setExplanation(i18n("Fill the fields with the participants information"));
 	
 	emit sendWidget(view); 
-#if DEBUG_PARTICIPANTS
-	qDebug("end addButtonClicked");
-#endif
 }
 
 void ParticipantsList::delButtonClicked()
 {
-// 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
-// 	
-// 	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the user ")+itemp->text(2)+ " ?");
-// 	
-// 	if (opt == KMessageBox::Yes )
-// 	{
-// 		KLDM->execRawQuery("delete from ldt_users where login="+ SQLSTR(itemp->text(2)));
-// 		
-// 		KLDM->execRawQuery("drop user "+itemp->text(2));
-// 		
-// 		delete itemp;
-// 		
-// 		emit message2osd(i18n("The user has been deleted!!"));
-// 	}
 }
 
 void ParticipantsList::getClickedItem(QListViewItem *item)
@@ -155,80 +136,60 @@ void ParticipantsList::getClickedItem(QListViewItem *item)
 
 void ParticipantsList::modifyButtonClicked()
 {
-#if DEBUG_PARTICIPANTS
-	qDebug("init modifyButtonClicked");
-#endif
-
-// 	QListViewItem *le = m_listView->currentItem();
-// 	if ( !le )
-// 		return;
-// 	
-// 	QString tname = le->text(0);
-// 	if ( tname.isNull() )
-// 		tname = le->parent()->text(0);
-// 	std::cout << "Adicionando participantes torneo: " << tname << std::endl;
-// 	
-// 	KMdiChildView *view = new KMdiChildView(i18n("Modify participants"), this );
-// 	( new QVBoxLayout( view ) )->setAutoAdd( true );
-// 
-// 	QScrollView *scroll = new QScrollView(view);
-// 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-// 	scroll->setMargin(10);
-// 	
-// 	FormParticipants *formParticipantsList = new FormParticipants(tname, FormBase::Edit, scroll->viewport() );
-// 	formParticipantsList->fillTableInformation();
-// 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
-// 	
-// 	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
-// 	connect(formParticipantsList, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
-// 
-// 	scroll->addChild(formParticipantsList);
-// 	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
-// 
-// 	formParticipantsList->setTitle(i18n("Modify Participants of the tournament %1").arg(tname));
-// 	formParticipantsList->setExplanation(i18n("Fill the fields with the participants information"));
-// 	
-// 	emit sendWidget(view); 
-
-#if DEBUG_PARTICIPANTS
-	qDebug("end addButtonClicked");
-#endif
 }
 
 #include "klreportwidget.h"
 
 void ParticipantsList::queryButtonClicked()
 {
-	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
+	QListViewItem *le = m_listView->currentItem();
+	if ( !le )
+		return;
+	
+	QString tname = le->text(0);
+	if ( tname.isNull() )
+		tname = le->parent()->text(0);
+
+	KMdiChildView *view = new KMdiChildView(i18n("Gamers reports"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 	
 	QScrollView *scroll = new QScrollView(view);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 
-	KLReportWidget *formParticipantsList = new KLReportWidget( scroll->viewport() );
-
-// 	ElementVector m_elements;
-// 	m_elements.resize(12);
+	KLReportWidget *reportRanks = new KLReportWidget( scroll->viewport() );
 	
-	KLXmlReport xmlreport("Reporte de prueba", "Empresa", "123456", KLXmlReport::PIE );
+	KLSelect sqlquery(QStringList() << "participant" << "total", QStringList() << "ldt_resultstable_view");
+	sqlquery.setWhere("tournament="+SQLSTR(tname));
+	sqlquery.setOrderBy("total", KLSelect::Desc);
 	
-	for ( int i = 0; i < 12; ++i )
+	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
+	QXmlInputSource xmlsource; xmlsource.setData(resultSet.toString());
+	KLXmlReader xmlreader;
+	
+	if ( ! xmlreader.analizeXml(&xmlsource, KLResultSetInterpreter::Total) )
+	{
+		std::cerr << "No se puede analizar" << std::endl;
+	}
+	
+	QStringList results = xmlreader.getResultsList();
+	
+	KLXmlReport xmlreport(i18n("Report ranking"), klenterprise->getName(), klenterprise->getNit(), KLXmlReport::PIE );
+	
+	for ( int i = 0; i < results.count(); i+=2 )
 	{
 		double x = (double(i) / 100) * 360;
 		int y = (int(x * 256) % 105) + 151;
 		int z = ((i * 17) % 105) + 151;
-// 		m_elements[i] = KLReportElement( z, QColor( int(x), y, z, QColor::Hsv ) );
-		xmlreport.createReportElement(z, "label", QColor( int(x), y, z, QColor::Hsv ));
+		
+		xmlreport.createReportElement( results[i+1].toDouble(), results[i], QColor( int(x), y, z, QColor::Hsv ));
 	}
 	
-// 	formParticipantsList->getKLCanvasView()->setElements(m_elements);
-	formParticipantsList->setXmlReport(xmlreport);
+	reportRanks->setXmlReport(xmlreport);
 	
-	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(reportRanks, SIGNAL(cancelled()), view, SLOT(close()));
 	
-	scroll->addChild(formParticipantsList);
-	formParticipantsList->setupButtons( FormBase::AcceptButton, FormBase::NoButton );
+	scroll->addChild(reportRanks);
 		
 	emit sendWidget(view); 
 }

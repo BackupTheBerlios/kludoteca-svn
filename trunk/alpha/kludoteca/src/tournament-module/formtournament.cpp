@@ -67,7 +67,7 @@ void FormTournament::setupForm()
 	m_vboxtinfo->setMargin(10);
 	
 	QLabel *nameTourLabel = new QLabel(i18n("Name of tournament"),m_vboxtinfo);
-	KLineEdit *nameTournament = new KLineEdit(m_vboxtinfo);
+	KLineEdit *nameTournament = new KLineEdit(m_vboxtinfo, "name");
 	m_lineEdits.insert("name", nameTournament);
 	
 	QVBox *vboxDateBegin = new QVBox(m_hbox);
@@ -90,13 +90,15 @@ void FormTournament::setupForm()
 	
 	QLabel *gamesPlayers = new QLabel(i18n("Games for pairs"),m_vboxtinfo);
 	m_gamesPair = new KIntSpinBox(m_vboxtinfo);
+	m_gamesPair->setMinValue(1);
+	m_gamesPair->setMaxValue(10);
 // 	m_grid->addWidget(gamesPlayers, 3, 0);
 // 	m_grid->addWidget(m_gamesPair, 3,1);
 	
 	
 	
 	QLabel *valueInscripLabel = new QLabel(i18n("Value for inscription"),m_vboxtinfo);
-	KLineEdit *valueInscrip = new KLineEdit(m_vboxtinfo);
+	KLineEdit *valueInscrip = new KLineEdit(m_vboxtinfo, "price");
 	m_lineEdits.insert("price", valueInscrip);
 	
 	valueInscrip->setValidator(new QRegExpValidator(QRegExp("[1-9]\\d{0,8}"), 0));
@@ -143,6 +145,7 @@ void FormTournament::fillFormulate( const QString &tname )
 // 	setRounds(results["price"]);
 	setGames4pair(results["roundsforpair"]);
 	setTournamentName(tname);
+	m_tournament = tname;
 	
 }
 
@@ -219,12 +222,54 @@ void FormTournament::accept ()
 			
  			KLDM->execQuery(&sqlquery);
 			
-			emit inserted(getTournamentName());
-			clean();
+			
+			if ( ! KLDM->isLastError() )
+			{
+				emit message2osd(i18n("The tournament %1  has been added").arg( getTournamentName()));
+				
+				emit accepted();
+				
+				emit cancelled();
+				
+				emit inserted(getTournamentName());
+				clean();
+			}
 		}
 		break;
 		case Edit:
 		{
+			QStringList fields, values;
+			
+			QDictIterator<KLineEdit> it( m_lineEdits );
+			for( ; it.current(); ++it)
+			{
+				if ( it.current()->isModified() )
+				{
+					std::cout << "adding ." << it.current()->name() << "." << std::endl;
+					fields << it.current()->name();
+					values << SQLSTR(it.current()->text());
+				}
+			}
+			
+			fields << "initdate" << "enddate" << "roundsforpair" << "gameserialreference";
+			values << SQLSTR( this->getInitDate() ) << SQLSTR( this->getEndDate() ) << SQLSTR( this->getGames4pair() ) << SQLSTR(gameName2code(m_nameGame->currentText() ));
+			
+			if ( fields.count() == values.count() && fields.count() > 0 )
+			{
+				KLUpdate sqlup("ldt_tournament", fields, values);
+				sqlup.setWhere("name="+SQLSTR(m_tournament));
+				
+				KLDM->execQuery(&sqlup);
+				
+				if ( ! KLDM->isLastError() )
+				{
+				}
+			}
+			
+			
+			emit message2osd(i18n("The tournament has been modified"));
+			
+			emit cancelled();
 		}
 		break;	
 	}

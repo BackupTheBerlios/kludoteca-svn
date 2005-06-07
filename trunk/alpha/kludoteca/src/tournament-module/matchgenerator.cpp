@@ -70,7 +70,7 @@ QStringList MatchGenerator::generate(int nround, Type t)
 			// Ordenamos por puesto y enfrentamos en ese orden
 			// TODO: Verificar que los jugadores no hayan jugado en este mismo orden!!
 			
-			verifyPairs(nround);
+// 			verifyPairs(nround);
 		}
 		break;
 	}
@@ -81,21 +81,28 @@ void MatchGenerator::verifyPairs(int nround)
 {
 	std::cout << "Verifing pairs" << " vect: " << m_mci.count() << std::endl;
 	QValueList<int> imps;
+	
+	QStringList imposibles;
 	for(uint i = 0; i < m_mci.count(); i+=2 )
 	{
 		std::cout << "FOR" << std::endl;
 		if( ! findOrder(i, i+1, nround) )
 		{
 			imps << i << i+1;
+// 			imposibles << list[i] << list[i+1];
 		}
 	}
+
 	
-	for(uint i = 0; i < imps.count(); i++)
+	for(uint i = 0; i < imps.count(); i+=4)
 	{
 		std::cout << "*******************************************" << std::endl;
 		std::cout << "NO PUEDO ENCONTRAR ORDEN: " << m_mci[imps[i]] << std::endl;
 		std::cout << "*******************************************" << std::endl;
+		imposibles << m_mci[imps[i]] << m_mci[imps[i+2]] << m_mci[imps[i+1]] << m_mci[imps[i+3]];
 	}
+	
+// 	m_mci += list;
 }
 
 bool MatchGenerator::findOrder(int first, int sec, int nround)
@@ -128,8 +135,14 @@ bool MatchGenerator::findOrder(int first, int sec, int nround)
 	std::cout << "HERE" << std::endl;
 	std::cout << "Count: " << results["countopponent1"] << std::endl;
 	
-	if ( results["countopponent1"].toInt() < m_tournamentInfo["roundsforpair"].toInt() && results["countopponent1"].toInt() / nround <= m_tournamentInfo["rounds"].toInt() )
+	int nparticipants = 1 + (m_tournamentInfo["rounds"].toInt() / m_tournamentInfo["roundsforpair"].toInt() );
+	
+	std::cout << "NPARCIPANTS: " << nparticipants << std::endl;
+	
+	if ( results["countopponent1"].toInt() < m_tournamentInfo["roundsforpair"].toInt() )
 	{
+		if (  nparticipants * results["countopponent1"].toInt() <= nround )
+			return false;
 		std::cout << "*******************************************" << std::endl;
 		std::cout << "Find order: " << opp1 << " " << opp2 << std::endl;
 		std::cout << "*******************************************" << std::endl;

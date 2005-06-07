@@ -58,7 +58,7 @@ bool KLDatabase::createTables()
 			"available boolean DEFAULT 't' NOT NULL"
 			");");
 	
-	if ( ! q.isActive() ) 
+	if ( ! q.isActive() )
 	{
 		std::cout << "Fails to create ldt_games" << lastError().text() << std::endl;
 		wasgood = false;

@@ -45,6 +45,9 @@ class ParticipantsList : public LTListView
 		 */
 		~ParticipantsList();
 		
+	signals:
+		void tournamentModified();
+		
 	public slots:
 		/**
 	 	 * Llena la lista, esta funcion es reimplementada de LTListView
@@ -97,6 +100,9 @@ class ParticipantsList : public LTListView
 		 */
 		void updateItem(const QString &pkey);
 		
+		
+	private:
+		QStringList m_participants;
 };
 
 #endif

@@ -26,6 +26,12 @@
 #include <iostream>
 #include <qstringlist.h>
 
+#include <qpaintdevicemetrics.h>
+#include <qstylesheet.h>
+
+#include <qapplication.h>
+#include <qsimplerichtext.h>
+
 FormMatchOrder::FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent)
 	: FormBase(t, parent, "FormMatchOrder"), m_tournament(tournament) ,m_nround(nround)
 {
@@ -48,6 +54,83 @@ FormMatchOrder::FormMatchOrder(const QString &tournament, int nround, FormBase::
 
 FormMatchOrder::~FormMatchOrder()
 {
+}
+
+void FormMatchOrder::print( QPainter *painter, KPrinter &printer)
+{
+	qDebug("Printing tournament inpair");
+	
+	QPaintDeviceMetrics metrics(&printer);
+	int LargeGap = metrics.logicalDpiY() / 2;
+	
+	QString str = QString(
+			"<div align=center>"
+			"<h3>"+m_tournament+"</h3></div>" );
+	
+	str += "<table width=\"100%\" border=1 cellspacing=0>\n"
+			"<caption align=bottom>" + i18n("Results Table") + "</caption>\n";
+
+	// Encabezados
+	str += "<tr>";
+	for(uint col = 0; col < m_table->numCols()-1; col++)
+	{
+		QString header = QStyleSheet::escape(m_table->getColumnTextHeader(col) );
+		str += "<th>"+header+"</th>";
+	}
+	str += "</tr>\n";
+	
+	// Cuerpo
+	for(uint row = 0; row < m_table->numRows(); row++)
+	{
+		str += "<tr>\n";
+		QString opp1 = QStyleSheet::escape(m_table->text(row, 0));
+		QString opp2 = QStyleSheet::escape(m_table->text(row, 1));
+		
+		str += "\t<td>"+opp1+"</td>\n";
+		str += "\t<td>"+opp2+"</td>\n";
+		
+		str += "</tr>\n";
+	}
+	
+	str += "\n</table>\n<br>\n";
+	
+	
+	int pageHeight = painter->window().height() - 2 * LargeGap;
+	QSimpleRichText richText(str, QApplication::font(), "", 0, 0, pageHeight);
+	
+	richText.setWidth( painter, painter->window().width() );
+
+	
+	int numPages = (int)ceil((double)richText.height() / pageHeight);
+	int index;
+	
+	for (int i = 0; i < (int)printer.numCopies(); ++i)
+	{
+		for (int j = 0; j < numPages; ++j)
+		{
+			if (i > 0 || j > 0)
+				printer.newPage();
+			if (printer.pageOrder() == KPrinter::LastPageFirst)
+			{
+				index = numPages - j - 1;
+			}
+			else 
+			{
+				index = j;
+			}
+			
+			QRect rect(0, index * pageHeight + LargeGap, richText.width(), pageHeight);
+			painter->saveWorldMatrix();
+			painter->translate(0, -rect.y());
+			
+			richText.draw(painter, 0, LargeGap, QRect(), QColorGroup() );
+			
+			painter->restoreWorldMatrix();
+			painter->setFont(QApplication::font());
+			painter->drawText(painter->window(), AlignHCenter | AlignBottom, QString::number(index + 1));
+		}
+	}
+	
 }
 
 
@@ -150,6 +233,8 @@ void FormMatchOrder::accept()
 			
 			}
 			
+			emit message2osd(i18n("Results registred"));
+			
 			emit inserted(QString::number(m_nround));
 		}
 		break;
@@ -174,7 +259,9 @@ void FormMatchOrder::accept()
 		break;
 	}
 	updateRanks(m_clientList);
+	
 	emit accepted();
+	emit cancelled();
 	qDebug("End accept");
 }
 

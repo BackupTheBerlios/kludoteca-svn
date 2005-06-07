@@ -214,6 +214,7 @@ class FormTournament : public FormBase
 		HashLineEdit m_lineEdits;
 		
 		QVBox *m_vboxtinfo;
+		QString m_tournament;
 		
 	private:		
 		/**

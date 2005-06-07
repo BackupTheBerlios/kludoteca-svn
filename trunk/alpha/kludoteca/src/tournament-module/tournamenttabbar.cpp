@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "tournamenttabbar.h"
 #include <klocale.h>
+#include <qsignalmapper.h>
+#include <kdebug.h>
 
 TournamentTabBar::TournamentTabBar(QWidget *parent, const char *name) : KTabWidget(parent, name)
 {
@@ -32,23 +34,38 @@ TournamentTabBar::~TournamentTabBar()
 
 void TournamentTabBar::setupTabs()
 {
+		
+// 	QSignalMapper *signalMapper = new QSignalMapper(this);
+// 	
+// 	connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(applyChangesToLists(int)));
+// 	
+// 	
+// 	signalMapper->setMapping( m_tactive, 0);
+// 	signalMapper->setMapping( m_participants, 1);
+// 	signalMapper->setMapping( m_rounds, 2);
+// 	signalMapper->setMapping( m_told, 3);
+	
 	m_tactive = new TournamentActive(this);
 	insertTab(m_tactive, i18n("Active"));
 	
+	connect( m_tactive, SIGNAL(tournamentModified() ), this, SLOT(applyChangesToLists()));
+	
 	m_participants = new ParticipantsList(this);
 	insertTab(m_participants, i18n("Participants"));
+	connect( m_participants, SIGNAL(tournamentModified() ), this, SLOT(applyChangesToLists()));
 	
 	m_rounds = new RoundList(this);	
 	insertTab(m_rounds, i18n("Rounds"));
+	connect( m_rounds, SIGNAL(tournamentModified() ), this, SLOT(applyChangesToLists()));
 	
 	m_told = new TournamentOld(this);
 	insertTab(m_told, i18n("Old"));
-	
-	connect(m_tactive, SIGNAL(tournamentModified()), this, SLOT(applyChangesToLists()));
 }
 
 void TournamentTabBar::applyChangesToLists()
 {
+	kdDebug() << "-> Updating lists";
+	m_tactive->fillList();
 	m_participants->fillList();
 	m_rounds->fillList();
 	m_told->fillList();

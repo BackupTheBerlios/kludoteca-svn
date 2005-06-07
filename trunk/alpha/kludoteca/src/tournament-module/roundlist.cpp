@@ -106,6 +106,7 @@ void RoundList::addButtonClicked()
 			KMessageBox::information(this, i18n("The tournament has finished!!"));
 			return;
 		}
+		
 		LTListViewItem *nround = new LTListViewItem(le->parent());
 		
 		nround->setText( 1, QString::number(roundNumber));
@@ -115,7 +116,7 @@ void RoundList::addButtonClicked()
 	else
 	{
 		// Sobre el padre
-		roundNumber = le->childCount() +1;
+		roundNumber = le->childCount() + 1;
 		
 		if ( tournamentFinished(tname, roundNumber))
 		{
@@ -147,10 +148,10 @@ void RoundList::addButtonClicked()
 	std::cout << "RONDA: " << roundNumber << std::endl;
 	FormMatchOrder *formMatchs = new FormMatchOrder(tname, roundNumber, FormBase::Add, this);
 	
-// 	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+ 	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
 	connect(formMatchs, SIGNAL(cancelled()), view, SLOT(close()));
- 	connect(formMatchs, SIGNAL(accepted()), this, SLOT(fillList()));
+	connect(formMatchs, SIGNAL(accepted()), this, SIGNAL(tournamentModified()));
 
 	scroll->addChild(formMatchs);
 	formMatchs->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );

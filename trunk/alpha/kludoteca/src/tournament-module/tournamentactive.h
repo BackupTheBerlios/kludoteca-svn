@@ -48,7 +48,6 @@ class TournamentActive : public LTListView
 		
 		void slotFilter(const QString &filter);
 		
-	protected:
 		/**
 	 	 * Esta funcion debe implementarse para llenar la lista.
 		 */

@@ -43,6 +43,9 @@ class RoundList : public LTListView
 		void queryButtonClicked();
 		bool tournamentFinished(const QString &tname, int round);
 		
+	signals:
+		void tournamentModified();
+		
 	public slots:
 		void fillList();
 };

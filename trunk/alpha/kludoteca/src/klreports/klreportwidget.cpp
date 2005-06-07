@@ -134,6 +134,10 @@ KLReportWidget::KLReportWidget(QWidget *parent, const char *name) : FormBase(For
 	setLineWidth( 2 );
 	setMidLineWidth ( 2 ) ;
 	
+	setupButtons( KLReportWidget::AcceptButton, KLReportWidget::NoButton );
+	
+	setTextAcceptButton( i18n("Accept"));
+	
 	m_view->setBackgroundColor( backgroundColor() );
 	
 	m_view->show();
@@ -161,6 +165,10 @@ KLReportWidget::KLReportWidget(const KLXmlReport &report, QWidget *parent, const
 	
 	m_view->show();
 	
+	setupButtons( KLReportWidget::AcceptButton, KLReportWidget::NoButton );
+	
+	setTextAcceptButton( i18n("Accept"));
+	
 	setupForm();
 }
 
@@ -172,12 +180,6 @@ KLReportWidget::~KLReportWidget()
 void KLReportWidget::print( QPainter *painter , KPrinter &printer)
 {
 	qDebug("Printing report");
-	
-// 	p->drawText( m_view->canvas()->width() / 2, 10, "KLudoteca Report" );
-	
-// 	QRect rect(0,0,m_view->canvas()->width(),m_view->canvas()->height());
-	
-// 	m_view->canvas()->drawArea( rect, p,FALSE);
 	
 	QRect rect = painter->viewport();
 	QSize size = m_view->canvas()->size();
@@ -325,11 +327,11 @@ void KLReportWidget::setXmlReport(const KLXmlReport &report)
 
 void KLReportWidget::accept()
 {
+	emit cancelled();
 }
 
 void KLReportWidget::clean()
 {
-	emit cancelled();
 }
 
 

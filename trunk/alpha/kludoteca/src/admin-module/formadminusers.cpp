@@ -284,7 +284,7 @@ void FormAdminUsers::accept()
 				
 				KLDM->execQuery(&sqlup);
 				
-				if ( this->lastQueryWasGood() )
+				if ( ! KLDM->isLastError() )
 				{
 					emit inserted(getLogin());
 				}
