@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,38 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef ADMINLOGS_H
+#define ADMINLOGS_H
 
-#include "adminwidget.h"
-#include <klocale.h>
+#include <ltlistview.h>
 
-AdminWidget::AdminWidget(QWidget *parent) : LTToolBox(parent, "AdminModule")
+/**
+ * @author CetiSoft
+*/
+
+class AdminLogs : public LTListView
 {
-	setCaption(i18n("Admin"));
-	
-	setupTabs();
-}
+	Q_OBJECT
 
-AdminWidget::~AdminWidget()
-{
-}
+	public:
+		AdminLogs(QWidget *parent = 0);
 
-void AdminWidget::setupTabs()
-{
-	m_adminUsers = new AdminUsers(	LTListView::ButtonAdd, 
-					LTListView::ButtonDel, 
-					LTListView::ButtonModify, 
-					LTListView::ButtonQuery, 
-					this,
-					"list view admin users");
-					
-	this->addItem(m_adminUsers, i18n("Users"));
-	
-	m_adminDatabase = new AdminDatabase(this);
-	this->addItem(m_adminDatabase, i18n("Database"));
-	
-	m_adminLogs = new AdminLogs(this);
-	addItem(m_adminLogs, i18n("Logs"));
-}
+		~AdminLogs();
 
+		void fillList();
 
-#include "adminwidget.moc"
+		void addButtonClicked();
+		void delButtonClicked();
+		void getClickedItem(QListViewItem* item);
+		void modifyButtonClicked();
+		void queryButtonClicked();
+		
+		void showEvent ( QShowEvent *e);
+		
+};
+
+#endif

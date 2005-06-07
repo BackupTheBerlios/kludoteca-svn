@@ -106,4 +106,17 @@ void KLLogger::log(const QString &message, LogType t)
 	}
 }
 
+QString KLLogger::getFilePath()
+{
+	return m_file->name();
+}
+
 #include "kllogger.moc"
+
+
+
+
+
+
+
+

@@ -33,6 +33,7 @@
 #include "klxmlreader.h"
 #include "kldatabase.h"
 #include "klresultsetinterpreter.h"
+#include "kllogger.h"
 
 class KListView;
 class LTListView;

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by David Cuadrado                                        *
- *   krawek@gmail.com                                        	   *
+ *   Copyright (C) 2005 by CetiSoft                                        *
+ *   cetis@univalle.edu.co                                        	   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,52 +17,71 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ADMINWIDGET_H
-#define ADMINWIDGET_H
 
-#include "lttoolbox.h"
-#include "adminusers.h"
-#include "admindatabase.h"
 #include "adminlogs.h"
+#include <klocale.h>:
 
-/**
- * Esta clase contiene el modulo de administración
- * @short Modulo de administrador
- * @author David Cuadrado
-*/
-class AdminWidget : public LTToolBox
+AdminLogs::AdminLogs(QWidget *parent) : LTListView(QStringList() << i18n("Date") << i18n("Priority") << i18n("Message"), LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::NoButton, parent, "AdminLogs")
 {
-	Q_OBJECT
+}
 
-	public:
-		/**
-		 * Contructor por defecto
-		 */
-    		AdminWidget(QWidget *parent = 0);
-		/**
-		 * Destructor por defecto
-		 */
-		~AdminWidget();
-		
-		
-	signals:
-		/**
-		 * Este signal envia el widget para er puesto en la ventana principal
-		 */
-		void sendWidget(KMdiChildView *);
-		
-		void message2osd(const QString &);
-		
-	private:
-		/**
-		 * Esta funcion crea los diferentes tabs que contiene el modulo administrador
-		 */
-		void setupTabs();
-	private:
-		AdminUsers *m_adminUsers;
-		AdminDatabase *m_adminDatabase;
-		AdminLogs *m_adminLogs;
 
-};
+AdminLogs::~AdminLogs()
+{
+}
 
-#endif
+
+void AdminLogs::fillList()
+{
+	m_listView->clear();
+	QFile file(LOGGER->getFilePath());
+	
+	if( file.open(IO_ReadOnly) )
+	{
+		QTextStream stream( &file );
+		QString line;
+		while ( !stream.atEnd() )
+		{
+			line = stream.readLine(); 
+			QStringList items; // = QStringList::split(" ", line);
+			
+			items << line.section(' ', 1, 1)  << line.section( ": ", 0, 0) << line.section(' ', 2);
+			
+			LTListViewItem *log = new LTListViewItem(m_listView);
+			for(uint i = 0; i < items.count(); i++)
+			{
+				log->setText(i, items[i]);
+			}
+		}
+		file.close();
+	}
+}
+
+void AdminLogs::addButtonClicked()
+{
+}
+
+void AdminLogs::delButtonClicked()
+{
+}
+
+void AdminLogs::getClickedItem(QListViewItem* item)
+{
+}
+
+void AdminLogs::modifyButtonClicked()
+{
+}
+
+void AdminLogs::queryButtonClicked()
+{
+}
+
+void AdminLogs::showEvent(QShowEvent *e)
+{
+	QVBox::showEvent(e);
+	fillList();
+}
+
+
+#include "adminlogs.moc"

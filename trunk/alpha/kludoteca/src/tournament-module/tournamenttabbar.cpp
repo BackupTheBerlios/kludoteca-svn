@@ -64,7 +64,7 @@ void TournamentTabBar::setupTabs()
 
 void TournamentTabBar::applyChangesToLists()
 {
-	kdDebug() << "-> Updating lists";
+	kdDebug() << "-> Updating lists" << endl;
 	m_tactive->fillList();
 	m_participants->fillList();
 	m_rounds->fillList();

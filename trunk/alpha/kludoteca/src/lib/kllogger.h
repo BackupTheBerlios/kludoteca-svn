@@ -45,6 +45,7 @@ class KLLogger : public QObject
 		static KLLogger *instance();
 		void log(const QString &message, LogType t = Inf);
 		void setupLogger(const QString &directory, const QString &filename );
+		QString getFilePath();
 
 	private:
 		QFile *m_file;

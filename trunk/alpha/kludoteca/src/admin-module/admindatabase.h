@@ -23,6 +23,9 @@
 
 #include "ltlistview.h"
 
+#include <qprocess.h>
+#include <qdir.h>
+
 /**
 Esta clase nos sirve para administrar la base de datos
 
@@ -44,11 +47,15 @@ class AdminDatabase : public LTListView
     		 */
     		~AdminDatabase();
 		
+		void setupDatabaseTools();
+		
 		
 		/**
 		 * Llena la lista, esta funcion es reimplementada de LTListView
 		 */
 		void fillList();
+		
+		void showEvent ( QShowEvent *e);
 		
 	public slots:
 		/**
@@ -95,6 +102,9 @@ class AdminDatabase : public LTListView
 		
 	private:
 		KLSelect *m_sqlquery;
+		bool m_havePsql;
+		bool m_havePgDump;
+		QDir *m_dumpDir;
 		
 };
 
