@@ -51,7 +51,7 @@
 #include "klpermission.h"
 #include "klenterprise.h"
 
-KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_printer(0), m_childs(0), m_view(0), m_userValidator(0)
+KLudoteca::KLudoteca() : DMainWindow( 0, "KLudoteca-main"), m_printer(0), m_childs(0), m_view(0), m_userValidator(0)
 {
 	std::cout << "Inicializando " << klapp->name() << std::endl;
 	// accept dnd
@@ -79,14 +79,14 @@ KLudoteca::KLudoteca() : KMdiMainFrm( 0, "KLudoteca-main", KMdi::IDEAlMode ), m_
 	
 // 	setTabWidgetVisibility (KMdi::AlwaysShowTabs );
 	
-	KToolBar *bar = new KToolBar(tabWidget());
-	KAction *closeCurrentTab = new KAction(bar);
-	closeCurrentTab->setIconSet(SmallIcon("tab_remove"));
-	closeCurrentTab->plug(bar);
-	
-	tabWidget()->setCornerWidget( bar, KToolBarButton::TopRight);
-	tabWidget()->show();
-	connect(closeCurrentTab, SIGNAL(activated()), SLOT(closeCurrent()));
+// 	KToolBar *bar = new KToolBar( tabWidget() );
+// 	KAction *closeCurrentTab = new KAction(bar);
+// 	closeCurrentTab->setIconSet(SmallIcon("tab_remove"));
+// 	closeCurrentTab->plug(bar);
+// 	
+// 	tabWidget()->setCornerWidget( bar, KToolBarButton::TopRight);
+// 	tabWidget()->show();
+// 	connect(closeCurrentTab, SIGNAL(activated()), SLOT(closeCurrent()));
 }
 
 KLudoteca::~KLudoteca()
@@ -163,7 +163,7 @@ void KLudoteca::generateEnterpriseInfo()
 
 void KLudoteca::addModulePage(KMdiChildView *view)
 {
-	addWindow(view);
+	addWidget(view, view->name() );
 }
 
 void KLudoteca::setFullScreen()
@@ -176,31 +176,22 @@ void KLudoteca::setFullScreen()
 
 void KLudoteca::setupToolWindows()
 {
-	// TODO: push the modules in the GUI depend of the user permission's 
-	
-	for( QValueList<KMdiToolViewAccessor*>::iterator it = m_toolWindows.begin(); it != m_toolWindows.end(); ++it)
-	{
-		if (*it)
-		{
-			deleteToolWindow(*it);
-		}
-	}
-	
-	m_toolWindows.clear();
+	removeAll();
 	
 	// Add the main view!
-	m_view = new KLudotecaView("Welcome", this);
+	m_view = new KLudotecaView(i18n("Welcome"), this);
 	connect(m_view->mainPage(), SIGNAL(sendWidget(KMdiChildView* )) , this, SLOT(addModulePage(KMdiChildView* )));
 	// tell the KMainWindow that this is indeed the main widget
-	setCentralWidget(m_view);
-	addWindow(m_view);
+// 	setCentralWidget(m_view);
+	addWidget(m_view, i18n("Welcome") );
 	
 	// Add the admin module
 	if( klperm->activeAdminModule() )
 	{
 		m_adminWidget = new AdminWidget(this);
 		m_adminWidget->setIcon( QPixmap( locate("data", "kludoteca/icons/adminicon.png" )) );
-		m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
+// 		m_toolWindows << addToolWindow( m_adminWidget, KDockWidget::DockLeft, getMainDockWidget() );
+		toolWindow(DDockWindow::Left)->addWidget(i18n("Administer"), m_adminWidget);
 		
 		
 		QObjectList* const list = m_adminWidget->queryList("LTListView");
@@ -222,11 +213,12 @@ void KLudoteca::setupToolWindows()
 	{
 		m_clientsWidget = new ClientsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
 		m_clientsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/clientsicon.png" )) );
-// 		m_clientsWidget->setDatabase( KLDM );
+
 		m_clientsWidget->fillList();
+
+		toolWindow(DDockWindow::Left)->addWidget(i18n("Clients"), m_clientsWidget);
+		connect(m_clientsWidget, SIGNAL(sendWidget(QWidget *, const QString & )), this, SLOT(addWidget(QWidget*, const QString & )));
 		
-		m_toolWindows << addToolWindow(m_clientsWidget, KDockWidget::DockLeft, getMainDockWidget());
-		connect(m_clientsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 		connect(m_clientsWidget, SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 	}
 	
@@ -241,24 +233,18 @@ void KLudoteca::setupToolWindows()
 		connect(m_gamesList, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 		connect(m_gamesList, SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 		
-		m_toolWindows << addToolWindow( m_gamesList, KDockWidget::DockLeft, getMainDockWidget() );
+// 		m_toolWindows << addToolWindow( m_gamesList, KDockWidget::DockLeft, getMainDockWidget() );
+		toolWindow(DDockWindow::Left)->addWidget(i18n("Games"), m_gamesList);
 	}
 	
 	// Add rents module
 	if ( klperm->activeRentsModule() )
-	{
-// 		m_rentsWidget = new RentsWidget(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
-// 		m_rentsWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
-// // 		m_rentsWidget->setDatabase(KLDM);
-// 		m_rentsWidget->fillList();
-// 		
-// 		connect(m_rentsWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
-// 		
-// 		m_toolWindows << addToolWindow( m_rentsWidget, KDockWidget::DockLeft, getMainDockWidget() );
+	{	
 		m_rentsModule = new RentsModule(this);
 		connect(m_rentsModule, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
 		m_rentsModule->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
-		m_toolWindows << addToolWindow( m_rentsModule, KDockWidget::DockLeft, getMainDockWidget() );
+// 		m_toolWindows << addToolWindow( m_rentsModule, KDockWidget::DockLeft, getMainDockWidget() );
+		toolWindow(DDockWindow::Left)->addWidget(i18n("Rents"), m_rentsModule);
 		
 		ListLTListView listViews = m_rentsModule->listViews();
 		
@@ -283,7 +269,8 @@ void KLudoteca::setupToolWindows()
 		
 		m_tournamentWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/tournamenticon.png" )) );
 		
-		m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
+// 		m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
+		toolWindow(DDockWindow::Left)->addWidget(i18n("Tournaments"), m_tournamentWidget);
 		
 		ListLTListView listViews = m_tournamentWidget->listViews();
 		
@@ -380,18 +367,18 @@ void KLudoteca::filePrint()
 		QPainter p;
 		p.begin(m_printer);
 		
-		if( m_pCurrentWindow )
-		{
-			QObjectList* const list = m_pCurrentWindow->queryList("FormBase");
-			for( QObject *o = list->first(); o; o = list->next() )
-			{
-				if ( o )
-				{
-					static_cast<FormBase*>(o)->print(&p, *m_printer);
-				}
-			}
-			delete list;
-		}
+// 		if( m_pCurrentWindow ) // FIXME
+// 		{
+// 			QObjectList* const list = m_pCurrentWindow->queryList("FormBase");
+// 			for( QObject *o = list->first(); o; o = list->next() )
+// 			{
+// 				if ( o )
+// 				{
+// 					static_cast<FormBase*>(o)->print(&p, *m_printer);
+// 				}
+// 			}
+// 			delete list;
+// 		}
 	
 		// we let our view do the actual printing
 // 		QPaintDeviceMetrics metrics(m_printer);
@@ -405,10 +392,10 @@ void KLudoteca::filePrint()
 void KLudoteca::closeCurrent()
 {
    	 // If there's a current view, close it
-	if ( m_pCurrentWindow != 0 ) 
-	{
-		closeWindow( m_pCurrentWindow );
-	}
+// 	if ( m_pCurrentWindow != 0 ) 
+// 	{
+// 		removeWidget( m_pCurrentWindow );
+// 	}
 }
 
 void KLudoteca::optionsShowToolbar()

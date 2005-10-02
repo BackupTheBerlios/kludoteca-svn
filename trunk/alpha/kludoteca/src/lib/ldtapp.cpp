@@ -63,7 +63,7 @@ void LDTApp::applyColors()
 	const QColor bg( 32,32,82 );
 	const QColor bgAlt( 57, 64, 98 );
 	
-	group.setColor( QColorGroup::Text, Qt::white );
+	group.setColor( QColorGroup::Text, Qt::lightGray );
 	group.setColor( QColorGroup::Base, bg );
 	group.setColor( QColorGroup::Foreground, 0xd7d7ef );
 	group.setColor( QColorGroup::Background, bgAlt );
@@ -71,12 +71,14 @@ void LDTApp::applyColors()
 	group.setColor( QColorGroup::Button, bgAlt );
 	group.setColor( QColorGroup::ButtonText, 0xd7d7ef );
 
-	group.setColor( QColorGroup::Highlight, Qt::white );
+	group.setColor( QColorGroup::Highlight, Qt::gray );
 	group.setColor( QColorGroup::HighlightedText, bg );
 	int h,s,v;
 	bgAlt.getHsv( &h, &s, &v );
 	group.setColor( QColorGroup::Midlight, QColor( h, s/3, (int)(v * 1.2),QColor::Hsv ) );
+	
 	QPalette pal(group, group, group);
+	
 	setPalette(pal);
 }
 

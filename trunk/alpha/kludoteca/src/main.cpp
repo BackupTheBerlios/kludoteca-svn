@@ -45,14 +45,11 @@
 #include <klocale.h>
 #include "crashhandler.h"
 
-#include "rtk.h"
-
 #include <kmessagebox.h> 
 #include <qfile.h>
 #include <qpixmap.h>
 #include <qsplashscreen.h>
 #include <qtextstream.h>
-#include "rtkoutputopenoffice.h"
 
 #include "klpermission.h"
 #include "kllogger.h"

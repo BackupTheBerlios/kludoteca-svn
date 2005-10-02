@@ -25,7 +25,7 @@
 #include <qhbuttongroup.h>
 #include <kpushbutton.h>
 #include <klistview.h>
-#include <kmdichildview.h>
+#include <kmdichildview.h> // TODO: delete me
 #include <ktoolbar.h>
 #include <qtimer.h>
 #include <kmessagebox.h>
@@ -34,6 +34,7 @@
 #include "kldatabase.h"
 #include "klresultsetinterpreter.h"
 #include "kllogger.h"
+#include "formbase.h"
 
 class KListView;
 class LTListView;
@@ -54,7 +55,7 @@ class ClickLineEdit;
  * @short Clase base para listas.
  * @author David Cuadrado
  * @todo 
- * - Agregar una forma de añadir titulo e hijos
+ * - Agregar una forma de aï¿½dir titulo e hijos
 */
 class LTListView : public QVBox
 {
@@ -162,6 +163,8 @@ class LTListView : public QVBox
 		 * Este signal envia el widget para ser puesto en la ventana principal
 		 */
 		virtual void sendWidget(KMdiChildView *); //= 0;
+		
+		virtual void sendWidget(QWidget *widget, const QString &title);
 	
 	private:
 		QHButtonGroup *m_buttons;

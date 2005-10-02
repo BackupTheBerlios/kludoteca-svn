@@ -55,6 +55,8 @@
 #include "kldatabase.h"
 #include "validateuser.h"
 
+#include "dmainwindow.h"
+
 class KPrinter;
 class KToggleAction;
 
@@ -68,7 +70,7 @@ class KMdiToolViewAccessorPrivate;
  * @author David Cuadrado \<krawek@gmail.com\>
  * @version 0.1
  */
-class KLudoteca : public KMdiMainFrm
+class KLudoteca : public DMainWindow
 {
     	Q_OBJECT
 	public:
@@ -168,7 +170,7 @@ class KLudoteca : public KMdiMainFrm
 		void setFullScreen();
 		
 		/**
-		 * Esta funcion añade una pagina de modulo
+		 * Esta funcion aï¿½de una pagina de modulo
 		 */
 		void addModulePage(KMdiChildView *view);
 		
@@ -231,7 +233,7 @@ class KLudoteca : public KMdiMainFrm
 		RentsModule *m_rentsModule;
 		
 		OSDWidget *m_osd;
-		QValueList<KMdiToolViewAccessor*> m_toolWindows;
+// 		QValueList<KMdiToolViewAccessor*> m_toolWindows;
 		
 		ValidateUser *m_userValidator;
 };

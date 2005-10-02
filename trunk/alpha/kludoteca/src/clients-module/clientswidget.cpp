@@ -65,35 +65,30 @@ void ClientsWidget::addButtonClicked()
 {
 	cout << "Add button clicked" << endl;
 	
-	KMdiChildView *view = new KMdiChildView(i18n("Add client"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-	
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
-	cout << "COMIENZO DE CONFIG CLIENT" << endl;
 	
 	FormAdminClients *formAdminClients = new FormAdminClients(FormBase::Add, scroll->viewport() );
 	
-	cout << "SE CREO OBJETO ADMINCLIENT" << endl;
+	scroll->addChild(formAdminClients);
+	
 	connect(formAdminClients, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
+	connect(formAdminClients, SIGNAL(cancelled()), scroll, SLOT(close()));
 
 	formAdminClients->setType( FormBase::Add);
-		
-	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));
+	
 	connect(formAdminClients, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
-	scroll->addChild(formAdminClients);
+	
 	formAdminClients->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
 
 	formAdminClients->setTitle(i18n("Admin Clients"));
 	formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
-	cout << "ANTES DEL EMIT SENDWIDGET" << endl;
-	emit sendWidget( view );
-	cout << "DESPUES DEL EMIT DE SENDWIDGET" << endl;
+
+	emit sendWidget( scroll, i18n("Add a client") );
 }
 
 void ClientsWidget::delButtonClicked()
 {
-	cout << "del button clicked" << std::endl;
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
 	
 	int opt = KMessageBox::questionYesNo(this, i18n("Are you sure to delete the Client ")+itemp->text(2)+ " ?");
@@ -110,10 +105,6 @@ void ClientsWidget::delButtonClicked()
 
 void ClientsWidget::modifyButtonClicked()
 {
-	
-
-	qDebug("init modifyButtonClicked");
-	
 	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
 	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
