@@ -32,6 +32,8 @@
 #include <qapplication.h>
 #include <qsimplerichtext.h>
 
+#include <cmath>
+
 FormMatchOrder::FormMatchOrder(const QString &tournament, int nround, FormBase::Type t, QWidget *parent)
 	: FormBase(t, parent, "FormMatchOrder"), m_tournament(tournament) ,m_nround(nround)
 {

@@ -27,6 +27,8 @@
 #include <qstylesheet.h>
 #include <qpaintdevicemetrics.h>
 
+#include <cmath> // ceil
+
 #include "klxmlreader.h"
 #include "formquerytournament.h"
 
