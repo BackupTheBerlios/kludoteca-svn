@@ -26,7 +26,6 @@
 #include <klistview.h>
 #include <kpushbutton.h>
 #include <qlayout.h>
-#include <kmdichildview.h>
 
 // Std lib
 #include <iostream>
@@ -38,7 +37,7 @@
 class LTListView;
 
 /**
- * Esta clase es un toolWindow que visualiza los juegos que hay en la ludoteca, esta provee un mecanismo para gestionar los juegos, permite añadir y eliminar los juegos, asi como consultar la información de un juego determinado.
+ * Esta clase es un toolWindow que visualiza los juegos que hay en la ludoteca, esta provee un mecanismo para gestionar los juegos, permite aï¿½dir y eliminar los juegos, asi como consultar la informaciï¿½ de un juego determinado.
  * @short Lista de juegos
  * @author David Cuadrado
 */

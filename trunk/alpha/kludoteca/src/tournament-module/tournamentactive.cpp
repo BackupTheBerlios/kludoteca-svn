@@ -40,10 +40,7 @@ void TournamentActive::addButtonClicked()
 #if DEBUG_TOURNAMENT
 	qDebug("TournamentActive: init addButtonClicked");
 #endif
-	KMdiChildView *view = new KMdiChildView(i18n("Add tournament"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -51,12 +48,12 @@ void TournamentActive::addButtonClicked()
 	connect(formTournament, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 
 	formTournament->setType( FormBase::Add);
-	connect(formTournament, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formTournament, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formTournament, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 
 	scroll->addChild(formTournament);
 	
-	emit sendWidget(view); 
+	emit sendWidget(scroll, i18n("Add tournament")); 
 #if DEBUG_TOURNAMENT
 	qDebug("TournamentActive: end addButtonClicked");
 #endif
@@ -94,11 +91,8 @@ void TournamentActive::modifyButtonClicked()
 {
 	if( ! m_listView->currentItem() )
 		return;
-	
-	KMdiChildView *view = new KMdiChildView(i18n("Add tournament"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -109,13 +103,13 @@ void TournamentActive::modifyButtonClicked()
 	formTournament->setGame( m_listView->currentItem()->text(1));
 
 
-	connect(formTournament, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formTournament, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formTournament, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 
 	scroll->addChild(formTournament);
 	
 	
-	emit sendWidget(view); 
+	emit sendWidget(scroll,i18n("Add tournament")); 
 }
 
 void TournamentActive::queryButtonClicked()
@@ -129,23 +123,20 @@ void TournamentActive::queryButtonClicked()
 	
 	if( tname.isEmpty() || tname.isNull())
 		return;
-	
-	KMdiChildView *view = new KMdiChildView(i18n("Query tournament"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
 	FormQueryTournament* formQueryTournament = new FormQueryTournament(tname ,scroll->viewport() );
 
 	formQueryTournament->setType( FormBase::Add);
-	connect(formQueryTournament, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formQueryTournament, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formQueryTournament, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 
 	scroll->addChild(formQueryTournament);
 	
-	emit sendWidget(view); 
+	emit sendWidget(scroll,i18n("Query tournament")); 
 }
 
 void TournamentActive::fillList()

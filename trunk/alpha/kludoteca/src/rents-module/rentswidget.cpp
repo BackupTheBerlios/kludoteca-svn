@@ -87,11 +87,8 @@ void RentsWidget::getClickedItem(QListViewItem *item)
 void RentsWidget::addButtonClicked()
 {
 	std::cout << "Add button clicked" << std::endl;
-	
-	KMdiChildView *view = new KMdiChildView(i18n("Add rent"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	FormAdminRents *formAdminRents = new FormAdminRents(FormBase::Add,scroll->viewport() );
 	scroll->addChild(formAdminRents);
@@ -105,12 +102,12 @@ void RentsWidget::addButtonClicked()
 
 	formAdminRents->setType( FormBase::Add);
 		
-	connect(formAdminRents, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminRents, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formAdminRents, SIGNAL(inserted(const QStringList& )), this, SLOT(addItem( const QStringList& )));
 	connect( formAdminRents, SIGNAL( sendTimer(RentsTimer* )), this ,SLOT( addRentsTimer(RentsTimer* ) ) );
 	
 	
-	emit sendWidget( view );
+	emit sendWidget( scroll, i18n("Add rent"));
 }
 
 void RentsWidget::delButtonClicked()
@@ -134,11 +131,7 @@ void RentsWidget::delButtonClicked()
 
 void RentsWidget::modifyButtonClicked()
 {
-	cout << "modify button clicked" << std::endl;
-	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -180,7 +173,7 @@ void RentsWidget::modifyButtonClicked()
 	KLSqlResults results = m_xmlreader.results();
 	
 	formAdminRents->setType( FormBase::Edit );
-	connect(formAdminRents, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminRents, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formAdminRents, SIGNAL(inserted(const QStringList& )), this, SLOT(updateItem(const QStringList &)));
 	
 	formAdminRents->disabledSlider(true);
@@ -206,17 +199,14 @@ void RentsWidget::modifyButtonClicked()
 	formAdminRents->setTitle(i18n("Admin Rents"));
 	formAdminRents->setExplanation(i18n("Modify the fields with the Rent information"));
 	
-	emit sendWidget(view);
+	emit sendWidget(scroll,i18n("Modify user"));
 }
 
 void RentsWidget::queryButtonClicked()
 {
 	cout << "query button clicked" << std::endl;
 	
-	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-	
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -232,7 +222,7 @@ void RentsWidget::queryButtonClicked()
 						scroll->viewport() );
 	
 	scroll->addChild(queryRent);
-	emit sendWidget(view);
+	emit sendWidget(scroll,i18n("Report test"));
 	
 }
 
@@ -304,10 +294,7 @@ void RentsWidget::slotFilter(const QString &filter)
 
 void RentsWidget::slotTimer()
 {
-	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-	
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -315,10 +302,10 @@ void RentsWidget::slotTimer()
 	
 	formRentsDebts->setupButtons( FormBase::AcceptButton, FormBase::CancelButton);
 	/**
-	 * TODO: meter un objeto de la clase RentsDebt
+	 * @TODO: meter un objeto de la clase RentsDebt
 	 *
 	 */
-	emit sendWidget(view);
+	emit sendWidget(scroll, i18n("Report test"));
 
 	/** JUEGO MAS ALKILADO EN UN DIA
 	*

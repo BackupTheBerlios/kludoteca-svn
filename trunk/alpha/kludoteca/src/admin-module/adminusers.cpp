@@ -61,10 +61,7 @@ void AdminUsers::addButtonClicked()
 #if DEBUG_ADMINUSERS
 	qDebug("init addButtonClicked");
 #endif
-	KMdiChildView *view = new KMdiChildView(i18n("Add user"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -72,7 +69,7 @@ void AdminUsers::addButtonClicked()
 	connect(formAdminUsers, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 
 	formAdminUsers->setType( FormBase::Add);
-	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminUsers, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formAdminUsers, SIGNAL(inserted(const QString& )), this, SLOT(addItem( const QString& )));
 
 	scroll->addChild(formAdminUsers);
@@ -81,7 +78,7 @@ void AdminUsers::addButtonClicked()
 	formAdminUsers->setTitle(i18n("Admin User"));
 	formAdminUsers->setExplanation(i18n("Fill the fields with the user information"));
 	
-	emit sendWidget(view); 
+	emit sendWidget(scroll,i18n("Add user")); 
 #if DEBUG_ADMINUSERS
 	qDebug("end addButtonClicked");
 #endif
@@ -115,10 +112,7 @@ void AdminUsers::modifyButtonClicked()
 #if DEBUG_ADMINUSERS
 	qDebug("init modifyButtonClicked");
 #endif
-	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -155,7 +149,7 @@ void AdminUsers::modifyButtonClicked()
 	formAdminUsers->setGenre( results["genre"]);
 	
 	formAdminUsers->setType( FormBase::Edit );
-	connect(formAdminUsers, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminUsers, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formAdminUsers, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
 
 	scroll->addChild(formAdminUsers);
@@ -165,7 +159,7 @@ void AdminUsers::modifyButtonClicked()
 	formAdminUsers->setTitle(i18n("Admin User"));
 	formAdminUsers->setExplanation(i18n("Modify the fields with the user information"));
 	
-	emit sendWidget(view);
+	emit sendWidget(scroll,i18n("Modify user"));
 #if DEBUG_ADMINUSERS
 	qDebug("end addButtonClicked");
 #endif

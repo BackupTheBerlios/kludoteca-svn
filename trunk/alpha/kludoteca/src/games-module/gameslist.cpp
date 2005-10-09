@@ -76,21 +76,20 @@ void GamesList::addButtonClicked()
 	qDebug("init addButtonClicked");
 #endif
 	cout << "Add button clicked" << std::endl;
-	KMdiChildView *view = new KMdiChildView(i18n("Add game"), this );
 	
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	FormAdminGame *formAdminGame = new FormAdminGame(FormBase::Add, scroll->viewport() );
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->addChild(formAdminGame);
 	formAdminGame->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	formAdminGame->setTitle(i18n("Admin game"));
 	formAdminGame->setExplanation(i18n("fill the fields for add a new game"));
-	connect(formAdminGame, SIGNAL(cancelled()), view, SLOT(close()));
+	
+	connect(formAdminGame, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formAdminGame, SIGNAL(inserted(const QString& )), this, SLOT(addItem(const QString &)));
 	connect(formAdminGame, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
-	emit sendWidget(view);
+	
+	emit sendWidget(scroll, i18n("Add Game"));
 	
 // 	addItem( formAdminGame->getReferenceGame() );	
 	
@@ -126,12 +125,8 @@ void GamesList::modifyButtonClicked()
 #endif
 	cout << "modify button clicked" << std::endl;
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
-	
-	KMdiChildView *view = new KMdiChildView(i18n("Modify game"), this );
-	
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	FormAdminGame *formAdminGame = new FormAdminGame( FormBase::Edit, scroll->viewport() );
 	scroll->addChild(formAdminGame);
@@ -140,11 +135,11 @@ void GamesList::modifyButtonClicked()
 	formAdminGame->setExplanation(i18n("Change the fields for modify the game"));
 	formAdminGame->formModify(itemp->text(0));
 	
-	connect(formAdminGame, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminGame, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formAdminGame, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
 	connect(formAdminGame, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
-	emit sendWidget(view);
+	emit sendWidget(scroll, i18n("Modify game"));
 
 #if DEBUG_GAMESLIST
 	qDebug("end modifyButtonClicked");

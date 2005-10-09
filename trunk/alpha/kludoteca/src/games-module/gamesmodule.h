@@ -20,14 +20,14 @@
 #ifndef GAMESMODULE_H
 #define GAMESMODULE_H
 
-#include <kmdichildview.h>
+#include <qvbox.h>
 
 /**
  * Esta clase contiene el widget principal del modulo de juegos
  * @short Widget principal de Games-Module
  * @author David Cuadrado
 */
-class GamesModule : public KMdiChildView
+class GamesModule : public QVBox
 {
 	Q_OBJECT
 	public:
@@ -38,7 +38,7 @@ class GamesModule : public KMdiChildView
 		 * @param f 
 		 * @return 
 		 */
-		GamesModule(QWidget *parentWidget=0L, const char *name=0L, WFlags f=0);
+		GamesModule(QWidget *parentWidget=0L, const char *name=0L);
 		/**
 		 * Destructor
 		 * @return 

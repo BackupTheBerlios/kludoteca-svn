@@ -25,7 +25,6 @@
 #include <qhbuttongroup.h>
 #include <kpushbutton.h>
 #include <klistview.h>
-#include <kmdichildview.h> // TODO: delete me
 #include <ktoolbar.h>
 #include <qtimer.h>
 #include <kmessagebox.h>
@@ -50,13 +49,14 @@ class ClickLineEdit;
  * 
  * xButtonClicked(): Las acciones que se realizan cuando el boton @b x fue clickeado
  * 
- * y se debe crear el signal que se llame sendWidget(KMdiChildView *), la idea es conectar este signal al slot addModulePage(KMdiChildView *), y pasar el widget construido para ponerlo como vista en la ventana principal.
+ * y se debe crear el signal que se llame sendWidget(QWidget *w, const QString &title), la idea es conectar este signal al slot addWidget(QWidget *w, const QString &title), y pasar el widget construido para ponerlo como vista en la ventana principal.
  * 
  * @short Clase base para listas.
  * @author David Cuadrado
  * @todo 
  * - Agregar una forma de a�dir titulo e hijos
 */
+
 class LTListView : public QVBox
 {
 	Q_OBJECT
@@ -158,11 +158,6 @@ class LTListView : public QVBox
 		 * @param  
 		 */
 		virtual void message2osd(const QString &); //= 0;
-		
-		/**
-		 * Este signal envia el widget para ser puesto en la ventana principal
-		 */
-		virtual void sendWidget(KMdiChildView *); //= 0;
 		
 		virtual void sendWidget(QWidget *widget, const QString &title);
 	

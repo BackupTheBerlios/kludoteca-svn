@@ -29,7 +29,6 @@
 #include <kmainwindow.h>
 #include <kmdimainfrm.h>
 #include <qlabel.h>
-#include <kmdichildview.h>
 #include <klocale.h>
 #include <qlayout.h>
 #include <kiconloader.h>
@@ -61,7 +60,6 @@ class KPrinter;
 class KToggleAction;
 
 class GamesModule;
-class KMdiToolViewAccessorPrivate;
 
 /**
  * Esta clase representa la ventana principal de KLudoteca. Aqui manejamos los toolbars, menus y demas interfaces.
@@ -170,11 +168,6 @@ class KLudoteca : public DMainWindow
 		void setFullScreen();
 		
 		/**
-		 * Esta funcion a�de una pagina de modulo
-		 */
-		void addModulePage(KMdiChildView *view);
-		
-		/**
 		 * Esta funcion muestra un mensaje utilizando el OSDWidget
 		 */
 		void showNotice(const QString &message);
@@ -233,7 +226,6 @@ class KLudoteca : public DMainWindow
 		RentsModule *m_rentsModule;
 		
 		OSDWidget *m_osd;
-// 		QValueList<KMdiToolViewAccessor*> m_toolWindows;
 		
 		ValidateUser *m_userValidator;
 };

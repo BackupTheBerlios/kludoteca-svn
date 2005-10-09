@@ -138,10 +138,7 @@ void RoundList::addButtonClicked()
 	
 	// La idea de este bloque es seguir una secuencia de rondas
 	
-	KMdiChildView *view = new KMdiChildView(i18n("Add matchs to %1").arg(tname), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -150,7 +147,7 @@ void RoundList::addButtonClicked()
 	
  	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
-	connect(formMatchs, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formMatchs, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formMatchs, SIGNAL(accepted()), this, SIGNAL(tournamentModified()));
 
 	scroll->addChild(formMatchs);
@@ -159,7 +156,7 @@ void RoundList::addButtonClicked()
 	formMatchs->setTitle(i18n("Manage %1 matchs for the %2 round").arg(tname).arg(roundNumber));
 	formMatchs->setExplanation(i18n("Fill the fields with the match's results"));
 	
-	emit sendWidget(view);
+	emit sendWidget(scroll, i18n("Add matchs to %1").arg(tname));
 }
 
 void RoundList::delButtonClicked()
@@ -193,10 +190,7 @@ void RoundList::modifyButtonClicked()
 		roundNumber = le->childCount();
 	}
 	
-	KMdiChildView *view = new KMdiChildView(i18n("Update matchs to %1").arg(tname), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -204,13 +198,13 @@ void RoundList::modifyButtonClicked()
 	
 // 	connect(formMatchs, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
-	connect(formMatchs, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formMatchs, SIGNAL(cancelled()), scroll, SLOT(close()));
 // 	connect(formMatchs, SIGNAL(accepted()), this, SLOT(fillList()));
 
 	scroll->addChild(formMatchs);
 	formMatchs->setupButtons( FormBase::AcceptButton, FormBase::CancelButton );
 	
-	emit sendWidget(view);
+	emit sendWidget(scroll, i18n("Update matchs to %1").arg(tname));
 }
 
 void RoundList::queryButtonClicked()

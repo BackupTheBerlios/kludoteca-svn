@@ -105,10 +105,7 @@ void ClientsWidget::delButtonClicked()
 
 void ClientsWidget::modifyButtonClicked()
 {
-	KMdiChildView *view = new KMdiChildView(i18n("Modify user"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -191,7 +188,7 @@ void ClientsWidget::modifyButtonClicked()
 	//formAdminClients->setFriendLineEdits(friendFields,resultsRef);
 	
 	formAdminClients->setType( FormBase::Edit );
-	connect(formAdminClients, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formAdminClients, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formAdminClients, SIGNAL(inserted(const QString& )), this, SLOT(updateItem(const QString &)));
 
 	scroll->addChild(formAdminClients);
@@ -201,7 +198,7 @@ void ClientsWidget::modifyButtonClicked()
 	formAdminClients->setTitle(i18n("Admin Clients"));
 	formAdminClients->setExplanation(i18n("Modify the fields with the Clients an his personal reference information"));
 	
-	emit sendWidget(view);
+	emit sendWidget(scroll,i18n("Modify user"));
 }
 
 void ClientsWidget::queryButtonClicked()

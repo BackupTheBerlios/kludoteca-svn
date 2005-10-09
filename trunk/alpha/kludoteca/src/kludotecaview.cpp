@@ -458,35 +458,30 @@ void KLMainPage::addTournament(const QString &name)
 {
 	if ( klperm->activeTournamentModule() )
 	{
-		KMdiChildView *view = new KMdiChildView(i18n("Add tournament") );
-		( new QVBoxLayout( view ) )->setAutoAdd( true );
-	
-		QScrollView *scroll = new QScrollView(view);
+		QScrollView *scroll = new QScrollView(0);
 		scroll->setResizePolicy(QScrollView::AutoOneFit);
 		FormTournament *formAdminTournament = new FormTournament(FormBase::Add , scroll->viewport() );
 		
-		connect(formAdminTournament, SIGNAL(cancelled()), view, SLOT(close()));
+		connect(formAdminTournament, SIGNAL(cancelled()), scroll, SLOT(close()));
 		
 		scroll->addChild(formAdminTournament);
 	
 		formAdminTournament->setTitle(i18n("Add a tournament"));
 		formAdminTournament->setExplanation(i18n("Fill the fields with the new tournament information"));
 		
-		emit sendWidget(view);
+		emit sendWidget(scroll, i18n("Add tournament") );
 	}
 	else
+	{
 		KMessageBox::error(0, i18n("You doesn't have permissions to add tournaments, sorry!"));
-		
+	}
 }
 
-void KLMainPage::addClient()
+void KLMainPage::addClient() // FIXME: remove duplicate code
 {
 	if ( klperm->activeClientsModule() )
 	{
-		KMdiChildView *view = new KMdiChildView(i18n("Add client") );
-		( new QVBoxLayout( view ) )->setAutoAdd( true );
-	
-		QScrollView *scroll = new QScrollView(view);
+		QScrollView *scroll = new QScrollView(0);
 		scroll->setResizePolicy(QScrollView::AutoOneFit);
 		FormAdminClients *formAdminClients = new FormAdminClients( FormBase::Add, scroll->viewport() );
 		scroll->addChild(formAdminClients);
@@ -496,10 +491,12 @@ void KLMainPage::addClient()
 		formAdminClients->setTitle(i18n("Admin Clients"));
 		formAdminClients->setExplanation(i18n("Fill the fields with the client information"));
 		
-		emit sendWidget( view );
+		emit sendWidget( scroll, i18n("Add Client") );
 	}
 	else
+	{
 		KMessageBox::error(0, i18n("You doesn't have permissions to add clients, sorry!"));
+	}
 }
 
 #include <iostream>
@@ -574,17 +571,9 @@ void KLMainPage::urlSelected( const QString &url, int button, int state, const Q
  *        KLudotecaView      *
 *****************************/
 
-KLudotecaView::KLudotecaView(const QString &caption, QWidget *parentWidget, const char *name, WFlags f) : KMdiChildView(caption, parentWidget, name, f), DCOPObject("KLudotecaIface")
-{
-	QHBoxLayout *top_layout = new QHBoxLayout(this);
-	top_layout->setAutoAdd(true);
-	
+KLudotecaView::KLudotecaView(const QString &caption, QWidget *parentWidget, const char *name, WFlags f) : QHBox(caption, parentWidget, name, f), DCOPObject("KLudotecaIface")
+{	
 	m_mainPage = new KLMainPage(this, "MainView", this, "MainPage");
-	
-	//m_label = new QLabel( i18n( "<h1>KLudoteca 0.1</h1><br> <p>Esta aplicacion esta diseñada para la comoda administracion de una ludoteca, es un programa robusto, sencillo y potente, ademas su codigo esta disponible para ser descargado gracias a que se libera bajo la licencia <b><a href=\"http://www.gnu.org\">GNU/GPL</a></b></p><br><br><center><h1>Si esta aplicacion no es terminada, no sera culpa de la ambicion de uno, sino de la mediocridad de todos.</h1></center><br><br><center><h4>CetiSoft (C) 2005</h4></center>" ), this );
-	
-	//QLabel *icon = new QLabel( this );
-	//icon->setPixmap(QPixmap( locate("data", "kludoteca/icons/klicon.png" )) );
 }
 
 KLudotecaView::~KLudotecaView()

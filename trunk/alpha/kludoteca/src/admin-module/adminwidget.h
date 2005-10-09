@@ -26,7 +26,7 @@
 #include "adminlogs.h"
 
 /**
- * Esta clase contiene el modulo de administración
+ * Esta clase contiene el modulo de administraciï¿½
  * @short Modulo de administrador
  * @author David Cuadrado
 */
@@ -49,7 +49,7 @@ class AdminWidget : public LTToolBox
 		/**
 		 * Este signal envia el widget para er puesto en la ventana principal
 		 */
-		void sendWidget(KMdiChildView *);
+		void sendWidget(QWidget *, const QString &title);
 		
 		void message2osd(const QString &);
 		

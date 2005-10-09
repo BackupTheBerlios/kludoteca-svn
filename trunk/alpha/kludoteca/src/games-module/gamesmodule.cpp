@@ -20,8 +20,8 @@
 
 #include "gamesmodule.h"
 
-GamesModule::GamesModule(QWidget *parentWidget, const char *name, WFlags f)
- : KMdiChildView("Games", parentWidget, name, f)
+GamesModule::GamesModule(QWidget *parentWidget, const char *name)
+ : QVBox(parentWidget, name)
 {
 }
 

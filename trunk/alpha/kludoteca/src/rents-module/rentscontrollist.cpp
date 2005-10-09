@@ -116,10 +116,7 @@ RentsControlList::~RentsControlList()
 }
 void RentsControlList::addButtonClicked()
 {
-	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-	
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(scroll);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(50);
 	/*
@@ -176,7 +173,7 @@ void RentsControlList::addButtonClicked()
 	
 	scroll->addChild(reporteRenta);
 		
-	emit sendWidget(view);
+	emit sendWidget(scroll,i18n("Report test"));
 
 }
 void RentsControlList::delButtonClicked(){}
@@ -190,16 +187,14 @@ void RentsControlList::queryButtonClicked()
 	QString month = m_comboM->currentText();
 	QString day = m_comboD->currentText();
 	cout << "fecha a check: " << year+month+day << endl;
-	KMdiChildView *view = new KMdiChildView(i18n("Report test"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
 	
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(50);
 	/*
 	*/
 	
-	KLReportWidget *reporteRenta = new KLReportWidget(scroll->viewport());
+	KLReportWidget *reporteRenta = new KLReportWidget(scroll->viewport()); // FIXME: IN ENGLISH!!!!!!!!!!!!!!
 
 	ElementVector m_elements;
 	m_elements.resize(12);
@@ -250,7 +245,7 @@ void RentsControlList::queryButtonClicked()
 	
 	scroll->addChild(reporteRenta);
 		
-	emit sendWidget(view);
+	emit sendWidget(scroll,i18n("Report test"));
 
 	
 }

@@ -60,23 +60,20 @@ void TournamentOld::queryButtonClicked()
 	
 	if( tname.isEmpty() || tname.isNull())
 		return;
-	
-	KMdiChildView *view = new KMdiChildView(i18n("Query tournament"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
 
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
 	FormQueryTournament* formQueryTournament = new FormQueryTournament(tname ,scroll->viewport() );
 
 	formQueryTournament->setType( FormBase::Add);
-	connect(formQueryTournament, SIGNAL(cancelled()), view, SLOT(close()));
-	connect(formQueryTournament, SIGNAL(accepted()), view, SLOT(close()));
+	connect(formQueryTournament, SIGNAL(cancelled()), scroll, SLOT(close()));
+	connect(formQueryTournament, SIGNAL(accepted()), scroll, SLOT(close()));
 
 	scroll->addChild(formQueryTournament);
 	
-	emit sendWidget(view); 
+	emit sendWidget(scroll,i18n("Query tournament")); 
 #if DEBUG_TOURNAMENTOLD
 	qDebug("TournamentOld: end addButtonClicked");
 #endif

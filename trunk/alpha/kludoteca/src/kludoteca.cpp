@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "kludoteca.h" 
+#include "kludoteca.h"
 #include "pref.h"
 
 #include <qdragobject.h>
@@ -76,8 +76,6 @@ KLudoteca::KLudoteca() : DMainWindow( 0, "KLudoteca-main"), m_printer(0), m_chil
 	m_userValidator = new ValidateUser(this, "UserValidator");
 	
 	LOGGER->log(i18n("Application initialized"));
-	
-// 	setTabWidgetVisibility (KMdi::AlwaysShowTabs );
 	
 // 	KToolBar *bar = new KToolBar( tabWidget() );
 // 	KAction *closeCurrentTab = new KAction(bar);
@@ -161,11 +159,6 @@ void KLudoteca::generateEnterpriseInfo()
 	LOGGER->log(i18n("Open enterprise %1").arg(results["name"]), KLLogger::Inf);
 }
 
-void KLudoteca::addModulePage(KMdiChildView *view)
-{
-	addWidget(view, view->name() );
-}
-
 void KLudoteca::setFullScreen()
 {
 	if ( ! this->isFullScreen() )
@@ -180,9 +173,9 @@ void KLudoteca::setupToolWindows()
 	
 	// Add the main view!
 	m_view = new KLudotecaView(i18n("Welcome"), this);
-	connect(m_view->mainPage(), SIGNAL(sendWidget(KMdiChildView* )) , this, SLOT(addModulePage(KMdiChildView* )));
+	connect(m_view->mainPage(), SIGNAL(sendWidget(QWidget*, const QString & )) , this, SLOT(addWidget(QWidget*, const QString & )));
 	// tell the KMainWindow that this is indeed the main widget
-// 	setCentralWidget(m_view);
+
 	addWidget(m_view, i18n("Welcome") );
 	
 	// Add the admin module
@@ -200,7 +193,7 @@ void KLudoteca::setupToolWindows()
 			if ( o )
 			{
 				LTListView *itempTmp = static_cast<LTListView*>(o);
-				connect(itempTmp, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+				connect(itempTmp, SIGNAL(sendWidget(QWidget*, const QString& )), this, SLOT(addWidget(QWidget*, const QString& )));
 				connect(itempTmp,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 				itempTmp->fillList();
 			}
@@ -230,7 +223,7 @@ void KLudoteca::setupToolWindows()
 		m_gamesList->setDatabase(KLDM);
 		m_gamesList->fillList();
 		
-		connect(m_gamesList, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		connect(m_gamesList, SIGNAL(sendWidget(QWidget*, const QString&  )), this, SLOT(addWidget(QWidget*, const QString& )));
 		connect(m_gamesList, SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 		
 // 		m_toolWindows << addToolWindow( m_gamesList, KDockWidget::DockLeft, getMainDockWidget() );
@@ -241,7 +234,7 @@ void KLudoteca::setupToolWindows()
 	if ( klperm->activeRentsModule() )
 	{	
 		m_rentsModule = new RentsModule(this);
-		connect(m_rentsModule, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		connect(m_rentsModule, SIGNAL(sendWidget(QWidget*, const QString& )), this, SLOT(addWidget(QWidget*, const QString& )));
 		m_rentsModule->setIcon( QPixmap(  locate("data", "kludoteca/icons/rentsicon.png" )) );
 // 		m_toolWindows << addToolWindow( m_rentsModule, KDockWidget::DockLeft, getMainDockWidget() );
 		toolWindow(DDockWindow::Left)->addWidget(i18n("Rents"), m_rentsModule);
@@ -252,7 +245,7 @@ void KLudoteca::setupToolWindows()
 		{
 			LTListView *ltlv = static_cast<LTListView *>( listViews.at(i) );
 			
-			connect(ltlv, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+			connect(ltlv, SIGNAL(sendWidget(QWidget*, const QString& )), this, SLOT(addWidget(QWidget*, const QString& )));
 		
 			connect(ltlv,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 		
@@ -265,7 +258,7 @@ void KLudoteca::setupToolWindows()
 	if ( klperm->activeTournamentModule() )
 	{
 		m_tournamentWidget = new TournamentWidget(this);
-		connect(m_tournamentWidget, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+		connect(m_tournamentWidget, SIGNAL(sendWidget(QWidget*, const QString& )), this, SLOT(addWidget(QWidget*, const QString&  )));
 		
 		m_tournamentWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/tournamenticon.png" )) );
 		
@@ -278,7 +271,7 @@ void KLudoteca::setupToolWindows()
 		{
 			LTListView *ltlv = static_cast<LTListView *>( listViews.at(i) );
 			
-			connect(ltlv, SIGNAL(sendWidget(KMdiChildView* )), this, SLOT(addModulePage(KMdiChildView* )));
+			connect(ltlv, SIGNAL(sendWidget(QWidget*, const QString&  )), this, SLOT(addWidget(QWidget*, const QString&  )));
 		
 			connect(ltlv,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
 		

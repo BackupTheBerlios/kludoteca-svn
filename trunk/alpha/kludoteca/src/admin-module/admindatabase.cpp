@@ -230,8 +230,8 @@ void AdminDatabase::queryButtonClicked()
 {
 	if ( ! m_listView->currentItem() )
 		return;
-	KMdiChildView *view = new KMdiChildView(i18n("View dump"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
+	
+	QVBox *widget = new QVBox(this);
 
 	KTrader::OfferList offers = KTrader::self()->query("text/plain", "'KParts/ReadOnlyPart' in ServiceTypes");
 	
@@ -244,7 +244,7 @@ void AdminDatabase::queryButtonClicked()
 		factory = KLibLoader::self()->factory( ptr->library() );
 		if (factory)
 		{
-			m_part = static_cast<KParts::ReadOnlyPart *>(factory->create(view, ptr->name(), "KParts::ReadOnlyPart"));
+			m_part = static_cast<KParts::ReadOnlyPart *>(factory->create(widget, ptr->name(), "KParts::ReadOnlyPart"));
 			m_part->openURL("file://"+m_dumpDir->absPath()+"/"+m_listView->getText(0)+".sql");
 			break;
 		}
@@ -256,7 +256,7 @@ void AdminDatabase::queryButtonClicked()
 		return;
 	}
 	
-	emit sendWidget(view); 
+	emit sendWidget(widget,i18n("View dump")); 
 }
 
 void AdminDatabase::addItem(const QString &pkey)

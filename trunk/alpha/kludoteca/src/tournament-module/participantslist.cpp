@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "participantslist.h"
 #include <klocale.h>
 
@@ -100,12 +101,8 @@ void ParticipantsList::addButtonClicked()
 	
 	std::cout << "Adicionando participantes torneo: " << tname << std::endl;
 	
-	
 
-	KMdiChildView *view = new KMdiChildView(i18n("Add participants to %1").arg(tname), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
-
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -113,7 +110,7 @@ void ParticipantsList::addButtonClicked()
 	formParticipantsList->fillTableInformation();
 	connect(formParticipantsList, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	
-	connect(formParticipantsList, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(formParticipantsList, SIGNAL(cancelled()), scroll, SLOT(close()));
 	connect(formParticipantsList, SIGNAL(accepted()), this, SIGNAL(tournamentModified()));
 
 	scroll->addChild(formParticipantsList);
@@ -122,7 +119,7 @@ void ParticipantsList::addButtonClicked()
 	formParticipantsList->setTitle(i18n("Admin %1 Participants").arg(tname));
 	formParticipantsList->setExplanation(i18n("Fill the fields with the participants information"));
 	
-	emit sendWidget(view); 
+	emit sendWidget(scroll, i18n("Add participants to %1").arg(tname)); 
 }
 
 void ParticipantsList::delButtonClicked()
@@ -149,11 +146,8 @@ void ParticipantsList::queryButtonClicked()
 	QString tname = le->text(0);
 	if ( tname.isNull() )
 		tname = le->parent()->text(0);
-
-	KMdiChildView *view = new KMdiChildView(i18n("Gamers reports"), this );
-	( new QVBoxLayout( view ) )->setAutoAdd( true );
 	
-	QScrollView *scroll = new QScrollView(view);
+	QScrollView *scroll = new QScrollView(this);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 
@@ -187,11 +181,11 @@ void ParticipantsList::queryButtonClicked()
 	
 	reportRanks->setXmlReport(xmlreport);
 	
-	connect(reportRanks, SIGNAL(cancelled()), view, SLOT(close()));
+	connect(reportRanks, SIGNAL(cancelled()), scroll, SLOT(close()));
 	
 	scroll->addChild(reportRanks);
 		
-	emit sendWidget(view); 
+	emit sendWidget(scroll,i18n("Gamers reports")); 
 }
 
 void ParticipantsList::addItem(const QString &pkey)
@@ -250,7 +244,7 @@ void ParticipantsList::slotFilter(const QString &filter)
 		
 			QStringList participants = m_xmlreader.getResultsList();
 		
-			std::cout << "Tamaño participantes: " << participants.count() << std::endl;
+			std::cout << "Tamaï¿½ participantes: " << participants.count() << std::endl;
 			for (uint j = 0; j < participants.count(); j+=2)
 			{
 				std::cout << "Adicionando: " << participants[j] << std::endl;

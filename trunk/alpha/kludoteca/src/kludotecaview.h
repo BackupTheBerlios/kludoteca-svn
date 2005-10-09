@@ -22,7 +22,7 @@
 #ifndef _KLUDOTECAVIEW_H_
 #define _KLUDOTECAVIEW_H_
 
-#include <kmdichildview.h>
+#include <qhbox.h>
 #include <qlabel.h>
 #include <khtml_part.h>
 #include "kldatabase.h"
@@ -88,7 +88,7 @@ class KLMainPageFactory //: public KParts::Factory
 };
 
 /**
- * Este es el widget que contiene la pagina principal de la aplicación.
+ * Este es el widget que contiene la pagina principal de la aplicaciï¿½.
  * @b NOTA: Esta clase esta basada en KonqAboutPage del proyecto Konqueror
  * 
  * @short Pagina principal
@@ -140,12 +140,12 @@ class KLMainPage : public KHTMLPart
 		virtual void restoreState( QDataStream &stream );
 		
 		/**
-		 * Abre el formulario para añadir torneos
+		 * Abre el formulario para aï¿½dir torneos
 		 * @param name 
 		 */
 		void addTournament(const QString &name = QString::null);
 		/**
-		 * Abre el formulario para añadir clientes
+		 * Abre el formulario para aï¿½dir clientes
 		 */
 		void addClient();
 
@@ -165,7 +165,7 @@ class KLMainPage : public KHTMLPart
 		 * Envia el widget para ponerlo en la interfaz
 		 * @param  
 		 */
-		void sendWidget(KMdiChildView *);
+		void sendWidget(QWidget *, const QString &title);
 		
 	private:
 		/**
@@ -190,7 +190,7 @@ class QPainter;
  * @author David Cuadrado \<krawek@gmail.com\>
  * @version 0.1
  */
-class KLudotecaView : public KMdiChildView, public KLudotecaIface
+class KLudotecaView : public QHBox, public KLudotecaIface
 {
     	Q_OBJECT
 	public:
