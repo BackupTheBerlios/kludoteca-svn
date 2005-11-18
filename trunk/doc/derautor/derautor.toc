@@ -1,0 +1,23 @@
+\beamer@endinputifotherversion {3.01pt}
+\select@language {spanish}
+\beamer@sectionintoc {2}{Introduccion}{3}{0}{1}
+\beamer@subsectionintoc {2}{1}{Que son los derechos de autor?}{4}{0}{1}
+\beamer@subsectionintoc {2}{2}{Un poco de historia}{5}{0}{1}
+\beamer@sectionintoc {3}{Derechos de autor}{6}{0}{2}
+\beamer@subsectionintoc {3}{1}{Derechos patrimoniales}{7}{0}{2}
+\beamer@subsectionintoc {3}{2}{Derechos morales}{8}{0}{2}
+\beamer@subsectionintoc {3}{3}{Derechos de autor sobre el software}{9}{0}{2}
+\beamer@sectionintoc {4}{Legislacion Colombiana sobre derechos de autor}{10}{0}{3}
+\beamer@subsectionintoc {4}{1}{Que leyes nos rigen?}{11}{0}{3}
+\beamer@sectionintoc {5}{Licencias}{12}{0}{4}
+\beamer@subsectionintoc {5}{1}{Que son las licencias?}{13}{0}{4}
+\beamer@subsectionintoc {5}{2}{tipos licencias}{14}{0}{4}
+\beamer@subsectionintoc {5}{3}{"Pirateria" de software}{15}{0}{4}
+\beamer@subsectionintoc {5}{4}{Clasificacion}{16}{0}{4}
+\beamer@subsectionintoc {5}{5}{Dos ejemplos concretos}{17}{0}{4}
+\beamer@sectionintoc {6}{Patentes}{18}{0}{5}
+\beamer@subsectionintoc {6}{1}{Que son las patentes?}{19}{0}{5}
+\beamer@subsectionintoc {6}{2}{Patentes vs Derechos de autor}{20}{0}{5}
+\beamer@subsectionintoc {6}{3}{Porque son nocivas las patentes}{21}{0}{5}
+\beamer@sectionintoc {7}{Bibliografia}{22}{0}{6}
+\beamer@subsectionintoc {7}{1}{Bibliografia}{22}{0}{6}
