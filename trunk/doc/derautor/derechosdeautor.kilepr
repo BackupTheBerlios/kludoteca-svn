@@ -14,10 +14,10 @@ QuickBuild=
 
 [item:derautor.tex]
 archive=true
-column=0
+column=20
 encoding=ISO 8859-15
 highlight=LaTeX
-line=9
+line=21
 open=true
 
 [item:derechosdeautor.kilepr]
