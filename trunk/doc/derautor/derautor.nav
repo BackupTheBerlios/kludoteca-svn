@@ -45,42 +45,48 @@
 \headcommand {\slideentry {5}{0}{2}{12/12}{}{0}}
 \headcommand {\beamer@framepages {12}{12}}
 \headcommand {\beamer@subsectionpages {12}{12}}
-\headcommand {\slideentry {5}{1}{1}{13/13}{Que son las licencias?}{0}}
+\headcommand {\slideentry {5}{1}{1}{13/13}{Tipos Licencias}{0}}
 \headcommand {\beamer@framepages {13}{13}}
 \headcommand {\beamer@subsectionpages {13}{13}}
-\headcommand {\slideentry {5}{2}{1}{14/14}{tipos licencias}{0}}
+\headcommand {\slideentry {5}{2}{1}{14/14}{Clasificacion}{0}}
 \headcommand {\beamer@framepages {14}{14}}
 \headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\slideentry {5}{3}{1}{15/15}{"Pirateria" de software}{0}}
+\headcommand {\slideentry {5}{3}{1}{15/15}{Esquema}{0}}
 \headcommand {\beamer@framepages {15}{15}}
 \headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\slideentry {5}{4}{1}{16/16}{Clasificacion}{0}}
+\headcommand {\slideentry {5}{4}{1}{16/16}{Tres ejemplos concretos}{0}}
 \headcommand {\beamer@framepages {16}{16}}
 \headcommand {\beamer@subsectionpages {16}{16}}
-\headcommand {\slideentry {5}{5}{1}{17/17}{Dos ejemplos concretos}{0}}
+\headcommand {\slideentry {5}{5}{1}{17/17}{MS-EULA (End User Licence Agreement}{0}}
 \headcommand {\beamer@framepages {17}{17}}
-\headcommand {\sectionentry {6}{Patentes}{18}{Patentes}{0}}
-\headcommand {\beamer@sectionpages {12}{17}}
 \headcommand {\beamer@subsectionpages {17}{17}}
-\headcommand {\slideentry {6}{0}{2}{18/18}{}{0}}
+\headcommand {\slideentry {5}{6}{1}{18/18}{Licencia GPL}{0}}
 \headcommand {\beamer@framepages {18}{18}}
 \headcommand {\beamer@subsectionpages {18}{18}}
-\headcommand {\slideentry {6}{1}{1}{19/19}{Que son las patentes?}{0}}
+\headcommand {\slideentry {5}{7}{1}{19/19}{Licencia BSD}{0}}
 \headcommand {\beamer@framepages {19}{19}}
+\headcommand {\sectionentry {6}{Patentes}{20}{Patentes}{0}}
+\headcommand {\beamer@sectionpages {12}{19}}
 \headcommand {\beamer@subsectionpages {19}{19}}
-\headcommand {\slideentry {6}{2}{1}{20/20}{Patentes vs Derechos de autor}{0}}
+\headcommand {\slideentry {6}{0}{2}{20/20}{}{0}}
 \headcommand {\beamer@framepages {20}{20}}
 \headcommand {\beamer@subsectionpages {20}{20}}
-\headcommand {\slideentry {6}{3}{1}{21/21}{Porque son nocivas las patentes}{0}}
+\headcommand {\slideentry {6}{1}{1}{21/21}{Que son las patentes?}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\sectionentry {7}{Bibliografia}{22}{Bibliografia}{0}}
-\headcommand {\beamer@sectionpages {18}{21}}
 \headcommand {\beamer@subsectionpages {21}{21}}
-\headcommand {\beamer@subsectionpages {22}{21}}
-\headcommand {\slideentry {7}{1}{1}{22/22}{Bibliografia}{0}}
+\headcommand {\slideentry {6}{2}{1}{22/22}{Patentes vs Derechos de autor}{0}}
 \headcommand {\beamer@framepages {22}{22}}
-\headcommand {\beamer@partpages {1}{22}}
 \headcommand {\beamer@subsectionpages {22}{22}}
-\headcommand {\beamer@sectionpages {22}{22}}
-\headcommand {\beamer@documentpages {22}}
-\headcommand {\def \inserttotalframenumber {22}}
+\headcommand {\slideentry {6}{3}{1}{23/23}{Porque son nocivas las patentes}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\sectionentry {7}{Bibliografia}{24}{Bibliografia}{0}}
+\headcommand {\beamer@sectionpages {20}{23}}
+\headcommand {\beamer@subsectionpages {23}{23}}
+\headcommand {\beamer@subsectionpages {24}{23}}
+\headcommand {\slideentry {7}{1}{1}{24/24}{Bibliografia}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\beamer@partpages {1}{24}}
+\headcommand {\beamer@subsectionpages {24}{24}}
+\headcommand {\beamer@sectionpages {24}{24}}
+\headcommand {\beamer@documentpages {24}}
+\headcommand {\def \inserttotalframenumber {24}}
