@@ -1,7 +1,7 @@
 [General]
 img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
-lastDocument=
+lastDocument=file:///home/krawek/Materias/ds2/derautor/derautor.tex
 masterDocument=
 name=Derechos de Autor
 pkg_extIsRegExp=false
@@ -13,21 +13,13 @@ src_extensions=.tex .ltx .bib .mp
 MakeIndex=
 QuickBuild=
 
-[item:../../category.png]
-archive=true
-column=136135936
-encoding=
-highlight=
-line=0
-open=false
-
 [item:derautor.tex]
 archive=true
-column=6
-encoding=ISO 8859-1
+column=0
+encoding=ISO 8859-15
 highlight=LaTeX
-line=14
-open=false
+line=30
+open=true
 
 [item:derechosdeautor.kilepr]
 archive=true
