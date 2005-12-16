@@ -22,6 +22,8 @@
 #include <klocale.h>
 #include <iostream>
 
+KLDatabase *KLDatabase::m_instance = 0;
+
 KLDatabase::KLDatabase(QObject *parent) : QSqlDatabase("QPSQL7", "KLudoteca", parent  ), lastIsBad(false)
 {
 }
@@ -29,16 +31,16 @@ KLDatabase::KLDatabase(QObject *parent) : QSqlDatabase("QPSQL7", "KLudoteca", pa
 
 KLDatabase::~KLDatabase()
 {
+	if( m_instance ) delete m_instance;
 }
 
 KLDatabase *KLDatabase::instance()
 {
-	static KLDatabase *skdb = new KLDatabase;
-	
-// 	if ( !skdb->isOpen() )
-// 		skdb->open();
-	
-	return skdb;
+	if ( m_instance == 0 )
+	{
+		m_instance = new KLDatabase;
+	}
+	return m_instance;
 }
 
 // TODO: devolveremos un documento XML con la consulta, para hacer consultas a bajo nivel utilizar exec(consulta).

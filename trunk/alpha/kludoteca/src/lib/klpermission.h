@@ -30,13 +30,14 @@ class KLPermission;
 */
 class KLPermission
 {
-	public:
+	protected:
 		KLPermission();
 		~KLPermission();
-		void string2perms(const QString &str);
 		
+	public:
 		static KLPermission* instance();
 		
+		void string2perms(const QString &str);
 		bool activeAdminModule();
 		bool activeClientsModule();
 		bool activeGamesModule();
@@ -44,6 +45,7 @@ class KLPermission
 		bool activeRentsModule();
 		
 	private:
+		static KLPermission *m_instance;
 		QString strperms;
 		bool m_activeAdminModule;
 		bool m_activeClientsModule;

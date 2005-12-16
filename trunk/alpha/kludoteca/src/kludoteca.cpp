@@ -220,7 +220,6 @@ void KLudoteca::setupToolWindows()
 	{
 		m_gamesList = new GamesList(LTListView::ButtonAdd, LTListView::ButtonDel, LTListView::ButtonModify, LTListView::ButtonQuery, this);
 		m_gamesList->setIcon( QPixmap(  locate("data", "kludoteca/icons/gamesicon.png" )) );
-		m_gamesList->setDatabase(KLDM);
 		m_gamesList->fillList();
 		
 		connect(m_gamesList, SIGNAL(sendWidget(QWidget*, const QString&  )), this, SLOT(addWidget(QWidget*, const QString& )));

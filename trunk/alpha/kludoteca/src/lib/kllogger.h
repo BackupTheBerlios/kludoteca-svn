@@ -35,11 +35,11 @@ class KLLogger;
 class KLLogger : public QObject
 {
 	Q_OBJECT	
-	public:
-		enum LogType { Err, Warn, Crit, Inf };
-		
+	protected:
 		KLLogger();
 		~KLLogger();
+	public:
+		enum LogType { Err, Warn, Crit, Inf };
 		
 		void setFile(const QString &filename);
 		static KLLogger *instance();
@@ -48,6 +48,7 @@ class KLLogger : public QObject
 		QString getFilePath();
 
 	private:
+		static KLLogger *m_instance;
 		QFile *m_file;
 };
 

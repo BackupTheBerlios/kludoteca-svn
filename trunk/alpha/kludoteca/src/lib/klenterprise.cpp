@@ -17,7 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "klenterprise.h"
+
+KLEnterprise *KLEnterprise::m_instance = 0;
 
 KLEnterprise::KLEnterprise(QObject *parent, const char *name)
  : QObject(parent, name)
@@ -27,13 +30,16 @@ KLEnterprise::KLEnterprise(QObject *parent, const char *name)
 
 KLEnterprise::~KLEnterprise()
 {
+	if( m_instance ) delete m_instance;
 }
 
 KLEnterprise *KLEnterprise::instance()
 {
-	static KLEnterprise *skdb = new KLEnterprise;
-	
-	return skdb;
+	if ( m_instance == 0 )
+	{
+		m_instance = new KLEnterprise;
+	}
+	return m_instance;
 }
 
 

@@ -86,11 +86,6 @@ class LTListView : public QVBox
 		KListView *getListView();
 		
 		/**
-		 * Pone la base de datos
-		 */
-		void setDatabase(KLDatabase *db);
-		
-		/**
 		 * Esta funcion crea la lista
 		 */
 		void makeList(QStringList colsText);

@@ -38,7 +38,7 @@ class KLDatabase;
 class KLDatabase : public QSqlDatabase
 {
 	Q_OBJECT
-	public:
+	protected:
     		/**
     		 * Constructor
     		 * @param parent 
@@ -52,6 +52,7 @@ class KLDatabase : public QSqlDatabase
     		 */
     		~KLDatabase();
 		
+	public:
 		static KLDatabase *instance();
 		
 		/**
@@ -150,6 +151,7 @@ class KLDatabase : public QSqlDatabase
 		void execRawQuery(const QString &sql);
 		
 	private:
+		static KLDatabase *m_instance;
 		bool lastIsBad; 
 		QString m_lastError;
 };

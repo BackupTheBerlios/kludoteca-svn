@@ -21,6 +21,8 @@
 #include "klpermission.h"
 #include <iostream>
 
+KLPermission *KLPermission::m_instance = 0;
+
 KLPermission::KLPermission()
 {
 }
@@ -28,12 +30,16 @@ KLPermission::KLPermission()
 
 KLPermission::~KLPermission()
 {
+	if( m_instance ) delete m_instance;
 }
 
 KLPermission *KLPermission::instance()
 {
-	static KLPermission *inst = new KLPermission;
-	return inst;
+	if ( m_instance == 0 )
+	{
+		m_instance = new KLPermission;
+	}
+	return m_instance;
 }
 
 void KLPermission::string2perms(const QString &str)

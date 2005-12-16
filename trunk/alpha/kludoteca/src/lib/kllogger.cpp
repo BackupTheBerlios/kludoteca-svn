@@ -21,19 +21,25 @@
 #include <iostream>
 #include <klocale.h>
 
+KLLogger *KLLogger::m_instance = 0;
+
 KLLogger::KLLogger() : QObject(0, "Logger"), m_file(0)
 {
 }
 
-
 KLLogger::~KLLogger()
 {
+	if( m_instance ) delete m_instance;
+	if ( m_file ) delete m_file;
 }
 
 KLLogger *KLLogger::instance()
 {
-	static KLLogger *inst = new KLLogger;
-	return inst;
+	if ( m_instance == 0 )
+	{
+		m_instance = new KLLogger;
+	}
+	return m_instance;
 }
 
 void KLLogger::setupLogger(const QString &directory, const QString &filename )

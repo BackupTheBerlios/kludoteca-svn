@@ -31,10 +31,11 @@ class KLEnterprise;
 class KLEnterprise : public QObject
 {
 	Q_OBJECT
-	public:
+	protected:
 		KLEnterprise(QObject *parent = 0, const char *name = 0);
 		~KLEnterprise();
 		
+	public:
 		static KLEnterprise *instance();
 		void setName(const QString &);
 		void setNit(const QString &);
@@ -49,6 +50,7 @@ class KLEnterprise : public QObject
 		QString getCity();
 
 	private:
+		static KLEnterprise *m_instance;
 		QString m_name, m_nit, m_phone, m_address, m_city;
 };
 

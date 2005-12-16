@@ -58,25 +58,6 @@ LTListView::~LTListView()
 {
 }
 
-void LTListView::setDatabase(KLDatabase *db)
-{
-#warning "Por favor no use esta funcion, use KLDM en su lugar"
-	qDebug(QString("%1:%2 Por favor no use esta funcion, use KLDM en su lugar").arg(__FILE__).arg(__LINE__));
-	if ( db )
-	{
-		m_db = db;
-	}
-	else
-	{
-		m_db = new KLDatabase(this);
-	}
-	
-	if ( ! m_db->open() )
-	{
-		qDebug("La base de datos no pudo abrirse!!");
-	}
-}
-
 void LTListView::makeList(QStringList colsText)
 {
 	m_listView = new KLListView(this);
