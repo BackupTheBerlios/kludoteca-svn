@@ -88,7 +88,7 @@ void RentsWidget::addButtonClicked()
 {
 	std::cout << "Add button clicked" << std::endl;
 
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	FormAdminRents *formAdminRents = new FormAdminRents(FormBase::Add,scroll->viewport() );
 	scroll->addChild(formAdminRents);
@@ -131,7 +131,7 @@ void RentsWidget::delButtonClicked()
 
 void RentsWidget::modifyButtonClicked()
 {
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	

@@ -61,7 +61,7 @@ void AdminUsers::addButtonClicked()
 #if DEBUG_ADMINUSERS
 	qDebug("init addButtonClicked");
 #endif
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -112,7 +112,7 @@ void AdminUsers::modifyButtonClicked()
 #if DEBUG_ADMINUSERS
 	qDebug("init modifyButtonClicked");
 #endif
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	

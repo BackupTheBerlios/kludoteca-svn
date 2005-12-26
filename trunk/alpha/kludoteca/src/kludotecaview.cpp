@@ -458,7 +458,7 @@ void KLMainPage::addTournament(const QString &name)
 {
 	if ( klperm->activeTournamentModule() )
 	{
-		QScrollView *scroll = new QScrollView(0);
+		QScrollView *scroll = new QScrollView(0, 0, Qt::WDestructiveClose);
 		scroll->setResizePolicy(QScrollView::AutoOneFit);
 		FormTournament *formAdminTournament = new FormTournament(FormBase::Add , scroll->viewport() );
 		

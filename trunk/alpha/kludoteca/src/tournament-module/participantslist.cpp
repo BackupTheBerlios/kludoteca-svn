@@ -102,7 +102,7 @@ void ParticipantsList::addButtonClicked()
 	std::cout << "Adicionando participantes torneo: " << tname << std::endl;
 	
 
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -147,7 +147,7 @@ void ParticipantsList::queryButtonClicked()
 	if ( tname.isNull() )
 		tname = le->parent()->text(0);
 	
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 

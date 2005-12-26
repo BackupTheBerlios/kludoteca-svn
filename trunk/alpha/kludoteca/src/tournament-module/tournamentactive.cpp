@@ -40,7 +40,7 @@ void TournamentActive::addButtonClicked()
 #if DEBUG_TOURNAMENT
 	qDebug("TournamentActive: init addButtonClicked");
 #endif
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -92,7 +92,7 @@ void TournamentActive::modifyButtonClicked()
 	if( ! m_listView->currentItem() )
 		return;
 
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -124,7 +124,7 @@ void TournamentActive::queryButtonClicked()
 	if( tname.isEmpty() || tname.isNull())
 		return;
 
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	

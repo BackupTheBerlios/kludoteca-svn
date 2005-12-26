@@ -77,7 +77,7 @@ void GamesList::addButtonClicked()
 #endif
 	cout << "Add button clicked" << std::endl;
 	
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	FormAdminGame *formAdminGame = new FormAdminGame(FormBase::Add, scroll->viewport() );
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->addChild(formAdminGame);
@@ -126,7 +126,7 @@ void GamesList::modifyButtonClicked()
 	cout << "modify button clicked" << std::endl;
 	KListViewItem *itemp = static_cast<KListViewItem*>(m_listView->currentItem());
 
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	FormAdminGame *formAdminGame = new FormAdminGame( FormBase::Edit, scroll->viewport() );
 	scroll->addChild(formAdminGame);

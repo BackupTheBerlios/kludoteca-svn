@@ -61,7 +61,7 @@ void TournamentOld::queryButtonClicked()
 	if( tname.isEmpty() || tname.isNull())
 		return;
 
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	

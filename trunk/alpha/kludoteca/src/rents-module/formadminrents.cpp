@@ -22,6 +22,7 @@
 #include <iostream>
 #include "rentstimer.h"
 #include <kmessagebox.h>
+
 using namespace std;
 
 FormAdminRents::FormAdminRents(FormBase::Type t, QWidget* parent): FormBase(t, parent)
@@ -39,7 +40,7 @@ void FormAdminRents::setupForm()
 	m_scrollView = new QScrollView(this);
 	m_container = new QFrame(m_scrollView->viewport());
 	m_scrollView->addChild(m_container, m_scrollView->viewport()->x() / 2,
-					m_scrollView->viewport()->y() / 2 );
+			       m_scrollView->viewport()->y() / 2 );
 	m_scrollView->setResizePolicy( QScrollView::AutoOneFit);
 	m_container->setLineWidth(5);
 	m_container->setMidLineWidth(20);
@@ -98,14 +99,14 @@ void FormAdminRents::setupBox()
 	m_gameTable = new KLTable(0,9,m_gamegb);
 	m_gameTable->setReadOnly(true);
 	m_gameTable->setColumnLabels(QStringList() << i18n("Reference")
-						<< i18n("Name")
-						<< i18n("Description")
-						<< i18n("Rules")
-						<< i18n("Mingamers")
-						<< i18n("Maxgamers")
-						<< i18n("Type")
-						<< i18n("Value for Unit")
-						<< i18n("Value for Aditional Unit") );
+			<< i18n("Name")
+			<< i18n("Description")
+			<< i18n("Rules")
+			<< i18n("Mingamers")
+			<< i18n("Maxgamers")
+			<< i18n("Type")
+			<< i18n("Value for Unit")
+			<< i18n("Value for Aditional Unit") );
 	
 	
 
@@ -168,7 +169,7 @@ void FormAdminRents::setupBox()
 	connect( m_cltTable, SIGNAL( clicked(int,int,int,const QPoint&)  ) , this , SLOT(clickedItemClte(int, int) ) );
 	connect( m_gameTable, SIGNAL( clicked(int,int,int,const QPoint&)  ) , this , SLOT(clickedItemGame(int, int) ) );
 	
- 	QHBox *activeInfo = new QHBox(m_rentInfogb);
+	QHBox *activeInfo = new QHBox(m_rentInfogb);
 // 	QLabel *active = new QLabel(i18n("Active"),activeInfo);
 // 	m_active = new KLineEdit(activeInfo);
 	(new QLabel(i18n("Active"),activeInfo));
@@ -202,9 +203,9 @@ void FormAdminRents::setupButtonsBox()
 void FormAdminRents::accept()
 { 
 	if ( !validateFields()) 
-        {                       
-                return;         
-        }
+	{                       
+		return;         
+	}
 	
 	switch( getType() )
 	{
@@ -212,13 +213,13 @@ void FormAdminRents::accept()
 		{
 			
 			KLInsert insertQuery("ldt_rents",QStringList() << SQLSTR(getCltId())
-									<< SQLSTR(getGameSerial())
-									<< SQLSTR(getSystemDateTime())
-									<< SQLSTR(getHourValue())
-									<< SQLSTR(getAddHourValue())
-									<< SQLSTR(getSystemDate())
-									<< SQLSTR(getCostOfRent())
-									<< SQLSTR(getActiveValue()) );
+					<< SQLSTR(getGameSerial())
+							<< SQLSTR(getSystemDateTime())
+							<< SQLSTR(getHourValue())
+							<< SQLSTR(getAddHourValue())
+							<< SQLSTR(getSystemDate())
+							<< SQLSTR(getCostOfRent())
+							<< SQLSTR(getActiveValue()) );
 			KLResultSet resultSet = KLDM->execQuery(&insertQuery);
 			m_xmlsource.setData(resultSet.toString());
 			if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
@@ -331,9 +332,9 @@ void FormAdminRents::clean()
 void FormAdminRents::setCltTable()
 {
 	KLSelect query(QStringList() << "docident"
-					<< "firstname"
-					<< "lastname"
-					,QStringList() << "ldt_clients_view");
+			<< "firstname"
+			<< "lastname"
+			,QStringList() << "ldt_clients_view");
 
 	KLResultSet resultSet = KLDM->execQuery(&query);	
 	
@@ -357,14 +358,14 @@ void FormAdminRents::setCltTable()
 void FormAdminRents::setGameTable()
 {
 	KLSelect query(QStringList() << "serialreference"
-					<<"gamename"
-					<< "description"
-					<< "rules"
-					<< "mingamers"
-					<< "maxgamers"
-					<< "gametype"
-					<< "costforunit"
-					<< "costforunitadd"
+			<<"gamename"
+			<< "description"
+			<< "rules"
+			<< "mingamers"
+			<< "maxgamers"
+			<< "gametype"
+			<< "costforunit"
+			<< "costforunitadd"
 			,QStringList() << "ldt_games");
 	query.setWhere("available='t'");
 	KLResultSet resultSet = KLDM->execQuery(&query);	
@@ -382,14 +383,14 @@ void FormAdminRents::setGameTable()
 	for(uint i = 0; i < results.count() / 9; i++)
 	{
 		QStringList data = QStringList() << results[count++] 
-						<< results[count++]
-						<< results[count++] 
-						<< results[count++]
-						<< results[count++] 
-						<< results[count++]
-						<< results[count++] 
-						<< results[count++]
-						<< results[count++];
+				<< results[count++]
+				<< results[count++] 
+				<< results[count++]
+				<< results[count++] 
+				<< results[count++]
+				<< results[count++] 
+				<< results[count++]
+				<< results[count++];
 		m_gameTable->insertRowData(data);
 	}
 			
@@ -398,39 +399,39 @@ void FormAdminRents::setGameTable()
 
 void FormAdminRents::clickedItemClte(int row,int col)
 {
-		selectedClteRow = row;
-		QTableItem *itemId = m_cltTable->item(row,0);
-		QTableItem *itemName = m_cltTable->item(row,1);
+	selectedClteRow = row;
+	QTableItem *itemId = m_cltTable->item(row,0);
+	QTableItem *itemName = m_cltTable->item(row,1);
 		
 		
-		if(itemId)
-			m_cltId->setText((QString)itemId->text());
+	if(itemId)
+		m_cltId->setText((QString)itemId->text());
 		
-		if(itemName)
-			m_cltName->setText((QString)itemName->text());
+	if(itemName)
+		m_cltName->setText((QString)itemName->text());
 		
 }	
 
 void FormAdminRents::clickedItemGame(int row,int col)
 {
-		selectedGameRow = row;
-		QTableItem *itemId = m_gameTable->item(row,0);
-		QTableItem *itemName = m_gameTable->item(row,1);
+	selectedGameRow = row;
+	QTableItem *itemId = m_gameTable->item(row,0);
+	QTableItem *itemName = m_gameTable->item(row,1);
 		
-		QTableItem *costforunit = m_gameTable->item(row,7);
-		QTableItem *costforunitadd = m_gameTable->item(row,8);
+	QTableItem *costforunit = m_gameTable->item(row,7);
+	QTableItem *costforunitadd = m_gameTable->item(row,8);
 		
-		if(costforunit)
-			m_costForUnit = (QString)costforunit->text();
+	if(costforunit)
+		m_costForUnit = (QString)costforunit->text();
 		
-		if(costforunit)
-			m_costForUnitAdd = (QString)costforunitadd->text();
+	if(costforunit)
+		m_costForUnitAdd = (QString)costforunitadd->text();
 		
-		if(itemId)
-			m_gameSerial->setText((QString)itemId->text());
+	if(itemId)
+		m_gameSerial->setText((QString)itemId->text());
 		
-		if(itemName)
-			m_gameName->setText((QString)itemName->text());
+	if(itemName)
+		m_gameName->setText((QString)itemName->text());
 		
 }	
 
@@ -472,8 +473,8 @@ void FormAdminRents::setAddUnits(int value)
 	switch(getType())
 	{
 			
-		case FormBase::Add:
-		{*/
+	case FormBase::Add:
+	{*/
 	
 	if (sliderCount >= 1)
 	{
@@ -554,7 +555,7 @@ void FormAdminRents::setCltId(const QString &id)
 void FormAdminRents::setHourValue(const QString &value)
 {
 
-		m_hourValue->setText(value);
+	m_hourValue->setText(value);
 }
 
 void FormAdminRents::setAddHourValue(const QString &value)
@@ -666,13 +667,13 @@ bool FormAdminRents::validateFields()
 		errors += i18n("<li>Bad units field</li>");
 	}
 	
-	getGameSerial().toInt(&convertion);
-	ok = ok && convertion;
-	
-	if ( !convertion)
-	{
-		errors += i18n("<li>Bad game serial field</li>");
-	}
+// 	getGameSerial().toInt(&convertion);
+// 	ok = ok && convertion;
+// 	
+// 	if ( !convertion)
+// 	{
+// 		errors += i18n("<li>Bad game serial field</li>");
+// 	}
 	
 	getCostOfRent().toInt(&convertion);
 	if ( !convertion)

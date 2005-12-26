@@ -43,13 +43,14 @@ public:
     If @p widget is null then only tab is created.*/
     virtual void addWidget(DTabWidget *tab, QWidget *widget, const QString &title);
     /**Removes widget. Does not delete it.*/
-    virtual void removeWidget(QWidget *widget);
     void removeAll();
     
 public slots:
+	virtual void removeWidget(QWidget *widget);
 	virtual void addWidget(QWidget *widget, const QString &title);
     DTabWidget *splitHorizontal();
     DTabWidget *splitVertical();
+    
     
 protected slots:
     /**This does nothing. Reimplement in subclass to close the tab 

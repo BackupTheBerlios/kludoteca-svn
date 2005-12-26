@@ -85,6 +85,7 @@ class ClientsWidget : public LTListView
 		 */
 		void addItem(const QString &pkey);
 		void updateItem(const QString &pkey);
+		
 };
 
 #endif

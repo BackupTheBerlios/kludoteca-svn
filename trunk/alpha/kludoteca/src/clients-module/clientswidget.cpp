@@ -65,7 +65,7 @@ void ClientsWidget::addButtonClicked()
 {
 	cout << "Add button clicked" << endl;
 	
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	
 	FormAdminClients *formAdminClients = new FormAdminClients(FormBase::Add, scroll->viewport() );
@@ -74,6 +74,7 @@ void ClientsWidget::addButtonClicked()
 	
 	connect(formAdminClients, SIGNAL(message2osd(const QString& )) , this, SIGNAL(message2osd(const QString& )));
 	connect(formAdminClients, SIGNAL(cancelled()), scroll, SLOT(close()));
+	
 
 	formAdminClients->setType( FormBase::Add);
 	
@@ -105,7 +106,7 @@ void ClientsWidget::delButtonClicked()
 
 void ClientsWidget::modifyButtonClicked()
 {
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	

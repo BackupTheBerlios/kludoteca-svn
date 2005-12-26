@@ -155,6 +155,7 @@ class LTListView : public QVBox
 		virtual void message2osd(const QString &); //= 0;
 		
 		virtual void sendWidget(QWidget *widget, const QString &title);
+		void closeWidget(QWidget *widget);
 	
 	private:
 		QHButtonGroup *m_buttons;

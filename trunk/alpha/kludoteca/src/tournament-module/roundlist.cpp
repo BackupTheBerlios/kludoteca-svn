@@ -138,7 +138,7 @@ void RoundList::addButtonClicked()
 	
 	// La idea de este bloque es seguir una secuencia de rondas
 	
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
@@ -190,7 +190,7 @@ void RoundList::modifyButtonClicked()
 		roundNumber = le->childCount();
 	}
 	
-	QScrollView *scroll = new QScrollView(this);
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(10);
 	
