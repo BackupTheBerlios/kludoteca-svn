@@ -20,7 +20,7 @@
 #include "rentstimer.h"
 #include <kdebug.h>
 
-RentsTimer::RentsTimer(const QStringList &rentInfo,int units,TimeUnit tu): QTimer(),m_rentInfo(rentInfo)
+RentsTimer::RentsTimer(const RentInfo &rentInfo,int units,TimeUnit tu): QTimer(),m_rentInfo(rentInfo)
 {
 	kdDebug() << "Timer: Units " << units << " TimeUnits "<< tu << endl;;
 	switch (tu)
@@ -60,7 +60,7 @@ void RentsTimer::emitActivated()
 	emit activated();
 }
 
-QStringList RentsTimer::getRentInfo()  const
+RentInfo RentsTimer::getRentInfo()  const
 {
 	return m_rentInfo;
 }

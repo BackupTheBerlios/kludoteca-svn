@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "rentscontrollist.h"
 #include <klocale.h>
 #include <iostream>
@@ -37,8 +38,8 @@ RentsControlList::RentsControlList(Button button1,
 {
 	setCaption(i18n("Rents"));
 	
-	m_listView->setTitle(i18n("Active Rents"));
-	m_listView->setExplain(i18n("Please click in the \"Add\" button for create a new Rent"));
+	m_listView->setTitle(i18n("Timeout Rents"));
+// 	m_listView->setExplain(i18n("Please click in the \"Add\" button for create a new Rent"));
 	(new QLabel(i18n("Choose a year,month and day for make a rents report"),this));
 	QHBox *dateBox = new QHBox(this);
 	dateBox->setMargin(10);
@@ -63,7 +64,7 @@ RentsControlList::RentsControlList(Button button1,
 	
 	
 	/*************************************/
-	(new QLabel(i18n("Chose a Week for make a rents report"),this));
+	(new QLabel(i18n("Choose a Week for make a rents report"),this));
 	QHBox *dateBoxr2 = new QHBox(this);
 	(new QLabel(i18n("Year"),dateBoxr2));
 	m_comboYB = new KComboBox(false,dateBoxr2,"comboY");
@@ -88,7 +89,7 @@ RentsControlList::RentsControlList(Button button1,
 	m_comboDE->setInsertionPolicy(KComboBox::NoInsertion);
 	for(uint i = 1; i < 32; i++)	
 		m_comboDE->insertItem(QString::number(i,10));
-	(new QLabel(i18n("Chose a Game"),this));
+	(new QLabel(i18n("Choose a Game"),this));
 	m_comboGames = new KComboBox(false,this,"combogame");
 	m_comboGames->setInsertionPolicy(KComboBox::NoInsertion);
 	
@@ -118,20 +119,22 @@ RentsControlList::RentsControlList(Button button1,
 RentsControlList::~RentsControlList()
 {
 }
+
 void RentsControlList::addButtonClicked()
 {
-	QScrollView *scroll = new QScrollView(scroll);
+	kdDebug() << k_funcinfo << endl;
+	QScrollView *scroll = new QScrollView(this, 0, Qt::WDestructiveClose);
 	scroll->setResizePolicy(QScrollView::AutoOneFit);
 	scroll->setMargin(50);
 	/*
 	*/
+	
 	
 	QString year = m_comboYB->currentText();
 	QString month = m_comboMB->currentText();
 	QString daybegin = m_comboDB->currentText();
 	QString dayend = m_comboDE->currentText();
 	QString serial = m_comboGames->currentText();
-	
 	
 	KLReportWidget *rentReport = new KLReportWidget(scroll->viewport());
 
@@ -157,6 +160,7 @@ void RentsControlList::addButtonClicked()
 	QStringList results = m_xmlreader.getResultsList();
 	
 	KLXmlReport xmlreport("Reporte estadistico de dia de la semana con mas afluencia para determinado juego", "Cetisoft", "00-6", KLXmlReport::PIE );
+	
 	bool ok = 0;
 	int count = 0;
 	for ( int i = 0; i < results.count() / 2; ++i )
@@ -173,6 +177,7 @@ void RentsControlList::addButtonClicked()
 	
 	rentReport->getKLCanvasView()->setElements(m_elements);
 	rentReport->setXmlReport(xmlreport);
+	
 // 	FormReportRents *reporte = new FormReportRents(FormBase::Query,this);
 	
 	scroll->addChild(rentReport);
@@ -198,7 +203,7 @@ void RentsControlList::queryButtonClicked()
 	/*
 	*/
 	
-	KLReportWidget *rentReport = new KLReportWidget(scroll->viewport()); // FIXME: IN ENGLISH!!!!!!!!!!!!!!
+	KLReportWidget *rentReport = new KLReportWidget(scroll->viewport());
 
 	ElementVector m_elements;
 	m_elements.resize(12);
@@ -212,9 +217,9 @@ void RentsControlList::queryButtonClicked()
 	/*select date ,gameserialreference,count(gameserialreference) as veces from ldt_rents where date between '2005-06-06' and '2005-06-09' and gameserialreference='001' group by date,gameserialreference;
 	*/
 	KLDM->execRawQuery("drop view R1");
-	KLDM->execRawQuery("CREATE VIEW R1 AS (SELECT max(gameserialreference) as game,count(gameserialreference) as veces from ldt_rents where date="+SQLSTR(year+"-"+month+"-"+day)+" group by gameserialreference having count(gameserialreference) >= 1)");
+	KLDM->execRawQuery("CREATE VIEW R1 AS (SELECT max(gameserialreference) as game,count(gameserialreference) as times from ldt_rents where date="+SQLSTR(year+"-"+month+"-"+day)+" group by gameserialreference having count(gameserialreference) >= 1)");
 	
-	KLSelect query(QStringList() <<"veces" << "game",
+	KLSelect query(QStringList() <<"times" << "game",
 			QStringList() << "R1");
 	//query.setWhere("date='2005-06-7'group by gameserialreference having count(gameserialreference) >= 1");
 	
@@ -263,9 +268,7 @@ qDebug("RentsCONTROLLISTt: filling List");
 					<< "renthour",
 			QStringList() << "ldt_rents");
 			
-	sqlquery.setWhere("active = 't'");
-	 
-	
+	sqlquery.setWhere("active='t'");
 	
 	KLResultSet resultSet = KLDM->execQuery(&sqlquery);
 	 
@@ -274,6 +277,8 @@ qDebug("RentsCONTROLLISTt: filling List");
 	{
 		std::cout << "No se pudo analizar!!!" << std::endl;
 	}
+	
+	
 }
 
 void RentsControlList::addRentsTimer(RentsTimer *rt)
@@ -282,7 +287,7 @@ void RentsControlList::addRentsTimer(RentsTimer *rt)
 	m_listRentsTimer.append(rt);
 	kdDebug() << "RT:size: " << m_listRentsTimer.count() << endl;
 	
-	QStringList rtId = rt->getRentInfo();
+	RentInfo rtId = rt->getRentInfo();
 	
 	/*KLSelect query(QStringList() << "units",QStringList() << "ldt_rents");
 	query.setWhere("gameserialreference="+SQLSTR(rtId[0])+" and");
@@ -301,7 +306,7 @@ void RentsControlList::addRentsTimer(RentsTimer *rt)
 	int msec = m_timerResults["units"]
 	rtemp->start(30000,FALSE);*/
 	connect( rt ,SIGNAL( activated() ), this , SLOT( checkRentsTimer() ) );
-	addItem(rtId);
+// 	addItem(rtId);
 			
 	/*
 	cout << "serial: "<< (tr->getId())[0] 
@@ -317,13 +322,15 @@ void RentsControlList::checkRentsTimer()
 	if ( ! rt )
 		return;
 	
-	QStringList rentInfo = rt->getRentInfo();
+	RentInfo rentInfo = rt->getRentInfo();
 	
 	QString msg = i18n("Time out!\n");
-	msg += i18n("Game: %1\n").arg(rentInfo[0]);
-	msg += i18n("Client: %1\n").arg(rentInfo[2]);
+	msg += i18n("Game: %1\n").arg(rentInfo.gameName());
+	msg += i18n("Client: %1\n").arg(rentInfo.clientName());
 	
 	emit message2osd(msg);
+	
+	addItem(rentInfo);
 	
 // 	KLSelect query(QStringList() << "clientdocident"<< "gameserialreference"<<"renthour"
 // 				<<"units"<<"addunits"<<"date"<< "totalcost"<< "active",
@@ -354,9 +361,16 @@ void RentsControlList::checkRentsTimer()
 
 void RentsControlList::addItem(const QStringList &l)
 {
-	m_listView->clear();		
-	//addItem(pkey);
+	m_listView->clear();
 	this->fillList();
+}
+
+void RentsControlList::addItem(const RentInfo &rentInfo)
+{
+// 	i18n("Game Serial") << i18n("Client ID") << i18n("Rent Date") << i18n("Rent Hour"),
+	QStringList list = QStringList() << rentInfo.gameSerial() << rentInfo.clientId() << rentInfo.date() << rentInfo.hour();
+	
+	addItem(list);
 }
 
 void RentsControlList::makeButtons(Button b1,Button b2,Button b3,Button b4)

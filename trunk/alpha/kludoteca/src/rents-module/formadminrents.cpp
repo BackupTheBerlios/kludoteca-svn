@@ -264,7 +264,12 @@ void FormAdminRents::accept()
 					tu = RentsTimer::Hour;
 				}
 				
-				RentsTimer *rt = new RentsTimer(QStringList() << getGameName() << getCltId() << getCltName(), m_timeUnits->value(), tu );
+				RentInfo rentInfo;
+				rentInfo.setGameName(getGameName());
+				rentInfo.setClientId(getCltId());
+				rentInfo.setClientName(getCltName());
+				
+				RentsTimer *rt = new RentsTimer(rentInfo, m_timeUnits->value(), tu );
 				emit sendTimer(rt);
 #endif
 				clean();

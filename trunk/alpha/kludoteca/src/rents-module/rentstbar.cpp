@@ -45,7 +45,7 @@ void RentsTBar::setupTabs()
 					    LTListView::ButtonModify, 
 					    LTListView::ButtonQuery,
 					    this);
-	insertTab(m_controlist, i18n("Active Rents"));
+	insertTab(m_controlist, i18n("TimeOut Rents"));
 	
 	connect(m_rentsWidget, SIGNAL(sendTimer(RentsTimer* )), m_controlist, SLOT(addRentsTimer(RentsTimer* )));
 	connect(m_rentsWidget, SIGNAL( rentModified()),this, SLOT(applyChangesToLists())  );

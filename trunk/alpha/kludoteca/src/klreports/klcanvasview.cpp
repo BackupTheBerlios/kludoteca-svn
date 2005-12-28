@@ -89,6 +89,7 @@ void KLCanvasView::setChartType(int t)
 			break;
 		default:
 			qDebug(QString("\"%1\" is not ChartType").arg(t));
+			m_chartType = PIE;
 			break;
 	}
 }

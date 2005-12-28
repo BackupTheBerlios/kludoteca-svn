@@ -17,42 +17,75 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef RENTSTIMER_H
-#define RENTSTIMER_H
-
-#include <qtimer.h>
-#include <qobject.h>
-#include <qstringlist.h>
-#include <qstring.h>
-#include <qdatetime.h>
-#include "klquery.h"
-#include "klxmlreader.h"
-#include "klresultsetinterpreter.h"
-#include <klresultset.h>
-#include "kldatabase.h"
-
 #include "rentinfo.h"
 
-/**
-@author Daniel Valencia dafevara@gmail.com
-*/
-class RentsTimer : public QTimer
+RentInfo::RentInfo()
 {
-	Q_OBJECT
-	public:
-		enum TimeUnit { Days = 0,Hour, Min};
-		RentsTimer(const RentInfo &rentInfo,int units, TimeUnit tu);
-		~RentsTimer();
-		RentInfo getRentInfo() const;
-		
-	private slots:
-		void emitActivated();
-		
-	signals:
-		void activated();
-		
-	private:
-		RentInfo m_rentInfo;
-};
+}
 
-#endif
+
+RentInfo::~RentInfo()
+{
+}
+
+
+void RentInfo::setClientName(const QString &client)
+{
+	m_clientName = client;
+}
+
+void RentInfo::setClientId(const QString &id)
+{
+	m_clientId = id;
+}
+
+void RentInfo::setGameName(const QString &game)
+{
+	m_gameName = game;
+}
+
+void RentInfo::setGameSerial(const QString &serial)
+{
+	m_gameSerial = serial;
+}
+
+void RentInfo::setDate(const QString &date)
+{
+	m_date = date;
+}
+
+void RentInfo::setHour(const QString &hour)
+{
+	m_hour = hour;
+}
+
+QString RentInfo::clientName() const
+{
+	return m_clientName;
+}
+
+QString RentInfo::clientId() const
+{
+	return m_clientId;
+}
+
+QString RentInfo::gameName() const
+{
+	return m_gameName;
+}
+
+QString RentInfo::gameSerial() const
+{
+	return m_gameSerial;
+}
+
+QString RentInfo::date() const
+{
+	return m_date;
+}
+
+QString RentInfo::hour() const
+{
+	return m_hour;
+}
+

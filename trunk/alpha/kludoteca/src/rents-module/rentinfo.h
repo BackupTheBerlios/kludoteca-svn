@@ -17,42 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef RENTSTIMER_H
-#define RENTSTIMER_H
 
-#include <qtimer.h>
-#include <qobject.h>
-#include <qstringlist.h>
+#ifndef RENTINFO_H
+#define RENTINFO_H
+
 #include <qstring.h>
-#include <qdatetime.h>
-#include "klquery.h"
-#include "klxmlreader.h"
-#include "klresultsetinterpreter.h"
-#include <klresultset.h>
-#include "kldatabase.h"
-
-#include "rentinfo.h"
 
 /**
-@author Daniel Valencia dafevara@gmail.com
+ * @author CetiSoft
 */
-class RentsTimer : public QTimer
+class RentInfo
 {
-	Q_OBJECT
 	public:
-		enum TimeUnit { Days = 0,Hour, Min};
-		RentsTimer(const RentInfo &rentInfo,int units, TimeUnit tu);
-		~RentsTimer();
-		RentInfo getRentInfo() const;
+		RentInfo();
+		~RentInfo();
+		void setClientName(const QString &);
+		void setClientId(const QString &);
+		void setGameName(const QString &);
+		void setGameSerial(const QString &);
+		void setDate(const QString &date);
+		void setHour(const QString &hour);
 		
-	private slots:
-		void emitActivated();
-		
-	signals:
-		void activated();
+		QString clientName() const;
+		QString clientId() const;
+		QString gameName() const;
+		QString gameSerial() const;
+		QString date() const;
+		QString hour() const;
 		
 	private:
-		RentInfo m_rentInfo;
+		QString m_clientName, m_clientId, m_gameName, m_gameSerial, m_date, m_hour;
 };
 
 #endif

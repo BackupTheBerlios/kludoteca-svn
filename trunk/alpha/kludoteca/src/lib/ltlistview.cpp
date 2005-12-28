@@ -28,6 +28,7 @@
 
 LTListView::LTListView(QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0)
 {
+	connect(static_cast<KLResultSetInterpreter *>(m_xmlreader.contentHandler()), SIGNAL(readRecord(QStringList )), this, SLOT(putItems(QStringList )));
 }
 
 LTListView::LTListView(QStringList colsText, Button button1, Button button2, Button button3, Button button4, QWidget *parent, const char *name) : QVBox(parent, name), m_buttonAdd(0), m_buttonDel(0), m_buttonModify(0), m_buttonQuery(0), m_db(0), m_filterText(i18n("Filter here..." ))

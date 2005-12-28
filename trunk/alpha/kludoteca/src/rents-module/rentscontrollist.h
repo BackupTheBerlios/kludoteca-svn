@@ -52,6 +52,7 @@ class RentsControlList : public LTListView
 		void modifyButtonClicked();
 		void getClickedItem(QListViewItem *item);
 		void addItem(const QStringList &l);
+		void addItem(const RentInfo &rentInfo);
 		void makeButtons(Button b1,Button b2,Button b3,Button b4);
 	
 			
