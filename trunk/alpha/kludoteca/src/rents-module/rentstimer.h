@@ -40,16 +40,18 @@ class RentsTimer : public QTimer
 	Q_OBJECT
 	public:
 		enum TimeUnit { Days = 0,Hour, Min};
-		RentsTimer(const QStringList &id,int units, TimeUnit tu);
+		RentsTimer(const QStringList &rentInfo,int units, TimeUnit tu);
 		~RentsTimer();
-		QStringList getId();
+		QStringList getRentInfo() const;
 		
+	private slots:
+		void emitActivated();
+		
+	signals:
+		void activated();
 		
 	private:
-		QStringList m_id;
-		QXmlInputSource m_xmlsource;
-		KLXmlReader m_xmlreader;
-		KLSqlResults m_timerResults;
+		QStringList m_rentInfo;
 };
 
 #endif

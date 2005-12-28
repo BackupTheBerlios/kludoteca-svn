@@ -20,8 +20,19 @@
 #include "formadminrents.h"
 #include <klocale.h>
 #include <iostream>
-#include "rentstimer.h"
 #include <kmessagebox.h>
+#include <qpaintdevicemetrics.h>
+#include <qstylesheet.h>
+
+#include <qapplication.h>
+#include <qsimplerichtext.h>
+
+#include <cmath>
+
+#include "klenterprise.h"
+#include "rentstimer.h"
+
+#include <kdebug.h>
 
 using namespace std;
 
@@ -96,17 +107,17 @@ void FormAdminRents::setupBox()
 	QHBox *gameBox = new QHBox(m_gamegb);
 	QLabel *games = new QLabel(i18n("Available Games"),gameBox);
 	
-	m_gameTable = new KLTable(0,9,m_gamegb);
+	m_gameTable = new KLTable(0,8,m_gamegb);
+	m_gameTable->verticalHeader()->hide();
+	
 	m_gameTable->setReadOnly(true);
 	m_gameTable->setColumnLabels(QStringList() << i18n("Reference")
 			<< i18n("Name")
-			<< i18n("Description")
-			<< i18n("Rules")
-			<< i18n("Mingamers")
-			<< i18n("Maxgamers")
+			<< i18n("Min")
+			<< i18n("Max")
 			<< i18n("Type")
 			<< i18n("Value for Unit")
-			<< i18n("Value for Aditional Unit") );
+			<< i18n("Value for Additional Unit") << i18n("Time units"));
 	
 	
 
@@ -114,6 +125,7 @@ void FormAdminRents::setupBox()
 	QHBox *cltBox = new QHBox(m_cltgb);
 	QLabel *client = new QLabel(i18n("Available Clients"),cltBox);
 	m_cltTable= new KLTable(0,3,m_cltgb);
+	m_cltTable->verticalHeader()->hide();
 	m_cltTable->setReadOnly(true);
 	m_cltTable->setColumnLabels(QStringList() << i18n("Identification") << i18n("Name") << i18n("Last Name"));
 	
@@ -176,8 +188,10 @@ void FormAdminRents::setupBox()
 	QVBox *vboxRButton = new QVBox(activeInfo);
 	
 	m_radioButtons = new QHButtonGroup(vboxRButton);
-	m_rbNotBanned = new QRadioButton(i18n("not"), m_radioButtons);
+	m_rbNotBanned = new QRadioButton(i18n("no"), m_radioButtons);
+	m_radioButtons->insert(m_rbNotBanned, 0);
 	m_rbBanned = new QRadioButton(i18n("yes"), m_radioButtons);
+	m_radioButtons->insert(m_rbBanned, 1);
 	m_rbNotBanned ->setChecked(true);
 	
 	(new QLabel(i18n("Cost of Rent"),m_rentInfogb));
@@ -232,36 +246,45 @@ void FormAdminRents::accept()
 			{
 				emit accepted();
 				emit inserted(QStringList() << getGameSerial() << getSystemDate() << m_time);
+#if 1
+				QString timeUnit = m_gameTable->text(selectedGameRow, 7);
+				
+				RentsTimer::TimeUnit tu;
+				
+				if ( timeUnit == "m" )
+				{
+					tu = RentsTimer::Min;
+				}
+				else if ( timeUnit == "d")
+				{
+					tu = RentsTimer::Days;
+				}
+				else if ( timeUnit == "h")
+				{
+					tu = RentsTimer::Hour;
+				}
+				
+				RentsTimer *rt = new RentsTimer(QStringList() << getGameName() << getCltId() << getCltName(), m_timeUnits->value(), tu );
+				emit sendTimer(rt);
+#endif
 				clean();
 			}
-			
-			/**
-			 * A CONTINUACION SE PROCEDERIA A CREAR EL RENTSTIMER Y MANDARSELO A RENTSWIDGET
-			 * 
-			 */
-// 			bool ok = 0;
-// 			RentsTimer *rt = new RentsTimer(QStringList() << getGameSerial() 
-// 									<< getSystemDate()
-// 									<<getSystemDateTime(),
-// 							//		getHourValue().toInt(&ok,10),
-// 									30000,
-// 									RentsTimer::Hour);
-// 			rt->start(30000,FALSE);
-// 			emit sendTimer(rt);
 		}
 		break;
 		case FormBase::Edit:
 		{
-			
 			QStringList fields, values;
 			QDictIterator<KLineEdit> it( m_hashRentFields);
 			for( ; it.current(); ++it)
 			{
-				if ( it.current()->isModified() )
+				if (it.current() )
 				{
-					std::cout << "adding ." << it.current()->name() << "."<< std::endl;
-					fields << it.current()->name();
-					values << SQLSTR(it.current()->text());
+					if ( it.current()->isModified() )
+					{
+						std::cout << "adding ." << it.current()->name() << "."<< std::endl;
+						fields << it.current()->name();
+						values << SQLSTR(it.current()->text());
+					}
 				}
 			}
 			
@@ -285,17 +308,32 @@ void FormAdminRents::accept()
 					
 			if ( fields.count() == values.count() && fields.count() > 0 )
 			{
-				
 				KLUpdate sqlup("ldt_rents", fields, values);
 				sqlup.setWhere( "ldt_rents.gameserialreference="+SQLSTR(m_setGameSerial)+
 						" and ldt_rents.date="+SQLSTR(m_rentDate)+
 						" and ldt_rents.renthour="+SQLSTR(m_rentHour));
 				
 				KLDM->execQuery(&sqlup);
-				
 				if ( this->lastQueryWasGood() )
 				{
 					emit inserted(QStringList() << getGameSerial() << m_rentDate << m_rentHour);
+					
+					if ( m_radioButtons->selectedId() == 0 )
+					{
+						int res = KMessageBox::questionYesNo(this, i18n("Do you want print rent report?"), i18n("Print report"));
+						
+						if ( res == KMessageBox::Yes )
+						{
+							KPrinter *m_printer = new KPrinter;
+							if (m_printer->setup(this))
+							{
+								QPainter p;
+								p.begin(m_printer);
+								
+								printReport(&p, *m_printer);
+							}
+						}
+					}
 				}
 			}
 			
@@ -359,13 +397,11 @@ void FormAdminRents::setGameTable()
 {
 	KLSelect query(QStringList() << "serialreference"
 			<<"gamename"
-			<< "description"
-			<< "rules"
 			<< "mingamers"
 			<< "maxgamers"
 			<< "gametype"
 			<< "costforunit"
-			<< "costforunitadd"
+			<< "costforunitadd" << "timeunit"
 			,QStringList() << "ldt_games");
 	query.setWhere("available='t'");
 	KLResultSet resultSet = KLDM->execQuery(&query);	
@@ -380,7 +416,7 @@ void FormAdminRents::setGameTable()
 	QStringList results = m_xmlreader.getResultsList();
 	
 	int count = 0;
-	for(uint i = 0; i < results.count() / 9; i++)
+	for(uint i = 0; i < results.count() / 8; i++)
 	{
 		QStringList data = QStringList() << results[count++] 
 				<< results[count++]
@@ -388,7 +424,6 @@ void FormAdminRents::setGameTable()
 				<< results[count++]
 				<< results[count++] 
 				<< results[count++]
-				<< results[count++] 
 				<< results[count++]
 				<< results[count++];
 		m_gameTable->insertRowData(data);
@@ -414,12 +449,19 @@ void FormAdminRents::clickedItemClte(int row,int col)
 
 void FormAdminRents::clickedItemGame(int row,int col)
 {
+// 	m_gameTable->setColumnLabels(QStringList() << i18n("Reference")
+// 			<< i18n("Name")
+// 			<< i18n("Min")
+// 			<< i18n("Max")
+// 			<< i18n("Type")
+// 			<< i18n("Value for Unit")
+// 			<< i18n("Value for Additional Unit") << i18n("Time units"));
 	selectedGameRow = row;
 	QTableItem *itemId = m_gameTable->item(row,0);
 	QTableItem *itemName = m_gameTable->item(row,1);
-		
-	QTableItem *costforunit = m_gameTable->item(row,7);
-	QTableItem *costforunitadd = m_gameTable->item(row,8);
+	
+	QTableItem *costforunit = m_gameTable->item(row,5);
+	QTableItem *costforunitadd = m_gameTable->item(row,6);
 		
 	if(costforunit)
 		m_costForUnit = (QString)costforunit->text();
@@ -495,6 +537,11 @@ void FormAdminRents::setAddUnits(int value)
 	
 }
 
+QString FormAdminRents::getCltName()
+{
+	return m_cltName->text();
+}
+
 QString FormAdminRents::getCltId()
 {
 	return (QString)m_cltId->text();
@@ -532,8 +579,8 @@ QString FormAdminRents::getActiveValue()
 	active.remove('&');
 	if (active == i18n("yes"))
 		return QString("t");
-	else if (active == i18n("not"))
-		return QString("f");
+// 	else if (active == i18n("no"))
+	return QString("f");
 }
 
 QString FormAdminRents::getCostOfRent()
@@ -578,7 +625,7 @@ void FormAdminRents::setActiveValue(const QString &value)
 {
 	cout << "Active Value: " << value << endl;
 	
-	m_actValueChanged = TRUE;
+	m_actValueChanged = true;
 	if( value == "true")
 	{
 		(static_cast<QRadioButton *>(m_radioButtons->find(1)))->setChecked(true);
@@ -686,4 +733,89 @@ bool FormAdminRents::validateFields()
 	
 	return ok;
 }		
+
+
+void FormAdminRents::printReport(QPainter *painter, KPrinter &printer)
+{
+	QPaintDeviceMetrics metrics(&printer);
+	int LargeGap = metrics.logicalDpiY() / 2;
+	
+	QString str = QString(
+			"<div align=center>"
+			"<h3>"+klenterprise->getName()+"</h3><br>Nit: "+klenterprise->getNit()+"</div>" );
+	
+	str += "<table width=\"100%\" border=1 cellspacing=0>\n"
+			"<caption align=bottom>" + i18n("Results Table") + "</caption>\n";
+
+	// Encabezados
+	str += "<tr>";
+	
+	str += i18n("<th><center><b>Detail</b></center></th>");
+	str += i18n("<th><center><b>Cost</b></center></th>");
+	
+	str += "</tr>\n";
+	
+	// Cuerpo
+	
+	str += "<tr>\n";
+	str += "\t<td>Rents game "+ m_gameName->text() +"</td>\n";
+	str += "\t<td>"+ m_costRent->text() +"</td>\n";
+	str += "</tr>\n";
+	
+	for(int row = 0; row < 10; row++)
+	{
+		str += "<tr>\n";
+		
+		str += "\t<td></td>\n";
+		str += "\t<td></td>\n";
+		
+		str += "</tr>\n";
+	}
+	
+	str += "<tr>\n";
+	str += "\t<td><center>TOTAL</center></td>\n";
+	str += "\t<td><center>"+ m_costRent->text() +"</center></td>\n";
+	str += "</tr>\n";
+	
+	str += "\n</table>\n<br>\n";
+	
+	int pageHeight = painter->window().height() - 2 * LargeGap;
+	QSimpleRichText richText(str, QApplication::font(), "", 0, 0, pageHeight);
+	
+	richText.setWidth( painter, painter->window().width() );
+
+	
+	int numPages = (int)ceil((double)richText.height() / pageHeight);
+	int index;
+	
+	for (int i = 0; i < (int)printer.numCopies(); ++i)
+	{
+		for (int j = 0; j < numPages; ++j)
+		{
+			if (i > 0 || j > 0)
+				printer.newPage();
+			if (printer.pageOrder() == KPrinter::LastPageFirst)
+			{
+				index = numPages - j - 1;
+			}
+			else 
+			{
+				index = j;
+			}
+			
+			QRect rect(0, index * pageHeight + LargeGap, richText.width(), pageHeight);
+			painter->saveWorldMatrix();
+			painter->translate(0, -rect.y());
+			
+			richText.draw(painter, 0, LargeGap, QRect(), QColorGroup() );
+			
+			painter->restoreWorldMatrix();
+			painter->setFont(QApplication::font());
+			painter->drawText(painter->window(), AlignHCenter | AlignBottom, QString::number(index + 1));
+		}
+	}
+
+}
+
+
 #include "formadminrents.moc"

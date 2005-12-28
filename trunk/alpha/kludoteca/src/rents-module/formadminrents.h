@@ -42,10 +42,8 @@
 
 
 /**
-clase para el manejo de los torneos
-
-@author Daniel Valencia - David Cuadrado
-@mail dafevara@gmail.com
+ * clase para el manejo de rentas
+ * @author Daniel Valencia - David Cuadrado
 */
 class FormAdminRents : public FormBase
 {
@@ -80,6 +78,9 @@ class FormAdminRents : public FormBase
 		void disabledSlider(bool value);
 		int totalCostOfRent(const QString &cost);
 		bool validateFields();
+		
+		void printReport(QPainter *painter, KPrinter &printer);
+		
 	public slots: 
 		/**
 	 	 * Esta es la accion predeterminada cuando se presiona el boton aceptar

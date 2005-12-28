@@ -53,6 +53,7 @@ void FormRentsDebts::setupBox()
 {
 	QVBox *vbox = new QVBox(m_container);
 	m_table = new KLTable(0,5,vbox);
+	m_table->verticalHeader()->hide();
 	
 	m_layout->addWidget(vbox,0,0);
 }

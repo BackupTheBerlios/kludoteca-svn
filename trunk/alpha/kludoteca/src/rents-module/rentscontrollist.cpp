@@ -22,7 +22,11 @@
 #include <iostream>
 #include "formreportrents.h"
 #include <qmessagebox.h>
+#include <kdebug.h>
+
+
 #define DEBUG_RENTSCONTROLIST 1
+
 using namespace std;
 
 RentsControlList::RentsControlList(Button button1, 
@@ -35,7 +39,7 @@ RentsControlList::RentsControlList(Button button1,
 	
 	m_listView->setTitle(i18n("Active Rents"));
 	m_listView->setExplain(i18n("Please click in the \"Add\" button for create a new Rent"));
-	(new QLabel(i18n("Chose a year,month and day for make a rents report"),this));
+	(new QLabel(i18n("Choose a year,month and day for make a rents report"),this));
 	QHBox *dateBox = new QHBox(this);
 	dateBox->setMargin(10);
 	(new QLabel(i18n("Year"),dateBox));
@@ -129,7 +133,7 @@ void RentsControlList::addButtonClicked()
 	QString serial = m_comboGames->currentText();
 	
 	
-	KLReportWidget *reporteRenta = new KLReportWidget(scroll->viewport());
+	KLReportWidget *rentReport = new KLReportWidget(scroll->viewport());
 
 	ElementVector m_elements;
 	m_elements.resize(12);
@@ -167,11 +171,11 @@ void RentsControlList::addButtonClicked()
 		cout << "veces: " << ((results[count]).toInt(&ok,10)) << endl;
 	}
 	
-	reporteRenta->getKLCanvasView()->setElements(m_elements);
-	reporteRenta->setXmlReport(xmlreport);
+	rentReport->getKLCanvasView()->setElements(m_elements);
+	rentReport->setXmlReport(xmlreport);
 // 	FormReportRents *reporte = new FormReportRents(FormBase::Query,this);
 	
-	scroll->addChild(reporteRenta);
+	scroll->addChild(rentReport);
 		
 	emit sendWidget(scroll,i18n("Report test"));
 
@@ -194,7 +198,7 @@ void RentsControlList::queryButtonClicked()
 	/*
 	*/
 	
-	KLReportWidget *reporteRenta = new KLReportWidget(scroll->viewport()); // FIXME: IN ENGLISH!!!!!!!!!!!!!!
+	KLReportWidget *rentReport = new KLReportWidget(scroll->viewport()); // FIXME: IN ENGLISH!!!!!!!!!!!!!!
 
 	ElementVector m_elements;
 	m_elements.resize(12);
@@ -239,15 +243,13 @@ void RentsControlList::queryButtonClicked()
 		cout << "veces: " << ((results[count]).toInt(&ok,10)) << endl;
 	}
 	
-	reporteRenta->getKLCanvasView()->setElements(m_elements);
-	reporteRenta->setXmlReport(xmlreport);
+	rentReport->getKLCanvasView()->setElements(m_elements);
+	rentReport->setXmlReport(xmlreport);
 // 	FormReportRents *reporte = new FormReportRents(FormBase::Query,this);
 	
-	scroll->addChild(reporteRenta);
+	scroll->addChild(rentReport);
 		
 	emit sendWidget(scroll,i18n("Report test"));
-
-	
 }
 
 void RentsControlList::fillList()
@@ -276,10 +278,12 @@ qDebug("RentsCONTROLLISTt: filling List");
 
 void RentsControlList::addRentsTimer(RentsTimer *rt)
 {
+	kdDebug() << k_funcinfo << endl;
 	m_listRentsTimer.append(rt);
-	cout << "RT:size: " << m_listRentsTimer.count() << endl;
+	kdDebug() << "RT:size: " << m_listRentsTimer.count() << endl;
 	
-	QStringList rtId = rt->getId();
+	QStringList rtId = rt->getRentInfo();
+	
 	/*KLSelect query(QStringList() << "units",QStringList() << "ldt_rents");
 	query.setWhere("gameserialreference="+SQLSTR(rtId[0])+" and");
 	query.setCondition(" date="+SQLSTR(rtId[1])+" and renthour"+SQLSTR(rtId[2]));
@@ -296,7 +300,7 @@ void RentsControlList::addRentsTimer(RentsTimer *rt)
 	bool ok = 0;
 	int msec = m_timerResults["units"]
 	rtemp->start(30000,FALSE);*/
-	connect( rt ,SIGNAL( timeout() ), this , SLOT( checkRentsTimer() ) );
+	connect( rt ,SIGNAL( activated() ), this , SLOT( checkRentsTimer() ) );
 	addItem(rtId);
 			
 	/*
@@ -307,34 +311,43 @@ void RentsControlList::addRentsTimer(RentsTimer *rt)
 
 void RentsControlList::checkRentsTimer()
 {
-	//cout << "[[[[  TIMER CORRIENDO :)  ]]]]" << endl;
-	RentsTimer *rt;
-	rt = m_listRentsTimer.last();
-	QStringList id = rt->getId();
+	kdDebug() << "Checking timer" << endl;
+	const RentsTimer *rt = dynamic_cast<const RentsTimer *>(sender());
 	
-	KLSelect query(QStringList() << "clientdocident"<< "gameserialreference"<<"renthour"
-				<<"units"<<"addunits"<<"date"<< "totalcost"<< "active",
-			QStringList() << "ldt_rents");
-	query.setWhere("gameserialreference="+SQLSTR(id[0])+" and date="+SQLSTR(id[1])+" and renthour="+SQLSTR(id[2]));
-	
-	KLResultSet resultSet = KLDM->execQuery(&query);
-	m_xmlsource.setData(resultSet.toString());
-	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
-	{
-		std::cerr << "No se puede analizar" << std::endl;
+	if ( ! rt )
 		return;
-	}
 	
-	KLSqlResults results = m_xmlreader.results();
+	QStringList rentInfo = rt->getRentInfo();
 	
-	QMessageBox::information( this, i18n("Checking th Rents"),"client identification: \t"+results["clientdocident"]+"\n ." 
-	"Game Serial: \t"+results["gameserialreference"]+"\n."
-	"Rent Hour: \t"+results["renthour"]+"\n"
-	"Units: \t"+results["units"]+" \n"
-	"Aditional Units: \t"+results["addunits"]+"\n"
-	"Rent Date: \t"+results["date"]+"\n"
-	"Total Cost: \t"+results["totalcost"]+"\n"
-	"Active: \t"+results["active"]+"\n");
+	QString msg = i18n("Time out!\n");
+	msg += i18n("Game: %1\n").arg(rentInfo[0]);
+	msg += i18n("Client: %1\n").arg(rentInfo[2]);
+	
+	emit message2osd(msg);
+	
+// 	KLSelect query(QStringList() << "clientdocident"<< "gameserialreference"<<"renthour"
+// 				<<"units"<<"addunits"<<"date"<< "totalcost"<< "active",
+// 			QStringList() << "ldt_rents");
+// 	query.setWhere("gameserialreference="+SQLSTR(id[0])+" and date="+SQLSTR(id[1])+" and renthour="+SQLSTR(id[2]));
+// 	
+// 	KLResultSet resultSet = KLDM->execQuery(&query);
+// 	m_xmlsource.setData(resultSet.toString());
+// 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+// 	{
+// 		std::cerr << "No se puede analizar" << std::endl;
+// 		return;
+// 	}
+// 	
+// 	KLSqlResults results = m_xmlreader.results();
+// 	
+// 	QMessageBox::information( this, i18n("Checking th Rents"),"client identification: \t"+results["clientdocident"]+"\n ." 
+// 	"Game Serial: \t"+results["gameserialreference"]+"\n."
+// 	"Rent Hour: \t"+results["renthour"]+"\n"
+// 	"Units: \t"+results["units"]+" \n"
+// 	"Aditional Units: \t"+results["addunits"]+"\n"
+// 	"Rent Date: \t"+results["date"]+"\n"
+// 	"Total Cost: \t"+results["totalcost"]+"\n"
+// 	"Active: \t"+results["active"]+"\n");
 	
 }
 
