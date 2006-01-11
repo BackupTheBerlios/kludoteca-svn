@@ -75,6 +75,7 @@ AC_CONFIG_FILES([ src/games-module/Makefile ])
 AC_CONFIG_FILES([ src/klreports/Makefile ])
 AC_CONFIG_FILES([ src/lib/Makefile ])
 AC_CONFIG_FILES([ src/rents-module/Makefile ])
+AC_CONFIG_FILES([ src/reports-module/Makefile ])
 AC_CONFIG_FILES([ src/tournament-module/Makefile ])
 AC_OUTPUT
 if test "$all_tests" = "bad"; then

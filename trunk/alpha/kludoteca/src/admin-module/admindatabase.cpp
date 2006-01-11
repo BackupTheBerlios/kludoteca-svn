@@ -116,19 +116,7 @@ void AdminDatabase::addButtonClicked()
 	std::cout << "Making backup..." << std::endl;
 	if ( m_havePgDump )
 	{
-		KProcess *proc = new KProcess(this);
-		
-		*proc << "pg_dump";
-		*proc << "-h" << klapp->config("Connection")->readEntry("Server", "localhost");
-		*proc << "-U" << klapp->config("Connection")->readEntry("Login");
-		*proc << klapp->config("Connection")->readEntry("Database");
-		
-		connect(proc, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(makeDump(KProcess *, char *, int ) ));
-		connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(saveBackup(KProcess *)));
-		
-		LOGGER->log(i18n("Making backup"), KLLogger::Inf);
-		
-		proc->start(KProcess::NotifyOnExit , KProcess::Stdout);
+		QTimer::singleShot(50, this, SLOT(makeBackup()));
 	}
 	else
 	{
@@ -140,6 +128,23 @@ void AdminDatabase::addButtonClicked()
 		
 		KMessageBox::detailedSorry (0, i18n("I can't backup the database!"), error);
 	}
+}
+
+void AdminDatabase::makeBackup()
+{
+	KProcess *proc = new KProcess(this);
+		
+	*proc << "pg_dump";
+	*proc << "-h" << klapp->config("Connection")->readEntry("Server", "localhost");
+	*proc << "-U" << klapp->config("Connection")->readEntry("Login");
+	*proc << klapp->config("Connection")->readEntry("Database");
+		
+	connect(proc, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(makeDump(KProcess *, char *, int ) ));
+	connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(saveBackup(KProcess *)));
+		
+	LOGGER->log(i18n("Making backup"), KLLogger::Inf);
+		
+	proc->start(KProcess::NotifyOnExit , KProcess::Stdout);
 }
 
 void AdminDatabase::makeDump(KProcess *p, char *b, int fd)

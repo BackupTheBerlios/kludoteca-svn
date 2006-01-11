@@ -37,6 +37,7 @@ class RentInfo
 		void setGameSerial(const QString &);
 		void setDate(const QString &date);
 		void setHour(const QString &hour);
+		void setActive(bool act);
 		
 		QString clientName() const;
 		QString clientId() const;
@@ -44,9 +45,11 @@ class RentInfo
 		QString gameSerial() const;
 		QString date() const;
 		QString hour() const;
+		bool isActive() const;
 		
 	private:
 		QString m_clientName, m_clientId, m_gameName, m_gameSerial, m_date, m_hour;
+		bool m_isActive;
 };
 
 #endif

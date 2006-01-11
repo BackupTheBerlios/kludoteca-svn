@@ -23,6 +23,7 @@
 #include <kiconloader.h>
 #include <kfiledialog.h>
 #include <kcolordialog.h>
+#include <kdebug.h>
 
 #include "klreportwidget.h"
 #include "klenterprise.h"

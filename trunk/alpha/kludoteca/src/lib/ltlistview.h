@@ -59,7 +59,7 @@ class ClickLineEdit;
 
 class LTListView : public QVBox
 {
-	Q_OBJECT
+	Q_OBJECT;
 	public:
 		enum Button { NoButton = 0, ButtonAdd, ButtonDel, ButtonModify, ButtonQuery };
     		
@@ -147,15 +147,9 @@ class LTListView : public QVBox
 		virtual void slotFilter(const QString &filter); // TODO
 		
 	signals:
-		
-		/**
-		 * Emita esto si quiere mostrar una mensaje por medio del OSD.
-		 * @param  
-		 */
-		virtual void message2osd(const QString &); //= 0;
-		
-		virtual void sendWidget(QWidget *widget, const QString &title);
 		void closeWidget(QWidget *widget);
+		virtual void message2osd(const QString &);
+		virtual void sendWidget(QWidget *widget, const QString &title);
 	
 	private:
 		QHButtonGroup *m_buttons;

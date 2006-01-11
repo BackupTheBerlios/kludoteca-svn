@@ -39,7 +39,7 @@ bool KLXmlReportParser::startElement( const QString& , const QString& , const QS
 		m_elements.clear();
 		m_title = atts.value("title");
 	}
-	else if (qname == "Graphics")
+	else if (qname == "Graphic")
 	{
 		m_graphicType = atts.value("type").toInt();
 	}

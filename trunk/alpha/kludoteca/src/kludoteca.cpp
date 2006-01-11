@@ -261,7 +261,6 @@ void KLudoteca::setupToolWindows()
 		
 		m_tournamentWidget->setIcon( QPixmap(  locate("data", "kludoteca/icons/tournamenticon.png" )) );
 		
-// 		m_toolWindows << addToolWindow(m_tournamentWidget, KDockWidget::DockLeft, getMainDockWidget() );
 		toolWindow(DDockWindow::Left)->addWidget(i18n("Tournaments"), m_tournamentWidget);
 		
 		ListLTListView listViews = m_tournamentWidget->listViews();
@@ -277,6 +276,15 @@ void KLudoteca::setupToolWindows()
 			ltlv->fillList();
 		}
 	}
+	
+	
+	KLReportModule *reportWidget = new KLReportModule(this);
+	
+	connect(reportWidget, SIGNAL(sendWidget(QWidget*, const QString&  )), this, SLOT(addWidget(QWidget*, const QString&  )));
+		
+	connect(reportWidget,SIGNAL(message2osd(const QString& )), this, SLOT(showNotice(const QString& )));
+	
+	toolWindow(DDockWindow::Right)->addWidget(i18n("Reports"), reportWidget);
 }
 
 void KLudoteca::showValidateUser()

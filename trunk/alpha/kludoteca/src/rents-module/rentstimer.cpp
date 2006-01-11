@@ -56,7 +56,7 @@ void RentsTimer::emitActivated()
 {
 	// Avisamos cada 5 minutos una vez terminado el tiempo
 	
-	this->start(5*60*1000,true);
+// 	this->start(5*60*1000,true);
 	emit activated();
 }
 

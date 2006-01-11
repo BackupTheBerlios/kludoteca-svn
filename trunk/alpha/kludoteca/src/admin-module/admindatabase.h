@@ -108,6 +108,7 @@ class AdminDatabase : public LTListView
 	private slots:
 		void makeDump(KProcess *, char *, int );
 		void saveBackup(KProcess *);
+		void makeBackup();
 		
 	private:
 		KLSelect *m_sqlquery;

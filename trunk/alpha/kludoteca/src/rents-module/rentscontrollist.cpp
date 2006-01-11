@@ -289,29 +289,8 @@ void RentsControlList::addRentsTimer(RentsTimer *rt)
 	
 	RentInfo rtId = rt->getRentInfo();
 	
-	/*KLSelect query(QStringList() << "units",QStringList() << "ldt_rents");
-	query.setWhere("gameserialreference="+SQLSTR(rtId[0])+" and");
-	query.setCondition(" date="+SQLSTR(rtId[1])+" and renthour"+SQLSTR(rtId[2]));
-	
-	KLResultSet resultSet = KLDM->execQuery(&query);
-	m_xmlsource.setData(resultSet.toString());
-		
-	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
-	{
-		std::cerr << "No se puede analizar" << std::endl;
-	}
-	
-	m_timerResults = m_xmlreader.results();
-	bool ok = 0;
-	int msec = m_timerResults["units"]
-	rtemp->start(30000,FALSE);*/
 	connect( rt ,SIGNAL( activated() ), this , SLOT( checkRentsTimer() ) );
 // 	addItem(rtId);
-			
-	/*
-	cout << "serial: "<< (tr->getId())[0] 
-			<<"date: "<< (tr->getId())[1] 
-			<< "hour: " << (tr->getId())[2] << endl;*/
 }
 
 void RentsControlList::checkRentsTimer()
@@ -324,38 +303,21 @@ void RentsControlList::checkRentsTimer()
 	
 	RentInfo rentInfo = rt->getRentInfo();
 	
-	QString msg = i18n("Time out!\n");
-	msg += i18n("Game: %1\n").arg(rentInfo.gameName());
-	msg += i18n("Client: %1\n").arg(rentInfo.clientName());
 	
-	emit message2osd(msg);
-	
-	addItem(rentInfo);
-	
-// 	KLSelect query(QStringList() << "clientdocident"<< "gameserialreference"<<"renthour"
-// 				<<"units"<<"addunits"<<"date"<< "totalcost"<< "active",
-// 			QStringList() << "ldt_rents");
-// 	query.setWhere("gameserialreference="+SQLSTR(id[0])+" and date="+SQLSTR(id[1])+" and renthour="+SQLSTR(id[2]));
-// 	
-// 	KLResultSet resultSet = KLDM->execQuery(&query);
-// 	m_xmlsource.setData(resultSet.toString());
-// 	if ( ! m_xmlreader.analizeXml(&m_xmlsource, KLResultSetInterpreter::Total) )
+	if ( rentInfo.isActive() )
+	{
+		QString msg = i18n("Time out!\n");
+		msg += i18n("Game: %1\n").arg(rentInfo.gameName());
+		msg += i18n("Client: %1\n").arg(rentInfo.clientName());
+		
+		emit message2osd(msg);
+		
+		addItem(rentInfo);
+	}
+// 	else
 // 	{
-// 		std::cerr << "No se puede analizar" << std::endl;
-// 		return;
+		m_listRentsTimer.remove(rt);
 // 	}
-// 	
-// 	KLSqlResults results = m_xmlreader.results();
-// 	
-// 	QMessageBox::information( this, i18n("Checking th Rents"),"client identification: \t"+results["clientdocident"]+"\n ." 
-// 	"Game Serial: \t"+results["gameserialreference"]+"\n."
-// 	"Rent Hour: \t"+results["renthour"]+"\n"
-// 	"Units: \t"+results["units"]+" \n"
-// 	"Aditional Units: \t"+results["addunits"]+"\n"
-// 	"Rent Date: \t"+results["date"]+"\n"
-// 	"Total Cost: \t"+results["totalcost"]+"\n"
-// 	"Active: \t"+results["active"]+"\n");
-	
 }
 
 
@@ -367,7 +329,6 @@ void RentsControlList::addItem(const QStringList &l)
 
 void RentsControlList::addItem(const RentInfo &rentInfo)
 {
-// 	i18n("Game Serial") << i18n("Client ID") << i18n("Rent Date") << i18n("Rent Hour"),
 	QStringList list = QStringList() << rentInfo.gameSerial() << rentInfo.clientId() << rentInfo.date() << rentInfo.hour();
 	
 	addItem(list);

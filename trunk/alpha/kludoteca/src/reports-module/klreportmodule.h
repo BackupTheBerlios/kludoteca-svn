@@ -17,86 +17,55 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "rentinfo.h"
 
-RentInfo::RentInfo() : m_isActive(false)
+#ifndef KLREPORTMODULE_H
+#define KLREPORTMODULE_H
+
+#include <qvbox.h>
+
+#include <kdatepicker.h>
+#include <kdatewidget.h>
+#include <qpushbutton.h>
+#include <kcombobox.h>
+
+#include "klxmlreader.h"
+
+/**
+ * @author CetiSoft
+*/
+class KLReportModule : public QVBox
 {
-}
+	Q_OBJECT
+	public:
+		KLReportModule(QWidget *parent = 0, const char *name = 0);
+		~KLReportModule();
+		
+	public slots:
+		void setInitialDate(QDate);
+		void setEndDate(QDate );
+		
+	private:
+		void setupGamesSerial();
+		
+	signals:
+		virtual void message2osd(const QString &);
+		virtual void sendWidget(QWidget *widget, const QString &title);
+		
+	private slots:
+		void makeDailyReport();
+		void makeRangeReport();
+		
+	private:
+		KLXmlReader m_xmlreader;
+		KDatePicker *m_initialDate;
+		KDateWidget *m_endDate;
+		
+		KComboBox *m_gameSerial;
+		
+		QPushButton *m_dailyReportButton;
+		QPushButton *m_rangeReportButton;
+		
 
+};
 
-RentInfo::~RentInfo()
-{
-}
-
-
-void RentInfo::setClientName(const QString &client)
-{
-	m_clientName = client;
-}
-
-void RentInfo::setClientId(const QString &id)
-{
-	m_clientId = id;
-}
-
-void RentInfo::setGameName(const QString &game)
-{
-	m_gameName = game;
-}
-
-void RentInfo::setGameSerial(const QString &serial)
-{
-	m_gameSerial = serial;
-}
-
-void RentInfo::setDate(const QString &date)
-{
-	m_date = date;
-}
-
-void RentInfo::setHour(const QString &hour)
-{
-	m_hour = hour;
-}
-
-QString RentInfo::clientName() const
-{
-	return m_clientName;
-}
-
-QString RentInfo::clientId() const
-{
-	return m_clientId;
-}
-
-QString RentInfo::gameName() const
-{
-	return m_gameName;
-}
-
-QString RentInfo::gameSerial() const
-{
-	return m_gameSerial;
-}
-
-QString RentInfo::date() const
-{
-	return m_date;
-}
-
-QString RentInfo::hour() const
-{
-	return m_hour;
-}
-
-void RentInfo::setActive(bool act)
-{
-	m_isActive = act;
-}
-
-
-bool RentInfo::isActive() const
-{
-	return m_isActive;
-}
-
+#endif

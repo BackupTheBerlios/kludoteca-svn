@@ -66,7 +66,7 @@ class KLXmlReportParser : public QXmlDefaultHandler
 		bool m_read;
 		
 		double m_value;
-		int m_graphicType; 
+		int m_graphicType;
 		int m_style;
 		QColor m_color;
 		QString m_label;

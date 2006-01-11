@@ -56,6 +56,8 @@
 
 #include "dmainwindow.h"
 
+#include "klreportmodule.h"
+
 class KPrinter;
 class KToggleAction;
 
